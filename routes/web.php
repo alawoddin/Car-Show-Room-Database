@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -14,6 +15,9 @@ Route::middleware(['auth', IsUser::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('client.index');
     })->name('dashboard');
+
+    Route::get('/client/profile', [ClientController::class, 'ClientProfile'])->name('client.profile');
+
 });
 
 //end user Routes
