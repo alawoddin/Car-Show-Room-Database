@@ -122,23 +122,23 @@
     </div><!-- end shop-cart -->
 
 
-    {{-- @php
+    @php
     $id = Auth::user()->id;
     $profileData = App\Models\User::find($id);
-    @endphp --}}
+    @endphp
     
 
     <div class="shop-cart user-profile-cart">
         <ul>
             <li>
-                {{-- <div class="shop-cart-btn">
+                <div class="shop-cart-btn">
                     <div class="avatar-xs">
                         <img class="rounded-full img-fluid" src="{{ (!empty($profileData->photo)) ? url('upload/user_images/'.$profileData->photo) : url('upload/no_image.jpg')}}" alt="Avatar image">
                     </div>
                     <span class="dot-status bg-1"></span>
-                </div> --}}
+                </div>
                 <ul class="cart-dropdown-menu after-none p-0 notification-dropdown-menu">
-                    {{-- <li class="menu-heading-block d-flex align-items-center">
+                    <li class="menu-heading-block d-flex align-items-center">
                         <a href="teacher-detail.html" class="avatar-sm flex-shrink-0 d-block">
                             <img class="rounded-full img-fluid" src="{{ (!empty($profileData->photo)) ? url('upload/user_images/'.$profileData->photo) : url('upload/no_image.jpg')}}" alt="Avatar image">
                         </a>
@@ -146,7 +146,7 @@
         <h4><a href="teacher-detail.html" class="text-black">{{ $profileData->name }}</a></h4>
         <span class="d-block fs-14 lh-20">{{ $profileData->email }}</span>
     </div>
-                    </li> --}}
+                    </li>
 
                     <li>
                         <div class="theme-picker d-flex align-items-center justify-content-center lh-40">
