@@ -8,7 +8,7 @@ use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsUser;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.master');
 });
 
 Route::middleware(['auth', IsUser::class])->group(function () {
