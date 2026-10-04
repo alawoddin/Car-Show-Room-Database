@@ -63,8 +63,8 @@
 	        <div class="container">
 	            <nav class="navbar navbar-expand-md navbar-light">
 	                <a class="navbar-brand" href="index-2.html">
-	                    <img src="assets/img/logo.png" class="white-logo" alt="logo">
-	                    <img src="assets/img/logo-black.png" class="black-logo" alt="logo">
+	                    <img src="{{ asset('frontend/assets/img/logo.png') }}" class="white-logo" alt="logo">
+	                    <img src="{{ asset('frontend/assets/img/logo-black.png') }}" class="black-logo" alt="logo">
 	                </a>
 	                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
 	                    <ul class="navbar-nav">
@@ -150,7 +150,7 @@
         <div class="swiper-container parallax-slider">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                    <div class="bg-img valign" data-background="assets/img/slider-1.jpg" data-overlay-dark="5">
+                    <div class="bg-img valign" data-background="{{ asset('frontend/assets/img/slider-1.jpg') }}" data-overlay-dark="5">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2 col-md-12">
@@ -174,7 +174,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="bg-img valign" data-background="assets/img/slider-2.jpg" data-overlay-dark="5">
+                    <div class="bg-img valign" data-background="{{ asset('frontend/assets/img/slider-2.jpg') }}" data-overlay-dark="5">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2 col-md-12">
@@ -198,7 +198,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="bg-img valign" data-background="assets/img/slider-3.jpg" data-overlay-dark="5">
+                    <div class="bg-img valign" data-background="{{ asset('frontend/assets/img/slider-3.jpg') }}" data-overlay-dark="5">
                         <div class="container">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2 col-md-12">
@@ -270,9 +270,9 @@
 				</div>
 				<div class="col-lg-6 col-md-12">
 					<div class="about-image">
-						<img src="assets/img/about.jpg" alt="About Images">
+						<img src="{{ asset('frontend/assets/img/about.jpg') }}" alt="About Images">
 						<div class="sub-content">
-							<img src="assets/img/about-sub.jpg" alt="About Images">
+							<img src="{{ asset('frontend/assets/img/about-sub.jpg') }}" alt="About Images">
 							<div class="content-info">
 								<h3>20+</h3>
 								<span>Years of Experience</span>
@@ -298,7 +298,7 @@
 				<div class="col-lg-4 col-md-6">
 					<div class="single-services-item">
 						<div class="services-img">
-							<img src="assets/img/services/services-1.jpg" alt="services images">
+							<img src="{{ asset('frontend/assets/img/services/services-1.jpg') }}" alt="services images">
 						</div>
 						<h3>Oil Change</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
@@ -308,7 +308,7 @@
 				<div class="col-lg-4 col-md-6">
 					<div class="single-services-item">
 						<div class="services-img">
-							<img src="assets/img/services/services-2.jpg" alt="services images">
+							<img src="{{ asset('frontend/assets/img/services/services-2.jpg') }}" alt="services images">
 						</div>
 						<h3>Brake Repair</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
@@ -318,7 +318,7 @@
 				<div class="col-lg-4 col-md-6">
 					<div class="single-services-item">
 						<div class="services-img">
-							<img src="assets/img/services/services-3.jpg" alt="services images">
+							<img src="{{ asset('frontend/assets/img/services/services-3.jpg') }}" alt="services images">
 						</div>
 						<h3>Engine Repair</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
@@ -328,7 +328,7 @@
 				<div class="col-lg-4 col-md-6">
 					<div class="single-services-item">
 						<div class="services-img">
-							<img src="assets/img/services/services-4.jpg" alt="services images">
+							<img src="{{asset('frontend/assets/img/services/services-4.jpg')}}" alt="services images">
 						</div>
 						<h3>A/C Repairs</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
@@ -338,7 +338,7 @@
 				<div class="col-lg-4 col-md-6">
 					<div class="single-services-item">
 						<div class="services-img">
-							<img src="assets/img/services/services-5.jpg" alt="services images">
+							<img src="{{ asset('frontend/assets/img/services/services-5.jpg') }}" alt="services images">
 						</div>
 						<h3>Battery Repair</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
@@ -348,7 +348,7 @@
 				<div class="col-lg-4 col-md-6">
 					<div class="single-services-item">
 						<div class="services-img">
-							<img src="assets/img/services/services-6.jpg" alt="services images">
+							<img src="{{ asset('frontend/assets/img/services/services-6.jpg') }}" alt="services images">
 						</div>
 						<h3>Suspension Repair</h3>
 						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
