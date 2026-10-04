@@ -13,16 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" sizes="16x16" href="{{ asset('frontend/images/favicon.png') }}">
+    <link rel="icon" sizes="16x16" href="{{ asset('client/images/favicon.png') }}">
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/owl.theme.default.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap-select.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/fancybox.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/line-awesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/bootstrap-select.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/fancybox.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/style.css') }}">
 
      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 
@@ -55,7 +55,7 @@
 <section class="dashboard-area">
     <div class="off-canvas-menu dashboard-off-canvas-menu off--canvas-menu custom-scrollbar-styled pt-20px">
         
-    @include('frontend.dashboard.body.sidebar')
+    @include('client.body.sidebar')
       
     </div><!-- end off-canvas-menu -->
    
@@ -72,7 +72,7 @@
            
             @yield('client')
 
-            @include('frontend.dashboard.body.footer') 
+            @include('client.body.footer') 
 
 
         </div><!-- end container-fluid -->
@@ -106,22 +106,22 @@
 </div><!-- end modal -->
 
 <!-- template js files -->
-<script src="{{ asset('frontend/js/jquery-3.4.1.min.js') }}"></script>
-<script src="{{ asset('frontend/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('frontend/js/bootstrap-select.min.js') }}"></script>
-<script src="{{ asset('frontend/js/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('frontend/js/isotope.js') }}"></script>
-<script src="{{ asset('frontend/js/jquery.counterup.min.js') }}"></script>
-<script src="{{ asset('frontend/js/fancybox.js') }}"></script>
-<script src="{{ asset('frontend/js/chart.js') }}"></script>
-<script src="{{ asset('frontend/js/doughnut-chart.js') }}"></script>
-<script src="{{ asset('frontend/js/bar-chart.js') }}"></script>
-<script src="{{ asset('frontend/js/line-chart.js') }}"></script>
-<script src="{{ asset('frontend/js/datedropper.min.js') }}"></script>
-<script src="{{ asset('frontend/js/emojionearea.min.js') }}"></script>
-<script src="{{ asset('frontend/js/animated-skills.js') }}"></script>
-<script src="{{ asset('frontend/js/jquery.MultiFile.min.js') }}"></script>
-<script src="{{ asset('frontend/js/main.js') }}"></script>
+<script src="{{ asset('client/js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('client/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('client/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('client/js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('client/js/isotope.js') }}"></script>
+<script src="{{ asset('client/js/jquery.counterup.min.js') }}"></script>
+<script src="{{ asset('client/js/fancybox.js') }}"></script>
+<script src="{{ asset('client/js/chart.js') }}"></script>
+<script src="{{ asset('client/js/doughnut-chart.js') }}"></script>
+<script src="{{ asset('client/js/bar-chart.js') }}"></script>
+<script src="{{ asset('client/js/line-chart.js') }}"></script>
+<script src="{{ asset('client/js/datedropper.min.js') }}"></script>
+<script src="{{ asset('client/js/emojionearea.min.js') }}"></script>
+<script src="{{ asset('client/js/animated-skills.js') }}"></script>
+<script src="{{ asset('client/js/jquery.MultiFile.min.js') }}"></script>
+<script src="{{ asset('client/js/main.js') }}"></script>
 
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
