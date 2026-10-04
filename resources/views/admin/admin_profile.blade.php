@@ -62,14 +62,7 @@
                     <input type="text" name="name" class="form-control" value="{{ $profileData->name }}" />
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-sm-3">
-                    <h6 class="mb-0">User Name</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                    <input type="text" name="username" class="form-control" value="{{ $profileData->username }}" />
-                </div>
-            </div>
+          
             <div class="row mb-3">
                 <div class="col-sm-3">
                     <h6 class="mb-0">Email</h6>
