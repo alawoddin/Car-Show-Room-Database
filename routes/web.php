@@ -28,6 +28,10 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::get('/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
     Route::post('/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
 
+
+    Route::get('/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
+
+
 });
 
 //end Admin  Routes
