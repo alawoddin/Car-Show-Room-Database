@@ -17,6 +17,7 @@ Route::middleware(['auth', IsUser::class])->group(function () {
     })->name('dashboard');
 
     Route::get('/client/profile', [ClientController::class, 'ClientProfile'])->name('client.profile');
+    Route::post('/client/profile/update', [ClientController::class, 'ClientProfileUpdate'])->name('client.profile.update');
 
 });
 

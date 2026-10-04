@@ -20,7 +20,7 @@
         <h3 class="fs-17 font-weight-semi-bold pb-4">Edit Profile</h3>
        
        
-         {{-- <form method="post" action="{{ route('user.profile.update') }}" enctype="multipart/form-data" class="row pt-40px"> --}}
+         <form method="post" action="{{ route('client.profile.update') }}" enctype="multipart/form-data" class="row pt-40px">
         @csrf
        
         <div class="media media-card align-items-center">
@@ -44,13 +44,7 @@
                     <span class="la la-user input-icon"></span>
                 </div>
             </div><!-- end input-box -->
-            <div class="input-box col-lg-6">
-                <label class="label-text">User Name</label>
-                <div class="form-group">
-                    <input class="form-control form--control" type="text" name="username" value="{{ $profileData->username }}">
-                    <span class="la la-user input-icon"></span>
-                </div>
-            </div><!-- end input-box -->
+          <!-- end input-box -->
             <div class="input-box col-lg-6">
                 <label class="label-text">Email</label>
                 <div class="form-group">
