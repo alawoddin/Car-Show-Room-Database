@@ -478,8 +478,8 @@
                 </div>
                 <!-- Gallery-Item -->
                 <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="assets/img/portfolio/portfolio-1.jpg">
-						<img src="assets/img/portfolio/portfolio-1.jpg" alt="image">
+					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-1.jpg') }}">
+						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-1.jpg') }}" alt="image">
 						<div class="portfolio-overlay-info">
 							<i class="fa fa-images"></i>
 						</div>
@@ -487,8 +487,8 @@
                 </div>
                 <!-- Gallery-Item -->
                 <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="assets/img/portfolio/portfolio-2.jpg">
-						<img src="assets/img/portfolio/portfolio-2.jpg" alt="image">
+					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-2.jpg') }}">
+						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-2.jpg') }}" alt="image">
 						<div class="portfolio-overlay-info">
 							<i class="fa fa-images"></i>
 						</div>
@@ -496,8 +496,8 @@
                 </div>
                 <!-- Gallery-Item -->
                 <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="assets/img/portfolio/portfolio-3.jpg">
-						<img src="assets/img/portfolio/portfolio-3.jpg" alt="image">
+					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-3.jpg') }}">
+						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-3.jpg') }}" alt="image">
 						<div class="portfolio-overlay-info">
 							<i class="fa fa-images"></i>
 						</div>
@@ -505,8 +505,8 @@
                 </div>
                 <!-- Gallery-Item -->
                 <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="assets/img/portfolio/portfolio-4.jpg">
-						<img src="assets/img/portfolio/portfolio-4.jpg" alt="image">
+					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-4.jpg') }}">
+						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-4.jpg') }}" alt="image">
 						<div class="portfolio-overlay-info">
 							<i class="fa fa-images"></i>
 						</div>
@@ -514,8 +514,8 @@
                 </div>
                 <!-- Gallery-Item -->
                 <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="assets/img/portfolio/portfolio-5.jpg">
-						<img src="assets/img/portfolio/portfolio-5.jpg" alt="image">
+					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-5.jpg') }}">
+						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-5.jpg') }}" alt="image">
 						<div class="portfolio-overlay-info">
 							<i class="fa fa-images"></i>
 						</div>
@@ -523,8 +523,8 @@
                 </div>
                 <!-- Gallery-Item -->
                 <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="assets/img/portfolio/portfolio-6.jpg">
-						<img src="assets/img/portfolio/portfolio-6.jpg" alt="image">
+					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-6.jpg') }}">
+						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-6.jpg') }}" alt="image">
 						<div class="portfolio-overlay-info">
 							<i class="fa fa-images"></i>
 						</div>
@@ -650,7 +650,7 @@
 				</div>
 				<div class="col-lg-6">
 					<div class="overview-image-2">
-						<img src="assets/img/choose-2.jpg" alt="image">
+						<img src="{{ asset('frontend/assets/img/choose-2.jpg') }}" alt="image">
 					</div>
 				</div>
 			</div>
@@ -685,7 +685,7 @@
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 							</div>
 							<div class="avatar">
-								<img src="assets/img/client/testimonial-1.jpg" alt="testimonial images">
+								<img src="{{ asset('frontend/assets/img/client/testimonial-1.jpg') }}" alt="testimonial images">
 							</div>
 							<div class="testimonial-bio">
 								<div class="bio-info">
@@ -709,7 +709,7 @@
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 							</div>
 							<div class="avatar">
-								<img src="assets/img/client/testimonial-2.jpg" alt="testimonial images">
+								<img src="{{ asset('frontend/assets/img/client/testimonial-2.jpg') }}" alt="testimonial images">
 							</div>
 							<div class="testimonial-bio">
 								<div class="bio-info">
@@ -733,7 +733,7 @@
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 							</div>
 							<div class="avatar">
-								<img src="assets/img/client/testimonial-3.jpg" alt="testimonial images">
+								<img src="{{ asset('frontend/assets/img/client/testimonial-3.jpg') }}" alt="testimonial images">
 							</div>
 							<div class="testimonial-bio">
 								<div class="bio-info">
@@ -762,7 +762,7 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="single-team-box">
 						<div class="team-image">
-							<img src="assets/img/team/team-1.jpg" alt="team">
+							<img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" alt="team">
 							<div class="team-social-icon">
 								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
 								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
@@ -778,7 +778,7 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="single-team-box">
 						<div class="team-image">
-							<img src="assets/img/team/team-2.jpg" alt="team">
+							<img src="{{ asset('frontend/assets/img/team/team-2.jpg') }}" alt="team">
 							<div class="team-social-icon">
 								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
 								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
@@ -794,7 +794,7 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="single-team-box">
 						<div class="team-image">
-							<img src="assets/img/team/team-3.jpg" alt="team">
+							<img src="{{ asset('frontend/assets/img/team/team-3.jpg') }}" alt="team">
 							<div class="team-social-icon">
 								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
 								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
@@ -810,7 +810,7 @@
 				<div class="col-lg-3 col-md-6">
 					<div class="single-team-box">
 						<div class="team-image">
-							<img src="assets/img/team/team-4.jpg" alt="team">
+							<img src="{{ asset('frontend/assets/img/team/team-4.jpg') }}" alt="team">
 							<div class="team-social-icon">
 								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
 								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
@@ -834,7 +834,7 @@
 			<div class="row">
 				<div class="col-lg-6 col-md-12">
 					<div class="faq-img">
-						<img src="assets/img/faq.png" alt="images">
+						<img src="{{ asset('frontend/assets/img/faq.png') }}" alt="images">
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-12">
@@ -882,7 +882,7 @@
 					<div class="blog-item">
 						<div class="blog-image">
 							<a href="single-blog.html">
-								<img src="assets/img/blog/blog-1.jpg" alt="image">
+								<img src="{{ asset('frontend/assets/img/blog/blog-1.jpg') }}" alt="image">
 							</a>
 						</div>
 						<div class="single-blog-item">
@@ -912,7 +912,7 @@
 					<div class="blog-item">
 						<div class="blog-image">
 							<a href="single-blog.html">
-								<img src="assets/img/blog/blog-2.jpg" alt="image">
+								<img src="{{ asset('frontend/assets/img/blog/blog-2.jpg') }}" alt="image">
 							</a>
 						</div>
 						<div class="single-blog-item">
@@ -942,7 +942,7 @@
 					<div class="blog-item">
 						<div class="blog-image">
 							<a href="single-blog.html">
-								<img src="assets/img/blog/blog-3.jpg" alt="image">
+								<img src="{{ asset('frontend/assets/img/blog/blog-3.jpg') }}" alt="image">
 							</a>
 						</div>
 						<div class="single-blog-item">
@@ -1046,42 +1046,42 @@
 			<div id="partner-carousel" class="partner-carousel owl-carousel owl-theme owl-loaded">
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-1.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-1.png') }}" alt="partner-image">
 					</a>
 				</div>
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-2.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-2.png') }}" alt="partner-image">
 					</a>
 				</div>
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-3.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-3.png') }}" alt="partner-image">
 					</a>
 				</div>
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-4.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-4.png') }}" alt="partner-image">
 					</a>
 				</div>
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-5.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-5.png') }}" alt="partner-image">
 					</a>
 				</div>
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-6.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-6.png') }}" alt="partner-image">
 					</a>
 				</div>
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-7.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-7.png') }}" alt="partner-image">
 					</a>
 				</div>
 				<div class="partner-slide-item">
 					<a href="#0">
-						<img src="assets/img/partner/client-8.png" alt="partner-image">
+						<img src="{{ asset('frontend/assets/img/partner/client-8.png') }}" alt="partner-image">
 					</a>
 				</div>
 			</div>
@@ -1118,7 +1118,7 @@
 					<div class="col-lg-4 col-md-6 col-sm-6">
 						<div class="single-footer-widget">
 							<a class="footer-logo" href="#">
-								<img src="assets/img/logo.png" class="white-logo" alt="logo">
+								<img src="{{ asset('frontend/assets/img/logo.png') }}" class="white-logo" alt="logo">
 							</a>
 							<p>Lorem ipsum dolor amet, consectetur adipiscing, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</p>
 							<ul class="footer-social">
