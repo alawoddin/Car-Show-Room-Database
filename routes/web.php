@@ -19,6 +19,8 @@ Route::middleware(['auth', IsUser::class])->group(function () {
     Route::get('/client/profile', [ClientController::class, 'ClientProfile'])->name('client.profile');
     Route::post('/client/profile/update', [ClientController::class, 'ClientProfileUpdate'])->name('client.profile.update');
     Route::get('/client/logout', [ClientController::class, 'ClientLogout'])->name('client.logout');
+    Route::get('/client/change/password', [ClientController::class, 'ClientChangePassword'])->name('client.change.password');
+    Route::post('/client/password/update', [ClientController::class, 'ClientPasswordUpdate'])->name('client.password.update');
 
 });
 
