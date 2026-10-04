@@ -30,6 +30,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
 
     Route::get('/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
+    Route::post('/password/update', [AdminController::class, 'AdminPasswordUpdate'])->name('admin.password.update');
 
 
 });
