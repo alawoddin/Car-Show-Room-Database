@@ -69,7 +69,7 @@
                                 Buying Date
                             </label>
 
-                            <input type="text" name="buying_date" id="buying_date" class="form-control">
+                            <input type="date" name="buying_date" id="buying_date" class="form-control">
 
                         </div>
 
@@ -340,7 +340,7 @@
                                 Date of Arriving
                             </label>
 
-                            <input type="text" name="date_of_arriving" id="date_of_arriving" class="form-control">
+                            <input type="date" name="date_of_arriving" id="date_of_arriving" class="form-control">
 
                         </div>
 
