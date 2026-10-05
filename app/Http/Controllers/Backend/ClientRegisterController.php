@@ -11,18 +11,21 @@ use Intervention\Image\ImageManager;
 
 class ClientRegisterController extends Controller
 {
-    public function ClientRegister(){
+    public function ClientRegister()
+    {
         $client = User::where('role', 'user')->latest()->get();
-        return view('admin.client.client_register' , compact('client'));
+        return view('admin.client.client_register', compact('client'));
     }
 
-    public function AddClient(){
+    public function AddClient()
+    {
         return view('admin.client.add_client');
     }
 
-    public function StoreClient(Request $request){
+    public function StoreClient(Request $request)
+    {
 
-    if ($request->file('photo')) {
+        if ($request->file('photo')) {
             $image = $request->file('photo');
             $manager = new ImageManager(new Driver());
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
@@ -32,27 +35,24 @@ class ClientRegisterController extends Controller
 
             // Create User
             User::insert([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'password' => bcrypt($request->password),
-            'photo' => $save_url,
-            'role' => 'user',
-        ]);
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'password' => bcrypt($request->password),
+                'photo' => $save_url,
+                'role' => 'user',
+            ]);
 
-        $notification = array(
-            'message' => 'Client Added Successfully',
-            'alert-type' => 'success'
-        );
+            $notification = array(
+                'message' => 'Client Added Successfully',
+                'alert-type' => 'success'
+            );
 
-        return redirect()->route('client.register')->with($notification);
-
-
+            return redirect()->route('client.register')->with($notification);
         }
-
-
+    }
 
     
-    }
+
 }
