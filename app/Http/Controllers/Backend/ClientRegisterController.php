@@ -30,8 +30,8 @@ class ClientRegisterController extends Controller
             $manager = new ImageManager(new Driver());
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
             $img = $manager->read($image);
-            $img->resize(100, 100)->save(public_path('upload/client_images/' . $name_gen));
-            $save_url = 'upload/client_images/' . $name_gen;
+            $img->resize(100, 100)->save(public_path('upload/user_images/' . $name_gen));
+            $save_url = 'upload/user_images/' . $name_gen;
 
             // Create User
             User::insert([
