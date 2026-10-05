@@ -35,6 +35,8 @@
                 </li>
                 <li> <a href="{{ route('capital.transactions') }}"><i class='bx bx-radio-circle'></i>Capital Transactions</a>
                 </li>
+                <li> <a href="{{ route('user.capital') }}"><i class='bx bx-radio-circle'></i>User Capitals</a>
+                </li>
                 
             </ul>
         </li>

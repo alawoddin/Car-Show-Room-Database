@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
+use App\Http\Controllers\Backend\UserCapitalController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -59,6 +60,18 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::post('/update/capital/transaction','UpdateCapitalTransaction')->name('update.capital.transaction');
         Route::get('/delete/capital/transaction/{id}','DeleteCapitalTransaction')->name('delete.capital.transaction');
     });
+
+    // end Capital Transaction Routes
+
+    Route::controller(UserCapitalController::class)->group(function(){
+        Route::get('/user/all/capital','UserCapital')->name('user.capital');
+        Route::get('/add/capital/transaction','AddCapitalTransaction')->name('add.capital.transaction');
+        Route::post('/store/capital/transaction','StoreCapitalTransaction')->name('store.capital.transaction');
+        Route::get('/edit/capital/transaction/{id}','EditCapitalTransaction')->name('edit.capital.transaction');
+        Route::post('/update/capital/transaction','UpdateCapitalTransaction')->name('update.capital.transaction');
+        Route::get('/delete/capital/transaction/{id}','DeleteCapitalTransaction')->name('delete.capital.transaction');
+    });
+
 
  
    
