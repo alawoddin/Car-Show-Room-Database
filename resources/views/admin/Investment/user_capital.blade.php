@@ -14,7 +14,7 @@
             </div>
             <div class="ms-auto">
                 <div class="btn-group">
-                    <a href="{{ route('add.client') }}" class="btn btn-primary px-5">Add User Capitals </a>
+                    <a href="{{ route('add.user.capital') }}" class="btn btn-primary px-5">Add User Capitals </a>
                 </div>
             </div>
         </div>

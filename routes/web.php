@@ -65,11 +65,11 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
     Route::controller(UserCapitalController::class)->group(function(){
         Route::get('/user/all/capital','UserCapital')->name('user.capital');
-        Route::get('/add/capital/transaction','AddCapitalTransaction')->name('add.capital.transaction');
-        Route::post('/store/capital/transaction','StoreCapitalTransaction')->name('store.capital.transaction');
-        Route::get('/edit/capital/transaction/{id}','EditCapitalTransaction')->name('edit.capital.transaction');
-        Route::post('/update/capital/transaction','UpdateCapitalTransaction')->name('update.capital.transaction');
-        Route::get('/delete/capital/transaction/{id}','DeleteCapitalTransaction')->name('delete.capital.transaction');
+        Route::get('/add/user/capital','AddUserCapital')->name('add.user.capital');
+        Route::post('/store/user/capital','StoreUserCapital')->name('store.user.capital');
+        // Route::get('/edit/user/capital/{id}','EditUserCapital')->name('edit.user.capital');
+        // Route::post('/update/user/capital','UpdateUserCapital')->name('update.user.capital');
+        // Route::get('/delete/user/capital/{id}','DeleteUserCapital')->name('delete.user.capital');
     });
 
 
