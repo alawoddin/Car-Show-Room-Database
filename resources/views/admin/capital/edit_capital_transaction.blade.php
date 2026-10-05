@@ -10,7 +10,7 @@
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Add Capital Transaction</li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Capital Transaction</li>
                     </ol>
                 </nav>
             </div>
@@ -20,19 +20,22 @@
 
         <div class="card">
             <div class="card-body p-4">
-                <h5 class="mb-4">Add Capital Transaction</h5>
-                <form id="myForm" action="{{ route('store.capital.transaction') }}" method="post" class="row g-3" enctype="multipart/form-data">
+                <h5 class="mb-4">Edit Capital Transaction</h5>
+                <form id="myForm" action="{{ route('update.capital.transaction') }}" method="post" class="row g-3" enctype="multipart/form-data">
                 @csrf
+
+                <input type="hidden" name="id" value="{{ $capitalTransaction->id }}">
 
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="input1" class="form-label">Capital Amount</label>
-                        <input type="text" name="amount" class="form-control" id="input1">
+                        <input type="text" name="amount" value="{{ $capitalTransaction->amount }}" class="form-control"
+                            id="input1">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="input1" class="form-label">Capital Description</label>
-                        <textarea type="text" name="description" class="form-control" id="input1"></textarea>
+                        <textarea type="text" name="description" class="form-control" id="input1">{{ $capitalTransaction->description }}</textarea>
                     </div>
                 </div>
 
@@ -40,10 +43,11 @@
 
                     <div class="form-group col-md-6 mb-3">
                         <label for="input1" class="form-label">Capital Date</label>
-                        <input type="date" name="date" class="form-control" id="input1">
+                        <input type="date" name="date" value="{{ $capitalTransaction->date }}" class="form-control"
+                            id="input1">
                     </div>
 
-                   
+
 
                 </div>
 
@@ -81,7 +85,7 @@
                         required: true,
                         date: true
                     }
-                  
+
 
                 },
                 messages: {
@@ -94,9 +98,8 @@
                     },
                     date: {
                         required: 'Please Enter Capital Date',
-                        date: 'Please Enter a valid date'
                     }
-                   
+
 
 
                 },
@@ -114,6 +117,4 @@
             });
         });
     </script>
-
-
 @endsection

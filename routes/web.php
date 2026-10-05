@@ -55,6 +55,9 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::get('/capital/transactions','CapitalTransactions')->name('capital.transactions');
         Route::get('/add/capital/transaction','AddCapitalTransaction')->name('add.capital.transaction');
         Route::post('/store/capital/transaction','StoreCapitalTransaction')->name('store.capital.transaction');
+        Route::get('/edit/capital/transaction/{id}','EditCapitalTransaction')->name('edit.capital.transaction');
+        Route::post('/update/capital/transaction','UpdateCapitalTransaction')->name('update.capital.transaction');
+        Route::get('/delete/capital/transaction/{id}','DeleteCapitalTransaction')->name('delete.capital.transaction');
     });
 
  

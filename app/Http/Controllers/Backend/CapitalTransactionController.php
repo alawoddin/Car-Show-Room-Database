@@ -40,6 +40,30 @@ class CapitalTransactionController extends Controller
 
     }
 
+    public function EditCapitalTransaction($id)
+    {
+        $capitalTransaction = CapitalTransactions::findOrFail($id);
+        return view('admin.capital.edit_capital_transaction', compact('capitalTransaction'));
+    }
+
+    public function UpdateCapitalTransaction(Request $request)
+    {
+        $capitalTransaction = CapitalTransactions::findOrFail($request->id);
+
+        $capitalTransaction->update([
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'date' => $request->date,
+        ]);
+
+        $notification = array(
+                'message' => 'Capital transaction updated successfully',
+                'alert-type' => 'success'
+            );
+
+        return redirect()->route('capital.transactions')->with($notification);
+    }
+
    
 
     
