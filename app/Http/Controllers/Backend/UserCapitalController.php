@@ -44,7 +44,7 @@ class UserCapitalController extends Controller
 
     }
 
-    public function EditUserCapital($id)
+    public function EditUserCapital(int $id)
     {
         $userCapital = User_Capitals::findOrFail($id);
         $users = User::where('role', 'user')->latest()->get();
@@ -65,6 +65,19 @@ class UserCapitalController extends Controller
 
         $notification = array(
             'message' => 'User Capital Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('user.capital')->with($notification);
+    }
+
+    public function DeleteUserCapital(int $id)
+    {
+        $userCapital = User_Capitals::findOrFail($id);
+        $userCapital->delete();
+
+        $notification = array(
+            'message' => 'User Capital Deleted Successfully',
             'alert-type' => 'success'
         );
 

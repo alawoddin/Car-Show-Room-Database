@@ -69,7 +69,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::post('/store/user/capital','StoreUserCapital')->name('store.user.capital');
         Route::get('/edit/user/capital/{id}','EditUserCapital')->name('edit.user.capital');
         Route::post('/update/user/capital','UpdateUserCapital')->name('update.user.capital');
-        // Route::get('/delete/user/capital/{id}','DeleteUserCapital')->name('delete.user.capital');
+        Route::get('/delete/user/capital/{id}','DeleteUserCapital')->name('delete.user.capital');
     });
 
 
