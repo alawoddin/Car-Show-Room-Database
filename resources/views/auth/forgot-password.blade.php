@@ -33,7 +33,7 @@
 					<div class="col mx-auto">
 						<div class="card my-5 my-lg-0 shadow-none border">
 							<div class="card-body">
-								<form action="{{ route('password.email') }}" method="POST">
+								<form action="{{ url('admin.password.submit') }}" method="POST">
                                     @csrf
                                     <div class="p-4">
 									<div class="text-center">
@@ -46,7 +46,7 @@
 										<input type="text" name="email" class="form-control" placeholder="example@user.com" />
 									</div>
 									<div class="d-grid gap-2">
-										<button type="button" class="btn btn-primary">Send</button>
+										<button type="submit" class="btn btn-primary">Send</button>
 										 <a href="{{ route('login') }}" class="btn btn-light"><i class='bx bx-arrow-back me-1'></i>Back to Login</a>
 									</div>
 								</div>
