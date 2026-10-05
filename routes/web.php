@@ -5,6 +5,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
 use App\Http\Controllers\Backend\UserCapitalController;
+use App\Http\Controllers\Backend\PurchaseController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -75,6 +76,16 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::post('/update/user/capital','UpdateUserCapital')->name('update.user.capital');
         Route::get('/delete/user/capital/{id}','DeleteUserCapital')->name('delete.user.capital');
     });
+
+    Route::controller(PurchaseController::class)->group(function(){
+        Route::get('/all/purchases','AllPurchases')->name('all.purchases');
+        Route::get('/add/purchase','AddPurchase')->name('add.purchase');
+        Route::post('/store/purchase','StorePurchase')->name('store.purchase');
+        Route::get('/edit/purchase/{id}','EditPurchase')->name('edit.purchase');
+        Route::post('/update/purchase','UpdatePurchase')->name('update.purchase');
+        Route::get('/delete/purchase/{id}','DeletePurchase')->name('delete.purchase');
+    });
+
 
 
  
