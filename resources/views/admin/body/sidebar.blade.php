@@ -22,7 +22,7 @@
         
       
         
-        <li class="menu-label">UI Elements</li>
+        <li class="menu-label">Client</li>
        
         <li>
             <a href="javascript:;" class="has-arrow">

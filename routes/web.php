@@ -47,7 +47,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
     Route::controller(ClientRegisterController::class)->group(function(){
     Route::get('/client/register','ClientRegister')->name('client.register');
-    // Route::get('/add/category','AddCategory')->name('add.category');
+    Route::get('/add/client','AddClient')->name('add.client');
     // Route::post('/store/category','StoreCategory')->name('store.category');
     // Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
     // Route::post('/update/category','UpdateCategory')->name('update.category');
