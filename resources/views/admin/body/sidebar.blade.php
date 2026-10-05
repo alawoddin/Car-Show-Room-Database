@@ -28,12 +28,12 @@
             <a href="javascript:;" class="has-arrow">
                 <div class="parent-icon"><i class='bx bx-cart'></i>
                 </div>
-                <div class="menu-title">Client Register</div>
+                <div class="menu-title">Client Info</div>
             </a>
             <ul>
                 <li> <a href="{{ route('client.register') }}"><i class='bx bx-radio-circle'></i>Client Register</a>
                 </li>
-                <li> <a href="ecommerce-products-details.html"><i class='bx bx-radio-circle'></i>Product Details</a>
+                <li> <a href="{{ route('capital.transactions') }}"><i class='bx bx-radio-circle'></i>Capital Transactions</a>
                 </li>
                 
             </ul>
