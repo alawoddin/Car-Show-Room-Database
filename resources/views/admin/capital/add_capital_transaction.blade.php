@@ -21,7 +21,7 @@
         <div class="card">
             <div class="card-body p-4">
                 <h5 class="mb-4">Add Capital Transaction</h5>
-                {{-- <form id="myForm" action="{{ route('store.capital.transaction') }}" method="post" class="row g-3" enctype="multipart/form-data"> --}}
+                <form id="myForm" action="{{ route('store.capital.transaction') }}" method="post" class="row g-3" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -70,33 +70,31 @@
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
-                    name: {
+                    amount: {
                         required: true,
+                        number: true
                     },
-                    photo: {
+                    description: {
+                        required: true
+                    },
+                    date: {
                         required: true,
-                    },
-                    email: {
-                        required: true,
-                    },
-                    address: {
-                        required: true,
-                    },
+                        date: true
+                    }
+                  
 
                 },
                 messages: {
-                    name: {
-                        required: 'Please Enter Client Name',
+                    amount: {
+                        required: 'Please Enter Capital Amount',
+                        number: 'Please Enter a valid number'},
+                    description: {
+                        required: 'Please Enter Capital Description'
                     },
-                    photo: {
-                        required: 'Please Select Client Image',
-                    },
-                    email: {
-                        required: 'Please Enter Client Email',
-                    },
-                    address: {
-                        required: 'Please Enter Client Address',
-                    },
+                    date: {
+                        required: 'Please Enter Capital Date',
+                    }
+                   
 
 
                 },
@@ -115,15 +113,5 @@
         });
     </script>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#image').change(function(e) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    $('#showImage').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(e.target.files['0']);
-            });
-        });
-    </script>
+
 @endsection

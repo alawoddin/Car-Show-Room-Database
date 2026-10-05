@@ -20,6 +20,12 @@
         </div>
         <!--end breadcrumb-->
 
+        @php
+    use Illuminate\Support\Str;
+@endphp
+
+
+
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
@@ -39,8 +45,8 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->amount }}</td>
-                                    <td>{{ $item->description }}</td>
-                                    <td>{{ $item->data }}</td>
+                                    <td>{{ Str::limit($item->description, 80) }}</td>
+                                    <td>{{ $item->date }}</td>
                                     {{-- <td>
                                         <a href="{{ route('edit.capital.transaction', $item->id) }}" class="btn btn-info">Edit</a>
                                         <a href="{{ route('delete.capital.transaction', $item->id) }}" class="btn btn-danger" id="delete">Delete</a>

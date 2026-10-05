@@ -20,6 +20,26 @@ class CapitalTransactionController extends Controller
         return view('admin.capital.add_capital_transaction');
     }
 
+    public function StoreCapitalTransaction(Request $request)
+    {
+       
+
+        CapitalTransactions::create([
+            'amount' => $request->amount,
+            'description' => $request->description,
+            'date' => $request->date,
+        ]);
+
+        $notification = array(
+                'message' => 'Capital transaction added successfully',
+                'alert-type' => 'success'
+            );
+
+        return redirect()->route('capital.transactions')->with($notification);
+
+
+    }
+
    
 
     
