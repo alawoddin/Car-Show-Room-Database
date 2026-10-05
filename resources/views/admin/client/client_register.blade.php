@@ -47,7 +47,11 @@
                             <td>{{ $item->email }}</td> 
                             <td>{{ $item->phone }}</td> 
                             <td>{{ $item->address }}</td> 
-                            <td> <img src="{{ asset($item->photo) }}" alt="" style="width: 70px; height:40px;"> </td>
+<td>
+    <img src="{{ asset($item->photo ?? 'upload/no_image.jpg') }}"
+         alt="{{ $item->name }}"
+         style="width: 70px; height: 40px; object-fit: cover;">
+</td>
                             {{-- <td>
        <a href="{{ route('edit.category',$item->id) }}" class="btn btn-info px-5">Edit </a>     
         <a href="{{ route('delete.category',$item->id) }}" class="btn btn-danger px-5" id="delete">Delete </a>                  

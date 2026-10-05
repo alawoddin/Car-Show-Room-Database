@@ -21,7 +21,7 @@
         <div class="card">
             <div class="card-body p-4">
                 <h5 class="mb-4">Add Client</h5>
-                {{-- <form id="myForm" action="{{ route('store.category') }}" method="post" class="row g-3" enctype="multipart/form-data"> --}}
+                <form id="myForm" action="{{ route('store.client') }}" method="post" class="row g-3" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -53,7 +53,7 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="input1" class="form-label">Client password</label>
-                        <input type="text" name="password" class="form-control" id="input1">
+                        <input type="password" name="password" class="form-control" id="input1">
                     </div>
 
 
