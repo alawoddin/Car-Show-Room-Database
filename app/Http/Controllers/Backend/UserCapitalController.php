@@ -22,4 +22,52 @@ class UserCapitalController extends Controller
 
     return view('admin.Investment.add_user_capital', compact('users'));
 }
+
+    public function StoreUserCapital(Request $request)
+    {
+        
+
+        User_Capitals::create([
+            'user_id' => $request->user_id,
+            'amount' => $request->amount,
+            'date' => $request->date,
+            'description' => $request->description,
+        ]);
+
+          $notification = array(
+                'message' => 'Client Added Successfully',
+                'alert-type' => 'success'
+            );
+
+            return redirect()->route('user.capital')->with($notification);
+
+
+    }
+
+    public function EditUserCapital($id)
+    {
+        $userCapital = User_Capitals::findOrFail($id);
+        $users = User::where('role', 'user')->latest()->get();
+
+        return view('admin.Investment.edit_user_capital', compact('userCapital', 'users'));
+    }
+
+    public function UpdateUserCapital(Request $request)
+    {
+        $userCapital = User_Capitals::findOrFail($request->id);
+
+        $userCapital->update([
+            'user_id' => $request->user_id,
+            'amount' => $request->amount,
+            'date' => $request->date,
+            'description' => $request->description,
+        ]);
+
+        $notification = array(
+            'message' => 'User Capital Updated Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('user.capital')->with($notification);
+    }
 }

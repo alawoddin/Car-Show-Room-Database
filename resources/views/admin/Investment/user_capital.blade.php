@@ -40,11 +40,11 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->user->name }}</td>
-                                    <td>{{ $item->amount }}</td>
+                                    <td>{{ $item->amount }}$</td>
                                     <td>{{ $item->date }}</td>
                                     <td>{{ $item->description }}</td>
                                     <td>
-                                        {{-- <a href="{{ route('edit.client', $item->id) }}" class="btn btn-primary px-4">Edit</a> --}}
+                                        <a href="{{ route('edit.user.capital', $item->id) }}" class="btn btn-primary px-4">Edit</a>
                                         {{-- <a href="{{ route('delete.client', $item->id) }}" class="btn btn-danger px-4">Delete</a> --}}
                                     </td>
 
