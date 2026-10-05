@@ -40,7 +40,7 @@ class CapitalTransactionController extends Controller
 
     }
 
-    public function EditCapitalTransaction($id)
+    public function EditCapitalTransaction(int $id)
     {
         $capitalTransaction = CapitalTransactions::findOrFail($id);
         return view('admin.capital.edit_capital_transaction', compact('capitalTransaction'));
@@ -58,6 +58,19 @@ class CapitalTransactionController extends Controller
 
         $notification = array(
                 'message' => 'Capital transaction updated successfully',
+                'alert-type' => 'success'
+            );
+
+        return redirect()->route('capital.transactions')->with($notification);
+    }
+
+    public function DeleteCapitalTransaction(int $id)
+    {
+        $capitalTransaction = CapitalTransactions::findOrFail($id);
+        $capitalTransaction->delete();
+
+        $notification = array(
+                'message' => 'Capital transaction deleted successfully',
                 'alert-type' => 'success'
             );
 
