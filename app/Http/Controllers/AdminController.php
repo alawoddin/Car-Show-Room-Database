@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -95,34 +93,7 @@ class AdminController extends Controller
 
     }// End Method
 
-    public function AdminForgotPassword(){
-        return view('admin.forgot_password');
-    }// End Method
-
-
-    public function AdminPasswordSubmit(Request $request){
-        $request->validate([
-            'email' => 'required|email|exists:users,email',
-        ]);
-
-        // Generate a password reset token
-        $token = \Illuminate\Support\Str::random(60);
-
-        // Store the token in the password_resets table
-        DB::table('password_resets')->insert([
-            'email' => $request->email,
-            'token' => $token,
-            'created_at' => now(),
-        ]);
-
-        // Send the password reset email
-        Mail::send('email', ['body' => "Click here to reset your password: " . url('/reset-password/' . $token)], function ($message) use ($request) {
-            $message->to($request->email);
-            $message->subject('Reset Password Notification');
-        });
-
-        return back()->with('status', 'We have emailed your password reset link!');
-    }
+    
 
     
 

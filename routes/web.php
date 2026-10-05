@@ -32,8 +32,7 @@ Route::middleware(['auth', IsUser::class])->group(function () {
 
 //end user Routes
 
-    Route::get('/forgot_password', [AdminController::class, 'AdminForgotPassword'])->name('admin.forgot_password');
-    Route::post('/password_submit', [AdminController::class, 'AdminPasswordSubmit'])->name('admin.password.submit');
+
 
 
 
