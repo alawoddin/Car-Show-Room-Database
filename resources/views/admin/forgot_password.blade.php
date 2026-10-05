@@ -33,9 +33,7 @@
 					<div class="col mx-auto">
 						<div class="card my-5 my-lg-0 shadow-none border">
 							<div class="card-body">
-								<form action="{{ route('password.email') }}" method="POST">
-                                    @csrf
-                                    <div class="p-4">
+								<div class="p-4">
 									<div class="text-center">
 										<img src="{{asset('backend/assets/images/icons/forgot-2.png')}}" width="100" alt="" />
 									</div>
@@ -50,8 +48,6 @@
 										 <a href="{{ route('login') }}" class="btn btn-light"><i class='bx bx-arrow-back me-1'></i>Back to Login</a>
 									</div>
 								</div>
-
-                                </form>
 							</div>
 						</div>
 					</div>

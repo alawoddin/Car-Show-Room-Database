@@ -93,6 +93,10 @@ class AdminController extends Controller
 
     }// End Method
 
+    // public function AdminForgotPassword(){
+    //     return view('admin.forgot_password');
+    // }// End Method
+
     
 
 
