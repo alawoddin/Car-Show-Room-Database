@@ -69,7 +69,7 @@
                                 Buying Date
                             </label>
 
-                            <input type="date" name="buying_date" id="buying_date" class="form-control">
+                            <input type="text" name="buying_date" id="buying_date" class="form-control">
 
                         </div>
 
@@ -174,7 +174,7 @@
                                 Buying Fee
                             </label>
 
-                            <input type="number" step="0.01" name="buying_fee" id="buying_fee" class="form-control">
+                            <input type="text" step="0.01" name="buying_fee" id="buying_fee" class="form-control">
 
                         </div>
 
@@ -185,7 +185,7 @@
                                 Towing Fee
                             </label>
 
-                            <input type="number" step="0.01" name="towing_fee" id="towing_fee" class="form-control">
+                            <input type="text" step="0.01" name="towing_fee" id="towing_fee" class="form-control">
 
                         </div>
 
@@ -196,7 +196,7 @@
                                 Shipping Fee
                             </label>
 
-                            <input type="number" step="0.01" name="shipping" id="shipping" class="form-control">
+                            <input type="text" step="0.01" name="shipping" id="shipping" class="form-control">
 
                         </div>
 
@@ -219,7 +219,7 @@
                                 Total AED
                             </label>
 
-                            <input type="number" step="0.01" name="total_aed" id="total_aed" class="form-control"
+                            <input type="text"  name="total_aed" id="total_aed" class="form-control"
                                 readonly>
 
                         </div>
@@ -231,7 +231,7 @@
                                 Clearing
                             </label>
 
-                            <input type="number" step="0.01" name="clearing" id="clearing" class="form-control">
+                            <input type="text" name="clearing" id="clearing" class="form-control">
 
                         </div>
 
@@ -242,7 +242,7 @@
                                 Surcharge
                             </label>
 
-                            <input type="number" step="0.01" name="surcharge" id="surcharge" class="form-control">
+                            <input type="text" name="surcharge" id="surcharge" class="form-control">
 
                         </div>
 
@@ -253,7 +253,7 @@
                                 Custom Duty
                             </label>
 
-                            <input type="number" step="0.01" name="custom_duty" id="custom_duty"
+                            <input type="text" name="custom_duty" id="custom_duty"
                                 class="form-control" readonly>
 
                         </div>
@@ -293,7 +293,7 @@
                                 Selling Price
                             </label>
 
-                            <input type="number" step="0.01" name="selling_price" id="selling_price"
+                            <input type="text" name="selling_price" id="selling_price"
                                 class="form-control">
 
                         </div>
@@ -340,7 +340,7 @@
                                 Date of Arriving
                             </label>
 
-                            <input type="date" name="date_of_arriving" id="date_of_arriving" class="form-control">
+                            <input type="text" name="date_of_arriving" id="date_of_arriving" class="form-control">
 
                         </div>
 
@@ -451,4 +451,110 @@
         </div>
 
     </div>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        const buyingFee = document.getElementById('buying_fee');
+        const towingFee = document.getElementById('towing_fee');
+        const shipping = document.getElementById('shipping');
+
+        const totalAed = document.getElementById('total_aed');
+        const clearing = document.getElementById('clearing');
+        const surcharge = document.getElementById('surcharge');
+
+        const customDuty = document.getElementById('custom_duty');
+        const grandTotal = document.getElementById('grand_total');
+
+        const sellingPrice = document.getElementById('selling_price');
+        const profit = document.getElementById('profit');
+
+
+        // Exchange rate
+        const exchangeRate = 3.675;
+
+
+        function number(value) {
+            return parseFloat(value) || 0;
+        }
+
+
+        function calculatePurchase() {
+
+            // --------------------------------
+            // 1. Calculate Total USD
+            // --------------------------------
+
+            const buying = number(buyingFee.value);
+            const towing = number(towingFee.value);
+            const ship = number(shipping.value);
+
+            const totalUsd = buying + towing + ship;
+
+
+            // --------------------------------
+            // 2. USD → AED
+            // --------------------------------
+
+            const aed = totalUsd * exchangeRate;
+
+            totalAed.value = aed.toFixed(2);
+
+
+            // --------------------------------
+            // 3. Custom Duty
+            // --------------------------------
+
+            const duty = (aed + 1472) * 0.055;
+
+            customDuty.value = duty.toFixed(2);
+
+
+            // --------------------------------
+            // 4. Grand Total
+            // --------------------------------
+
+            const clearingValue = number(clearing.value);
+            const surchargeValue = number(surcharge.value);
+
+            const grand =
+                aed +
+                clearingValue +
+                surchargeValue +
+                duty;
+
+            grandTotal.value = grand.toFixed(2);
+
+
+            // --------------------------------
+            // 5. Profit
+            // --------------------------------
+
+            const selling = number(sellingPrice.value);
+
+            const calculatedProfit = selling - grand;
+
+            profit.value = calculatedProfit.toFixed(2);
+        }
+
+
+        // Calculate whenever Admin changes a value
+        buyingFee.addEventListener('input', calculatePurchase);
+        towingFee.addEventListener('input', calculatePurchase);
+        shipping.addEventListener('input', calculatePurchase);
+
+        clearing.addEventListener('input', calculatePurchase);
+        surcharge.addEventListener('input', calculatePurchase);
+
+        sellingPrice.addEventListener('input', calculatePurchase);
+
+
+        // Calculate once when page loads
+        calculatePurchase();
+
+    });
+</script>
+
+
 @endsection
