@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -22,6 +23,9 @@ Route::middleware(['auth', IsUser::class])->group(function () {
     Route::get('/client/change/password', [ClientController::class, 'ClientChangePassword'])->name('client.change.password');
     Route::post('/client/password/update', [ClientController::class, 'ClientPasswordUpdate'])->name('client.password.update');
 
+
+
+
 });
 
 //end user Routes
@@ -39,6 +43,19 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
 
     Route::get('/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.change.password');
     Route::post('/password/update', [AdminController::class, 'AdminPasswordUpdate'])->name('admin.password.update');
+
+
+    Route::controller(ClientRegisterController::class)->group(function(){
+    Route::get('/client/register','ClientRegister')->name('client.register');
+    // Route::get('/add/category','AddCategory')->name('add.category');
+    // Route::post('/store/category','StoreCategory')->name('store.category');
+    // Route::get('/edit/category/{id}','EditCategory')->name('edit.category');
+    // Route::post('/update/category','UpdateCategory')->name('update.category');
+    // Route::get('/delete/category/{id}','DeleteCategory')->name('delete.category');
+
+
+});
+    
 
 
 });
