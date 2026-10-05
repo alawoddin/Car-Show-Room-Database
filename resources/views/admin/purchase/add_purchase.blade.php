@@ -1,127 +1,454 @@
 @extends('admin.admin_dashboard')
-@section('admin')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
+@section('admin')
     <div class="page-content">
-        <!--breadcrumb-->
+
+        <!-- Breadcrumb -->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
             <div class="ps-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                        <li class="breadcrumb-item">
+                            <a href="javascript:;">
+                                <i class="bx bx-home-alt"></i>
+                            </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Add User Capital</li>
+
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Add Purchase
+                        </li>
                     </ol>
                 </nav>
             </div>
-
         </div>
-        <!--end breadcrumb-->
+        <!-- End Breadcrumb -->
+
 
         <div class="card">
             <div class="card-body p-4">
-                <h5 class="mb-4">Add User Capital</h5>
-                <form id="myForm" action="{{ route('store.user.capital') }}" method="post" class="row g-3"
-                    enctype="multipart/form-data">
+
+                <h5 class="mb-4">Add Purchase</h5>
+
+                <form id="myForm" action="{{ route('store.purchase') }}" method="POST">
+
                     @csrf
 
+
+                    {{-- =========================
+                    USER INFORMATION
+                ========================== --}}
+
                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="user_id" class="form-label">User Name</label>
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="user_id" class="form-label">
+                                User Name
+                            </label>
 
                             <select name="user_id" id="user_id" class="form-select">
-                                <option value="">Select User</option>
+
+                                <option value="">
+                                    Select User
+                                </option>
 
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">
                                         {{ $user->name }}
                                     </option>
                                 @endforeach
+
                             </select>
+
                         </div>
 
 
-                        <div class="form-group col-md-6">
-                            <label for="input1" class="form-label">Capital amount</label>
-                            <input type="text" name="amount" class="form-control" id="input1">
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="buying_date" class="form-label">
+                                Buying Date
+                            </label>
+
+                            <input type="date" name="buying_date" id="buying_date" class="form-control">
+
                         </div>
+
                     </div>
+
+
+                    {{-- =========================
+                    VEHICLE INFORMATION
+                ========================== --}}
+
+                    <h6 class="mt-4 mb-3">
+                        Vehicle Information
+                    </h6>
 
                     <div class="row">
 
-                        <div class="form-group col-md-6">
-                            <label for="input1" class="form-label">Date</label>
-                            <input type="date" name="date" class="form-control" id="input1">
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="lot_number" class="form-label">
+                                Lot Number
+                            </label>
+
+                            <input type="text" name="lot_number" id="lot_number" class="form-control">
+
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label for="input1" class="form-label">Capital Description</label>
-                            <textarea type="text" name="description" class="form-control" id="input1"></textarea>
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="vin" class="form-label">
+                                VIN
+                            </label>
+
+                            <input type="text" name="vin" id="vin" class="form-control">
+
                         </div>
 
                     </div>
 
 
-                    <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="cylinder" class="form-label">
+                                Cylinder
+                            </label>
+
+                            <input type="text" name="cylinder" id="cylinder" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="color" class="form-label">
+                                Color
+                            </label>
+
+                            <input type="text" name="color" id="color" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="make" class="form-label">
+                                Make
+                            </label>
+
+                            <input type="text" name="make" id="make" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="model" class="form-label">
+                                Model
+                            </label>
+
+                            <input type="text" name="model" id="model" class="form-control">
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =========================
+                    PURCHASE COST
+                ========================== --}}
+
+                    <h6 class="mt-4 mb-3">
+                        Purchase Cost
+                    </h6>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-4 mb-3">
+
+                            <label for="buying_fee" class="form-label">
+                                Buying Fee
+                            </label>
+
+                            <input type="number" step="0.01" name="buying_fee" id="buying_fee" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-4 mb-3">
+
+                            <label for="towing_fee" class="form-label">
+                                Towing Fee
+                            </label>
+
+                            <input type="number" step="0.01" name="towing_fee" id="towing_fee" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-4 mb-3">
+
+                            <label for="shipping" class="form-label">
+                                Shipping Fee
+                            </label>
+
+                            <input type="number" step="0.01" name="shipping" id="shipping" class="form-control">
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =========================
+                    UAE COST
+                ========================== --}}
+
+                    <h6 class="mt-4 mb-3">
+                        UAE Costs
+                    </h6>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="total_aed" class="form-label">
+                                Total AED
+                            </label>
+
+                            <input type="number" step="0.01" name="total_aed" id="total_aed" class="form-control"
+                                readonly>
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="clearing" class="form-label">
+                                Clearing
+                            </label>
+
+                            <input type="number" step="0.01" name="clearing" id="clearing" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="surcharge" class="form-label">
+                                Surcharge
+                            </label>
+
+                            <input type="number" step="0.01" name="surcharge" id="surcharge" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="custom_duty" class="form-label">
+                                Custom Duty
+                            </label>
+
+                            <input type="number" step="0.01" name="custom_duty" id="custom_duty"
+                                class="form-control" readonly>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="grand_total" class="form-label">
+                                Grand Total
+                            </label>
+
+                            <input type="number" step="0.01" name="grand_total" id="grand_total"
+                                class="form-control" readonly>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =========================
+                    SALE INFORMATION
+                ========================== --}}
+
+                    <h6 class="mt-4 mb-3">
+                        Sale Information
+                    </h6>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="selling_price" class="form-label">
+                                Selling Price
+                            </label>
+
+                            <input type="number" step="0.01" name="selling_price" id="selling_price"
+                                class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="profit" class="form-label">
+                                Profit
+                            </label>
+
+                            <input type="number" step="0.01" name="profit" id="profit" class="form-control"
+                                readonly>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =========================
+                    OTHER INFORMATION
+                ========================== --}}
+
+                    <h6 class="mt-4 mb-3">
+                        Other Information
+                    </h6>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="bill_no" class="form-label">
+                                Bill No
+                            </label>
+
+                            <input type="text" name="bill_no" id="bill_no" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="date_of_arriving" class="form-label">
+                                Date of Arriving
+                            </label>
+
+                            <input type="date" name="date_of_arriving" id="date_of_arriving" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="location" class="form-label">
+                                Location
+                            </label>
+
+                            <input type="text" name="location" id="location" class="form-control">
+
+                        </div>
+
+
+                        <div class="form-group col-md-3 mb-3">
+
+                            <label for="customer_name" class="form-label">
+                                Customer Name
+                            </label>
+
+                            <input type="text" name="customer_name" id="customer_name" class="form-control">
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- =========================
+                    STATUS & DESCRIPTION
+                ========================== --}}
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="status" class="form-label">
+                                Status
+                            </label>
+
+                            <select name="status" id="status" class="form-select">
+
+                                <option value="Purchased">
+                                    Purchased
+                                </option>
+
+                                <option value="Loaded">
+                                    Loaded
+                                </option>
+
+                                <option value="Shipped">
+                                    Shipped
+                                </option>
+
+                                <option value="Delivered">
+                                    Delivered
+                                </option>
+
+                                <option value="On Hand">
+                                    On Hand
+                                </option>
+
+                                <option value="At UAE">
+                                    At UAE
+                                </option>
+
+                                <option value="Sold">
+                                    Sold
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group col-md-6 mb-3">
+
+                            <label for="description" class="form-label">
+                                Description
+                            </label>
+
+                            <textarea name="description" id="description" class="form-control" rows="3"></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- SUBMIT --}}
+
+                    <div class="col-md-12 mt-3">
+
                         <div class="d-md-flex d-grid align-items-center gap-3">
-                            <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+
+                            <button type="submit" class="btn btn-primary px-4">
+
+                                Save Purchase
+
+                            </button>
 
                         </div>
+
                     </div>
+
                 </form>
+
             </div>
         </div>
 
-
-
-
     </div>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#myForm').validate({
-                rules: {
-                    user_id: {
-                        required: true,
-                    },
-                    amount: {
-                        required: true,
-                    },
-                    date: {
-                        required: true,
-                    },
-                    description: {
-                        required: true,
-                    },
-
-                },
-                messages: {
-                    user_id: {
-                        required: 'Please Select User',
-                    },
-                    amount: {
-                        required: 'Please Enter Capital Amount',
-                    },
-                    date: {
-                        required: 'Please Enter Date',
-                    },
-                    description: {
-                        required: 'Please Enter Capital Description',
-                    },
-                },
-               
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                },
-            });
-        });
-    </script>
 @endsection
