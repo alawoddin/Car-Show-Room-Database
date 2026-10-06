@@ -35,7 +35,7 @@ return new class extends Migration
         // Calculated Costs
         $table->decimal('total_aed', 15, 2)->default(0);
         $table->decimal('clearing', 15, 2)->default(0);
-        $table->decimal('surcharge', 15, 2)->default(0);
+        $table->decimal('extra_charges', 15, 2)->default(0);
         $table->decimal('custom_duty', 15, 2)->default(0);
         $table->decimal('grand_total', 15, 2)->default(0);
 

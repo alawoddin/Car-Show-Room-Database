@@ -238,11 +238,11 @@
 
                         <div class="form-group col-md-3 mb-3">
 
-                            <label for="surcharge" class="form-label">
-                                Surcharge
+                            <label for="extra_charges" class="form-label">
+                                Extra Charges
                             </label>
 
-                            <input type="text" name="surcharge" id="surcharge" class="form-control">
+                            <input type="text" name="extra_charges" id="extra_charges" class="form-control">
 
                         </div>
 
@@ -453,7 +453,7 @@
     </div>
 
 
-    <script>
+   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
         const buyingFee = document.getElementById('buying_fee');
@@ -462,7 +462,7 @@
 
         const totalAed = document.getElementById('total_aed');
         const clearing = document.getElementById('clearing');
-        const surcharge = document.getElementById('surcharge');
+        const extraCharges = document.getElementById('extra_charges');
 
         const customDuty = document.getElementById('custom_duty');
         const grandTotal = document.getElementById('grand_total');
@@ -516,12 +516,12 @@
             // --------------------------------
 
             const clearingValue = number(clearing.value);
-            const surchargeValue = number(surcharge.value);
+            const extraChargesValue = number(extraCharges.value);
 
             const grand =
                 aed +
                 clearingValue +
-                surchargeValue +
+                extraChargesValue +
                 duty;
 
             grandTotal.value = grand.toFixed(2);
@@ -539,22 +539,30 @@
         }
 
 
-        // Calculate whenever Admin changes a value
+        // --------------------------------
+        // Calculate when Admin changes values
+        // --------------------------------
+
         buyingFee.addEventListener('input', calculatePurchase);
         towingFee.addEventListener('input', calculatePurchase);
         shipping.addEventListener('input', calculatePurchase);
 
         clearing.addEventListener('input', calculatePurchase);
-        surcharge.addEventListener('input', calculatePurchase);
+        extraCharges.addEventListener('input', calculatePurchase);
 
         sellingPrice.addEventListener('input', calculatePurchase);
 
 
-        // Calculate once when page loads
+        // --------------------------------
+        // Calculate when page loads
+        // --------------------------------
+
         calculatePurchase();
 
     });
 </script>
+
+
 
 
 @endsection

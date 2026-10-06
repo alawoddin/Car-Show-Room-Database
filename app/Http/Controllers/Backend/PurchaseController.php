@@ -42,7 +42,7 @@ class PurchaseController extends Controller
             'total_aed' => $request->total_aed ?? 0,
 
             'clearing' => $request->clearing ?? 0,
-            'surcharge' => $request->surcharge ?? 0,
+            'extra_charges' => $request->extra_charges ?? 0,
             'custom_duty' => $request->custom_duty ?? 0,
 
             'grand_total' => $request->grand_total ?? 0,
