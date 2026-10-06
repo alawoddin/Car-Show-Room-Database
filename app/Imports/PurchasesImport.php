@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class PurchasesImport implements ToCollection, WithHeadingRow
 {
@@ -14,21 +15,81 @@ class PurchasesImport implements ToCollection, WithHeadingRow
     {
         foreach ($rows as $row) {
 
-            // Find user by name
-            $user = User::where('name', $row['user'])->first();
+            // ==============================
+            // Find User
+            // ==============================
 
-            // If user doesn't exist, skip this row
+            $userName = $row['user'] ?? null;
+
+            $user = User::where('name', $userName)->first();
+
             if (!$user) {
                 continue;
             }
+
+
+            // ==============================
+            // Convert Buying Date
+            // ==============================
+
+            $buyingDate = null;
+
+            if (!empty($row['buying_date'])) {
+
+                if (is_numeric($row['buying_date'])) {
+
+                    $buyingDate = Date::excelToDateTimeObject(
+                        $row['buying_date']
+                    )->format('Y-m-d');
+
+                } else {
+
+                    $buyingDate = date(
+                        'Y-m-d',
+                        strtotime($row['buying_date'])
+                    );
+
+                }
+            }
+
+
+            // ==============================
+            // Convert Arriving Date
+            // ==============================
+
+            $dateOfArriving = null;
+
+            if (!empty($row['date_of_arriving'])) {
+
+                if (is_numeric($row['date_of_arriving'])) {
+
+                    $dateOfArriving = Date::excelToDateTimeObject(
+                        $row['date_of_arriving']
+                    )->format('Y-m-d');
+
+                } else {
+
+                    $dateOfArriving = date(
+                        'Y-m-d',
+                        strtotime($row['date_of_arriving'])
+                    );
+
+                }
+            }
+
+
+            // ==============================
+            // Create Purchase
+            // ==============================
 
             Purchase::create([
 
                 // User
                 'user_id' => $user->id,
 
+
                 // Vehicle Information
-                'buying_date' => $row['buying_date'] ?? null,
+                'buying_date' => $buyingDate,
                 'lot_number' => $row['lot_number'] ?? null,
                 'vin' => $row['vin'] ?? null,
                 'cylinder' => $row['cylinder'] ?? null,
@@ -36,10 +97,12 @@ class PurchasesImport implements ToCollection, WithHeadingRow
                 'make' => $row['make'] ?? null,
                 'model' => $row['model'] ?? null,
 
+
                 // Purchase Costs
                 'buying_fee' => $row['buying_fee'] ?? 0,
                 'towing_fee' => $row['towing_fee'] ?? 0,
                 'shipping' => $row['shipping'] ?? 0,
+
 
                 // Calculated Costs
                 'total_aed' => $row['total_aed'] ?? 0,
@@ -48,18 +111,22 @@ class PurchasesImport implements ToCollection, WithHeadingRow
                 'custom_duty' => $row['custom_duty'] ?? 0,
                 'grand_total' => $row['grand_total'] ?? 0,
 
+
                 // Sale Information
                 'selling_price' => $row['selling_price'] ?? 0,
                 'profit' => $row['profit'] ?? 0,
 
+
                 // Other Information
                 'bill_no' => $row['bill_no'] ?? null,
-                'date_of_arriving' => $row['date_of_arriving'] ?? null,
+                'date_of_arriving' => $dateOfArriving,
                 'location' => $row['location'] ?? null,
                 'customer_name' => $row['customer_name'] ?? null,
 
+
                 // Status
                 'status' => $row['status'] ?? 'Purchased',
+
 
                 // Description
                 'description' => $row['description'] ?? null,
