@@ -199,55 +199,71 @@ class PurchaseController extends Controller
     }
 
     public function UpdatePurchase(Request $request)
-{
-    $purchase = Purchase::findOrFail($request->id);
+    {
+        $purchase = Purchase::findOrFail($request->id);
 
-    // User
-    $purchase->user_id = $request->user_id;
+        // User
+        $purchase->user_id = $request->user_id;
 
-    // Vehicle Information
-    $purchase->buying_date = $request->buying_date;
-    $purchase->lot_number = $request->lot_number;
-    $purchase->vin = $request->vin;
-    $purchase->cylinder = $request->cylinder;
-    $purchase->color = $request->color;
-    $purchase->make = $request->make;
-    $purchase->model = $request->model;
+        // Vehicle Information
+        $purchase->buying_date = $request->buying_date;
+        $purchase->lot_number = $request->lot_number;
+        $purchase->vin = $request->vin;
+        $purchase->cylinder = $request->cylinder;
+        $purchase->color = $request->color;
+        $purchase->make = $request->make;
+        $purchase->model = $request->model;
 
-    // Purchase Costs
-    $purchase->buying_fee = $request->buying_fee ?? 0;
-    $purchase->towing_fee = $request->towing_fee ?? 0;
-    $purchase->shipping = $request->shipping ?? 0;
+        // Purchase Costs
+        $purchase->buying_fee = $request->buying_fee ?? 0;
+        $purchase->towing_fee = $request->towing_fee ?? 0;
+        $purchase->shipping = $request->shipping ?? 0;
 
-    // Calculated Costs
-    $purchase->total_aed = $request->total_aed ?? 0;
-    $purchase->clearing = $request->clearing ?? 0;
-    $purchase->extra_charges = $request->extra_charges ?? 0;
-    $purchase->custom_duty = $request->custom_duty ?? 0;
-    $purchase->grand_total = $request->grand_total ?? 0;
+        // Calculated Costs
+        $purchase->total_aed = $request->total_aed ?? 0;
+        $purchase->clearing = $request->clearing ?? 0;
+        $purchase->extra_charges = $request->extra_charges ?? 0;
+        $purchase->custom_duty = $request->custom_duty ?? 0;
+        $purchase->grand_total = $request->grand_total ?? 0;
 
-    // Purchase Information
-    $purchase->location = $request->location;
-    $purchase->status = $request->status;
-    $purchase->description = $request->description;
+        // Purchase Information
+        $purchase->location = $request->location;
+        $purchase->status = $request->status;
+        $purchase->description = $request->description;
 
-    // Sale Information
-    $purchase->selling_price = $request->selling_price ?? 0;
-    $purchase->profit = $request->profit ?? 0;
-    $purchase->bill_no = $request->bill_no;
-    $purchase->date_of_arriving = $request->date_of_arriving;
-    $purchase->customer_name = $request->customer_name;
+        // Sale Information
+        $purchase->selling_price = $request->selling_price ?? 0;
+        $purchase->profit = $request->profit ?? 0;
+        $purchase->bill_no = $request->bill_no;
+        $purchase->date_of_arriving = $request->date_of_arriving;
+        $purchase->customer_name = $request->customer_name;
 
-    // Save
-    $purchase->save();
+        // Save
+        $purchase->save();
 
-    $notification = [
-        'message' => 'Purchase Updated Successfully',
-        'alert-type' => 'success'
-    ];
+        $notification = [
+            'message' => 'Purchase Updated Successfully',
+            'alert-type' => 'success'
+        ];
 
-    return redirect()
-        ->route('all.purchases')
-        ->with($notification);
-}
+        return redirect()
+            ->route('all.purchases')
+            ->with($notification);
+    }
+
+    public function DeletePurchase(int $id)
+    {
+        $purchase = Purchase::findOrFail($id);
+
+        $purchase->delete();
+
+        $notification = [
+            'message' => 'Purchase Deleted Successfully',
+            'alert-type' => 'success'
+        ];
+
+        return redirect()
+            ->route('all.purchases')
+            ->with($notification);
+    }
 }

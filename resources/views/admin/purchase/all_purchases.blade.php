@@ -58,7 +58,7 @@
                                     <td>
                                         <a href="{{ route('edit.purchase', $item->id) }}"
                                             class="btn btn-primary px-4">Edit</a>
-                                        <a href="{{ route('delete.user.capital', $item->id) }}" id="delete"
+                                        <a href="{{ route('delete.purchase', $item->id) }}" id="delete"
                                             class="btn btn-danger px-4">Delete</a>
                                         @if ($item->status != 'Sold')
                                             <a href="{{ route('sale.purchase', $item->id) }}" class="btn btn-success px-4">
