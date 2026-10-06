@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
 use App\Models\User;
+use App\Exports\PurchasesExport;
+use App\Imports\PurchasesImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -266,4 +269,14 @@ class PurchaseController extends Controller
             ->route('all.purchases')
             ->with($notification);
     }
+
+    ///the export function
+    public function ExportPurchases()
+{
+    return Excel::download(
+        new PurchasesExport,
+        'purchases.xlsx'
+    );
+}
+
 }
