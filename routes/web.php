@@ -99,8 +99,8 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::post('/sale/purchase/{id}', 'StoreSale')
         ->name('store.sale');
 
-    // Route::post('/update/purchase', 'UpdatePurchase')
-    //     ->name('update.purchase');
+    Route::post('/update/purchase', 'UpdatePurchase')
+        ->name('update.purchase');
 
     // Route::get('/delete/purchase/{id}', 'DeletePurchase')
     //     ->name('delete.purchase');

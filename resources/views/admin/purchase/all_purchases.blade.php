@@ -56,7 +56,7 @@
                                     <td>{{ $item->profit }}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>
-                                        <a href="{{ route('edit.user.capital', $item->id) }}"
+                                        <a href="{{ route('edit.purchase', $item->id) }}"
                                             class="btn btn-primary px-4">Edit</a>
                                         <a href="{{ route('delete.user.capital', $item->id) }}" id="delete"
                                             class="btn btn-danger px-4">Delete</a>
