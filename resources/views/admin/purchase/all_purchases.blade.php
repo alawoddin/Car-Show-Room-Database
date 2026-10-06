@@ -56,8 +56,19 @@
                                     <td>{{ $item->profit }}</td>
                                     <td>{{ $item->status }}</td>
                                     <td>
-                                        <a href="{{ route('edit.user.capital', $item->id) }}" class="btn btn-primary px-4">Edit</a>
-                                        <a href="{{ route('delete.user.capital', $item->id) }}" id="delete" class="btn btn-danger px-4">Delete</a>
+                                        <a href="{{ route('edit.user.capital', $item->id) }}"
+                                            class="btn btn-primary px-4">Edit</a>
+                                        <a href="{{ route('delete.user.capital', $item->id) }}" id="delete"
+                                            class="btn btn-danger px-4">Delete</a>
+                                        @if ($item->status != 'Sold')
+                                            <a href="{{ route('sale.purchase', $item->id) }}" class="btn btn-success px-4">
+                                                Sale
+                                            </a>
+                                        @else
+                                            <span class="badge bg-success">
+                                                Sold
+                                            </span>
+                                        @endif
                                     </td>
 
                                 </tr>

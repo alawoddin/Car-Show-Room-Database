@@ -77,14 +77,35 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::get('/delete/user/capital/{id}','DeleteUserCapital')->name('delete.user.capital');
     });
 
-    Route::controller(PurchaseController::class)->group(function(){
-        Route::get('/all/purchases','AllPurchases')->name('all.purchases');
-        Route::get('/add/purchase','AddPurchase')->name('add.purchase');
-        Route::post('/store/purchase','StorePurchase')->name('store.purchase');
-        Route::get('/edit/purchase/{id}','EditPurchase')->name('edit.purchase');
-        Route::post('/update/purchase','UpdatePurchase')->name('update.purchase');
-        Route::get('/delete/purchase/{id}','DeletePurchase')->name('delete.purchase');
-    });
+   Route::controller(PurchaseController::class)->group(function () {
+
+    Route::get('/all/purchases', 'AllPurchases')
+        ->name('all.purchases');
+
+    Route::get('/add/purchase', 'AddPurchase')
+        ->name('add.purchase');
+
+    Route::post('/store/purchase', 'StorePurchase')
+        ->name('store.purchase');
+
+    Route::get('/edit/purchase/{id}', 'EditPurchase')
+        ->name('edit.purchase');
+
+    // Open Sale form from Purchase
+    Route::get('/sale/purchase/{id}', 'SalePurchase')
+        ->name('sale.purchase');
+
+    // Store Sale information
+    Route::post('/sale/purchase/{id}', 'StoreSale')
+        ->name('store.sale');
+
+    // Route::post('/update/purchase', 'UpdatePurchase')
+    //     ->name('update.purchase');
+
+    // Route::get('/delete/purchase/{id}', 'DeletePurchase')
+    //     ->name('delete.purchase');
+
+});
 
 
 

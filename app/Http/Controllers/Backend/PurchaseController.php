@@ -22,53 +22,173 @@ class PurchaseController extends Controller
 
         return view('admin.purchase.add_purchase', compact('users'));
     }
+    // =========================================================
+// Store Purchase
+// =========================================================
 
-    public function StorePurchase(Request $request)
-    {
-        Purchase::create([
-            'user_id' => $request->user_id,
-            'buying_date' => $request->buying_date,
-            'lot_number' => $request->lot_number,
-            'vin' => $request->vin,
-            'cylinder' => $request->cylinder,
-            'color' => $request->color,
-            'make' => $request->make,
-            'model' => $request->model,
+public function StorePurchase(Request $request)
+{
+    Purchase::create([
 
-            'buying_fee' => $request->buying_fee ?? 0,
-            'towing_fee' => $request->towing_fee ?? 0,
-            'shipping' => $request->shipping ?? 0,
+        // =========================
+        // User
+        // =========================
+        'user_id' => $request->user_id,
 
-            'total_aed' => $request->total_aed ?? 0,
+        // =========================
+        // Vehicle Information
+        // =========================
+        'buying_date' => $request->buying_date,
+        'lot_number' => $request->lot_number,
+        'vin' => $request->vin,
+        'cylinder' => $request->cylinder,
+        'color' => $request->color,
+        'make' => $request->make,
+        'model' => $request->model,
 
-            'clearing' => $request->clearing ?? 0,
-            'extra_charges' => $request->extra_charges ?? 0,
-            'custom_duty' => $request->custom_duty ?? 0,
+        // =========================
+        // Purchase Costs
+        // =========================
+        'buying_fee' => $request->buying_fee ?? 0,
+        'towing_fee' => $request->towing_fee ?? 0,
+        'shipping' => $request->shipping ?? 0,
 
-            'grand_total' => $request->grand_total ?? 0,
+        // =========================
+        // Calculated Costs
+        // =========================
+        'total_aed' => $request->total_aed ?? 0,
+        'clearing' => $request->clearing ?? 0,
+        'extra_charges' => $request->extra_charges ?? 0,
+        'custom_duty' => $request->custom_duty ?? 0,
+        'grand_total' => $request->grand_total ?? 0,
 
-            'selling_price' => $request->selling_price ?? 0,
-            'profit' => $request->profit ?? 0,
+        // =========================
+        // Purchase Information
+        // =========================
+        'location' => $request->location,
 
-            'bill_no' => $request->bill_no,
-            'date_of_arriving' => $request->date_of_arriving,
-            'location' => $request->location,
-            'customer_name' => $request->customer_name,
+        // Admin selects the status
+        'status' => $request->status ?? 'Purchased',
 
-            'status' => $request->status ?? 'Purchased',
+        'description' => $request->description,
 
-            'description' => $request->description,
-        ]);
-
-        $notification = array(
-                'message' => 'Purchase Added Successfully',
-                'alert-type' => 'success'
-            );
-
-        return redirect()->route('all.purchases')->with($notification);
-
+        // =========================
+        // Sale Information
+        // Empty until vehicle is sold
+        // =========================
+        'selling_price' => 0,
+        'profit' => 0,
+        'bill_no' => null,
+        'date_of_arriving' => null,
+        'customer_name' => null,
+    ]);
 
 
-        
-    }
+    // Notification
+    $notification = [
+        'message' => 'Purchase Added Successfully',
+        'alert-type' => 'success',
+    ];
+
+
+    return redirect()
+        ->route('all.purchases')
+        ->with($notification);
+}
+
+
+// =========================================================
+// Open Sale Page
+// =========================================================
+
+public function SalePurchase(int $id)
+{
+    // Find existing purchase
+    $purchase = Purchase::findOrFail($id);
+
+    // Get users
+    $users = User::where('role', 'user')->get();
+
+
+    return view(
+        'admin.purchase.add_purchase',
+        compact(
+            'purchase',
+            'users'
+        )
+    );
+}
+
+
+// =========================================================
+// Store Sale Information
+// =========================================================
+
+public function StoreSale(Request $request, int $id)
+{
+    // Find the existing purchase
+    $purchase = Purchase::findOrFail($id);
+
+
+    // =========================
+    // Sale Information
+    // =========================
+
+    $purchase->selling_price = $request->selling_price ?? 0;
+
+    $purchase->profit = $request->profit ?? 0;
+
+    $purchase->bill_no = $request->bill_no;
+
+    $purchase->date_of_arriving = $request->date_of_arriving;
+
+    $purchase->customer_name = $request->customer_name;
+
+
+    // =========================
+    // Status
+    // =========================
+
+    // IMPORTANT:
+    // Do NOT use:
+    //
+    // $purchase->status = 'Sold';
+    //
+    // Instead, save the status selected
+    // by the admin from the Sale form.
+
+    $purchase->status = $request->status;
+
+
+    // =========================
+    // Description
+    // =========================
+
+    $purchase->description = $request->description;
+
+
+    // =========================
+    // Save
+    // =========================
+
+    $purchase->save();
+
+
+    // =========================
+    // Notification
+    // =========================
+
+    $notification = [
+        'message' => 'Sale Information Updated Successfully',
+        'alert-type' => 'success',
+    ];
+
+
+    return redirect()
+        ->route('all.purchases')
+        ->with($notification);
+}
+
+  
+
 }
