@@ -277,6 +277,25 @@ class PurchaseController extends Controller
         new PurchasesExport,
         'purchases.xlsx'
     );
+}   
+
+    public function ImportPurchases(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:xlsx,xls,csv',
+    ]);
+
+    Excel::import(
+        new PurchasesImport,
+        $request->file('file')
+    );
+
+    return redirect()
+        ->route('all.purchases')
+        ->with([
+            'message' => 'Purchases Imported Successfully',
+            'alert-type' => 'success',
+        ]);
 }
 
 }

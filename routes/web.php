@@ -105,6 +105,18 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
     Route::get('/delete/purchase/{id}', 'DeletePurchase')
         ->name('delete.purchase');
 
+          // ==============================
+    // Excel
+    // ==============================
+
+    Route::get('/purchases/export', 'ExportPurchases')
+        ->name('purchases.export');
+
+    Route::post('/purchases/import', 'ImportPurchases')
+        ->name('purchases.import');
+
+        
+
 });
 
 
