@@ -92,8 +92,9 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::post('/purchases/import', 'ImportPurchases')->name('purchases.import');
         });
 
-         Route::controller(VehicleController::class)->group(function () {
+        Route::controller(VehicleController::class)->group(function () {
             Route::get('/vehicle/status', 'VehicleStatus')->name('vehicle.status');
+            Route::post('/vehicle/status/update/{id}', 'UpdateVehicleStatus')->name('vehicle.status.update');
             
         });
 

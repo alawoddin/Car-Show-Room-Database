@@ -69,11 +69,52 @@
 
                                     <td>
 
-                                        <span class="badge bg-primary">
-                                            {{ $vehicle->status }}
-                                        </span>
+                                        <form action="{{ route('vehicle.status.update', $vehicle->id) }}" method="POST">
+
+                                            @csrf
+
+                                            <select name="status" class="form-select form-select-sm"
+                                                onchange="this.form.submit()">
+
+                                                <option value="Purchased"
+                                                    {{ $vehicle->status == 'Purchased' ? 'selected' : '' }}>
+                                                    Purchased
+                                                </option>
+
+                                                <option value="Loaded" {{ $vehicle->status == 'Loaded' ? 'selected' : '' }}>
+                                                    Loaded
+                                                </option>
+
+                                                <option value="Shipped"
+                                                    {{ $vehicle->status == 'Shipped' ? 'selected' : '' }}>
+                                                    Shipped
+                                                </option>
+
+                                                <option value="Delivered"
+                                                    {{ $vehicle->status == 'Delivered' ? 'selected' : '' }}>
+                                                    Delivered
+                                                </option>
+
+                                                <option value="On Hand"
+                                                    {{ $vehicle->status == 'On Hand' ? 'selected' : '' }}>
+                                                    On Hand
+                                                </option>
+
+                                                <option value="At UAE"
+                                                    {{ $vehicle->status == 'At UAE' ? 'selected' : '' }}>
+                                                    At UAE
+                                                </option>
+
+                                                <option value="Sold" {{ $vehicle->status == 'Sold' ? 'selected' : '' }}>
+                                                    Sold
+                                                </option>
+
+                                            </select>
+
+                                        </form>
 
                                     </td>
+
 
                                     <td>
 
