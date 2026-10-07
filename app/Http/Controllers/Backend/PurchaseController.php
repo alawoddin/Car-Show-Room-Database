@@ -48,6 +48,7 @@ class PurchaseController extends Controller
             'color' => $request->color,
             'make' => $request->make,
             'model' => $request->model,
+            'shipping_company' => $request->shipping_company,
 
             // =========================
             // Purchase Costs
@@ -216,6 +217,7 @@ class PurchaseController extends Controller
         $purchase->color = $request->color;
         $purchase->make = $request->make;
         $purchase->model = $request->model;
+        $purchase->shipping_company = $request->shipping_company;
 
         // Purchase Costs
         $purchase->buying_fee = $request->buying_fee ?? 0;

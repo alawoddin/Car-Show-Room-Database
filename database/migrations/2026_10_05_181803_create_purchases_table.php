@@ -42,6 +42,7 @@ return new class extends Migration
         // Sale Information
         $table->decimal('selling_price', 15, 2)->default(0);
         $table->decimal('profit', 15, 2)->default(0);
+        $table->string('shipping_company')->nullable();
 
         // Other Information
         $table->string('bill_no')->nullable();

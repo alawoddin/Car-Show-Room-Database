@@ -386,6 +386,29 @@
 
                     </div>
 
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="shipping_company" class="form-label">
+                            Shipping Company
+                        </label>
+
+                        <input
+                            type="text"
+                            name="shipping_company"
+                            id="shipping_company"
+                            class="form-control"
+                            value="{{ $purchase->shipping_company ?? '' }}"
+                            >
+
+                    </div>
+
+
+                </div>
+                           
+
+                    </div>
+
+
                 </div>
 
 

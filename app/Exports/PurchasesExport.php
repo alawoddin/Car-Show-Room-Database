@@ -25,6 +25,7 @@ class PurchasesExport implements FromCollection, WithHeadings
                 $purchase->color,
                 $purchase->make,
                 $purchase->model,
+                $purchase->shipping_company,
 
                 $purchase->buying_fee,
                 $purchase->towing_fee,
@@ -67,6 +68,7 @@ class PurchasesExport implements FromCollection, WithHeadings
             'Color',
             'Make',
             'Model',
+            'Shipping Company',
 
             'Buying Fee',
             'Towing Fee',
