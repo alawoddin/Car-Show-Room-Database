@@ -76,13 +76,13 @@
 
                         <td>
 
-                            {{-- <a href="{{ route('client.vehicle.view', $vehicle->id) }}"
+                            <a href="{{ route('client.vehicle.view', $vehicle->id) }}"
                                class="btn theme-btn btn-sm">
 
                                 <i class="la la-eye"></i>
                                 View
 
-                            </a> --}}
+                            </a>
 
                         </td>
 

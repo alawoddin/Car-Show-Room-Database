@@ -30,6 +30,7 @@ Route::middleware(['auth', IsUser::class])->group(function () {
 
       Route::controller(ClientVehicleController::class)->group(function () {
             Route::get('/my-vehicles', 'MyVehicles')->name('client.vehicles');
+            Route::get('/my-vehicles/{id}', 'MyVehiclesView')->name('client.vehicle.view');
             
         });
 

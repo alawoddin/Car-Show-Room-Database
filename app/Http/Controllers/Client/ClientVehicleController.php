@@ -16,4 +16,12 @@ class ClientVehicleController extends Controller
 
         return view('client.vehicles.all_vehicles', compact('vehicles'));
     }
+
+    public function MyVehiclesView(int $id) {
+         $vehicle = Purchase::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        return view('client.vehicles.vehicles_details', compact('vehicle'));
+    }
 }
