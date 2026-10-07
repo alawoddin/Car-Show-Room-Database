@@ -7,35 +7,42 @@
     {{-- =========================
         Breadcrumb
     ========================== --}}
+
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
 
         <div class="ps-3">
+
             <nav aria-label="breadcrumb">
 
                 <ol class="breadcrumb mb-0 p-0">
 
                     <li class="breadcrumb-item">
+
                         <a href="javascript:;">
                             <i class="bx bx-home-alt"></i>
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item">
+
                         <a href="{{ route('vehicle.status') }}">
                             Vehicle Status
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item active">
+
                         Vehicle Invoice
+
                     </li>
 
                 </ol>
 
             </nav>
-        </div>
 
-      
+        </div>
 
     </div>
 
@@ -43,6 +50,7 @@
     {{-- =========================
         Invoice Card
     ========================== --}}
+
     <div class="card invoice-card">
 
         <div class="card-body p-5">
@@ -51,6 +59,7 @@
             {{-- =========================
                 Invoice Header
             ========================== --}}
+
             <div class="row align-items-center mb-4">
 
                 <div class="col-md-6">
@@ -77,13 +86,23 @@
                     </h3>
 
                     <p class="mb-1">
-                        <strong>Invoice ID:</strong>
+
+                        <strong>
+                            Invoice ID:
+                        </strong>
+
                         #{{ $vehicle->id }}
+
                     </p>
 
                     <p class="mb-0">
-                        <strong>Date:</strong>
+
+                        <strong>
+                            Date:
+                        </strong>
+
                         {{ $vehicle->created_at?->format('Y-m-d') }}
+
                     </p>
 
                 </div>
@@ -97,11 +116,15 @@
             {{-- =========================
                 Vehicle Information
             ========================== --}}
+
             <div class="section-title">
 
                 <h5 class="fw-bold mb-3">
+
                     <i class="bx bx-car"></i>
+
                     Vehicle Information
+
                 </h5>
 
             </div>
@@ -110,6 +133,7 @@
             <div class="row mb-4">
 
                 {{-- User --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -117,13 +141,16 @@
                     </small>
 
                     <div class="fw-bold">
+
                         {{ $vehicle->user->name ?? 'Demo' }}
+
                     </div>
 
                 </div>
 
 
                 {{-- VIN --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -131,13 +158,16 @@
                     </small>
 
                     <div class="fw-bold">
+
                         {{ $vehicle->vin }}
+
                     </div>
 
                 </div>
 
 
                 {{-- Make --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -145,13 +175,16 @@
                     </small>
 
                     <div class="fw-bold">
+
                         {{ $vehicle->make }}
+
                     </div>
 
                 </div>
 
 
                 {{-- Model --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -159,13 +192,16 @@
                     </small>
 
                     <div class="fw-bold">
+
                         {{ $vehicle->model }}
+
                     </div>
 
                 </div>
 
 
                 {{-- Color --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -173,13 +209,16 @@
                     </small>
 
                     <div>
+
                         {{ $vehicle->color ?? '-' }}
+
                     </div>
 
                 </div>
 
 
                 {{-- Cylinder --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -187,13 +226,16 @@
                     </small>
 
                     <div>
+
                         {{ $vehicle->cylinder ?? '-' }}
+
                     </div>
 
                 </div>
 
 
                 {{-- Lot Number --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -201,13 +243,16 @@
                     </small>
 
                     <div>
+
                         {{ $vehicle->lot_number ?? '-' }}
+
                     </div>
 
                 </div>
 
 
                 {{-- Location --}}
+
                 <div class="col-md-3 mb-3">
 
                     <small class="text-muted">
@@ -215,7 +260,9 @@
                     </small>
 
                     <div>
+
                         {{ $vehicle->location ?? '-' }}
+
                     </div>
 
                 </div>
@@ -226,11 +273,15 @@
             {{-- =========================
                 Purchase Information
             ========================== --}}
+
             <div class="section-title">
 
                 <h5 class="fw-bold mb-3">
+
                     <i class="bx bx-cart"></i>
+
                     Purchase Information
+
                 </h5>
 
             </div>
@@ -242,7 +293,9 @@
 
                     <tbody>
 
+
                         {{-- Buying Date / Buying Fee --}}
+
                         <tr>
 
                             <th width="25%">
@@ -250,21 +303,27 @@
                             </th>
 
                             <td>
+
                                 {{ $vehicle->buying_date ?? '-' }}
+
                             </td>
+
 
                             <th width="25%">
                                 Buying Fee
                             </th>
 
                             <td>
+
                                 ${{ number_format($vehicle->buying_fee ?? 0, 2) }}
+
                             </td>
 
                         </tr>
 
 
                         {{-- Towing / Shipping --}}
+
                         <tr>
 
                             <th>
@@ -272,35 +331,55 @@
                             </th>
 
                             <td>
+
                                 ${{ number_format($vehicle->towing_fee ?? 0, 2) }}
+
                             </td>
+
 
                             <th>
                                 Shipping
                             </th>
 
                             <td>
+
                                 ${{ number_format($vehicle->shipping ?? 0, 2) }}
+
                             </td>
 
                         </tr>
 
 
-                        {{-- Shipping Company --}}
+                        {{-- Commission --}}
+
                         <tr>
+
+                            <th>
+                                Commission
+                            </th>
+
+                            <td>
+
+                                ${{ number_format($vehicle->commission ?? 0, 2) }}
+
+                            </td>
+
 
                             <th>
                                 Shipping Company
                             </th>
 
-                            <td colspan="3">
+                            <td>
+
                                 {{ $vehicle->shipping_company ?? '-' }}
+
                             </td>
 
                         </tr>
 
 
                         {{-- Total AED --}}
+
                         <tr class="total-row">
 
                             <th>
@@ -310,13 +389,16 @@
                             <td colspan="3">
 
                                 <strong>
+
                                     AED
                                     {{ number_format($vehicle->total_aed ?? 0, 2) }}
+
                                 </strong>
 
                             </td>
 
                         </tr>
+
 
                     </tbody>
 
@@ -328,11 +410,15 @@
             {{-- =========================
                 Additional Costs
             ========================== --}}
+
             <div class="section-title">
 
                 <h5 class="fw-bold mb-3">
+
                     <i class="bx bx-calculator"></i>
+
                     Additional Costs
+
                 </h5>
 
             </div>
@@ -344,6 +430,7 @@
 
                     <tbody>
 
+
                         <tr>
 
                             <th width="25%">
@@ -351,17 +438,22 @@
                             </th>
 
                             <td>
+
                                 AED
                                 {{ number_format($vehicle->clearing ?? 0, 2) }}
+
                             </td>
+
 
                             <th width="25%">
                                 Extra Charges
                             </th>
 
                             <td>
+
                                 AED
                                 {{ number_format($vehicle->extra_charges ?? 0, 2) }}
+
                             </td>
 
                         </tr>
@@ -374,9 +466,12 @@
                             </th>
 
                             <td>
+
                                 AED
                                 {{ number_format($vehicle->custom_duty ?? 0, 2) }}
+
                             </td>
+
 
                             <th>
                                 Grand Total
@@ -391,6 +486,7 @@
 
                         </tr>
 
+
                     </tbody>
 
                 </table>
@@ -401,11 +497,15 @@
             {{-- =========================
                 Sale Information
             ========================== --}}
+
             <div class="section-title">
 
                 <h5 class="fw-bold mb-3">
+
                     <i class="bx bx-money"></i>
+
                     Sale Information
+
                 </h5>
 
             </div>
@@ -417,7 +517,9 @@
 
                     <tbody>
 
+
                         {{-- Selling Price / Profit --}}
+
                         <tr>
 
                             <th width="25%">
@@ -425,9 +527,12 @@
                             </th>
 
                             <td>
+
                                 AED
                                 {{ number_format($vehicle->selling_price ?? 0, 2) }}
+
                             </td>
+
 
                             <th width="25%">
                                 Profit
@@ -436,8 +541,10 @@
                             <td>
 
                                 <strong>
+
                                     AED
                                     {{ number_format($vehicle->profit ?? 0, 2) }}
+
                                 </strong>
 
                             </td>
@@ -446,6 +553,7 @@
 
 
                         {{-- Bill / Customer --}}
+
                         <tr>
 
                             <th>
@@ -453,21 +561,27 @@
                             </th>
 
                             <td>
+
                                 {{ $vehicle->bill_no ?? '-' }}
+
                             </td>
+
 
                             <th>
                                 Customer Name
                             </th>
 
                             <td>
+
                                 {{ $vehicle->customer_name ?? '-' }}
+
                             </td>
 
                         </tr>
 
 
                         {{-- Arrival / Status --}}
+
                         <tr>
 
                             <th>
@@ -475,8 +589,11 @@
                             </th>
 
                             <td>
+
                                 {{ $vehicle->date_of_arriving ?? '-' }}
+
                             </td>
+
 
                             <th>
                                 Status
@@ -519,6 +636,7 @@
 
                         </tr>
 
+
                     </tbody>
 
                 </table>
@@ -529,11 +647,15 @@
             {{-- =========================
                 Description
             ========================== --}}
+
             <div class="section-title">
 
                 <h5 class="fw-bold mb-3">
+
                     <i class="bx bx-note"></i>
+
                     Description
+
                 </h5>
 
             </div>
@@ -549,19 +671,25 @@
             {{-- =========================
                 Invoice Footer
             ========================== --}}
+
             <hr>
+
 
             <div class="row mt-4">
 
                 <div class="col-md-7">
 
                     <h6 class="fw-bold">
+
                         Thank you for your business.
+
                     </h6>
 
                     <p class="text-muted mb-0">
+
                         This invoice was generated by
                         Car Show Room Management System.
+
                     </p>
 
                 </div>
@@ -578,6 +706,7 @@
                         {{ $vehicle->vin }}
 
                     </p>
+
 
                     <p class="mb-0">
 
@@ -604,6 +733,7 @@
 {{-- =====================================================
      INVOICE STYLE
 ====================================================== --}}
+
 <style>
 
 .invoice-card {

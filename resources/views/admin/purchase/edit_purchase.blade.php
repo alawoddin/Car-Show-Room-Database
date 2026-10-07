@@ -5,7 +5,7 @@
 <div class="page-content">
 
     {{-- =====================================================
-        PAGE BREADCRUMB
+        BREADCRUMB
     ====================================================== --}}
 
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
@@ -24,10 +24,8 @@
 
                     </li>
 
-                    <li class="breadcrumb-item active">
-
+                    <li class="breadcrumb-item active" aria-current="page">
                         Edit Purchase
-
                     </li>
 
                 </ol>
@@ -76,7 +74,6 @@
                 <h6 class="mb-3">
                     User Information
                 </h6>
-
 
                 <div class="row">
 
@@ -141,7 +138,6 @@
                 <h6 class="mt-4 mb-3">
                     Vehicle Information
                 </h6>
-
 
                 <div class="row">
 
@@ -267,7 +263,6 @@
                     Purchase Cost
                 </h6>
 
-
                 <div class="row">
 
                     {{-- BUYING FEE --}}
@@ -341,7 +336,8 @@
                             name="commission"
                             id="commission"
                             class="form-control"
-                            value="{{ $purchase->commission ?? 0 }}">
+                            value="{{ $purchase->commission ?? 0 }}"
+                            placeholder="Enter commission">
 
                     </div>
 
@@ -349,19 +345,14 @@
 
 
                 {{-- =====================================================
-                    UAE COSTS
+                    TOTAL AED / SHIPPING COMPANY
                 ====================================================== --}}
-
-                <h6 class="mt-4 mb-3">
-                    UAE Costs
-                </h6>
-
 
                 <div class="row">
 
                     {{-- TOTAL AED --}}
 
-                    <div class="form-group col-md-3 mb-3">
+                    <div class="form-group col-md-6 mb-3">
 
                         <label for="total_aed" class="form-label">
                             Total AED
@@ -379,9 +370,40 @@
                     </div>
 
 
+                    {{-- SHIPPING COMPANY --}}
+
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="shipping_company" class="form-label">
+                            Shipping Company
+                        </label>
+
+                        <input
+                            type="text"
+                            name="shipping_company"
+                            id="shipping_company"
+                            class="form-control"
+                            value="{{ $purchase->shipping_company ?? '' }}"
+                            placeholder="Enter shipping company">
+
+                    </div>
+
+                </div>
+
+
+                {{-- =====================================================
+                    UAE COSTS
+                ====================================================== --}}
+
+                <h6 class="mt-4 mb-3">
+                    UAE Costs
+                </h6>
+
+                <div class="row">
+
                     {{-- CLEARING --}}
 
-                    <div class="form-group col-md-3 mb-3">
+                    <div class="form-group col-md-4 mb-3">
 
                         <label for="clearing" class="form-label">
                             Clearing
@@ -400,7 +422,7 @@
 
                     {{-- EXTRA CHARGES --}}
 
-                    <div class="form-group col-md-3 mb-3">
+                    <div class="form-group col-md-4 mb-3">
 
                         <label for="extra_charges" class="form-label">
                             Extra Charges
@@ -419,7 +441,7 @@
 
                     {{-- CUSTOM DUTY --}}
 
-                    <div class="form-group col-md-3 mb-3">
+                    <div class="form-group col-md-4 mb-3">
 
                         <label for="custom_duty" class="form-label">
                             Custom Duty
@@ -445,9 +467,7 @@
 
                 <div class="row">
 
-                    {{-- GRAND TOTAL --}}
-
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-6 mb-3">
 
                         <label for="grand_total" class="form-label">
                             Grand Total
@@ -464,24 +484,6 @@
 
                     </div>
 
-
-                    {{-- SHIPPING COMPANY --}}
-
-                    <div class="form-group col-md-4 mb-3">
-
-                        <label for="shipping_company" class="form-label">
-                            Shipping Company
-                        </label>
-
-                        <input
-                            type="text"
-                            name="shipping_company"
-                            id="shipping_company"
-                            class="form-control"
-                            value="{{ $purchase->shipping_company ?? '' }}">
-
-                    </div>
-
                 </div>
 
 
@@ -492,7 +494,6 @@
                 <h6 class="mt-4 mb-3">
                     Purchase Information
                 </h6>
-
 
                 <div class="row">
 
@@ -589,7 +590,6 @@
                 <h5 class="mb-4">
                     Sale Information
                 </h5>
-
 
                 <div class="row">
 
@@ -731,7 +731,6 @@
 
                         </button>
 
-
                         <a
                             href="{{ route('all.purchases') }}"
                             class="btn btn-light px-4">
@@ -754,40 +753,57 @@
 
 
 {{-- =====================================================
-    JAVASCRIPT CALCULATION
+     JAVASCRIPT
 ====================================================== --}}
 
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const buyingFee = document.getElementById('buying_fee');
+    const buyingFee =
+        document.getElementById('buying_fee');
 
-    const towingFee = document.getElementById('towing_fee');
+    const towingFee =
+        document.getElementById('towing_fee');
 
-    const shipping = document.getElementById('shipping');
+    const shipping =
+        document.getElementById('shipping');
 
-    const commission = document.getElementById('commission');
+    const commission =
+        document.getElementById('commission');
 
-    const totalAed = document.getElementById('total_aed');
+    const totalAed =
+        document.getElementById('total_aed');
 
-    const clearing = document.getElementById('clearing');
+    const clearing =
+        document.getElementById('clearing');
 
-    const extraCharges = document.getElementById('extra_charges');
+    const extraCharges =
+        document.getElementById('extra_charges');
 
-    const customDuty = document.getElementById('custom_duty');
+    const customDuty =
+        document.getElementById('custom_duty');
 
-    const grandTotal = document.getElementById('grand_total');
+    const grandTotal =
+        document.getElementById('grand_total');
 
-    const sellingPrice = document.getElementById('selling_price');
+    const sellingPrice =
+        document.getElementById('selling_price');
 
-    const profit = document.getElementById('profit');
+    const profit =
+        document.getElementById('profit');
 
 
-    // Exchange Rate
+    // ==========================================
+    // USD TO AED EXCHANGE RATE
+    // ==========================================
 
     const exchangeRate = 3.675;
 
+
+    // ==========================================
+    // CONVERT VALUE TO NUMBER
+    // ==========================================
 
     function number(value)
     {
@@ -795,33 +811,44 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    // ==========================================
+    // CALCULATE PURCHASE
+    // ==========================================
+
     function calculatePurchase()
     {
 
-        const buying = number(
-            buyingFee.value
-        );
+        // -------------------------------
+        // Purchase costs
+        // -------------------------------
+
+        const buying =
+            number(buyingFee.value);
+
+        const towing =
+            number(towingFee.value);
+
+        const ship =
+            number(shipping.value);
+
+        const commissionValue =
+            number(commission.value);
 
 
-        const towing = number(
-            towingFee.value
-        );
+        // -------------------------------
+        // Other UAE costs
+        // -------------------------------
+
+        const clearingValue =
+            number(clearing.value);
+
+        const extraChargesValue =
+            number(extraCharges.value);
 
 
-        const ship = number(
-            shipping.value
-        );
-
-
-        const commissionValue = number(
-            commission.value
-        );
-
-
-        // =========================================
+        // ==========================================
         // TOTAL USD
-        // Buying + Towing + Shipping + Commission
-        // =========================================
+        // ==========================================
 
         const totalUsd =
             buying +
@@ -830,43 +857,33 @@ document.addEventListener('DOMContentLoaded', function () {
             commissionValue;
 
 
-        // =========================================
+        // ==========================================
         // USD → AED
-        // =========================================
+        // ==========================================
 
         const aed =
-            totalUsd *
-            exchangeRate;
+            totalUsd * exchangeRate;
 
 
         totalAed.value =
             aed.toFixed(2);
 
 
-        // =========================================
+        // ==========================================
         // CUSTOM DUTY
-        // =========================================
+        // ==========================================
 
         const duty =
-            (aed + 1472) *
-            0.055;
+            (aed + 1472) * 0.055;
 
 
         customDuty.value =
             duty.toFixed(2);
 
 
-        // =========================================
+        // ==========================================
         // GRAND TOTAL
-        // =========================================
-
-        const clearingValue =
-            number(clearing.value);
-
-
-        const extraChargesValue =
-            number(extraCharges.value);
-
+        // ==========================================
 
         const grand =
             aed +
@@ -879,17 +896,16 @@ document.addEventListener('DOMContentLoaded', function () {
             grand.toFixed(2);
 
 
-        // =========================================
+        // ==========================================
         // PROFIT
-        // =========================================
+        // ==========================================
 
         const selling =
             number(sellingPrice.value);
 
 
         const calculatedProfit =
-            selling -
-            grand;
+            selling - grand;
 
 
         profit.value =
@@ -898,9 +914,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // =========================================
-    // EVENTS
-    // =========================================
+    // ==========================================
+    // INPUT EVENTS
+    // ==========================================
 
     buyingFee.addEventListener(
         'input',
@@ -944,7 +960,9 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
 
-    // Calculate when page loads
+    // ==========================================
+    // CALCULATE WHEN PAGE LOADS
+    // ==========================================
 
     calculatePurchase();
 
