@@ -17,13 +17,17 @@
                 <ol class="breadcrumb mb-0 p-0">
 
                     <li class="breadcrumb-item">
+
                         <a href="javascript:;">
                             <i class="bx bx-home-alt"></i>
                         </a>
+
                     </li>
 
                     <li class="breadcrumb-item active">
+
                         Edit Purchase
+
                     </li>
 
                 </ol>
@@ -268,7 +272,7 @@
 
                     {{-- BUYING FEE --}}
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-3 mb-3">
 
                         <label for="buying_fee" class="form-label">
                             Buying Fee
@@ -287,7 +291,7 @@
 
                     {{-- TOWING FEE --}}
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-3 mb-3">
 
                         <label for="towing_fee" class="form-label">
                             Towing Fee
@@ -306,7 +310,7 @@
 
                     {{-- SHIPPING --}}
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-3 mb-3">
 
                         <label for="shipping" class="form-label">
                             Shipping
@@ -319,6 +323,25 @@
                             id="shipping"
                             class="form-control"
                             value="{{ $purchase->shipping }}">
+
+                    </div>
+
+
+                    {{-- COMMISSION --}}
+
+                    <div class="form-group col-md-3 mb-3">
+
+                        <label for="commission" class="form-label">
+                            Commission
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="commission"
+                            id="commission"
+                            class="form-control"
+                            value="{{ $purchase->commission ?? 0 }}">
 
                     </div>
 
@@ -416,9 +439,13 @@
                 </div>
 
 
-                {{-- GRAND TOTAL --}}
+                {{-- =====================================================
+                    GRAND TOTAL
+                ====================================================== --}}
 
                 <div class="row">
+
+                    {{-- GRAND TOTAL --}}
 
                     <div class="form-group col-md-4 mb-3">
 
@@ -437,41 +464,23 @@
 
                     </div>
 
+
+                    {{-- SHIPPING COMPANY --}}
+
                     <div class="form-group col-md-4 mb-3">
 
-                        <label for="grand_total" class="form-label">
-                            shipping_company
+                        <label for="shipping_company" class="form-label">
+                            Shipping Company
                         </label>
 
                         <input
                             type="text"
-                            step="0.01"
                             name="shipping_company"
+                            id="shipping_company"
                             class="form-control"
-                            value="{{ $purchase->shipping_company ?? '' }}"
-                            >
+                            value="{{ $purchase->shipping_company ?? '' }}">
 
                     </div>
-
-
-                     <div class="form-group col-md-4 mb-3">
-
-                        <label for="grand_total" class="form-label">
-                            
-                        </label>
-
-                        <input
-                            type="text"
-                            
-                            name="commission"
-                            class="form-control"
-                            value="{{ $purchase->commission ?? '' }}"
-                            >
-
-                    </div>
-
-
-
 
                 </div>
 
@@ -753,22 +762,30 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const buyingFee = document.getElementById('buying_fee');
+
     const towingFee = document.getElementById('towing_fee');
+
     const shipping = document.getElementById('shipping');
+
+    const commission = document.getElementById('commission');
 
     const totalAed = document.getElementById('total_aed');
 
     const clearing = document.getElementById('clearing');
+
     const extraCharges = document.getElementById('extra_charges');
 
     const customDuty = document.getElementById('custom_duty');
+
     const grandTotal = document.getElementById('grand_total');
 
     const sellingPrice = document.getElementById('selling_price');
+
     const profit = document.getElementById('profit');
 
 
     // Exchange Rate
+
     const exchangeRate = 3.675;
 
 
@@ -785,28 +802,37 @@ document.addEventListener('DOMContentLoaded', function () {
             buyingFee.value
         );
 
+
         const towing = number(
             towingFee.value
         );
+
 
         const ship = number(
             shipping.value
         );
 
 
-        // =========================
-        // Total USD
-        // =========================
+        const commissionValue = number(
+            commission.value
+        );
+
+
+        // =========================================
+        // TOTAL USD
+        // Buying + Towing + Shipping + Commission
+        // =========================================
 
         const totalUsd =
             buying +
             towing +
-            ship;
+            ship +
+            commissionValue;
 
 
-        // =========================
+        // =========================================
         // USD → AED
-        // =========================
+        // =========================================
 
         const aed =
             totalUsd *
@@ -817,9 +843,9 @@ document.addEventListener('DOMContentLoaded', function () {
             aed.toFixed(2);
 
 
-        // =========================
-        // Custom Duty
-        // =========================
+        // =========================================
+        // CUSTOM DUTY
+        // =========================================
 
         const duty =
             (aed + 1472) *
@@ -830,12 +856,13 @@ document.addEventListener('DOMContentLoaded', function () {
             duty.toFixed(2);
 
 
-        // =========================
-        // Grand Total
-        // =========================
+        // =========================================
+        // GRAND TOTAL
+        // =========================================
 
         const clearingValue =
             number(clearing.value);
+
 
         const extraChargesValue =
             number(extraCharges.value);
@@ -852,9 +879,9 @@ document.addEventListener('DOMContentLoaded', function () {
             grand.toFixed(2);
 
 
-        // =========================
-        // Profit
-        // =========================
+        // =========================================
+        // PROFIT
+        // =========================================
 
         const selling =
             number(sellingPrice.value);
@@ -871,34 +898,45 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
-    // =========================
-    // Events
-    // =========================
+    // =========================================
+    // EVENTS
+    // =========================================
 
     buyingFee.addEventListener(
         'input',
         calculatePurchase
     );
 
+
     towingFee.addEventListener(
         'input',
         calculatePurchase
     );
+
 
     shipping.addEventListener(
         'input',
         calculatePurchase
     );
 
+
+    commission.addEventListener(
+        'input',
+        calculatePurchase
+    );
+
+
     clearing.addEventListener(
         'input',
         calculatePurchase
     );
 
+
     extraCharges.addEventListener(
         'input',
         calculatePurchase
     );
+
 
     sellingPrice.addEventListener(
         'input',
@@ -906,7 +944,8 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
 
-    // Calculate on page load
+    // Calculate when page loads
+
     calculatePurchase();
 
 });

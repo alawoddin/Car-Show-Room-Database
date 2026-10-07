@@ -4,10 +4,15 @@
 
 <div class="page-content">
 
+    <!-- Breadcrumb -->
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+
         <div class="ps-3">
+
             <nav aria-label="breadcrumb">
+
                 <ol class="breadcrumb mb-0 p-0">
+
                     <li class="breadcrumb-item">
                         <a href="javascript:;">
                             <i class="bx bx-home-alt"></i>
@@ -15,19 +20,30 @@
                     </li>
 
                     <li class="breadcrumb-item active">
-                        {{ isset($purchase) && $purchase->exists ? 'Sale Vehicle' : 'Add Purchase' }}
+                        {{ isset($purchase) && $purchase->exists
+                            ? 'Sale Vehicle'
+                            : 'Add Purchase' }}
                     </li>
+
                 </ol>
+
             </nav>
+
         </div>
+
     </div>
 
 
     <div class="card">
+
         <div class="card-body p-4">
 
             <h5 class="mb-4">
-                {{ isset($purchase) && $purchase->exists ? 'Sale Vehicle' : 'Add Purchase' }}
+
+                {{ isset($purchase) && $purchase->exists
+                    ? 'Sale Vehicle'
+                    : 'Add Purchase' }}
+
             </h5>
 
 
@@ -49,7 +65,10 @@
                     USER INFORMATION
                 ====================================================== --}}
 
-                <h6 class="mb-3">User Information</h6>
+                <h6 class="mt-2 mb-3">
+                    User Information
+                </h6>
+
 
                 <div class="row">
 
@@ -65,13 +84,17 @@
                             class="form-select"
                             {{ isset($purchase) && $purchase->exists ? 'disabled' : '' }}>
 
-                            <option value="">Select User</option>
+                            <option value="">
+                                Select User
+                            </option>
 
                             @foreach ($users as $user)
 
                                 <option
                                     value="{{ $user->id }}"
-                                    {{ isset($purchase) && $purchase->user_id == $user->id ? 'selected' : '' }}>
+                                    {{ isset($purchase) && $purchase->user_id == $user->id
+                                        ? 'selected'
+                                        : '' }}>
 
                                     {{ $user->name }}
 
@@ -80,6 +103,7 @@
                             @endforeach
 
                         </select>
+
 
                         @if(isset($purchase) && $purchase->exists)
 
@@ -116,7 +140,10 @@
                     VEHICLE INFORMATION
                 ====================================================== --}}
 
-                <h6 class="mt-4 mb-3">Vehicle Information</h6>
+                <h6 class="mt-4 mb-3">
+                    Vehicle Information
+                </h6>
+
 
                 <div class="row">
 
@@ -232,11 +259,14 @@
                     PURCHASE COST
                 ====================================================== --}}
 
-                <h6 class="mt-4 mb-3">Purchase Cost</h6>
+                <h6 class="mt-4 mb-3">
+                    Purchase Cost
+                </h6>
+
 
                 <div class="row">
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-3 mb-3">
 
                         <label for="buying_fee" class="form-label">
                             Buying Fee
@@ -253,7 +283,7 @@
                     </div>
 
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-3 mb-3">
 
                         <label for="towing_fee" class="form-label">
                             Towing Fee
@@ -270,10 +300,10 @@
                     </div>
 
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-3 mb-3">
 
                         <label for="shipping" class="form-label">
-                            Shipping
+                            Shipping Fee
                         </label>
 
                         <input
@@ -286,6 +316,25 @@
 
                     </div>
 
+
+                    {{-- COMMISSION --}}
+
+                    <div class="form-group col-md-3 mb-3">
+
+                        <label for="commission" class="form-label">
+                            Commission
+                        </label>
+
+                        <input
+                            type="text"
+                            name="commission"
+                            id="commission"
+                            class="form-control"
+                            value="{{ $purchase->commission ?? '0' }}"
+                            {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
+
+                    </div>
+
                 </div>
 
 
@@ -293,7 +342,10 @@
                     UAE COSTS
                 ====================================================== --}}
 
-                <h6 class="mt-4 mb-3">UAE Costs</h6>
+                <h6 class="mt-4 mb-3">
+                    UAE Costs
+                </h6>
+
 
                 <div class="row">
 
@@ -369,7 +421,7 @@
 
                 <div class="row">
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-6 mb-3">
 
                         <label for="grand_total" class="form-label">
                             Grand Total
@@ -386,60 +438,19 @@
 
                     </div>
 
-                    <div class="form-group col-md-4 mb-3">
-
-                        <label for="shipping_company" class="form-label">
-                            Shipping Company
-                        </label>
-
-                        <input
-                            type="text"
-                            name="shipping_company"
-                            id="shipping_company"
-                            class="form-control"
-                            value="{{ $purchase->shipping_company ?? '' }}"
-                            >
-
-                    </div>
-
-                       <div class="form-group col-md-4 mb-3">
-
-                        <label for="commission" class="form-label">
-                            commission
-                        </label>
-
-                        <input
-                            type="text"
-                            name="commission"
-                            id="commission"
-                            class="form-control"
-                            value="{{ $purchase->commission ?? '' }}"
-                            >
-
-                    </div>
-
-
-                    
-
-
-                </div>
-                           
-
-                    </div>
-
-
                 </div>
 
 
                 {{-- =====================================================
-                    PURCHASE INFORMATION
+                    PURCHASE LOCATION
                 ====================================================== --}}
 
-                <h6 class="mt-4 mb-3">Purchase Information</h6>
+                <h6 class="mt-4 mb-3">
+                    Purchase Information
+                </h6>
+
 
                 <div class="row">
-
-                    {{-- LOCATION --}}
 
                     <div class="form-group col-md-6 mb-3">
 
@@ -458,66 +469,58 @@
                     </div>
 
 
-                    {{-- PURCHASE STATUS --}}
-
                     <div class="form-group col-md-6 mb-3">
 
                         <label for="purchase_status" class="form-label">
                             Status
                         </label>
 
-                        <select
-                            name="status"
-                            id="purchase_status"
-                            class="form-select"
-                            {{ isset($purchase) && $purchase->exists ? 'disabled' : '' }}>
 
-                            <option value="">Select Status</option>
+                        @if(!isset($purchase) || !$purchase->exists)
 
-                            <option value="Purchased"
-                                {{ (isset($purchase) && $purchase->status == 'Purchased') || old('status') == 'Purchased' ? 'selected' : '' }}>
-                                Purchased
-                            </option>
+                            <select
+                                name="status"
+                                id="purchase_status"
+                                class="form-select">
 
-                            <option value="Loaded"
-                                {{ (isset($purchase) && $purchase->status == 'Loaded') || old('status') == 'Loaded' ? 'selected' : '' }}>
-                                Loaded
-                            </option>
+                                <option value="Purchased">
+                                    Purchased
+                                </option>
 
-                            <option value="Shipped"
-                                {{ (isset($purchase) && $purchase->status == 'Shipped') || old('status') == 'Shipped' ? 'selected' : '' }}>
-                                Shipped
-                            </option>
+                                <option value="Loaded">
+                                    Loaded
+                                </option>
 
-                            <option value="Delivered"
-                                {{ (isset($purchase) && $purchase->status == 'Delivered') || old('status') == 'Delivered' ? 'selected' : '' }}>
-                                Delivered
-                            </option>
+                                <option value="Shipped">
+                                    Shipped
+                                </option>
 
-                            <option value="On Hand"
-                                {{ (isset($purchase) && $purchase->status == 'On Hand') || old('status') == 'On Hand' ? 'selected' : '' }}>
-                                On Hand
-                            </option>
+                                <option value="Delivered">
+                                    Delivered
+                                </option>
 
-                            <option value="At UAE"
-                                {{ (isset($purchase) && $purchase->status == 'At UAE') || old('status') == 'At UAE' ? 'selected' : '' }}>
-                                At UAE
-                            </option>
+                                <option value="On Hand">
+                                    On Hand
+                                </option>
 
-                            <option value="Sold"
-                                {{ (isset($purchase) && $purchase->status == 'Sold') || old('status') == 'Sold' ? 'selected' : '' }}>
-                                Sold
-                            </option>
+                                <option value="At UAE">
+                                    At UAE
+                                </option>
 
-                        </select>
+                            </select>
 
-                        {{-- Because disabled select is not submitted --}}
-                        @if(isset($purchase) && $purchase->exists)
+                        @else
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                value="Sold"
+                                readonly>
 
                             <input
                                 type="hidden"
-                                name="purchase_status"
-                                value="{{ $purchase->status }}">
+                                name="status"
+                                value="Sold">
 
                         @endif
 
@@ -528,7 +531,6 @@
 
                 {{-- =====================================================
                     SALE INFORMATION
-                    ONLY WHEN SALE BUTTON IS CLICKED
                 ====================================================== --}}
 
                 @if(isset($purchase) && $purchase->exists)
@@ -541,8 +543,6 @@
 
 
                     <div class="row">
-
-                        {{-- SELLING PRICE --}}
 
                         <div class="form-group col-md-6 mb-3">
 
@@ -560,8 +560,6 @@
 
                         </div>
 
-
-                        {{-- PROFIT --}}
 
                         <div class="form-group col-md-6 mb-3">
 
@@ -581,8 +579,6 @@
                         </div>
 
 
-                        {{-- BILL NO --}}
-
                         <div class="form-group col-md-4 mb-3">
 
                             <label for="bill_no" class="form-label">
@@ -600,8 +596,6 @@
                         </div>
 
 
-                        {{-- DATE OF ARRIVING --}}
-
                         <div class="form-group col-md-4 mb-3">
 
                             <label for="date_of_arriving" class="form-label">
@@ -617,8 +611,6 @@
 
                         </div>
 
-
-                        {{-- CUSTOMER NAME --}}
 
                         <div class="form-group col-md-4 mb-3">
 
@@ -637,19 +629,15 @@
                         </div>
 
 
-                        {{-- =================================================
-                            SALE STATUS
-                            ================================================= --}}
-
                         <div class="form-group col-md-6 mb-3">
 
-                            <label for="sale_status" class="form-label">
+                            <label for="status" class="form-label">
                                 Status
                             </label>
 
                             <select
                                 name="status"
-                                id="sale_status"
+                                id="status"
                                 class="form-select">
 
                                 <option value="">
@@ -657,37 +645,37 @@
                                 </option>
 
                                 <option value="Purchased"
-                                    {{ $purchase->status == 'Purchased' ? 'selected' : '' }}>
+                                    {{ ($purchase->status ?? '') == 'Purchased' ? 'selected' : '' }}>
                                     Purchased
                                 </option>
 
                                 <option value="Loaded"
-                                    {{ $purchase->status == 'Loaded' ? 'selected' : '' }}>
+                                    {{ ($purchase->status ?? '') == 'Loaded' ? 'selected' : '' }}>
                                     Loaded
                                 </option>
 
                                 <option value="Shipped"
-                                    {{ $purchase->status == 'Shipped' ? 'selected' : '' }}>
+                                    {{ ($purchase->status ?? '') == 'Shipped' ? 'selected' : '' }}>
                                     Shipped
                                 </option>
 
                                 <option value="Delivered"
-                                    {{ $purchase->status == 'Delivered' ? 'selected' : '' }}>
+                                    {{ ($purchase->status ?? '') == 'Delivered' ? 'selected' : '' }}>
                                     Delivered
                                 </option>
 
                                 <option value="On Hand"
-                                    {{ $purchase->status == 'On Hand' ? 'selected' : '' }}>
+                                    {{ ($purchase->status ?? '') == 'On Hand' ? 'selected' : '' }}>
                                     On Hand
                                 </option>
 
                                 <option value="At UAE"
-                                    {{ $purchase->status == 'At UAE' ? 'selected' : '' }}>
+                                    {{ ($purchase->status ?? '') == 'At UAE' ? 'selected' : '' }}>
                                     At UAE
                                 </option>
 
                                 <option value="Sold"
-                                    {{ $purchase->status == 'Sold' ? 'selected' : '' }}>
+                                    {{ ($purchase->status ?? '') == 'Sold' ? 'selected' : '' }}>
                                     Sold
                                 </option>
 
@@ -695,8 +683,6 @@
 
                         </div>
 
-
-                        {{-- DESCRIPTION --}}
 
                         <div class="form-group col-md-6 mb-3">
 
@@ -709,7 +695,7 @@
                                 id="description"
                                 class="form-control"
                                 rows="3"
-                                placeholder="Description">{{ $purchase->description ?? '' }}</textarea>
+                                placeholder="Sale description">{{ $purchase->description ?? '' }}</textarea>
 
                         </div>
 
@@ -717,9 +703,7 @@
 
                 @else
 
-                    {{-- =================================================
-                        PURCHASE DESCRIPTION
-                    ================================================= --}}
+                    {{-- PURCHASE DESCRIPTION --}}
 
                     <div class="row">
 
@@ -744,7 +728,7 @@
 
 
                 {{-- =====================================================
-                    BUTTON
+                    SUBMIT
                 ====================================================== --}}
 
                 <div class="col-md-12 mt-4">
@@ -761,6 +745,7 @@
 
                         </button>
 
+
                         <a
                             href="{{ route('all.purchases') }}"
                             class="btn btn-light px-4">
@@ -773,9 +758,11 @@
 
                 </div>
 
+
             </form>
 
         </div>
+
     </div>
 
 </div>
@@ -790,20 +777,33 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const buyingFee = document.getElementById('buying_fee');
+
     const towingFee = document.getElementById('towing_fee');
+
     const shipping = document.getElementById('shipping');
+
+    const commission = document.getElementById('commission');
+
 
     const totalAed = document.getElementById('total_aed');
 
+
     const clearing = document.getElementById('clearing');
+
     const extraCharges = document.getElementById('extra_charges');
 
+
     const customDuty = document.getElementById('custom_duty');
+
     const grandTotal = document.getElementById('grand_total');
 
+
     const sellingPrice = document.getElementById('selling_price');
+
     const profit = document.getElementById('profit');
 
+
+    // USD → AED
 
     const exchangeRate = 3.675;
 
@@ -822,18 +822,37 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
+        // ==========================================
+        // 1. Total USD
+        // ==========================================
+
         const buying = number(buyingFee.value);
 
         const towing = number(towingFee.value);
 
         const ship = number(shipping.value);
 
+        const commissionValue = number(
+            commission ? commission.value : 0
+        );
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Buying Fee + Towing + Shipping + Commission
+        |--------------------------------------------------------------------------
+        */
 
         const totalUsd =
             buying +
             towing +
-            ship;
+            ship +
+            commissionValue;
 
+
+        // ==========================================
+        // 2. USD → AED
+        // ==========================================
 
         const aed =
             totalUsd *
@@ -841,9 +860,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         if (totalAed) {
-            totalAed.value = aed.toFixed(2);
+
+            totalAed.value =
+                aed.toFixed(2);
+
         }
 
+
+        // ==========================================
+        // 3. Custom Duty
+        // ==========================================
 
         const duty =
             (aed + 1472) *
@@ -851,15 +877,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         if (customDuty) {
-            customDuty.value = duty.toFixed(2);
+
+            customDuty.value =
+                duty.toFixed(2);
+
         }
 
 
+        // ==========================================
+        // 4. Grand Total
+        // ==========================================
+
         const clearingValue =
-            number(clearing ? clearing.value : 0);
+            number(clearing?.value);
+
 
         const extraChargesValue =
-            number(extraCharges ? extraCharges.value : 0);
+            number(extraCharges?.value);
 
 
         const grand =
@@ -870,54 +904,126 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         if (grandTotal) {
-            grandTotal.value = grand.toFixed(2);
+
+            grandTotal.value =
+                grand.toFixed(2);
+
         }
 
+
+        // ==========================================
+        // 5. Profit
+        // Only on Sale
+        // ==========================================
 
         if (sellingPrice && profit) {
 
             const selling =
                 number(sellingPrice.value);
 
+
             const calculatedProfit =
-                selling - grand;
+                selling -
+                grand;
+
 
             profit.value =
                 calculatedProfit.toFixed(2);
+
         }
 
     }
 
 
+    // ==========================================
+    // Purchase inputs
+    // ==========================================
+
     if (buyingFee) {
-        buyingFee.addEventListener('input', calculatePurchase);
+
+        buyingFee.addEventListener(
+            'input',
+            calculatePurchase
+        );
+
     }
+
 
     if (towingFee) {
-        towingFee.addEventListener('input', calculatePurchase);
+
+        towingFee.addEventListener(
+            'input',
+            calculatePurchase
+        );
+
     }
+
 
     if (shipping) {
-        shipping.addEventListener('input', calculatePurchase);
+
+        shipping.addEventListener(
+            'input',
+            calculatePurchase
+        );
+
     }
+
+
+    // ==========================================
+    // COMMISSION
+    // ==========================================
+
+    if (commission) {
+
+        commission.addEventListener(
+            'input',
+            calculatePurchase
+        );
+
+    }
+
 
     if (clearing) {
-        clearing.addEventListener('input', calculatePurchase);
+
+        clearing.addEventListener(
+            'input',
+            calculatePurchase
+        );
+
     }
+
 
     if (extraCharges) {
-        extraCharges.addEventListener('input', calculatePurchase);
+
+        extraCharges.addEventListener(
+            'input',
+            calculatePurchase
+        );
+
     }
+
+
+    // ==========================================
+    // Sale selling price
+    // ==========================================
 
     if (sellingPrice) {
-        sellingPrice.addEventListener('input', calculatePurchase);
+
+        sellingPrice.addEventListener(
+            'input',
+            calculatePurchase
+        );
+
     }
 
+
+    // Calculate immediately when page loads
 
     calculatePurchase();
 
 });
 
 </script>
+
 
 @endsection
