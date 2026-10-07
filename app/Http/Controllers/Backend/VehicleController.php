@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller
@@ -43,4 +44,18 @@ class VehicleController extends Controller
 
         return view('admin.vehicle.vehicle_details', compact('vehicle'));
     }
+
+   public function DownloadInvoice(int $id)
+{
+    $vehicle = Purchase::with('user')->findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'admin.vehicle.vehicle_details',
+        compact('vehicle')
+    )->setPaper('a4', 'portrait');
+
+    return $pdf->download(
+        'vehicle-invoice-' . $vehicle->id . '.pdf'
+    );
+}
 }

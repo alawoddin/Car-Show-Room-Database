@@ -5,175 +5,385 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Vehicle Invoice #{{ $vehicle->id }}
-    </title>
+    <title>Vehicle Invoice #{{ $vehicle->id }}</title>
 
     <style>
+
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background: #ffffff;
+            font-family: DejaVu Sans, Arial, sans-serif;
+            color: #222222;
+        }
 
         * {
             box-sizing: border-box;
         }
 
-        body {
+
+        /* =====================================================
+           A4 PAGE
+        ===================================================== */
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            padding: 25px;
             margin: 0;
-            padding: 30px;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f6f8;
-            color: #222;
-        }
-
-        .invoice {
-            max-width: 900px;
-            margin: auto;
             background: #ffffff;
-            padding: 45px;
+            overflow: hidden;
         }
 
-        /* ================================
+
+        /* =====================================================
            HEADER
-        ================================= */
+        ===================================================== */
 
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 2px solid #222;
-            padding-bottom: 25px;
-            margin-bottom: 25px;
+        .header {
+            width: 100%;
+            border-bottom: 3px solid #1f2937;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
         }
 
-        .company-name {
-            font-size: 25px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .company-owner {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .company-info {
-            color: #777;
-            line-height: 1.6;
-            font-size: 13px;
-        }
-
-        .invoice-title {
-            text-align: right;
-        }
-
-        .invoice-title h1 {
-            margin: 0 0 10px;
-            font-size: 25px;
-        }
-
-        .invoice-title p {
-            margin: 4px 0;
-            font-size: 13px;
-        }
-
-
-        /* ================================
-           SECTION
-        ================================= */
-
-        .section-title {
-            font-size: 16px;
-            font-weight: bold;
-            padding-bottom: 8px;
-            margin-top: 28px;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #ddd;
-        }
-
-
-        /* ================================
-           TABLE
-        ================================= */
-
-        table {
+        .header-table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 11px;
-            text-align: left;
-            font-size: 13px;
+        .header-left {
+            width: 62%;
+            vertical-align: top;
         }
 
-        th {
-            font-weight: bold;
-        }
-
-        .vehicle-table th {
-            width: 20%;
-        }
-
-        .amount {
+        .header-right {
+            width: 38%;
+            vertical-align: top;
             text-align: right;
         }
 
-
-        /* ================================
-           GRAND TOTAL
-        ================================= */
-
-        .grand-total {
-            font-size: 18px;
+        .company-name {
+            font-size: 19px;
             font-weight: bold;
+            color: #111827;
+            line-height: 1.3;
         }
 
-        .grand-total th,
-        .grand-total td {
-            padding: 15px;
+        .company-owner {
+            margin-top: 5px;
+            font-size: 10px;
+            font-weight: bold;
+            color: #374151;
         }
 
+        .company-subtitle {
+            margin-top: 4px;
+            font-size: 8px;
+            color: #6b7280;
+        }
 
-        /* ================================
-           FOOTER
-        ================================= */
+        .invoice-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #111827;
+            margin-bottom: 7px;
+        }
 
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            text-align: center;
-            color: #777;
-            font-size: 13px;
+        .invoice-meta {
+            font-size: 8.5px;
+            color: #4b5563;
             line-height: 1.7;
         }
 
-        .footer-company {
-            font-weight: bold;
-            color: #222;
-            font-size: 14px;
+        .invoice-meta strong {
+            color: #111827;
         }
 
 
-        /* ================================
-           PRINT
-        ================================= */
+        /* =====================================================
+           CUSTOMER AREA
+        ===================================================== */
 
-        @media print {
+        .customer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
 
-            body {
-                background: white;
-                padding: 0;
-            }
+        .customer-cell {
+            width: 50%;
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            vertical-align: top;
+        }
 
-            .invoice {
-                max-width: 100%;
-                padding: 20px;
-            }
+        .customer-cell:first-child {
+            border-right: none;
+        }
 
+        .customer-label {
+            font-size: 7.5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #6b7280;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .customer-name {
+            font-size: 11px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .customer-description {
+            margin-top: 3px;
+            font-size: 8px;
+            color: #6b7280;
+        }
+
+
+        /* =====================================================
+           SECTION
+        ===================================================== */
+
+        .section {
+            margin-bottom: 14px;
+        }
+
+        .section-heading {
+            width: 100%;
+            background: #1f2937;
+            color: #ffffff;
+            padding: 7px 9px;
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+
+        /* =====================================================
+           GENERAL TABLE
+        ===================================================== */
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #d1d5db;
+            padding: 6px 7px;
+            font-size: 8px;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background: #f3f4f6;
+            font-weight: bold;
+            color: #374151;
+        }
+
+        .label {
+            width: 18%;
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #4b5563;
+        }
+
+        .value {
+            width: 32%;
+            color: #111827;
+        }
+
+
+        /* =====================================================
+           VEHICLE STATUS
+        ===================================================== */
+
+        .status {
+            font-weight: bold;
+            color: #111827;
+        }
+
+
+        /* =====================================================
+           PURCHASE TABLE
+        ===================================================== */
+
+        .purchase-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .purchase-table th {
+            background: #f3f4f6;
+            color: #374151;
+            font-size: 8px;
+            font-weight: bold;
+            border: 1px solid #d1d5db;
+            padding: 7px;
+        }
+
+        .purchase-table td {
+            border: 1px solid #d1d5db;
+            padding: 7px;
+            font-size: 8px;
+        }
+
+        .purchase-description {
+            width: 43%;
+        }
+
+        .purchase-details {
+            width: 27%;
+        }
+
+        .purchase-amount {
+            width: 30%;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .total-row td {
+            background: #f3f4f6;
+            font-weight: bold;
+            font-size: 9px;
+            padding: 8px;
+        }
+
+
+        /* =====================================================
+           ADDITIONAL COSTS
+        ===================================================== */
+
+        .additional-table {
+            width: 55%;
+            margin-left: 45%;
+            border-collapse: collapse;
+        }
+
+        .additional-table th,
+        .additional-table td {
+            border: 1px solid #d1d5db;
+            padding: 6px;
+            font-size: 8px;
+        }
+
+        .additional-table th {
+            background: #f3f4f6;
+            text-align: left;
+        }
+
+        .money {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           GRAND TOTAL
+        ===================================================== */
+
+        .grand-total {
+            width: 55%;
+            margin-left: 45%;
+            margin-top: 8px;
+            border: 2px solid #111827;
+            border-collapse: collapse;
+        }
+
+        .grand-total td {
+            padding: 10px;
+            border: none;
+        }
+
+        .grand-total-label {
+            width: 55%;
+            font-size: 10px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .grand-total-amount {
+            width: 45%;
+            text-align: right;
+            font-size: 13px;
+            font-weight: bold;
+            color: #111827;
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           NOTES
+        ===================================================== */
+
+        .notes {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            margin-top: 12px;
+        }
+
+        .notes-title {
+            font-size: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .notes-content {
+            font-size: 8px;
+            color: #6b7280;
+            line-height: 1.4;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            border-top: 1px solid #d1d5db;
+            margin-top: 16px;
+            padding-top: 9px;
+            text-align: center;
+        }
+
+        .footer-company {
+            font-size: 9px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .footer-owner {
+            font-size: 8px;
+            color: #4b5563;
+            margin-top: 2px;
+        }
+
+        .footer-address {
+            font-size: 7.5px;
+            color: #6b7280;
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+
+        .footer-thanks {
+            margin-top: 5px;
+            font-size: 7.5px;
+            color: #6b7280;
         }
 
     </style>
@@ -183,85 +393,120 @@
 
 <body>
 
-<div class="invoice">
+<div class="page">
 
 
     {{-- =====================================================
          HEADER
     ====================================================== --}}
 
-    <div class="invoice-header">
+    <div class="header">
 
-        <div>
+        <table class="header-table">
 
-            <div class="company-name">
-                AL JAZEERA AL HAMRA USED CARS
-            </div>
+            <tr>
 
-            <div class="company-owner">
-                Enam Ullah Ahmadi
-            </div>
+                <td class="header-left"
+                    style="border: none;">
 
-            <div class="company-info">
-                Used Cars Purchase & Sales
-            </div>
+                    <div class="company-name">
+                        AL JAZEERA AL HAMRA USED CARS
+                    </div>
 
-        </div>
+                    <div class="company-owner">
+                        Enam Ullah Ahmadi
+                    </div>
+
+                    <div class="company-subtitle">
+                        Used Cars Purchase & Sales
+                    </div>
+
+                </td>
 
 
-        <div class="invoice-title">
+                <td class="header-right"
+                    style="border: none;">
 
-            <h1>
-                VEHICLE INVOICE
-            </h1>
+                    <div class="invoice-title">
+                        VEHICLE INVOICE
+                    </div>
 
-            <p>
+                    <div class="invoice-meta">
 
-                <strong>
-                    Invoice #:
-                </strong>
+                        <strong>Invoice #:</strong>
+                        {{ $vehicle->id }}
 
-                {{ $vehicle->id }}
+                        <br>
 
-            </p>
+                        <strong>Date:</strong>
+                        {{ $vehicle->created_at?->format('Y-m-d') }}
 
-            <p>
+                        <br>
 
-                <strong>
-                    Date:
-                </strong>
+                        <strong>Status:</strong>
+                        {{ $vehicle->status ?? '-' }}
 
-                {{ $vehicle->created_at?->format('Y-m-d') }}
+                    </div>
 
-            </p>
+                </td>
 
-        </div>
+            </tr>
+
+        </table>
 
     </div>
 
 
 
     {{-- =====================================================
-         CUSTOMER INFORMATION
+         CUSTOMER
     ====================================================== --}}
 
-    <div class="section-title">
-
-        CUSTOMER INFORMATION
-
-    </div>
-
-
-    <table>
+    <table class="customer-table">
 
         <tr>
 
-            <th>
-                Customer
-            </th>
+            <td class="customer-cell">
 
-            <td>
-                {{ $vehicle->user->name ?? 'Demo' }}
+                <div class="customer-label">
+                    Customer
+                </div>
+
+                <div class="customer-name">
+
+                    {{ $vehicle->user->name ?? 'Demo' }}
+
+                </div>
+
+                <div class="customer-description">
+
+                    Vehicle Purchase Customer
+
+                </div>
+
+            </td>
+
+
+            <td class="customer-cell">
+
+                <div class="customer-label">
+                    Vehicle
+                </div>
+
+                <div class="customer-name">
+
+                    {{ $vehicle->make ?? '-' }}
+                    {{ $vehicle->model ?? '' }}
+
+                </div>
+
+                <div class="customer-description">
+
+                    VIN:
+                    {{ $vehicle->vin ?? '-' }}
+
+                </div>
+
             </td>
 
         </tr>
@@ -274,99 +519,100 @@
          VEHICLE INFORMATION
     ====================================================== --}}
 
-    <div class="section-title">
+    <div class="section">
 
-        VEHICLE INFORMATION
+        <div class="section-heading">
+            Vehicle Information
+        </div>
+
+        <table class="table">
+
+            <tr>
+
+                <td class="label">
+                    VIN
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->vin ?? '-' }}
+                </td>
+
+                <td class="label">
+                    Make
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->make ?? '-' }}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td class="label">
+                    Model
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->model ?? '-' }}
+                </td>
+
+                <td class="label">
+                    Color
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->color ?? '-' }}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td class="label">
+                    Lot Number
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->lot_number ?? '-' }}
+                </td>
+
+                <td class="label">
+                    Cylinder
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->cylinder ?? '-' }}
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td class="label">
+                    Location
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->location ?? '-' }}
+                </td>
+
+                <td class="label">
+                    Status
+                </td>
+
+                <td class="value status">
+                    {{ $vehicle->status ?? '-' }}
+                </td>
+
+            </tr>
+
+        </table>
 
     </div>
-
-
-    <table class="vehicle-table">
-
-        <tr>
-
-            <th>
-                VIN
-            </th>
-
-            <td>
-                {{ $vehicle->vin ?? '-' }}
-            </td>
-
-            <th>
-                Make
-            </th>
-
-            <td>
-                {{ $vehicle->make ?? '-' }}
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <th>
-                Model
-            </th>
-
-            <td>
-                {{ $vehicle->model ?? '-' }}
-            </td>
-
-            <th>
-                Color
-            </th>
-
-            <td>
-                {{ $vehicle->color ?? '-' }}
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <th>
-                Lot Number
-            </th>
-
-            <td>
-                {{ $vehicle->lot_number ?? '-' }}
-            </td>
-
-            <th>
-                Cylinder
-            </th>
-
-            <td>
-                {{ $vehicle->cylinder ?? '-' }}
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <th>
-                Location
-            </th>
-
-            <td>
-                {{ $vehicle->location ?? '-' }}
-            </td>
-
-            <th>
-                Status
-            </th>
-
-            <td>
-                {{ $vehicle->status ?? '-' }}
-            </td>
-
-        </tr>
-
-    </table>
 
 
 
@@ -374,107 +620,171 @@
          PURCHASE INFORMATION
     ====================================================== --}}
 
-    <div class="section-title">
+    <div class="section">
 
-        PURCHASE INFORMATION
+        <div class="section-heading">
+            Purchase Information
+        </div>
+
+        <table class="purchase-table">
+
+            <thead>
+
+                <tr>
+
+                    <th class="purchase-description">
+                        Description
+                    </th>
+
+                    <th class="purchase-details">
+                        Details
+                    </th>
+
+                    <th class="purchase-amount">
+                        Amount
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                {{-- BUYING FEE --}}
+
+                <tr>
+
+                    <td>
+                        Buying Fee
+                    </td>
+
+                    <td>
+                        Vehicle Purchase
+                    </td>
+
+                    <td class="purchase-amount">
+
+                        ${{ number_format($vehicle->buying_fee ?? 0, 2) }}
+
+                    </td>
+
+                </tr>
+
+
+                {{-- TOWING --}}
+
+                <tr>
+
+                    <td>
+                        Towing Fee
+                    </td>
+
+                    <td>
+                        Vehicle Towing
+                    </td>
+
+                    <td class="purchase-amount">
+
+                        ${{ number_format($vehicle->towing_fee ?? 0, 2) }}
+
+                    </td>
+
+                </tr>
+
+
+                {{-- SHIPPING --}}
+
+                <tr>
+
+                    <td>
+                        Shipping
+                    </td>
+
+                    <td>
+
+                        {{ $vehicle->shipping_company ?? 'Shipping' }}
+
+                    </td>
+
+                    <td class="purchase-amount">
+
+                        ${{ number_format($vehicle->shipping ?? 0, 2) }}
+
+                    </td>
+
+                </tr>
+
+
+                {{-- COMMISSION --}}
+
+                <tr>
+
+                    <td>
+                        <strong>
+                            Commission
+                        </strong>
+                    </td>
+
+                    <td>
+                        Purchase Commission
+                    </td>
+
+                    <td class="purchase-amount">
+
+                        <strong>
+
+                            ${{ number_format($vehicle->commission ?? 0, 2) }}
+
+                        </strong>
+
+                    </td>
+
+                </tr>
+
+
+                {{-- SHIPPING COMPANY --}}
+
+                <tr>
+
+                    <td>
+                        Shipping Company
+                    </td>
+
+                    <td colspan="2">
+
+                        {{ $vehicle->shipping_company ?? '-' }}
+
+                    </td>
+
+                </tr>
+
+
+                {{-- TOTAL AED --}}
+
+                <tr class="total-row">
+
+                    <td colspan="2">
+
+                        TOTAL AED
+
+                    </td>
+
+                    <td class="purchase-amount">
+
+                        AED
+                        {{ number_format($vehicle->total_aed ?? 0, 2) }}
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
 
     </div>
-
-
-    <table>
-
-        <tr>
-
-            <th>
-                Buying Date
-            </th>
-
-            <td>
-                {{ $vehicle->buying_date ?? '-' }}
-            </td>
-
-            <th>
-                Buying Fee
-            </th>
-
-            <td class="amount">
-                ${{ number_format($vehicle->buying_fee ?? 0, 2) }}
-            </td>
-
-        </tr>
-
-
-        <tr>
-
-            <th>
-                Towing Fee
-            </th>
-
-            <td class="amount">
-                ${{ number_format($vehicle->towing_fee ?? 0, 2) }}
-            </td>
-
-            <th>
-                Shipping
-            </th>
-
-            <td class="amount">
-                ${{ number_format($vehicle->shipping ?? 0, 2) }}
-            </td>
-
-        </tr>
-
-
-        {{-- COMMISSION --}}
-
-        <tr>
-
-            <th>
-                Commission
-            </th>
-
-            <td class="amount">
-
-                ${{ number_format($vehicle->commission ?? 0, 2) }}
-
-            </td>
-
-
-            <th>
-                Shipping Company
-            </th>
-
-            <td>
-
-                {{ $vehicle->shipping_company ?? '-' }}
-
-            </td>
-
-        </tr>
-
-
-        {{-- TOTAL AED --}}
-
-        <tr>
-
-            <th>
-                Total AED
-            </th>
-
-            <td colspan="3" class="amount">
-
-                <strong>
-
-                    AED
-                    {{ number_format($vehicle->total_aed ?? 0, 2) }}
-
-                </strong>
-
-            </td>
-
-        </tr>
-
-    </table>
 
 
 
@@ -482,81 +792,113 @@
          ADDITIONAL COSTS
     ====================================================== --}}
 
-    <div class="section-title">
+    <div class="section">
 
-        ADDITIONAL COSTS
-
-    </div>
-
-
-    <table>
-
-        <tr>
-
-            <th>
-                Clearing
-            </th>
-
-            <td class="amount">
-
-                AED
-                {{ number_format($vehicle->clearing ?? 0, 2) }}
-
-            </td>
-
-        </tr>
+        <div class="section-heading">
+            Additional Costs
+        </div>
 
 
-        <tr>
+        <table class="additional-table">
 
-            <th>
-                Extra Charges
-            </th>
+            <tr>
 
-            <td class="amount">
+                <th>
+                    Clearing
+                </th>
 
-                AED
-                {{ number_format($vehicle->extra_charges ?? 0, 2) }}
+                <td class="money">
 
-            </td>
+                    AED
+                    {{ number_format($vehicle->clearing ?? 0, 2) }}
 
-        </tr>
+                </td>
+
+            </tr>
 
 
-        <tr>
+            <tr>
 
-            <th>
-                Custom Duty
-            </th>
+                <th>
+                    Extra Charges
+                </th>
 
-            <td class="amount">
+                <td class="money">
 
-                AED
-                {{ number_format($vehicle->custom_duty ?? 0, 2) }}
+                    AED
+                    {{ number_format($vehicle->extra_charges ?? 0, 2) }}
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
+
+
+            <tr>
+
+                <th>
+                    Custom Duty
+                </th>
+
+                <td class="money">
+
+                    AED
+                    {{ number_format($vehicle->custom_duty ?? 0, 2) }}
+
+                </td>
+
+            </tr>
+
+        </table>
 
 
         {{-- GRAND TOTAL --}}
 
-        <tr class="grand-total">
+        <table class="grand-total">
 
-            <th>
-                GRAND TOTAL
-            </th>
+            <tr>
 
-            <td class="amount">
+                <td class="grand-total-label">
 
-                AED
-                {{ number_format($vehicle->grand_total ?? 0, 2) }}
+                    GRAND TOTAL
 
-            </td>
+                </td>
 
-        </tr>
+                <td class="grand-total-amount">
 
-    </table>
+                    AED
+                    {{ number_format($vehicle->grand_total ?? 0, 2) }}
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+
+
+    {{-- =====================================================
+         NOTES
+    ====================================================== --}}
+
+    @if(!empty($vehicle->description))
+
+        <div class="notes">
+
+            <div class="notes-title">
+                Notes
+            </div>
+
+            <div class="notes-content">
+
+                {{ $vehicle->description }}
+
+            </div>
+
+        </div>
+
+    @endif
 
 
 
@@ -567,18 +909,14 @@
     <div class="footer">
 
         <div class="footer-company">
-
             AL JAZEERA AL HAMRA USED CARS
-
         </div>
 
-        <div>
-
+        <div class="footer-owner">
             Enam Ullah Ahmadi
-
         </div>
 
-        <div>
+        <div class="footer-address">
 
             Al Jubail Street 72,
             Industrial Area-2,
@@ -587,9 +925,11 @@
 
         </div>
 
-        <br>
+        <div class="footer-thanks">
 
-        Thank you for your business.
+            Thank you for your business.
+
+        </div>
 
     </div>
 

@@ -118,8 +118,15 @@
 
                                     <td>
 
-                                        <a href="{{ route('vehicle.status.view' , $vehicle->id) }}" class="btn btn-sm btn-info">
+                                        <a href="{{ route('vehicle.status.view', $vehicle->id) }}"
+                                            class="btn btn-sm btn-info">
                                             View
+                                        </a>
+
+                                        <a href="{{ route('vehicle.invoice.download', $vehicle->id) }}"
+                                            class="btn btn-sm btn-danger">
+                                            <i class="bx bx-download"></i>
+                                            Download
                                         </a>
 
                                     </td>
