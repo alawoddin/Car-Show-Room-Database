@@ -16,25 +16,31 @@ class VehicleController extends Controller
     }
 
     public function UpdateVehicleStatus(Request $request, int $id)
-{
-    $purchase = Purchase::findOrFail($id);
+    {
+        $purchase = Purchase::findOrFail($id);
 
-    $request->validate([
-        'status' => 'required|in:Purchased,Loaded,Shipped,Delivered,On Hand,At UAE,Sold',
-    ]);
+        $request->validate([
+            'status' => 'required|in:Purchased,Loaded,Shipped,Delivered,On Hand,At UAE,Sold',
+        ]);
 
-    $purchase->status = $request->status;
+        $purchase->status = $request->status;
 
-    $purchase->save();
+        $purchase->save();
 
-    $notification = [
-        'message' => 'Vehicle status updated successfully.',
-        'alert-type' => 'success',
-    ];
+        $notification = [
+            'message' => 'Vehicle status updated successfully.',
+            'alert-type' => 'success',
+        ];
 
-    return redirect()
-        ->route('vehicle.status')
-        ->with($notification);
-}
+        return redirect()
+            ->route('vehicle.status')
+            ->with($notification);
+    }
 
+    public function VehicleStatusView(int $id)
+    {
+        $vehicle = Purchase::with('user')->findOrFail($id);
+
+        return view('admin.vehicle.vehicle_details', compact('vehicle'));
+    }
 }

@@ -118,7 +118,7 @@
 
                                     <td>
 
-                                        <a href="#" class="btn btn-sm btn-info">
+                                        <a href="{{ route('vehicle.status.view' , $vehicle->id) }}" class="btn btn-sm btn-info">
                                             View
                                         </a>
 
