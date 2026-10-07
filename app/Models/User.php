@@ -22,9 +22,9 @@ class User extends Authenticatable
     protected $guarded = [];
 
     public function capitals()
-    {
-        return $this->hasMany(User_Capitals::class);
-    }
+{
+    return $this->hasMany(User_Capitals::class, 'user_id');
+}
 
     public function purchases()
     {

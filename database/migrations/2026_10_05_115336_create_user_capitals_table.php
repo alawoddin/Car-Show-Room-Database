@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user__capitals', function (Blueprint $table) {
+        Schema::create('user_capitals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->decimal('amount', 15, 2);
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user__capitals');
+        Schema::dropIfExists('user_capitals');
     }
 };
