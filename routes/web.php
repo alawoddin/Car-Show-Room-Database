@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\CapitalTransactionController;
 use App\Http\Controllers\Backend\UserCapitalController;
 use App\Http\Controllers\Backend\PurchaseController;
 use App\Http\Controllers\Backend\VehicleController;
+use App\Http\Controllers\Client\ClientVehicleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -26,6 +27,14 @@ Route::middleware(['auth', IsUser::class])->group(function () {
     Route::get('/client/logout', [ClientController::class, 'ClientLogout'])->name('client.logout');
     Route::get('/client/change/password', [ClientController::class, 'ClientChangePassword'])->name('client.change.password');
     Route::post('/client/password/update', [ClientController::class, 'ClientPasswordUpdate'])->name('client.password.update');
+
+      Route::controller(ClientVehicleController::class)->group(function () {
+            Route::get('/my-vehicles', 'MyVehicles')->name('client.vehicles');
+            
+        });
+
+
+
 });
 
 //end user Routes
