@@ -420,7 +420,7 @@
 
                 <div class="row">
 
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="form-group col-md-4 mb-3">
 
                         <label for="grand_total" class="form-label">
                             Grand Total
@@ -437,7 +437,7 @@
 
                     </div>
 
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="form-group col-md-4 mb-3">
 
                         <label for="grand_total" class="form-label">
                             shipping_company
@@ -449,6 +449,23 @@
                             name="shipping_company"
                             class="form-control"
                             value="{{ $purchase->shipping_company ?? '' }}"
+                            >
+
+                    </div>
+
+
+                     <div class="form-group col-md-4 mb-3">
+
+                        <label for="grand_total" class="form-label">
+                            
+                        </label>
+
+                        <input
+                            type="text"
+                            
+                            name="commission"
+                            class="form-control"
+                            value="{{ $purchase->commission ?? '' }}"
                             >
 
                     </div>

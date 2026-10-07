@@ -315,6 +315,12 @@ class PurchasesImport implements ToCollection
                 'shipping_company' => $this->value(
                     $data['shipping_company'] ?? null
                 ),
+                'commission' => $this->value(
+                    $data['commission'] ?? null
+                ),
+             
+             
+             
 
 
                 /*
