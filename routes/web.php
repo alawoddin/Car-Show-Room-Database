@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
 use App\Http\Controllers\Backend\UserCapitalController;
 use App\Http\Controllers\Backend\PurchaseController;
+use App\Http\Controllers\Backend\VehicleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\IsAdmin;
@@ -90,6 +91,12 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/purchases/export', 'ExportPurchases')->name('purchases.export');
             Route::post('/purchases/import', 'ImportPurchases')->name('purchases.import');
         });
+
+         Route::controller(VehicleController::class)->group(function () {
+            Route::get('/vehicle/status', 'VehicleStatus')->name('vehicle.status');
+            
+        });
+
     });
 });
 

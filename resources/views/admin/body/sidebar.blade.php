@@ -49,7 +49,7 @@
             <ul>
                 <li> <a href="{{ route('all.purchases') }}"><i class='bx bx-radio-circle'></i>All Purchases</a>
                 </li>
-                <li> <a href="component-accordions.html"><i class='bx bx-radio-circle'></i>Accordions</a>
+                <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
                 </li>
                
             </ul>
