@@ -36,13 +36,17 @@
                     </div>
 
 
+                    
+                </div>
+
+                <div class="row">
+
                     <div class="form-group col-md-6">
                         <label for="input1" class="form-label">expense Description</label>
                         <textarea type="text" name="description" class="form-control" id="description"></textarea>
                     </div>
-                </div>
 
-                <div class="row">
+
 
                     <div class="form-group col-md-6 mb-3">
                         <label for="input1" class="form-label">expense Date</label>
@@ -78,18 +82,15 @@
                 rules: {
                     expense_name: {
                         required: true,
-                        number: true
                     },
                     amount: {
                         required: true,
-                        number: true
                     },
                     description: {
                         required: true
                     },
                     date: {
                         required: true,
-                        date: true
                     }
                   
 
