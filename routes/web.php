@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
+use App\Http\Controllers\Backend\InvoiceStatusController;
 use App\Http\Controllers\Backend\UserCapitalController;
 use App\Http\Controllers\Backend\PurchaseController;
 use App\Http\Controllers\Backend\VehicleController;
@@ -109,6 +110,14 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/vehicle/{id}/invoice/download', 'DownloadInvoice')->name('vehicle.invoice.download');
             
         });
+
+        Route::controller(InvoiceStatusController::class)->group(function () {
+            Route::get('/invoice/status', 'InvoiceStatus')->name('vehicle.status');
+            Route::post('/invoice/status/add', 'AddInvoiceStatus')->name('invoice.status.add');
+            
+            
+        });
+
 
     });
 });
