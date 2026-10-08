@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Purchase extends Model
+class InvoiceStatus extends Model
 {
     protected $guarded = [];
 
@@ -13,8 +13,8 @@ class Purchase extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function invoiceStatuses()
+    public function purchase()
     {
-        return $this->hasMany(InvoiceStatus::class);
+        return $this->belongsTo(Purchase::class);
     }
 }
