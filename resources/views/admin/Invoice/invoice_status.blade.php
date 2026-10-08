@@ -683,25 +683,25 @@
                                     <td>
 
                                         {{-- View --}}
-                                        {{-- <a href="{{ route('invoice.status.view', $item->id) }}"
+                                        <a href="{{ route('invoice.status.view', $item->id) }}"
                                             class="btn btn-info btn-sm">
                                             <i class="bx bx-show"></i>
                                             View
-                                        </a> --}}
+                                        </a>
 
                                         {{-- Edit --}}
-                                        {{-- <a href="{{ route('invoice.status.edit', $item->id) }}"
+                                        <a href="{{ route('invoice.status.edit', $item->id) }}"
                                             class="btn btn-primary btn-sm">
                                             <i class="bx bx-edit"></i>
                                             Edit
-                                        </a> --}}
+                                        </a>
 
                                         {{-- Delete --}}
-                                        {{-- <a href="{{ route('invoice.status.delete', $item->id) }}"
+                                        <a href="{{ route('invoice.status.delete', $item->id) }}"
                                             class="btn btn-danger btn-sm" id="delete">
                                             <i class="bx bx-trash"></i>
                                             Delete
-                                        </a> --}}
+                                        </a>
 
                                     </td>
 

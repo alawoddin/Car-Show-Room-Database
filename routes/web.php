@@ -115,8 +115,10 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/invoice/status', 'InvoiceStatus')->name('invoice.status');
             Route::get('/invoice/status/add', 'AddInvoiceStatus')->name('invoice.status.add');
             Route::post('/invoice/status/store', 'StoreInvoiceStatus')->name('invoice.status.store');
-            
-            
+            Route::get('/invoice/status/view/{id}', 'ViewInvoiceStatus')->name('invoice.status.view');
+            Route::get('/invoice/status/edit/{id}', 'EditInvoiceStatus')->name('invoice.status.edit');
+            Route::post('/invoice/status/update', 'UpdateInvoiceStatus')->name('invoice.status.update');
+            Route::get('/invoice/status/delete/{id}', 'DeleteInvoiceStatus')->name('invoice.status.delete');
         });
 
 
