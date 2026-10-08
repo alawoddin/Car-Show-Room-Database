@@ -56,24 +56,29 @@
                
             </ul>
         </li>
+
+         
+
       
      
-        <li class="menu-label">Charts & Maps</li>
+        <li class="menu-label">Info</li>
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="bx bx-line-chart"></i>
+                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
                 </div>
-                <div class="menu-title">Charts</div>
+                <div class="menu-title">Expense</div>
             </a>
             <ul>
-                <li> <a href="charts-apex-chart.html"><i class='bx bx-radio-circle'></i>Apex</a>
+                <li> <a href="{{ route('all.purchases') }}"><i class='bx bx-radio-circle'></i>All expense</a>
                 </li>
-                <li> <a href="charts-chartjs.html"><i class='bx bx-radio-circle'></i>Chartjs</a>
+                {{-- <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
                 </li>
-                <li> <a href="charts-highcharts.html"><i class='bx bx-radio-circle'></i>Highcharts</a>
-                </li>
+                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Invoice Status</a>
+                </li> --}}
+               
             </ul>
         </li>
+        
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class="bx bx-map-alt"></i>
