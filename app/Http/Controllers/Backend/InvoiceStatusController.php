@@ -47,4 +47,32 @@ class InvoiceStatusController extends Controller
             compact('users', 'purchases')
         );
     }
+
+     public function StoreInvoiceStatus(Request $request)
+    {
+        
+
+
+        InvoiceStatus::create([
+            'user_id' => $request->user_id,
+            'purchase_id' => $request->purchase_id,
+            'amount' => $request->amount,
+            'due_date' => $request->due_date,
+            'status' => $request->status,
+        ]);
+
+
+        $notification = [
+            'message' => 'Invoice Status Added Successfully',
+            'alert-type' => 'success'
+        ];
+
+
+        return redirect()
+            ->route('invoice.status')
+            ->with($notification);
+    }
+    
+
+
 }

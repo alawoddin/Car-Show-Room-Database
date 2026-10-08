@@ -51,6 +51,8 @@
                 </li>
                 <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
                 </li>
+                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Invoice Status</a>
+                </li>
                
             </ul>
         </li>
