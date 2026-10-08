@@ -127,10 +127,9 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/all/expense', 'AllExpense')->name('all.expense');
             Route::get('/add/expense', 'AddExpense')->name('add.expense');
             Route::post('/store/expense', 'StoreExpense')->name('store.expense');
-            // Route::get('/invoice/status/view/{id}', 'ViewInvoiceStatus')->name('invoice.status.view');
-            // Route::get('/invoice/status/edit/{id}', 'EditInvoiceStatus')->name('invoice.status.edit');
-            // Route::post('/invoice/status/update', 'UpdateInvoiceStatus')->name('invoice.status.update');
-            // Route::get('/invoice/status/delete/{id}', 'DeleteInvoiceStatus')->name('invoice.status.delete');
+            Route::get('/edit/expense/{id}', 'EditExpense')->name('edit.expense');
+            Route::post('/update/expense', 'UpdateExpense')->name('update.expense');
+            Route::get('/expense/delete/{id}', 'DeleteExpense')->name('delete.expense');
         });
 
 

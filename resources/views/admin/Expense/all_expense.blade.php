@@ -50,8 +50,8 @@
                                     <td>{{ Str::limit($item->description, 80) }}</td>
                                     <td>{{ $item->date }}</td>
                                     <td>
-                                        <a href="{{ route('edit.capital.transaction', $item->id) }}" class="btn btn-info">Edit</a>
-                                        <a href="{{ route('delete.capital.transaction', $item->id) }}" class="btn btn-danger" id="delete">Delete</a>
+                                        <a href="{{ route('edit.expense', $item->id) }}" class="btn btn-info">Edit</a>
+                                        <a href="{{ route('delete.expense', $item->id) }}" class="btn btn-danger" id="delete">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach
