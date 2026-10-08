@@ -2,6 +2,10 @@
 
 @section('admin')
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+
+    
 <div class="page-content">
 
     <!-- Breadcrumb -->
@@ -1040,6 +1044,88 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myForm').validate({
+                rules: {
+                    user_id: {
+                        required: true,
+                    },
+                    lot_number: {
+                        required: true,
+                    },
+                    vin: {
+                        required: true,
+                    },
+                    Cylinder: {
+                        required: true,
+                    },
+                    buying_fee: {
+                        required: true,
+                    },
+                    towing_fee: {
+                        required: true,
+                    },
+                    shipping: {
+                        required: true,
+                    },
+                    commission: {
+                        required: true,
+                    },
+                    Clearing: {
+                        required: true,
+                    },
+
+                },
+                messages: {
+                    user_id: {
+                        required: 'Please Select User',
+                    },
+                    lot_number: {
+                        required: 'Please Enter  lot_number',
+                    },
+                    vin: {
+                        required: 'Please Enter vin',
+                    },
+                    Cylinder: {
+                        required: 'Please Enter Cylinder Description',
+                    },
+                    buying_fee: {
+                        required: 'Please Enter buying_fee ',
+                    },
+                    towing_fee: {
+                        required: 'Please Enter towing_fee',
+                    },
+                    shipping: {
+                        required: 'Please Enter shipping',
+                    },
+                    commission: {
+                        required: 'Please Enter commission',
+                    },
+                    Clearing: {
+                        required: 'Please Enter Clearing',
+                    },
+                    
+                },
+               
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
+            });
+        });
+    </script>
+
+
 
 
 @endsection
