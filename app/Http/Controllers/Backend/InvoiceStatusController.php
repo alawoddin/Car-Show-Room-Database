@@ -57,115 +57,64 @@ class InvoiceStatusController extends Controller
 
     public function StoreInvoiceStatus(Request $request)
     {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'purchase_id' => 'required|exists:purchases,id',
+            'paid_amount' => 'required|numeric|min:0',
+            'due_date' => 'nullable|date',
+        ]);
 
+        // Check duplicate invoice
+        $existingInvoice = InvoiceStatus::where(
+            'purchase_id',
+            $request->purchase_id
+        )->first();
 
+        if ($existingInvoice) {
 
-        /*
-    |--------------------------------------------------------------------------
-    | Get Purchase
-    |--------------------------------------------------------------------------
-    */
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'purchase_id' => 'This vehicle already has an invoice status.'
+                ]);
+        }
 
+        // Get purchase
         $purchase = Purchase::findOrFail($request->purchase_id);
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | Get Grand Total From Purchase
-    |--------------------------------------------------------------------------
-    */
 
         $grandTotal = (float) $purchase->grand_total;
 
-
-        /*
-    |--------------------------------------------------------------------------
-    | Paid Amount
-    |--------------------------------------------------------------------------
-    */
-
         $paidAmount = (float) $request->paid_amount;
 
-
-        /*
-    |--------------------------------------------------------------------------
-    | Prevent Paid Amount Greater Than Grand Total
-    |--------------------------------------------------------------------------
-    */
-
+        // Paid cannot be greater than Grand Total
         if ($paidAmount > $grandTotal) {
 
             return back()
                 ->withInput()
                 ->withErrors([
-                    'paid_amount' =>
-                    'Paid amount cannot be greater than the Grand Total.'
+                    'paid_amount' => 'Paid amount cannot be greater than Grand Total.'
                 ]);
         }
 
-
-        /*
-    |--------------------------------------------------------------------------
-    | Calculate Status
-    |--------------------------------------------------------------------------
-    */
-
-        if ($paidAmount >= $grandTotal) {
-
-            $status = 'Paid';
-        } elseif (
-            $request->due_date &&
-            now()->startOfDay()->gt(
-                \Carbon\Carbon::parse($request->due_date)->startOfDay()
-            )
-        ) {
-
-            $status = 'Overdue';
-        } else {
-
-            $status = 'Open';
-        }
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | Save Invoice Status
-    |--------------------------------------------------------------------------
-    */
+        // Determine status
+        $status = $paidAmount >= $grandTotal
+            ? 'Paid'
+            : 'Open';
 
         InvoiceStatus::create([
-
             'user_id' => $request->user_id,
-
             'purchase_id' => $request->purchase_id,
-
             'paid_amount' => $paidAmount,
-
             'due_date' => $request->due_date,
-
             'status' => $status,
-
         ]);
-
-
-        /*
-    |--------------------------------------------------------------------------
-    | Notification
-    |--------------------------------------------------------------------------
-    */
-
-        $notification = [
-
-            'message' => 'Invoice Status Added Successfully',
-
-            'alert-type' => 'success'
-
-        ];
-
 
         return redirect()
             ->route('invoice.status')
-            ->with($notification);
+            ->with([
+                'message' => 'Invoice Status Added Successfully',
+                'alert-type' => 'success'
+            ]);
     }
 
 

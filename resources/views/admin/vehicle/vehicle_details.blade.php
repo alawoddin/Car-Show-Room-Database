@@ -704,7 +704,7 @@
 
                     <td>
 
-                        {{ $vehicle->shipping_company ?? 'Shipping' }}
+                        {{ $vehicle->shipping ?? 'Shipping' }}
 
                     </td>
 
@@ -799,57 +799,7 @@
         </div>
 
 
-        <table class="additional-table">
-
-            <tr>
-
-                <th>
-                    Clearing
-                </th>
-
-                <td class="money">
-
-                    AED
-                    {{ number_format($vehicle->clearing ?? 0, 2) }}
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>
-                    Extra Charges
-                </th>
-
-                <td class="money">
-
-                    AED
-                    {{ number_format($vehicle->extra_charges ?? 0, 2) }}
-
-                </td>
-
-            </tr>
-
-
-            <tr>
-
-                <th>
-                    Custom Duty
-                </th>
-
-                <td class="money">
-
-                    AED
-                    {{ number_format($vehicle->custom_duty ?? 0, 2) }}
-
-                </td>
-
-            </tr>
-
-        </table>
-
+       
 
         {{-- GRAND TOTAL --}}
 

@@ -1,7 +1,6 @@
 @extends('admin.admin_dashboard')
 
 @section('admin')
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <div class="page-content">
@@ -50,10 +49,7 @@
                 </h5>
 
 
-                <form id="myForm"
-                      action="{{ route('invoice.status.store') }}"
-                      method="post"
-                      class="row g-3">
+                <form id="myForm" action="{{ route('invoice.status.store') }}" method="post" class="row g-3">
 
                     @csrf
 
@@ -75,9 +71,7 @@
                             </label>
 
 
-                            <select name="user_id"
-                                    id="user_id"
-                                    class="form-select">
+                            <select name="user_id" id="user_id" class="form-select">
 
                                 <option value="">
 
@@ -87,13 +81,11 @@
 
 
                                 @foreach ($users as $user)
-
                                     <option value="{{ $user->id }}">
 
                                         {{ $user->name }}
 
                                     </option>
-
                                 @endforeach
 
                             </select>
@@ -107,35 +99,25 @@
                         <div class="form-group col-md-6">
 
                             <label for="purchase_id" class="form-label">
-
                                 Purchase / Vehicle
-
                             </label>
 
-
-                            <select name="purchase_id"
-                                    id="purchase_id"
-                                    class="form-select">
+                            <select name="purchase_id" id="purchase_id"
+                                class="form-select @error('purchase_id') is-invalid @enderror">
 
                                 <option value="">
-
                                     Select Purchase
-
                                 </option>
 
-
                                 @foreach ($purchases as $purchase)
-
-                                    <option value="{{ $purchase->id }}"
-                                            data-user="{{ $purchase->user_id }}"
-                                            data-grand-total="{{ $purchase->grand_total ?? 0 }}">
+                                    <option value="{{ $purchase->id }}" data-user="{{ $purchase->user_id }}"
+                                        data-grand-total="{{ $purchase->grand_total ?? 0 }}"
+                                        {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>
 
                                         #{{ $purchase->id }}
 
                                         -
-
                                         {{ $purchase->make ?? '' }}
-
                                         {{ $purchase->model ?? '' }}
 
                                         -
@@ -143,12 +125,21 @@
                                         {{ $purchase->vin ?? 'No VIN' }}
 
                                     </option>
-
                                 @endforeach
 
                             </select>
 
+
+                            {{-- Duplicate / Validation Error --}}
+
+                            @error('purchase_id')
+                                <span class="text-danger">
+                                    {{ $message }}
+                                </span>
+                            @enderror
+
                         </div>
+
 
                     </div>
 
@@ -172,11 +163,8 @@
                             </label>
 
 
-                            <input type="text"
-                                   class="form-control"
-                                   id="grand_total"
-                                   placeholder="Select Purchase"
-                                   readonly>
+                            <input type="text" class="form-control" id="grand_total" placeholder="Select Purchase"
+                                readonly>
 
                         </div>
 
@@ -193,13 +181,8 @@
                             </label>
 
 
-                            <input type="number"
-                                   name="paid_amount"
-                                   class="form-control"
-                                   id="paid_amount"
-                                   step="0.01"
-                                   min="0"
-                                   placeholder="Enter Paid Amount">
+                            <input type="number" name="paid_amount" class="form-control" id="paid_amount" step="0.01"
+                                min="0" placeholder="Enter Paid Amount">
 
                         </div>
 
@@ -225,11 +208,7 @@
                             </label>
 
 
-                            <input type="text"
-                                   class="form-control"
-                                   id="remaining_amount"
-                                   placeholder="0.00"
-                                   readonly>
+                            <input type="text" class="form-control" id="remaining_amount" placeholder="0.00" readonly>
 
                         </div>
 
@@ -246,10 +225,7 @@
                             </label>
 
 
-                            <input type="date"
-                                   name="due_date"
-                                   class="form-control"
-                                   id="due_date">
+                            <input type="date" name="due_date" class="form-control" id="due_date">
 
                         </div>
 
@@ -265,8 +241,7 @@
 
                         <div class="d-md-flex d-grid align-items-center gap-3">
 
-                            <button type="submit"
-                                    class="btn btn-primary px-4">
+                            <button type="submit" class="btn btn-primary px-4">
 
                                 Save Invoice Status
 
@@ -292,7 +267,6 @@
     ========================================================== --}}
 
     <script>
-
         $(document).ready(function() {
 
 
@@ -519,10 +493,8 @@
             |--------------------------------------------------------------------------
             */
 
-           
+
 
         });
-
     </script>
-
 @endsection

@@ -438,6 +438,22 @@
 
                     </div>
 
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="grand_total" class="form-label">
+                            shipping_company
+                        </label>
+
+                        <input
+                            type="text"
+                            name="shipping_company"
+                            class="form-control"
+                            value="{{ $purchase->shipping_company ?? '' }}"
+                            >
+
+                    </div>
+
+
                 </div>
 
 
