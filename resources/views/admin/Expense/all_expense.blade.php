@@ -42,7 +42,7 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($capitalTransactions as $key => $item)
+                            @foreach ($expenses as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->expense_name }}$</td>

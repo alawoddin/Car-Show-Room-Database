@@ -10,7 +10,7 @@
                     <ol class="breadcrumb mb-0 p-0">
                         <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Add </li>
+                        <li class="breadcrumb-item active" aria-current="page">Add Expense </li>
                     </ol>
                 </nav>
             </div>
@@ -20,27 +20,33 @@
 
         <div class="card">
             <div class="card-body p-4">
-                <h5 class="mb-4">Add Capital Transaction</h5>
-                <form id="myForm" action="{{ route('store.capital.transaction') }}" method="post" class="row g-3" enctype="multipart/form-data">
+                <h5 class="mb-4">Add Expense</h5>
+                <form id="myForm" action="{{ route('store.expense') }}" method="post" class="row g-3" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
                     <div class="form-group col-md-6">
-                        <label for="input1" class="form-label">Capital Amount</label>
-                        <input type="text" name="amount" class="form-control" id="input1">
+                        <label for="input1" class="form-label">expense_name</label>
+                        <input type="text" name="expense_name" class="form-control" id="expense_name">
                     </div>
 
+                     <div class="form-group col-md-6">
+                        <label for="input1" class="form-label">expense amount</label>
+                        <input type="text" name="amount" class="form-control" id="amount">
+                    </div>
+
+
                     <div class="form-group col-md-6">
-                        <label for="input1" class="form-label">Capital Description</label>
-                        <textarea type="text" name="description" class="form-control" id="input1"></textarea>
+                        <label for="input1" class="form-label">expense Description</label>
+                        <textarea type="text" name="description" class="form-control" id="description"></textarea>
                     </div>
                 </div>
 
                 <div class="row">
 
                     <div class="form-group col-md-6 mb-3">
-                        <label for="input1" class="form-label">Capital Date</label>
-                        <input type="date" name="date" class="form-control" id="input1">
+                        <label for="input1" class="form-label">expense Date</label>
+                        <input type="date" name="date" class="form-control" id="date">
                     </div>
 
                    
@@ -70,6 +76,10 @@
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
+                    expense_name: {
+                        required: true,
+                        number: true
+                    },
                     amount: {
                         required: true,
                         number: true
@@ -86,14 +96,18 @@
                 },
                 messages: {
                     amount: {
-                        required: 'Please Enter Capital Amount',
+                        required: 'Please Enter Expense Amount',
                         number: 'Please Enter a valid number'
                     },
                     description: {
-                        required: 'Please Enter Capital Description'
+                        required: 'Please Enter Expense Description'
                     },
                     date: {
-                        required: 'Please Enter Capital Date',
+                        required: 'Please Enter Expense Date',
+                        date: 'Please Enter a valid date'
+                    },
+                    expense_name: {
+                        required: 'Please Enter expense_name',
                         date: 'Please Enter a valid date'
                     }
                    
