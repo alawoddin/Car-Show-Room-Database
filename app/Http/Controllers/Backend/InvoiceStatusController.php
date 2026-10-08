@@ -11,68 +11,164 @@ use Illuminate\Http\Request;
 class InvoiceStatusController extends Controller
 {
     public function InvoiceStatus()
-    {
-        $invoiceStatuses = InvoiceStatus::with([
-            'user',
-            'purchase'
-        ])
-            ->latest()
-            ->get();
+{
+    $invoiceStatuses = InvoiceStatus::with([
+        'user',
+        'purchase'
+    ])
+        ->latest()
+        ->get();
 
-        return view(
-            'admin.Invoice.invoice_status',
-            compact('invoiceStatuses')
-        );
+    return view(
+        'admin.Invoice.invoice_status',
+        compact('invoiceStatuses')
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Add Invoice Status Page
+|--------------------------------------------------------------------------
+*/
+
+public function AddInvoiceStatus()
+{
+    $users = User::where('role', 'user')
+        ->latest()
+        ->get();
+
+    $purchases = Purchase::with('user')
+        ->latest()
+        ->get();
+
+    return view(
+        'admin.Invoice.add_invoice_status',
+        compact('users', 'purchases')
+    );
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Store Invoice Status
+|--------------------------------------------------------------------------
+*/
+
+public function StoreInvoiceStatus(Request $request)
+{
+    
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Purchase
+    |--------------------------------------------------------------------------
+    */
+
+    $purchase = Purchase::findOrFail($request->purchase_id);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Grand Total From Purchase
+    |--------------------------------------------------------------------------
+    */
+
+    $grandTotal = (float) $purchase->grand_total;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Paid Amount
+    |--------------------------------------------------------------------------
+    */
+
+    $paidAmount = (float) $request->paid_amount;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Prevent Paid Amount Greater Than Grand Total
+    |--------------------------------------------------------------------------
+    */
+
+    if ($paidAmount > $grandTotal) {
+
+        return back()
+            ->withInput()
+            ->withErrors([
+                'paid_amount' =>
+                    'Paid amount cannot be greater than the Grand Total.'
+            ]);
     }
 
 
     /*
     |--------------------------------------------------------------------------
-    | Add Invoice Status Page
+    | Calculate Status
     |--------------------------------------------------------------------------
     */
 
-    public function AddInvoiceStatus()
-    {
-        $users = User::where('role', 'user')
-            ->latest()
-            ->get();
+    if ($paidAmount >= $grandTotal) {
 
-        $purchases = Purchase::with('user')
-            ->latest()
-            ->get();
+        $status = 'Paid';
 
-        return view(
-            'admin.Invoice.add_invoice_status',
-            compact('users', 'purchases')
-        );
+    } elseif (
+        $request->due_date &&
+        now()->startOfDay()->gt(
+            \Carbon\Carbon::parse($request->due_date)->startOfDay()
+        )
+    ) {
+
+        $status = 'Overdue';
+
+    } else {
+
+        $status = 'Open';
+
     }
 
-     public function StoreInvoiceStatus(Request $request)
-    {
-        
+
+    /*
+    |--------------------------------------------------------------------------
+    | Save Invoice Status
+    |--------------------------------------------------------------------------
+    */
+
+    InvoiceStatus::create([
+
+        'user_id' => $request->user_id,
+
+        'purchase_id' => $request->purchase_id,
+
+        'paid_amount' => $paidAmount,
+
+        'due_date' => $request->due_date,
+
+        'status' => $status,
+
+    ]);
 
 
-        InvoiceStatus::create([
-            'user_id' => $request->user_id,
-            'purchase_id' => $request->purchase_id,
-            'amount' => $request->amount,
-            'due_date' => $request->due_date,
-            'status' => $request->status,
-        ]);
+    /*
+    |--------------------------------------------------------------------------
+    | Notification
+    |--------------------------------------------------------------------------
+    */
+
+    $notification = [
+
+        'message' => 'Invoice Status Added Successfully',
+
+        'alert-type' => 'success'
+
+    ];
 
 
-        $notification = [
-            'message' => 'Invoice Status Added Successfully',
-            'alert-type' => 'success'
-        ];
-
-
-        return redirect()
-            ->route('invoice.status')
-            ->with($notification);
-    }
-    
-
+    return redirect()
+        ->route('invoice.status')
+        ->with($notification);
+}
 
 }

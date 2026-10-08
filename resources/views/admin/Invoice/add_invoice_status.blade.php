@@ -59,24 +59,32 @@
 
 
                     {{-- =====================================================
-                         USER
+                         USER + PURCHASE
                     ====================================================== --}}
 
                     <div class="row">
 
+                        {{-- USER --}}
+
                         <div class="form-group col-md-6">
 
                             <label for="user_id" class="form-label">
+
                                 User Name
+
                             </label>
+
 
                             <select name="user_id"
                                     id="user_id"
                                     class="form-select">
 
                                 <option value="">
+
                                     Select User
+
                                 </option>
+
 
                                 @foreach ($users as $user)
 
@@ -93,28 +101,34 @@
                         </div>
 
 
-                        {{-- =================================================
-                             PURCHASE
-                        ================================================== --}}
+
+                        {{-- PURCHASE --}}
 
                         <div class="form-group col-md-6">
 
                             <label for="purchase_id" class="form-label">
+
                                 Purchase / Vehicle
+
                             </label>
+
 
                             <select name="purchase_id"
                                     id="purchase_id"
                                     class="form-select">
 
                                 <option value="">
+
                                     Select Purchase
+
                                 </option>
+
 
                                 @foreach ($purchases as $purchase)
 
                                     <option value="{{ $purchase->id }}"
-                                            data-user="{{ $purchase->user_id }}">
+                                            data-user="{{ $purchase->user_id }}"
+                                            data-grand-total="{{ $purchase->grand_total ?? 0 }}">
 
                                         #{{ $purchase->id }}
 
@@ -141,38 +155,51 @@
 
 
                     {{-- =====================================================
-                         AMOUNT + DUE DATE
+                         GRAND TOTAL + PAID AMOUNT
                     ====================================================== --}}
 
                     <div class="row">
 
+
+                        {{-- GRAND TOTAL --}}
+
                         <div class="form-group col-md-6">
 
-                            <label for="amount" class="form-label">
-                                Invoice Amount
+                            <label for="grand_total" class="form-label">
+
+                                Grand Total
+
                             </label>
 
-                            <input type="number"
-                                   name="amount"
+
+                            <input type="text"
                                    class="form-control"
-                                   id="amount"
-                                   step="0.01"
-                                   min="0"
-                                   placeholder="Enter Invoice Amount">
+                                   id="grand_total"
+                                   placeholder="Select Purchase"
+                                   readonly>
 
                         </div>
 
 
+
+                        {{-- PAID AMOUNT --}}
+
                         <div class="form-group col-md-6">
 
-                            <label for="due_date" class="form-label">
-                                Due Date
+                            <label for="paid_amount" class="form-label">
+
+                                Paid Amount
+
                             </label>
 
-                            <input type="date"
-                                   name="due_date"
+
+                            <input type="number"
+                                   name="paid_amount"
                                    class="form-control"
-                                   id="due_date">
+                                   id="paid_amount"
+                                   step="0.01"
+                                   min="0"
+                                   placeholder="Enter Paid Amount">
 
                         </div>
 
@@ -181,43 +208,50 @@
 
 
                     {{-- =====================================================
-                         STATUS + DESCRIPTION
+                         REMAINING + DUE DATE
                     ====================================================== --}}
 
                     <div class="row">
 
+
+                        {{-- REMAINING AMOUNT --}}
+
                         <div class="form-group col-md-6">
 
-                            <label for="status" class="form-label">
-                                Invoice Status
+                            <label for="remaining_amount" class="form-label">
+
+                                Remaining Amount
+
                             </label>
 
-                            <select name="status"
-                                    id="status"
-                                    class="form-select">
 
-                                <option value="">
-                                    Select Status
-                                </option>
-
-                                <option value="Open">
-                                    Open
-                                </option>
-
-                                <option value="Paid">
-                                    Paid
-                                </option>
-
-                                <option value="Overdue">
-                                    Overdue
-                                </option>
-
-                            </select>
+                            <input type="text"
+                                   class="form-control"
+                                   id="remaining_amount"
+                                   placeholder="0.00"
+                                   readonly>
 
                         </div>
 
 
-                    
+
+                        {{-- DUE DATE --}}
+
+                        <div class="form-group col-md-6">
+
+                            <label for="due_date" class="form-label">
+
+                                Due Date
+
+                            </label>
+
+
+                            <input type="date"
+                                   name="due_date"
+                                   class="form-control"
+                                   id="due_date">
+
+                        </div>
 
                     </div>
 
@@ -253,5 +287,242 @@
 
 
 
+    {{-- =========================================================
+         JAVASCRIPT
+    ========================================================== --}}
+
+    <script>
+
+        $(document).ready(function() {
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | USER SELECT
+            |--------------------------------------------------------------------------
+            */
+
+            $('#user_id').on('change', function() {
+
+                let userId = $(this).val();
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Reset Purchase
+                |--------------------------------------------------------------------------
+                */
+
+                $('#purchase_id').val('');
+
+                $('#grand_total').val('');
+
+                $('#paid_amount').val('');
+
+                $('#remaining_amount').val('');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Filter Purchases By User
+                |--------------------------------------------------------------------------
+                */
+
+                $('#purchase_id option').each(function() {
+
+                    let option = $(this);
+
+                    let purchaseUser = option.data('user');
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Default Option
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (!option.val()) {
+
+                        option.show();
+
+                        return;
+
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Show User Purchases
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (userId && purchaseUser == userId) {
+
+                        option.show();
+
+                    } else {
+
+                        option.hide();
+
+                    }
+
+                });
+
+            });
+
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PURCHASE SELECT
+            |--------------------------------------------------------------------------
+            */
+
+            $('#purchase_id').on('change', function() {
+
+
+                let selectedOption = $(this).find('option:selected');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Get Grand Total
+                |--------------------------------------------------------------------------
+                */
+
+                let grandTotal = parseFloat(
+                    selectedOption.attr('data-grand-total')
+                ) || 0;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Show Grand Total
+                |--------------------------------------------------------------------------
+                */
+
+                if (grandTotal > 0) {
+
+                    $('#grand_total').val(
+                        'AED ' + grandTotal.toFixed(2)
+                    );
+
+                } else {
+
+                    $('#grand_total').val(
+                        'AED 0.00'
+                    );
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Reset Paid Amount
+                |--------------------------------------------------------------------------
+                */
+
+                $('#paid_amount').val('');
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Show Initial Remaining
+                |--------------------------------------------------------------------------
+                */
+
+                $('#remaining_amount').val(
+                    'AED ' + grandTotal.toFixed(2)
+                );
+
+            });
+
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PAID AMOUNT
+            |--------------------------------------------------------------------------
+            */
+
+            $('#paid_amount').on('input', function() {
+
+
+                let paidAmount = parseFloat($(this).val()) || 0;
+
+
+                let selectedOption = $('#purchase_id')
+                    .find('option:selected');
+
+
+                let grandTotal = parseFloat(
+                    selectedOption.attr('data-grand-total')
+                ) || 0;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Prevent Paid Amount Greater Than Grand Total
+                |--------------------------------------------------------------------------
+                */
+
+                if (paidAmount > grandTotal) {
+
+                    $(this).val(grandTotal);
+
+                    paidAmount = grandTotal;
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Calculate Remaining
+                |--------------------------------------------------------------------------
+                */
+
+                let remaining = grandTotal - paidAmount;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Prevent Negative Remaining
+                |--------------------------------------------------------------------------
+                */
+
+                if (remaining < 0) {
+
+                    remaining = 0;
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Show Remaining
+                |--------------------------------------------------------------------------
+                */
+
+                $('#remaining_amount').val(
+
+                    'AED ' + remaining.toFixed(2)
+
+                );
+
+            });
+
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | FORM VALIDATION
+            |--------------------------------------------------------------------------
+            */
+
+           
+
+        });
+
+    </script>
 
 @endsection

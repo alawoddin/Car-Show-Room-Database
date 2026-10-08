@@ -1,7 +1,6 @@
 @extends('admin.admin_dashboard')
 
 @section('admin')
-
     <div class="page-content">
 
         <!--breadcrumb-->
@@ -14,13 +13,19 @@
                     <ol class="breadcrumb mb-0 p-0">
 
                         <li class="breadcrumb-item">
+
                             <a href="javascript:;">
+
                                 <i class="bx bx-home-alt"></i>
+
                             </a>
+
                         </li>
 
                         <li class="breadcrumb-item active" aria-current="page">
+
                             Invoice Status
+
                         </li>
 
                     </ol>
@@ -34,8 +39,7 @@
 
                 <div class="btn-group">
 
-                    <a href="{{ route('invoice.status.add') }}"
-                       class="btn btn-primary px-5">
+                    <a href="{{ route('invoice.status.add') }}" class="btn btn-primary px-5">
 
                         Add Invoice Status
 
@@ -49,39 +53,258 @@
         <!--end breadcrumb-->
 
 
+
         {{-- =====================================================
              INVOICE SUMMARY
         ====================================================== --}}
 
         @php
 
+            /*
+            |--------------------------------------------------------------------------
+            | TOTAL INVOICES
+            |--------------------------------------------------------------------------
+            */
+
             $totalInvoices = $invoiceStatuses->count();
 
-            $paidInvoices = $invoiceStatuses
-                ->where('status', 'Paid')
-                ->count();
+            /*
+            |--------------------------------------------------------------------------
+            | PAID INVOICES
+            |--------------------------------------------------------------------------
+            */
 
-            $openInvoices = $invoiceStatuses
-                ->where('status', 'Open')
-                ->count();
+            $paidInvoices = $invoiceStatuses->where('status', 'Paid')->count();
 
-            $overdueInvoices = $invoiceStatuses
-                ->where('status', 'Overdue')
-                ->count();
+            /*
+            |--------------------------------------------------------------------------
+            | OPEN INVOICES
+            |--------------------------------------------------------------------------
+            */
 
-            $openAmount = $invoiceStatuses
-                ->where('status', 'Open')
-                ->sum('amount');
+            $openInvoices = $invoiceStatuses->where('status', 'Open')->count();
 
-            $overdueAmount = $invoiceStatuses
-                ->where('status', 'Overdue')
-                ->sum('amount');
+            /*
+            |--------------------------------------------------------------------------
+            | OVERDUE INVOICES
+            |--------------------------------------------------------------------------
+            */
+
+            $overdueInvoices = $invoiceStatuses->where('status', 'Overdue')->count();
+
+            /*
+            |--------------------------------------------------------------------------
+            | OPEN REMAINING AMOUNT
+            |--------------------------------------------------------------------------
+            */
+
+            $openAmount = $invoiceStatuses->where('status', 'Open')->sum(function ($item) {
+                $grandTotal = $item->purchase->grand_total ?? 0;
+
+                $paidAmount = $item->paid_amount ?? 0;
+
+                return max(0, $grandTotal - $paidAmount);
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | OVERDUE REMAINING AMOUNT
+            |--------------------------------------------------------------------------
+            */
+
+            $overdueAmount = $invoiceStatuses->where('status', 'Overdue')->sum(function ($item) {
+                $grandTotal = $item->purchase->grand_total ?? 0;
+
+                $paidAmount = $item->paid_amount ?? 0;
+
+                return max(0, $grandTotal - $paidAmount);
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | TOTAL GRAND TOTAL
+            |--------------------------------------------------------------------------
+            */
+
+            $totalAmount = $invoiceStatuses->sum(function ($item) {
+                return $item->purchase->grand_total ?? 0;
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | TOTAL PAID
+            |--------------------------------------------------------------------------
+            */
+
+            $totalPaid = $invoiceStatuses->sum(function ($item) {
+                return $item->paid_amount ?? 0;
+            });
+
+            /*
+            |--------------------------------------------------------------------------
+            | TOTAL REMAINING
+            |--------------------------------------------------------------------------
+            */
+
+            $totalRemaining = $invoiceStatuses->sum(function ($item) {
+                $grandTotal = $item->purchase->grand_total ?? 0;
+
+                $paidAmount = $item->paid_amount ?? 0;
+
+                return max(0, $grandTotal - $paidAmount);
+            });
 
         @endphp
 
 
+
         {{-- =====================================================
-             SUMMARY CARDS
+             FINANCIAL SUMMARY
+        ====================================================== --}}
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 mb-3">
+
+
+            {{-- TOTAL GRAND TOTAL --}}
+
+            <div class="col">
+
+                <div class="card radius-10 border-start border-0 border-4 border-primary">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-center">
+
+                            <div>
+
+                                <p class="mb-0 text-secondary">
+                                    Total Amount
+                                </p>
+
+                                <h4 class="my-1 text-primary">
+
+                                    AED {{ number_format($totalAmount, 2) }}
+
+                                </h4>
+
+                                <p class="mb-0 font-13">
+                                    Total Grand Total
+                                </p>
+
+                            </div>
+
+
+                            <div class="widgets-icons bg-light-primary text-primary ms-auto">
+
+                                <i class="bx bx-money"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            {{-- TOTAL PAID --}}
+
+            <div class="col">
+
+                <div class="card radius-10 border-start border-0 border-4 border-success">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-center">
+
+                            <div>
+
+                                <p class="mb-0 text-secondary">
+                                    Paid Amount
+                                </p>
+
+                                <h4 class="my-1 text-success">
+
+                                    AED {{ number_format($totalPaid, 2) }}
+
+                                </h4>
+
+                                <p class="mb-0 font-13">
+                                    Total Paid
+                                </p>
+
+                            </div>
+
+
+                            <div class="widgets-icons bg-light-success text-success ms-auto">
+
+                                <i class="bx bx-check-circle"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            {{-- TOTAL REMAINING --}}
+
+            <div class="col">
+
+                <div class="card radius-10 border-start border-0 border-4 border-danger">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-center">
+
+                            <div>
+
+                                <p class="mb-0 text-secondary">
+                                    Remaining
+                                </p>
+
+                                <h4 class="my-1 text-danger">
+
+                                    AED {{ number_format($totalRemaining, 2) }}
+
+                                </h4>
+
+                                <p class="mb-0 font-13">
+                                    Total Remaining
+                                </p>
+
+                            </div>
+
+
+                            <div class="widgets-icons bg-light-danger text-danger ms-auto">
+
+                                <i class="bx bx-wallet"></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        {{-- =====================================================
+             INVOICE STATUS SUMMARY
         ====================================================== --}}
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 mb-3">
@@ -104,7 +327,9 @@
                                 </p>
 
                                 <h4 class="my-1 text-primary">
+
                                     {{ $totalInvoices }}
+
                                 </h4>
 
                                 <p class="mb-0 font-13">
@@ -112,6 +337,7 @@
                                 </p>
 
                             </div>
+
 
                             <div class="widgets-icons bg-light-primary text-primary ms-auto">
 
@@ -126,6 +352,7 @@
                 </div>
 
             </div>
+
 
 
             {{-- PAID --}}
@@ -145,7 +372,9 @@
                                 </p>
 
                                 <h4 class="my-1 text-success">
+
                                     {{ $paidInvoices }}
+
                                 </h4>
 
                                 <p class="mb-0 font-13">
@@ -153,6 +382,7 @@
                                 </p>
 
                             </div>
+
 
                             <div class="widgets-icons bg-light-success text-success ms-auto">
 
@@ -167,6 +397,7 @@
                 </div>
 
             </div>
+
 
 
             {{-- OPEN --}}
@@ -186,7 +417,9 @@
                                 </p>
 
                                 <h4 class="my-1 text-warning">
+
                                     {{ $openInvoices }}
+
                                 </h4>
 
                                 <p class="mb-0 font-13">
@@ -196,6 +429,7 @@
                                 </p>
 
                             </div>
+
 
                             <div class="widgets-icons bg-light-warning text-warning ms-auto">
 
@@ -210,6 +444,7 @@
                 </div>
 
             </div>
+
 
 
             {{-- OVERDUE --}}
@@ -229,7 +464,9 @@
                                 </p>
 
                                 <h4 class="my-1 text-danger">
+
                                     {{ $overdueInvoices }}
+
                                 </h4>
 
                                 <p class="mb-0 font-13">
@@ -239,6 +476,7 @@
                                 </p>
 
                             </div>
+
 
                             <div class="widgets-icons bg-light-danger text-danger ms-auto">
 
@@ -254,7 +492,9 @@
 
             </div>
 
+
         </div>
+
 
 
         {{-- =====================================================
@@ -267,9 +507,7 @@
 
                 <div class="table-responsive">
 
-                    <table id="example"
-                           class="table table-striped table-bordered"
-                           style="width:100%">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
 
                         <thead>
 
@@ -283,12 +521,15 @@
 
                                 <th>VIN</th>
 
-                                <th>Invoice Amount</th>
+                                <th>Grand Total</th>
+
+                                <th>Paid</th>
+
+                                <th>Remaining</th>
 
                                 <th>Due Date</th>
 
                                 <th>Status</th>
-
 
                                 <th>Action</th>
 
@@ -300,14 +541,28 @@
                         <tbody>
 
                             @forelse ($invoiceStatuses as $key => $item)
+                                @php
+
+                                    $grandTotal = $item->purchase->grand_total ?? 0;
+
+                                    $paidAmount = $item->paid_amount ?? 0;
+
+                                    $remaining = max(0, $grandTotal - $paidAmount);
+
+                                @endphp
+
 
                                 <tr>
+
 
                                     {{-- SL --}}
 
                                     <td>
+
                                         {{ $key + 1 }}
+
                                     </td>
+
 
 
                                     {{-- USER --}}
@@ -319,23 +574,21 @@
                                     </td>
 
 
+
                                     {{-- VEHICLE --}}
 
                                     <td>
 
                                         @if ($item->purchase)
-
                                             {{ $item->purchase->make ?? '-' }}
 
                                             {{ $item->purchase->model ?? '' }}
-
                                         @else
-
                                             -
-
                                         @endif
 
                                     </td>
+
 
 
                                     {{-- VIN --}}
@@ -347,14 +600,38 @@
                                     </td>
 
 
-                                    {{-- AMOUNT --}}
+
+                                    {{-- GRAND TOTAL --}}
 
                                     <td>
 
                                         AED
-                                        {{ number_format($item->amount ?? 0, 2) }}
+                                        {{ number_format($grandTotal, 2) }}
 
                                     </td>
+
+
+
+                                    {{-- PAID --}}
+
+                                    <td class="text-success">
+
+                                        AED
+                                        {{ number_format($paidAmount, 2) }}
+
+                                    </td>
+
+
+
+                                    {{-- REMAINING --}}
+
+                                    <td class="text-danger">
+
+                                        AED
+                                        {{ number_format($remaining, 2) }}
+
+                                    </td>
+
 
 
                                     {{-- DUE DATE --}}
@@ -366,64 +643,68 @@
                                     </td>
 
 
+
                                     {{-- STATUS --}}
 
                                     <td>
 
                                         @if ($item->status == 'Paid')
-
                                             <span class="badge bg-success">
+
                                                 Paid
-                                            </span>
 
+                                            </span>
                                         @elseif ($item->status == 'Open')
-
                                             <span class="badge bg-warning text-dark">
+
                                                 Open
-                                            </span>
 
+                                            </span>
                                         @elseif ($item->status == 'Overdue')
-
                                             <span class="badge bg-danger">
+
                                                 Overdue
-                                            </span>
 
+                                            </span>
                                         @else
-
                                             <span class="badge bg-secondary">
-                                                {{ $item->status }}
-                                            </span>
 
+                                                {{ $item->status }}
+
+                                            </span>
                                         @endif
 
                                     </td>
 
 
 
-                                  
-
-
                                     {{-- ACTION --}}
 
-                                    {{-- <td>
+                                    <td>
 
-                                        <a href="{{ route('invoice.status.edit', $item->id) }}"
-                                           class="btn btn-primary px-3">
+                                        {{-- View --}}
+                                        {{-- <a href="{{ route('invoice.status.view', $item->id) }}"
+                                            class="btn btn-info btn-sm">
+                                            <i class="bx bx-show"></i>
+                                            View
+                                        </a> --}}
 
+                                        {{-- Edit --}}
+                                        {{-- <a href="{{ route('invoice.status.edit', $item->id) }}"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="bx bx-edit"></i>
                                             Edit
+                                        </a> --}}
 
-                                        </a>
-
-
-                                        <a href="{{ route('invoice.status.delete', $item->id) }}"
-                                           class="btn btn-danger px-3"
-                                           id="delete">
-
+                                        {{-- Delete --}}
+                                        {{-- <a href="{{ route('invoice.status.delete', $item->id) }}"
+                                            class="btn btn-danger btn-sm" id="delete">
+                                            <i class="bx bx-trash"></i>
                                             Delete
+                                        </a> --}}
 
-                                        </a>
+                                    </td>
 
-                                    </td> --}}
 
                                 </tr>
 
@@ -431,14 +712,13 @@
 
                                 <tr>
 
-                                    <td colspan="9" class="text-center">
+                                    <td colspan="10" class="text-center">
 
                                         No Invoice Status Found.
 
                                     </td>
 
                                 </tr>
-
                             @endforelse
 
                         </tbody>
@@ -453,5 +733,4 @@
 
 
     </div>
-
 @endsection

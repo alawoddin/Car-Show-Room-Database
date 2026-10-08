@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('purchase_id')->constrained('purchases')->cascadeOnDelete();
-            $table->decimal('amount', 15, 2);
+            $table->decimal('paid_amount', 15, 2)->default(0);
             $table->date('due_date')->nullable();
             $table->enum('status', [
                 'Paid',
