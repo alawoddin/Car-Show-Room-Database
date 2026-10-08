@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
+use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\InvoiceStatusController;
 use App\Http\Controllers\Backend\UserCapitalController;
 use App\Http\Controllers\Backend\PurchaseController;
@@ -120,6 +121,19 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::post('/invoice/status/update', 'UpdateInvoiceStatus')->name('invoice.status.update');
             Route::get('/invoice/status/delete/{id}', 'DeleteInvoiceStatus')->name('invoice.status.delete');
         });
+
+
+        Route::controller(ExpenseController::class)->group(function () {
+            Route::get('/all/expense', 'AllExpense')->name('all.expense');
+            Route::get('/add/expense', 'AddExpense')->name('add.expense');
+            Route::post('/store/expense', 'StoreExpense')->name('store.expense');
+            // Route::get('/invoice/status/view/{id}', 'ViewInvoiceStatus')->name('invoice.status.view');
+            // Route::get('/invoice/status/edit/{id}', 'EditInvoiceStatus')->name('invoice.status.edit');
+            // Route::post('/invoice/status/update', 'UpdateInvoiceStatus')->name('invoice.status.update');
+            // Route::get('/invoice/status/delete/{id}', 'DeleteInvoiceStatus')->name('invoice.status.delete');
+        });
+
+
 
 
     });
