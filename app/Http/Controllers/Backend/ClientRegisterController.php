@@ -52,7 +52,4 @@ class ClientRegisterController extends Controller
             return redirect()->route('client.register')->with($notification);
         }
     }
-
-    
-
 }

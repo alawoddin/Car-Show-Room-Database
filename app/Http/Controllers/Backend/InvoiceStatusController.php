@@ -14,7 +14,7 @@ class InvoiceStatusController extends Controller
     {
         $invoiceStatuses = InvoiceStatus::with([
             'user',
-            'purchase'
+            'purchase',
         ])
             ->latest()
             ->get();
@@ -24,7 +24,6 @@ class InvoiceStatusController extends Controller
             compact('invoiceStatuses')
         );
     }
-
 
     /*
 |--------------------------------------------------------------------------
@@ -47,7 +46,6 @@ class InvoiceStatusController extends Controller
             compact('users', 'purchases')
         );
     }
-
 
     /*
 |--------------------------------------------------------------------------
@@ -75,7 +73,7 @@ class InvoiceStatusController extends Controller
             return back()
                 ->withInput()
                 ->withErrors([
-                    'purchase_id' => 'This vehicle already has an invoice status.'
+                    'purchase_id' => 'This vehicle already has an invoice status.',
                 ]);
         }
 
@@ -92,7 +90,7 @@ class InvoiceStatusController extends Controller
             return back()
                 ->withInput()
                 ->withErrors([
-                    'paid_amount' => 'Paid amount cannot be greater than Grand Total.'
+                    'paid_amount' => 'Paid amount cannot be greater than Grand Total.',
                 ]);
         }
 
@@ -113,26 +111,22 @@ class InvoiceStatusController extends Controller
             ->route('invoice.status')
             ->with([
                 'message' => 'Invoice Status Added Successfully',
-                'alert-type' => 'success'
+                'alert-type' => 'success',
             ]);
     }
-
 
     public function ViewInvoiceStatus(int $id)
     {
         $invoiceStatus = InvoiceStatus::with([
             'user',
-            'purchase'
+            'purchase',
         ])->findOrFail($id);
-
 
         return view(
             'admin.Invoice.view_invoice_status',
             compact('invoiceStatus')
         );
     }
-
-
 
     /*
 |--------------------------------------------------------------------------
@@ -144,19 +138,16 @@ class InvoiceStatusController extends Controller
     {
         $invoiceStatus = InvoiceStatus::with([
             'user',
-            'purchase'
+            'purchase',
         ])->findOrFail($id);
-
 
         $users = User::where('role', 'user')
             ->latest()
             ->get();
 
-
         $purchases = Purchase::with('user')
             ->latest()
             ->get();
-
 
         return view(
             'admin.Invoice.edit_invoice_status',
@@ -167,8 +158,6 @@ class InvoiceStatusController extends Controller
             )
         );
     }
-
-
 
     /*
 |--------------------------------------------------------------------------
@@ -192,7 +181,6 @@ class InvoiceStatusController extends Controller
 
         ]);
 
-
         /*
     |--------------------------------------------------------------------------
     | Find Invoice
@@ -202,7 +190,6 @@ class InvoiceStatusController extends Controller
         $invoiceStatus = InvoiceStatus::findOrFail(
             $request->id
         );
-
 
         /*
     |--------------------------------------------------------------------------
@@ -214,7 +201,6 @@ class InvoiceStatusController extends Controller
             $request->purchase_id
         );
 
-
         /*
     |--------------------------------------------------------------------------
     | Grand Total
@@ -223,7 +209,6 @@ class InvoiceStatusController extends Controller
 
         $grandTotal = (float) $purchase->grand_total;
 
-
         /*
     |--------------------------------------------------------------------------
     | Paid Amount
@@ -231,7 +216,6 @@ class InvoiceStatusController extends Controller
     */
 
         $paidAmount = (float) $request->paid_amount;
-
 
         /*
     |--------------------------------------------------------------------------
@@ -245,10 +229,9 @@ class InvoiceStatusController extends Controller
                 ->withInput()
                 ->with([
                     'message' => 'Paid amount cannot be greater than Grand Total.',
-                    'alert-type' => 'error'
+                    'alert-type' => 'error',
                 ]);
         }
-
 
         /*
     |--------------------------------------------------------------------------
@@ -263,7 +246,6 @@ class InvoiceStatusController extends Controller
 
             $status = 'Open';
         }
-
 
         /*
     |--------------------------------------------------------------------------
@@ -285,22 +267,18 @@ class InvoiceStatusController extends Controller
 
         ]);
 
-
         $notification = [
 
             'message' => 'Invoice Status Updated Successfully',
 
-            'alert-type' => 'success'
+            'alert-type' => 'success',
 
         ];
-
 
         return redirect()
             ->route('invoice.status')
             ->with($notification);
     }
-
-
 
     /*
 |--------------------------------------------------------------------------
@@ -313,17 +291,13 @@ class InvoiceStatusController extends Controller
         $invoiceStatus = InvoiceStatus::findOrFail($id);
 
         $invoiceStatus->delete();
-
-
         $notification = [
 
             'message' => 'Invoice Status Deleted Successfully',
 
-            'alert-type' => 'success'
+            'alert-type' => 'success',
 
         ];
-
-
         return redirect()
             ->route('invoice.status')
             ->with($notification);

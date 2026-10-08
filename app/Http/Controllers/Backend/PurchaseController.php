@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Exports\PurchasesExport;
 use App\Http\Controllers\Controller;
+use App\Imports\PurchasesImport;
 use App\Models\Purchase;
 use App\Models\User;
-use App\Exports\PurchasesExport;
-use App\Imports\PurchasesImport;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PurchaseController extends Controller
 {
@@ -88,19 +88,16 @@ class PurchaseController extends Controller
             'customer_name' => null,
         ]);
 
-
         // Notification
         $notification = [
             'message' => 'Purchase Added Successfully',
             'alert-type' => 'success',
         ];
 
-
         return redirect()
             ->route('all.purchases')
             ->with($notification);
     }
-
 
     // =========================================================
     // Open Sale Page
@@ -114,7 +111,6 @@ class PurchaseController extends Controller
         // Get users
         $users = User::where('role', 'user')->get();
 
-
         return view(
             'admin.purchase.add_purchase',
             compact(
@@ -124,7 +120,6 @@ class PurchaseController extends Controller
         );
     }
 
-
     // =========================================================
     // Store Sale Information
     // =========================================================
@@ -133,7 +128,6 @@ class PurchaseController extends Controller
     {
         // Find the existing purchase
         $purchase = Purchase::findOrFail($id);
-
 
         // =========================
         // Sale Information
@@ -149,7 +143,6 @@ class PurchaseController extends Controller
 
         $purchase->customer_name = $request->customer_name;
 
-
         // =========================
         // Status
         // =========================
@@ -164,20 +157,17 @@ class PurchaseController extends Controller
 
         $purchase->status = $request->status;
 
-
         // =========================
         // Description
         // =========================
 
         $purchase->description = $request->description;
 
-
         // =========================
         // Save
         // =========================
 
         $purchase->save();
-
 
         // =========================
         // Notification
@@ -187,7 +177,6 @@ class PurchaseController extends Controller
             'message' => 'Sale Information Updated Successfully',
             'alert-type' => 'success',
         ];
-
 
         return redirect()
             ->route('all.purchases')
@@ -250,7 +239,7 @@ class PurchaseController extends Controller
 
         $notification = [
             'message' => 'Purchase Updated Successfully',
-            'alert-type' => 'success'
+            'alert-type' => 'success',
         ];
 
         return redirect()
@@ -266,7 +255,7 @@ class PurchaseController extends Controller
 
         $notification = [
             'message' => 'Purchase Deleted Successfully',
-            'alert-type' => 'success'
+            'alert-type' => 'success',
         ];
 
         return redirect()
@@ -274,32 +263,31 @@ class PurchaseController extends Controller
             ->with($notification);
     }
 
-    ///the export function
+    // /the export function
     public function ExportPurchases()
-{
-    return Excel::download(
-        new PurchasesExport,
-        'purchases.xlsx'
-    );
-}   
+    {
+        return Excel::download(
+            new PurchasesExport,
+            'purchases.xlsx'
+        );
+    }
 
     public function ImportPurchases(Request $request)
-{
-    $request->validate([
-        'file' => 'required|mimes:xlsx,xls,csv',
-    ]);
-
-    Excel::import(
-        new PurchasesImport,
-        $request->file('file')
-    );
-
-    return redirect()
-        ->route('all.purchases')
-        ->with([
-            'message' => 'Purchases Imported Successfully',
-            'alert-type' => 'success',
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv',
         ]);
-}
 
+        Excel::import(
+            new PurchasesImport,
+            $request->file('file')
+        );
+
+        return redirect()
+            ->route('all.purchases')
+            ->with([
+                'message' => 'Purchases Imported Successfully',
+                'alert-type' => 'success',
+            ]);
+    }
 }

@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class CapitalTransactionController extends Controller
 {
 
- public function CapitalTransactions()
+    public function CapitalTransactions()
     {
         $capitalTransactions = CapitalTransactions::all();
-        return view('admin.capital.capital_transactions' , compact('capitalTransactions'));
+        return view('admin.capital.capital_transactions', compact('capitalTransactions'));
     }
 
     public function AddCapitalTransaction()
@@ -22,7 +22,7 @@ class CapitalTransactionController extends Controller
 
     public function StoreCapitalTransaction(Request $request)
     {
-       
+
 
         CapitalTransactions::create([
             'amount' => $request->amount,
@@ -31,13 +31,11 @@ class CapitalTransactionController extends Controller
         ]);
 
         $notification = array(
-                'message' => 'Capital transaction added successfully',
-                'alert-type' => 'success'
-            );
+            'message' => 'Capital transaction added successfully',
+            'alert-type' => 'success'
+        );
 
         return redirect()->route('capital.transactions')->with($notification);
-
-
     }
 
     public function EditCapitalTransaction(int $id)
@@ -57,9 +55,9 @@ class CapitalTransactionController extends Controller
         ]);
 
         $notification = array(
-                'message' => 'Capital transaction updated successfully',
-                'alert-type' => 'success'
-            );
+            'message' => 'Capital transaction updated successfully',
+            'alert-type' => 'success'
+        );
 
         return redirect()->route('capital.transactions')->with($notification);
     }
@@ -70,14 +68,10 @@ class CapitalTransactionController extends Controller
         $capitalTransaction->delete();
 
         $notification = array(
-                'message' => 'Capital transaction deleted successfully',
-                'alert-type' => 'success'
-            );
+            'message' => 'Capital transaction deleted successfully',
+            'alert-type' => 'success'
+        );
 
         return redirect()->route('capital.transactions')->with($notification);
     }
-
-   
-
-    
 }
