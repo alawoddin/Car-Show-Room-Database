@@ -47,7 +47,7 @@ class ChatController extends Controller
     }
 
     // Send a message to a client
-    public function AdminChatSend(Request $request, $id)
+    public function AdminChatSend(Request $request, int $id)
     {
         $request->validate([
             'message' => ['required', 'string', 'max:5000'],
