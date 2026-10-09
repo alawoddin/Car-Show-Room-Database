@@ -33,19 +33,15 @@ Route::middleware(['auth', IsUser::class])->group(function () {
     Route::get('/client/change/password', [ClientController::class, 'ClientChangePassword'])->name('client.change.password');
     Route::post('/client/password/update', [ClientController::class, 'ClientPasswordUpdate'])->name('client.password.update');
 
-      Route::controller(ClientVehicleController::class)->group(function () {
-            Route::get('/my-vehicles', 'MyVehicles')->name('client.vehicles');
-            Route::get('/my-vehicles/{id}', 'MyVehiclesView')->name('client.vehicle.view');
-            
+    Route::controller(ClientVehicleController::class)->group(function () {
+        Route::get('/my-vehicles', 'MyVehicles')->name('client.vehicles');
+        Route::get('/my-vehicles/{id}', 'MyVehiclesView')->name('client.vehicle.view');
     });
 
-        Route::controller(ClientChatController::class)->group(function () {
-            Route::get('/chat', 'Chat')->name('client.chat');
-            Route::post('/chat/send', 'ChatSend')->name('client.send');
-        });
-
-
-
+    Route::controller(ClientChatController::class)->group(function () {
+        Route::get('/chat', 'Chat')->name('client.chat');
+        Route::post('/chat/send', 'ChatSend')->name('client.send');
+    });
 });
 
 //end user Routes
@@ -117,7 +113,6 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::post('/vehicle/status/update/{id}', 'UpdateVehicleStatus')->name('vehicle.status.update');
             Route::get('/vehicle/status/view/{id}', 'VehicleStatusView')->name('vehicle.status.view');
             Route::get('/vehicle/{id}/invoice/download', 'DownloadInvoice')->name('vehicle.invoice.download');
-            
         });
 
         Route::controller(InvoiceStatusController::class)->group(function () {
@@ -140,45 +135,28 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/expense/delete/{id}', 'DeleteExpense')->name('delete.expense');
         });
 
-          Route::controller(ReportController::class)->group(function () {
+        Route::controller(ReportController::class)->group(function () {
             Route::get('/all/reports', 'AllReports')->name('all.reports');
             Route::post('/search/by/date', 'SearchByDate')->name('search.by.date');
             Route::post('/search/by/month', 'SearchByMonth')->name('search.by.month');
             Route::post('/search/by/year', 'SearchByYear')->name('search.by.year');
-            
         });
 
         // Route::controller(ChatController::class)->group(function () {
         //     Route::get('/chat', 'AdminChat')->name('all.chat');
         //     Route::get('/chat/{id}', 'AdminChatShow')->name('chat.show');
         //     Route::post('/chat/{id}/send', 'AdminChatSend')->name('chat.send');
-            
+
         // });
 
         Route::controller(ChatController::class)->group(function () {
-
-    // Display all customer conversations
-    Route::get('/chat', 'AdminChat')->name('all.chat');
-
-    // Open the traditional conversation page (keep this route)
-    // Route::get('/chat/{id}', 'AdminChatShow')->name('chat.show');
-
-    // Load messages inside the same /admin/chat page
-    Route::get('/chat/{id}/messages', 'LoadChatMessages')
-        ->name('chat.messages');
-
-    // Send a reply to a customer
-    Route::post('/chat/{id}/send', 'AdminChatSend')
-        ->name('chat.send');
-
-});
-
-
-
-
-
-
-
+            Route::get('/chat', 'AdminChat')->name('all.chat');
+            // Route::get('/chat/{id}', 'AdminChatShow')->name('chat.show');
+            // Load messages inside the same /admin/chat page
+            Route::get('/chat/{id}/messages', 'LoadChatMessages')->name('chat.messages');
+            // Send a reply to a customer
+            Route::post('/chat/{id}/send', 'AdminChatSend')->name('chat.send');
+        });
     });
 });
 

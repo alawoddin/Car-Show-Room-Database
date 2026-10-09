@@ -75,7 +75,7 @@ class ChatController extends Controller
     }
 
 
-   
+
 
 
     // Send a message to a customer
