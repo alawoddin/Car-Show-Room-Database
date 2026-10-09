@@ -98,6 +98,25 @@
             </ul>
         </li>
 
+
+         <li class="menu-label">chat</li>
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                </div>
+                <div class="menu-title">Live Chat</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('all.chat') }}"><i class='bx bx-radio-circle'></i>All Chat</a>
+                </li>
+                {{-- <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
+                </li>
+                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Invoice Status</a>
+                </li> --}}
+               
+            </ul>
+        </li>
+
         
         <li>
             <a class="has-arrow" href="javascript:;">

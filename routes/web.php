@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Client\ChatController as ClientChatController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
@@ -146,11 +145,16 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::post('/search/by/date', 'SearchByDate')->name('search.by.date');
             Route::post('/search/by/month', 'SearchByMonth')->name('search.by.month');
             Route::post('/search/by/year', 'SearchByYear')->name('search.by.year');
-            // Route::post('/store/expense', 'StoreExpense')->name('store.expense');
-            // Route::get('/edit/expense/{id}', 'EditExpense')->name('edit.expense');
-            // Route::post('/update/expense', 'UpdateExpense')->name('update.expense');
-            // Route::get('/expense/delete/{id}', 'DeleteExpense')->name('delete.expense');
+            
         });
+
+        Route::controller(ChatController::class)->group(function () {
+            Route::get('/chat', 'AdminChat')->name('all.chat');
+            Route::get('/chat/{id}', 'AdminChatShow')->name('chat.show');
+            Route::get('/chat/{id}/send', 'AdminChatSend')->name('chat.send');
+            
+        });
+
 
 
 
