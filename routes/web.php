@@ -137,6 +137,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/all/reports', 'AllReports')->name('all.reports');
             Route::post('/search/by/date', 'SearchByDate')->name('search.by.date');
             Route::post('/search/by/month', 'SearchByMonth')->name('search.by.month');
+            Route::post('/search/by/year', 'SearchByYear')->name('search.by.year');
             // Route::post('/store/expense', 'StoreExpense')->name('store.expense');
             // Route::get('/edit/expense/{id}', 'EditExpense')->name('edit.expense');
             // Route::post('/update/expense', 'UpdateExpense')->name('update.expense');

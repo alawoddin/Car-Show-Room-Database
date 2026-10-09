@@ -130,7 +130,7 @@
 
                         <div class="card-body">
 
-                            {{-- <form action="{{ route('admin.search.byyear') }}" method="POST"> --}}
+                            <form action="{{ route('search.by.year') }}" method="POST">
                             @csrf
 
                             <div class="mb-3">
