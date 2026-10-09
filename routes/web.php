@@ -41,7 +41,7 @@ Route::middleware(['auth', IsUser::class])->group(function () {
 
         Route::controller(ClientChatController::class)->group(function () {
             Route::get('/chat', 'Chat')->name('client.chat');
-            Route::get('/chat/send', 'ChatSend')->name('client.send');
+            Route::post('/chat/send', 'ChatSend')->name('client.send');
         });
 
 
