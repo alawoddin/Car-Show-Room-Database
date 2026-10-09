@@ -80,15 +80,15 @@
         </li>
 
 
-         <li class="menu-label">Report</li>
+         <li class="menu-label">Reports</li>
         <li>
             <a class="has-arrow" href="javascript:;">
                 <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
                 </div>
-                <div class="menu-title">Report</div>
+                <div class="menu-title">Reports</div>
             </a>
             <ul>
-                <li> <a href="{{ route('all.report') }}"><i class='bx bx-radio-circle'></i>All Report</a>
+                <li> <a href="{{ route('all.reports') }}"><i class='bx bx-radio-circle'></i>All Report</a>
                 </li>
                 {{-- <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
                 </li>

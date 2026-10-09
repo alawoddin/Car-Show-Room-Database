@@ -134,7 +134,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         });
 
           Route::controller(ReportController::class)->group(function () {
-            Route::get('/all/report', 'AllReport')->name('all.report');
+            Route::get('/all/reports', 'AllReports')->name('all.reports');
             Route::get('/add/expense', 'AddExpense')->name('add.expense');
             Route::post('/store/expense', 'StoreExpense')->name('store.expense');
             Route::get('/edit/expense/{id}', 'EditExpense')->name('edit.expense');

@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function AllReport() {
+    public function AllReports() {
 
-        return view('admin.report.all_report');
+        return view('admin.reports.all_report');
     }
 }
