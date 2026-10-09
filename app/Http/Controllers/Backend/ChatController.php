@@ -108,4 +108,57 @@ class ChatController extends Controller
             'message' => 'Message sent successfully.',
         ]);
     }
+
+    public function AdminChatNotifications()
+{
+    // Get unread messages sent by clients
+    $unreadMessages = \App\Models\ChatMessage::with([
+        'sender',
+        'conversation.user'
+    ])
+        ->where('is_read', false)
+        ->whereHas('conversation', function ($query) {
+            $query->whereColumn(
+                'chat_messages.sender_id',
+                'chat_conversations.user_id'
+            );
+        })
+        ->latest()
+        ->take(10)
+        ->get();
+
+    // Total number of unread client messages
+    $totalUnread = \App\Models\ChatMessage::where('is_read', false)
+        ->whereHas('conversation', function ($query) {
+            $query->whereColumn(
+                'chat_messages.sender_id',
+                'chat_conversations.user_id'
+            );
+        })
+        ->count();
+
+    return response()->json([
+        'totalUnread' => $totalUnread,
+
+        'notifications' => $unreadMessages->map(function ($message) {
+            return [
+                'id' => $message->id,
+
+                'conversation_id' => $message->conversation_id,
+
+                'client_name' => $message->sender->name ?? 'Client',
+
+                'message' => $message->message,
+
+                'time' => $message->created_at->diffForHumans(),
+
+                'url' => route('all.chat', [
+                    'id' => $message->conversation_id
+                ]),
+            ];
+        })->values()
+    ]);
+}
+
+
 }
