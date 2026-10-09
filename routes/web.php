@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\InvoiceStatusController;
 use App\Http\Controllers\Backend\UserCapitalController;
 use App\Http\Controllers\Backend\PurchaseController;
+use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\VehicleController;
 use App\Http\Controllers\Client\ClientVehicleController;
 use App\Http\Controllers\ProfileController;
@@ -131,6 +132,16 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::post('/update/expense', 'UpdateExpense')->name('update.expense');
             Route::get('/expense/delete/{id}', 'DeleteExpense')->name('delete.expense');
         });
+
+          Route::controller(ReportController::class)->group(function () {
+            Route::get('/all/report', 'AllReport')->name('all.report');
+            Route::get('/add/expense', 'AddExpense')->name('add.expense');
+            Route::post('/store/expense', 'StoreExpense')->name('store.expense');
+            Route::get('/edit/expense/{id}', 'EditExpense')->name('edit.expense');
+            Route::post('/update/expense', 'UpdateExpense')->name('update.expense');
+            Route::get('/expense/delete/{id}', 'DeleteExpense')->name('delete.expense');
+        });
+
 
 
 
