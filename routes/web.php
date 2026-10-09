@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ChatController as AdminChatController;
 use App\Http\Controllers\Client\ChatController as ClientChatController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
+use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\InvoiceStatusController;
 use App\Http\Controllers\Backend\UserCapitalController;
@@ -37,6 +38,11 @@ Route::middleware(['auth', IsUser::class])->group(function () {
             Route::get('/my-vehicles', 'MyVehicles')->name('client.vehicles');
             Route::get('/my-vehicles/{id}', 'MyVehiclesView')->name('client.vehicle.view');
             
+    });
+
+        Route::controller(ClientChatController::class)->group(function () {
+            Route::get('/chat', 'Chat')->name('client.chat');
+            Route::get('/chat/send', 'ChatSend')->name('client.send');
         });
 
 
