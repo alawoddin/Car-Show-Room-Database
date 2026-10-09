@@ -151,7 +151,7 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
         Route::controller(ChatController::class)->group(function () {
             Route::get('/chat', 'AdminChat')->name('all.chat');
             Route::get('/chat/{id}', 'AdminChatShow')->name('chat.show');
-            Route::get('/chat/{id}/send', 'AdminChatSend')->name('chat.send');
+            Route::post('/chat/{id}/send', 'AdminChatSend')->name('chat.send');
             
         });
 
