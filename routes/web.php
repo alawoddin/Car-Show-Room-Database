@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\Admin\ChatController as AdminChatController;
+use App\Http\Controllers\Client\ChatController as ClientChatController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
 use App\Http\Controllers\Backend\ExpenseController;
