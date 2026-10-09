@@ -41,7 +41,7 @@
 
                     <div class="card-body">
 
-                        {{-- <form action="{{ route('admin.search.bydate') }}" method="POST"> --}}
+                        <form action="{{ route('search.by.date') }}" method="POST">
                             @csrf
 
                             <div class="mb-3">
