@@ -47,4 +47,51 @@ class ReportController extends Controller
             'userCapitals'
         ));
     }
+
+    public function SearchByMonth(Request $request)
+{
+    $request->validate([
+        'month' => 'required|integer|min:1|max:12',
+        'year' => 'required|integer|min:2022|max:2100',
+    ]);
+
+    $startDate = \Carbon\Carbon::create(
+        $request->year,
+        $request->month,
+        1
+    )->startOfDay();
+
+    // Include the selected month and the next two months.
+    $endDate = $startDate->copy()->addMonths(3);
+
+    // Expenses
+    $expenses = Expense::where('date', '>=', $startDate->toDateString())
+        ->where('date', '<', $endDate->toDateString())
+        ->get();
+
+    // Purchases
+    $purchases = Purchase::where('buying_date', '>=', $startDate->toDateString())
+        ->where('buying_date', '<', $endDate->toDateString())
+        ->get();
+
+    // Sales from the existing purchases table
+    $sales = Purchase::where('status', 'Sold')
+        ->where('buying_date', '>=', $startDate->toDateString())
+        ->where('buying_date', '<', $endDate->toDateString())
+        ->get();
+
+    // User Capital
+    $userCapitals = User_Capitals::where('date', '>=', $startDate->toDateString())
+        ->where('date', '<', $endDate->toDateString())
+        ->get();
+
+    return view('admin.reports.search_by_month', compact(
+        'startDate',
+        'endDate',
+        'expenses',
+        'purchases',
+        'sales',
+        'userCapitals'
+    ));
+}
 }
