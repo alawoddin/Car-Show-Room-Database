@@ -292,7 +292,7 @@
                     id="clientWaSend"
                     class="client-wa-send"
                     aria-label="Send message"
-                >
+                >send
                     <i class="fas fa-paper-plane"></i>
                 </button>
 

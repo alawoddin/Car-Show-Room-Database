@@ -628,7 +628,7 @@
                             class="wa-send-button"
                             id="waSendButton"
                             aria-label="Send message"
-                        >
+                        >send
                             <i class="fas fa-paper-plane"></i>
                         </button>
 
