@@ -209,14 +209,12 @@
             </div>
 
             <div class="flex-grow-1">
-
                 <h5>Showroom Support</h5>
 
                 <div class="client-wa-status">
                     <i class="fas fa-circle" style="font-size: 7px;"></i>
                     Message the administration team
                 </div>
-
             </div>
 
             <span class="text-success">
@@ -226,7 +224,7 @@
         </div>
 
 
-        {{-- MESSAGES --}}
+        {{-- MESSAGE CONTAINER --}}
         <div class="client-wa-messages" id="clientWaMessages">
 
             @forelse($messages as $message)
@@ -318,76 +316,185 @@ document.addEventListener('DOMContentLoaded', function () {
     const messagesBox = document.getElementById('clientWaMessages');
     const errorBox = document.getElementById('clientWaError');
 
-    const csrfToken = document.querySelector(
+    const csrfElement = document.querySelector(
         'meta[name="csrf-token"]'
-    ).getAttribute('content');
+    );
+
+    if (!csrfElement || !form || !messagesBox) {
+        console.error('Chat elements or CSRF token are missing.');
+        return;
+    }
+
+    const csrfToken = csrfElement.content;
 
     const currentUserId = Number(@json(auth()->id()));
 
     const sendUrl = @json(route('client.send'));
 
-    const initialMessageIds = new Set(
-        Array.from(messagesBox.querySelectorAll('[data-message-id]'))
-            .map(element => Number(element.dataset.messageId))
-    );
+    const messagesUrl = @json(route('client.messages'));
 
-    let lastMessageId = Math.max(0, ...initialMessageIds);
+    let lastMessageId = 0;
     let isSending = false;
-    let isRefreshing = false;
+    let refreshPromise = null;
 
+    // Record IDs of messages already rendered by Blade.
+    messagesBox.querySelectorAll('[data-message-id]').forEach(function (element) {
+        lastMessageId = Math.max(
+            lastMessageId,
+            Number(element.dataset.messageId)
+        );
+    });
+
+    // Scroll to the latest message when opening the page.
     messagesBox.scrollTop = messagesBox.scrollHeight;
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Display a message
+    |--------------------------------------------------------------------------
+    */
+
     function appendMessage(message) {
+
+        const messageId = Number(message.id);
+
+        // Prevent duplicate messages.
+        if (
+            messagesBox.querySelector(
+                '[data-message-id="' + messageId + '"]'
+            )
+        ) {
+            return;
+        }
 
         const isMine = Number(message.sender_id) === currentUserId;
 
         const row = document.createElement('div');
-        row.className = 'client-wa-row ' + (isMine ? 'mine' : 'theirs');
-        row.dataset.messageId = message.id;
+
+        row.className = 'client-wa-row ' + (
+            isMine ? 'mine' : 'theirs'
+        );
+
+        row.dataset.messageId = messageId;
 
         const bubble = document.createElement('div');
-        bubble.className =
-            'client-wa-bubble ' + (isMine ? 'mine' : 'theirs');
 
+        bubble.className = 'client-wa-bubble ' + (
+            isMine ? 'mine' : 'theirs'
+        );
+
+        // Display sender name for admin messages.
         if (!isMine) {
 
             const sender = document.createElement('div');
+
             sender.className = 'client-wa-sender';
+
             sender.textContent = message.sender_name || 'Admin';
 
             bubble.appendChild(sender);
-
         }
 
         const text = document.createElement('div');
+
         text.className = 'client-wa-text';
-        text.textContent = message.message;
+
+        text.textContent = message.message || '';
 
         const time = document.createElement('div');
+
         time.className = 'client-wa-time';
-        time.textContent = message.created_at;
+
+        time.textContent = message.created_at || '';
 
         bubble.appendChild(text);
         bubble.appendChild(time);
+
         row.appendChild(bubble);
+
+        // Remove the empty-chat placeholder.
+        const emptyMessage = document.getElementById('clientWaEmpty');
+
+        if (emptyMessage) {
+            emptyMessage.remove();
+        }
 
         messagesBox.appendChild(row);
 
-        lastMessageId = Math.max(lastMessageId, Number(message.id));
-
-        const empty = document.getElementById('clientWaEmpty');
-
-        if (empty) {
-            empty.remove();
-        }
+        lastMessageId = Math.max(lastMessageId, messageId);
 
         messagesBox.scrollTop = messagesBox.scrollHeight;
-
     }
 
 
-    // Send a message without reloading the page.
+    /*
+    |--------------------------------------------------------------------------
+    | Load messages from the database
+    |--------------------------------------------------------------------------
+    */
+
+    async function refreshMessages() {
+
+        // Reuse an existing refresh instead of skipping this request.
+        if (refreshPromise) {
+            return refreshPromise;
+        }
+
+        refreshPromise = (async function () {
+
+            try {
+
+                const response = await fetch(messagesUrl, {
+                    method: 'GET',
+
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+
+                    credentials: 'same-origin',
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(
+                        'Could not load messages. HTTP ' + response.status
+                    );
+                }
+
+                const data = await response.json();
+
+                if (!Array.isArray(data.messages)) {
+                    throw new Error('The server did not return a messages array.');
+                }
+
+                data.messages.forEach(function (message) {
+                    appendMessage(message);
+                });
+
+            } catch (error) {
+
+                console.error('Chat refresh error:', error);
+
+            }
+
+        })();
+
+        try {
+            await refreshPromise;
+        } finally {
+            refreshPromise = null;
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Send message without refreshing the page
+    |--------------------------------------------------------------------------
+    */
+
     form.addEventListener('submit', async function (event) {
 
         event.preventDefault();
@@ -396,36 +503,50 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const message = input.value.trim();
+        const messageText = input.value.trim();
 
-        if (!message) {
+        if (!messageText) {
             return;
         }
 
         isSending = true;
+
         sendButton.disabled = true;
+
         errorBox.textContent = '';
 
         try {
 
             const response = await fetch(sendUrl, {
+
                 method: 'POST',
+
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'X-CSRF-TOKEN': csrfToken,
                     'X-Requested-With': 'XMLHttpRequest'
                 },
+
+                credentials: 'same-origin',
+
                 body: JSON.stringify({
-                    message: message
+                    message: messageText
                 })
+
             });
 
             const data = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || !data.success) {
 
-                if (data.errors) {
+                if (response.status === 419) {
+                    errorBox.textContent =
+                        'Your session has expired. Refresh the page and try again.';
+                } else if (response.status === 401) {
+                    errorBox.textContent =
+                        'Please log in again to send messages.';
+                } else if (data.errors) {
                     errorBox.textContent =
                         Object.values(data.errors).flat().join(' ');
                 } else {
@@ -436,25 +557,42 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            if (data.success) {
+            /*
+             * IMPORTANT:
+             * Immediately display the sent message using the text
+             * and timestamp returned by the server.
+             */
+            if (data.messageData) {
 
-                input.value = '';
+                appendMessage(data.messageData);
 
-                // Refresh from the database so the actual message ID
-                // and server timestamp are displayed.
+            } else {
+
+                /*
+                 * If the controller returns only success, retrieve
+                 * the saved message from the database.
+                 */
                 await refreshMessages();
 
             }
 
+            input.value = '';
+
+            messagesBox.scrollTop = messagesBox.scrollHeight;
+
         } catch (error) {
 
+            console.error('Send message error:', error);
+
             errorBox.textContent =
-                'Network error. Please check your connection and try again.';
+                'Unable to send the message. Check your connection and try again.';
 
         } finally {
 
             isSending = false;
+
             sendButton.disabled = false;
+
             input.focus();
 
         }
@@ -462,62 +600,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    // Fetch only messages newer than the last displayed message.
-    async function refreshMessages() {
+    /*
+    |--------------------------------------------------------------------------
+    | Receive admin replies automatically
+    |--------------------------------------------------------------------------
+    */
 
-        if (isRefreshing || document.hidden) {
-            return;
+    setInterval(function () {
+
+        if (!document.hidden) {
+            refreshMessages();
         }
 
-        isRefreshing = true;
+    }, 5000);
 
-        try {
 
-            const response = await fetch(
-                @json(route('client.messages')),
-                {
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                }
-            );
+    /*
+    |--------------------------------------------------------------------------
+    | Load any new messages when returning to the browser tab
+    |--------------------------------------------------------------------------
+    */
 
-            if (!response.ok) {
-                return;
-            }
+    document.addEventListener('visibilitychange', function () {
 
-            const data = await response.json();
-
-            if (!Array.isArray(data.messages)) {
-                return;
-            }
-
-            data.messages.forEach(function (message) {
-
-                const id = Number(message.id);
-
-                if (id > lastMessageId) {
-                    appendMessage(message);
-                }
-
-            });
-
-        } catch (error) {
-
-            // Keep the chat usable if a refresh fails temporarily.
-
-        } finally {
-
-            isRefreshing = false;
-
+        if (!document.hidden) {
+            refreshMessages();
         }
 
-    }
-
-
-    // Check for new messages every 5 seconds.
-    setInterval(refreshMessages, 5000);
+    });
 
 });
 </script>

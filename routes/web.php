@@ -39,10 +39,11 @@ Route::middleware(['auth', IsUser::class])->group(function () {
     });
 
     Route::controller(ClientChatController::class)->group(function () {
-        Route::get('/chat/messages', 'ChatMessage')->name('client.messages');
         Route::get('/chat', 'Chat')->name('client.chat');
         Route::post('/chat/send', 'ChatSend')->name('client.send');
-    });
+        Route::get('/chat/messages', 'ChatMessages')->name('client.messages');
+
+});
 });
 
 //end user Routes

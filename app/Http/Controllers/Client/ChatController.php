@@ -67,24 +67,34 @@ class ChatController extends Controller
         ]);
     }
 
+
+
     public function ChatMessages(Request $request)
     {
         $user = $request->user();
 
-        $conversation = ChatConversation::firstOrCreate([
-            'user_id' => $user->id,
-        ]);
+        $conversation = \App\Models\ChatConversation::where(
+            'user_id',
+            $user->id
+        )->first();
 
-        // Mark messages from the admin as read.
-        $conversation->messages()
-            ->where('sender_id', '!=', $user->id)
-            ->where('is_read', false)
-            ->update(['is_read' => true]);
+        if (!$conversation) {
+            return response()->json([
+                'messages' => [],
+            ]);
+        }
 
         $messages = $conversation->messages()
             ->with('sender')
-            ->orderBy('created_at')
+            ->orderBy('id')
             ->get();
+
+        // Mark messages from the admin as read.
+        $messages->where('sender_id', '!=', $user->id)
+            ->where('is_read', false)
+            ->each(function ($message) {
+                $message->update(['is_read' => true]);
+            });
 
         return response()->json([
             'messages' => $messages->map(function ($message) {
@@ -93,8 +103,7 @@ class ChatController extends Controller
                     'sender_id' => $message->sender_id,
                     'sender_name' => $message->sender->name ?? 'Admin',
                     'message' => $message->message,
-                    'created_at' => $message->created_at
-                        ->format('d M Y, h:i A'),
+                    'created_at' => $message->created_at->format('d M Y, h:i A'),
                 ];
             })->values(),
         ]);
