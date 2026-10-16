@@ -79,7 +79,7 @@
     {{-- Dashboard Heading --}}
     <div class="row mb-4">
         <div class="col-12">
-            <h4 class="fw-bold">Car Showroom Dashboard</h4>
+            <h4 class="fw-bold">Admin Dashboard</h4>
 
             <p class="text-secondary">
                 Financial overview and recent purchases
