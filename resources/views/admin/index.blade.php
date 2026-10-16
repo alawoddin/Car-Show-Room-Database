@@ -15,17 +15,15 @@
     */
 
     // 1. Total Admin Capital
-    // capital_transactions stores company capital additions.
-    $totalAdminCapital = DB::table('capital_transactions')->sum('amount');
+    $totalAdminCapital = DB::table('capital_transactions')
+        ->sum('amount');
 
 
     // 2. Total Client Capital
-    // Client capital is stored in user_capitals.
     $totalClientCapital = User_Capitals::sum('amount');
 
 
     // 3. Total Expenses
-    // Checks whether the expenses table and amount column exist.
     $totalExpense = 0;
 
     if (
@@ -45,8 +43,6 @@
 
 
     // 6. Total Sales
-    // Assumes sold vehicles have status = Sold
-    // and the selling price is stored in selling_price.
     $totalSales = 0;
 
     if (Schema::hasColumn('purchases', 'selling_price')) {
@@ -65,10 +61,8 @@
 
 
     // 8. Remaining Admin Capital
-    // Assumes all purchases and expenses are paid from admin capital.
-    $remainingAdminCapital = $totalAdminCapital
-        - $totalPurchase
-        - $totalExpense;
+    // Subtract purchase value only. Do not subtract expenses here.
+    $remainingAdminCapital = $totalAdminCapital - $totalPurchase;
 
 
     // Recent Purchases
