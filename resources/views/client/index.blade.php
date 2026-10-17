@@ -63,24 +63,13 @@
          WELCOME
     ================================= -->
 
-    <div class="row">
-
-        <div class="col-12">
-
-            <div class="dashboard-heading mb-4">
-
-                <h3 class="fw-bold">
-                    Welcome, {{ $profileData->name }}
-                </h3>
-
-                <p class="text-muted mb-0">
-                    Here is your account overview.
-                </p>
-
-            </div>
-
+    <div class="client-hero">
+        <div>
+            <p class="client-kicker">Welcome back</p>
+            <h3>{{ $profileData->name }}</h3>
+            <p>Here is your account overview.</p>
         </div>
-
+        <span class="client-hero-note">{{ $totalVehicles }} vehicles</span>
     </div>
 
 
