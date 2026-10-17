@@ -23,13 +23,24 @@
     <link rel="stylesheet" href="{{ asset('client/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('client/css/fancybox.css') }}">
     <link rel="stylesheet" href="{{ asset('client/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('client/css/client-theme.css') }}">
+    <script>
+        (function () {
+            var saved = localStorage.getItem('client-showroom-theme') || 'midnight';
+            var allowed = ['midnight', 'royal', 'emerald', 'ruby', 'gold'];
+            if (allowed.indexOf(saved) === -1) {
+                saved = 'midnight';
+            }
+            document.documentElement.setAttribute('data-client-theme', saved);
+        })();
+    </script>
 
      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 
 
     <!-- end inject -->
 </head>
-<body>
+<body class="client-showroom">
 
 <!-- start cssload-loader -->
 <div class="preloader">
@@ -69,7 +80,16 @@
 
 
         <div class="container-fluid">
-           
+
+            <div class="client-theme-bar">
+                <span class="client-theme-label">Color</span>
+                <button type="button" class="client-swatch swatch-midnight" data-client-theme="midnight" aria-label="Midnight"></button>
+                <button type="button" class="client-swatch swatch-royal" data-client-theme="royal" aria-label="Royal"></button>
+                <button type="button" class="client-swatch swatch-emerald" data-client-theme="emerald" aria-label="Emerald"></button>
+                <button type="button" class="client-swatch swatch-ruby" data-client-theme="ruby" aria-label="Ruby"></button>
+                <button type="button" class="client-swatch swatch-gold" data-client-theme="gold" aria-label="Gold"></button>
+            </div>
+
             @yield('client')
 
             @include('client.body.footer') 
@@ -106,6 +126,29 @@
 </div><!-- end modal -->
 
 <!-- template js files -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var buttons = document.querySelectorAll('[data-client-theme]');
+    var current = document.documentElement.getAttribute('data-client-theme') || 'midnight';
+
+    function mark(theme) {
+        buttons.forEach(function (button) {
+            button.classList.toggle('is-active', button.getAttribute('data-client-theme') === theme);
+        });
+    }
+
+    mark(current);
+
+    buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var theme = button.getAttribute('data-client-theme');
+            document.documentElement.setAttribute('data-client-theme', theme);
+            localStorage.setItem('client-showroom-theme', theme);
+            mark(theme);
+        });
+    });
+});
+</script>
 <script src="{{ asset('client/js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('client/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('client/js/bootstrap-select.min.js') }}"></script>
