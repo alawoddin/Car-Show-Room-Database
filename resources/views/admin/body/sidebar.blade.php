@@ -1,10 +1,11 @@
 <div class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
-        <div>
-            <img src="{{ asset('backend/assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
-        </div>
-        <div>
-            <h4 class="logo-text">Admin</h4>
+        <div class="showroom-brand">
+            <span class="showroom-mark"><i class="bx bxs-car"></i></span>
+            <div class="showroom-brand-copy">
+                <h4 class="logo-text">Showroom</h4>
+                <span class="showroom-brand-sub">Control desk</span>
+            </div>
         </div>
         <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
         </div>
@@ -26,7 +27,7 @@
        
         <li>
             <a href="javascript:;" class="has-arrow">
-                <div class="parent-icon"><i class='bx bx-cart'></i>
+                <div class="parent-icon"><i class='bx bx-user-circle'></i>
                 </div>
                 <div class="menu-title">Client Info</div>
             </a>
@@ -42,7 +43,7 @@
         </li>
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                <div class="parent-icon"><i class='bx bx-car'></i>
                 </div>
                 <div class="menu-title">Main</div>
             </a>
@@ -64,7 +65,7 @@
         <li class="menu-label">Info</li>
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                <div class="parent-icon"><i class='bx bx-receipt'></i>
                 </div>
                 <div class="menu-title">Expense</div>
             </a>
@@ -83,7 +84,7 @@
          <li class="menu-label">Reports</li>
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                <div class="parent-icon"><i class='bx bx-bar-chart-alt-2'></i>
                 </div>
                 <div class="menu-title">Reports</div>
             </a>
@@ -102,7 +103,7 @@
          <li class="menu-label">chat</li>
         <li>
             <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class='bx bx-bookmark-heart'></i>
+                <div class="parent-icon"><i class='bx bx-message-rounded-dots'></i>
                 </div>
                 <div class="menu-title">Live Chat</div>
             </a>
@@ -117,28 +118,6 @@
             </ul>
         </li>
 
-        
-        <li>
-            <a class="has-arrow" href="javascript:;">
-                <div class="parent-icon"><i class="bx bx-map-alt"></i>
-                </div>
-                <div class="menu-title">Maps</div>
-            </a>
-            <ul>
-                <li> <a href="map-google-maps.html"><i class='bx bx-radio-circle'></i>Google Maps</a>
-                </li>
-                <li> <a href="map-vector-maps.html"><i class='bx bx-radio-circle'></i>Vector Maps</a>
-                </li>
-            </ul>
-        </li>
-        
-        <li>
-            <a href="https://themeforest.net/user/codervent" target="_blank">
-                <div class="parent-icon"><i class="bx bx-support"></i>
-                </div>
-                <div class="menu-title">Support</div>
-            </a>
-        </li>
     </ul>
     <!--end navigation-->
 </div>

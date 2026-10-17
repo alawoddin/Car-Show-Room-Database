@@ -76,14 +76,15 @@
 
 <div class="page-content">
 
-    {{-- Dashboard Heading --}}
-    <div class="row mb-4">
-        <div class="col-12">
-            <h4 class="fw-bold">Admin Dashboard</h4>
-
-            <p class="text-secondary">
-                Financial overview and recent purchases
-            </p>
+    <div class="showroom-hero mb-4">
+        <div>
+            <p class="showroom-kicker">Welcome back</p>
+            <h4>{{ Auth::user()->name }}</h4>
+            <p>Financial overview and recent purchases</p>
+        </div>
+        <div class="showroom-hero-meta">
+            <span>{{ number_format($totalVehicles) }} vehicles</span>
+            <span>{{ now()->format('M d, Y') }}</span>
         </div>
     </div>
 
@@ -189,7 +190,7 @@
                         </div>
 
                         <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
-                            <i class="bx bx-piggy-bank"></i>
+                            <i class="bx bx-coin-stack"></i>
                         </div>
 
                     </div>

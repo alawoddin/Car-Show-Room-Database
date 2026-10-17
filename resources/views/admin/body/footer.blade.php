@@ -1,3 +1,4 @@
 <footer class="page-footer">
-            <p class="mb-0">Copyright © 2026. All right reserved.</p>
+            <strong>Car Showroom</strong>
+            <span>Admin desk · © {{ date('Y') }}</span>
         </footer>

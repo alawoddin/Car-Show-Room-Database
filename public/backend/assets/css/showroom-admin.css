@@ -1,0 +1,533 @@
+/*
+    Showroom admin shell
+    Loaded after the Rocker template so sidebar, header, footer, and buttons share one look.
+*/
+
+body.showroom-admin {
+    --sr-ink: #10151c;
+    --sr-ink-soft: #1b2430;
+    --sr-gold: #c6a15b;
+    --sr-gold-deep: #9a7840;
+    --sr-cream: #f6f3ee;
+    --sr-card: #ffffff;
+    --sr-line: rgba(16, 21, 28, 0.08);
+    --sr-text: #2c333c;
+    --sr-muted: #6d7580;
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    color: var(--sr-text);
+    background:
+        radial-gradient(900px 420px at 100% -10%, rgba(198, 161, 91, 0.16), transparent 55%),
+        var(--sr-cream);
+    letter-spacing: 0.01em;
+}
+
+body.showroom-admin .sidebar-wrapper,
+html.dark-theme body.showroom-admin .sidebar-wrapper {
+    width: 268px;
+    background:
+        linear-gradient(180deg, rgba(198, 161, 91, 0.16) 0%, transparent 180px),
+        var(--sr-ink);
+    border-right: 0;
+    box-shadow: 12px 0 40px rgba(16, 21, 28, 0.18) !important;
+}
+
+body.showroom-admin .sidebar-header,
+html.dark-theme body.showroom-admin .sidebar-header {
+    width: 268px;
+    height: 78px;
+    padding: 0 16px;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.showroom-admin .showroom-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+body.showroom-admin .showroom-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: #1a1408;
+    background: linear-gradient(145deg, #f3e2bc, var(--sr-gold) 55%, var(--sr-gold-deep));
+    box-shadow: 0 8px 18px rgba(198, 161, 91, 0.28);
+    font-size: 22px;
+}
+
+body.showroom-admin .showroom-brand-copy {
+    min-width: 0;
+}
+
+body.showroom-admin .logo-text,
+html.dark-theme body.showroom-admin .sidebar-wrapper .sidebar-header .logo-text {
+    margin: 0;
+    color: #f7f4ee;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body.showroom-admin .showroom-brand-sub {
+    display: block;
+    margin-top: 2px;
+    color: rgba(247, 244, 238, 0.55);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+body.showroom-admin .sidebar-header .toggle-icon,
+html.dark-theme body.showroom-admin .sidebar-wrapper .sidebar-header .toggle-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #f7f4ee;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 18px;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu {
+    margin-top: 78px;
+    padding: 14px 12px 24px;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu a,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu a {
+    min-height: 44px;
+    padding: 8px 12px;
+    color: rgba(247, 244, 238, 0.78);
+    border-radius: 12px;
+    font-size: 14.5px;
+    font-weight: 600;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu a .parent-icon {
+    width: 28px;
+    color: var(--sr-gold);
+    font-size: 20px;
+    text-align: center;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu .mm-active > a,
+body.showroom-admin .sidebar-wrapper .metismenu a:hover,
+body.showroom-admin .sidebar-wrapper .metismenu a:focus,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu .mm-active > a,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu a:hover,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu a:focus {
+    color: #fff;
+    background: linear-gradient(90deg, rgba(198, 161, 91, 0.28), rgba(255, 255, 255, 0.05));
+    box-shadow: inset 3px 0 0 var(--sr-gold);
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu ul,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu ul {
+    background: transparent;
+    margin: 4px 0 8px 18px;
+    padding-left: 10px;
+    border-left: 1px solid rgba(198, 161, 91, 0.28);
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu ul a,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu ul a {
+    min-height: 36px;
+    color: rgba(247, 244, 238, 0.68);
+    font-weight: 500;
+    box-shadow: none;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu ul a i {
+    color: var(--sr-gold);
+    font-size: 8px;
+}
+
+body.showroom-admin .menu-label {
+    margin-top: 8px;
+    padding: 16px 12px 6px;
+    color: rgba(198, 161, 91, 0.85);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+body.showroom-admin .metismenu .has-arrow:after {
+    border-color: rgba(247, 244, 238, 0.45);
+}
+
+body.showroom-admin .topbar,
+html.dark-theme body.showroom-admin .topbar {
+    left: 268px;
+    height: 78px;
+    background: rgba(246, 243, 238, 0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--sr-line);
+    box-shadow: none;
+}
+
+body.showroom-admin .topbar .navbar {
+    height: 78px;
+}
+
+body.showroom-admin .topbar .search-bar .form-control,
+html.dark-theme body.showroom-admin .topbar .search-bar .form-control {
+    height: 44px;
+    min-width: 280px;
+    border: 1px solid var(--sr-line);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--sr-text);
+    box-shadow: 0 8px 20px rgba(16, 21, 28, 0.04);
+}
+
+body.showroom-admin .topbar .navbar .navbar-nav .nav-link,
+html.dark-theme body.showroom-admin .topbar .navbar-nav .nav-link {
+    color: var(--sr-ink);
+    background: #fff;
+    border: 1px solid var(--sr-line);
+    border-radius: 14px;
+}
+
+body.showroom-admin .topbar .navbar .navbar-nav .nav-link:hover,
+body.showroom-admin .topbar .navbar .navbar-nav .nav-link:focus,
+html.dark-theme body.showroom-admin .topbar .navbar .navbar-nav .nav-link:hover {
+    color: var(--sr-ink);
+    background: #fff8ec;
+    border-color: rgba(198, 161, 91, 0.45);
+}
+
+body.showroom-admin .alert-count {
+    background: var(--sr-ink);
+    border: 2px solid #fff;
+}
+
+body.showroom-admin .user-box {
+    height: 78px;
+    border: 0;
+    margin-left: 6px;
+    padding-right: 0 !important;
+}
+
+body.showroom-admin .user-img {
+    width: 44px;
+    height: 44px;
+    border: 2px solid rgba(198, 161, 91, 0.7);
+    object-fit: cover;
+}
+
+body.showroom-admin .user-info .user-name {
+    color: var(--sr-ink);
+    font-weight: 700;
+}
+
+body.showroom-admin .user-info .designattion {
+    color: var(--sr-muted);
+}
+
+body.showroom-admin .page-wrapper {
+    margin-top: 78px;
+    margin-left: 268px;
+    margin-bottom: 52px;
+}
+
+body.showroom-admin .page-content {
+    padding: 1.6rem 1.6rem 1rem;
+}
+
+body.showroom-admin .page-footer,
+html.dark-theme body.showroom-admin .page-footer {
+    left: 268px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    background: #fff;
+    border-top: 1px solid var(--sr-line);
+    color: var(--sr-muted);
+    font-size: 13px;
+}
+
+body.showroom-admin .page-footer strong {
+    color: var(--sr-ink);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+body.showroom-admin .wrapper.toggled .topbar,
+body.showroom-admin .wrapper.toggled .page-footer {
+    left: 70px;
+}
+
+body.showroom-admin .wrapper.toggled .page-wrapper {
+    margin-left: 70px;
+}
+
+@media screen and (min-width: 1025px) {
+    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .sidebar-wrapper,
+    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .sidebar-wrapper .sidebar-header {
+        width: 78px;
+    }
+
+    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .showroom-brand-copy,
+    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .sidebar-header .toggle-icon {
+        display: none;
+    }
+
+    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .sidebar-header {
+        justify-content: center;
+        padding: 0;
+    }
+
+    body.showroom-admin .wrapper.toggled .topbar,
+    body.showroom-admin .wrapper.toggled .page-footer {
+        left: 78px;
+    }
+
+    body.showroom-admin .wrapper.toggled .page-wrapper {
+        margin-left: 78px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    body.showroom-admin .topbar,
+    body.showroom-admin .page-footer,
+    body.showroom-admin .wrapper.toggled .topbar,
+    body.showroom-admin .wrapper.toggled .page-footer {
+        left: 0 !important;
+    }
+
+    body.showroom-admin .page-wrapper,
+    body.showroom-admin .wrapper.toggled .page-wrapper {
+        margin-left: 0;
+    }
+
+    body.showroom-admin .page-footer span {
+        display: none;
+    }
+}
+
+body.showroom-admin .showroom-hero {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 26px 28px;
+    border-radius: 22px;
+    color: #f7f4ee;
+    background:
+        linear-gradient(120deg, rgba(198, 161, 91, 0.22), transparent 42%),
+        linear-gradient(160deg, #1a2230, #10151c 70%);
+    box-shadow: 0 18px 40px rgba(16, 21, 28, 0.16);
+}
+
+body.showroom-admin .showroom-kicker {
+    margin: 0 0 6px;
+    color: var(--sr-gold);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+body.showroom-admin .showroom-hero h4 {
+    margin: 0;
+    color: #fff;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+body.showroom-admin .showroom-hero p {
+    margin: 8px 0 0;
+    color: rgba(247, 244, 238, 0.72);
+}
+
+body.showroom-admin .showroom-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+body.showroom-admin .showroom-hero-meta span {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 13px;
+}
+
+body.showroom-admin .card {
+    border: 1px solid var(--sr-line);
+    border-radius: 18px !important;
+    background: var(--sr-card);
+    box-shadow: 0 10px 30px rgba(16, 21, 28, 0.05);
+}
+
+body.showroom-admin .card.border-start {
+    border-left-width: 0 !important;
+}
+
+body.showroom-admin .card .card-body {
+    padding: 1.15rem 1.2rem;
+}
+
+body.showroom-admin .card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--sr-line);
+    padding: 1rem 1.2rem;
+}
+
+body.showroom-admin .widgets-icons,
+body.showroom-admin .widgets-icons-2 {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px !important;
+    background: var(--sr-ink) !important;
+    color: var(--sr-gold) !important;
+    box-shadow: none;
+}
+
+body.showroom-admin .table {
+    --bs-table-bg: transparent;
+}
+
+body.showroom-admin .table thead th {
+    color: var(--sr-muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom-color: var(--sr-line);
+}
+
+body.showroom-admin .table tbody td {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+    border-color: var(--sr-line);
+}
+
+body.showroom-admin .btn {
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.55rem 1rem;
+    box-shadow: none;
+}
+
+body.showroom-admin .btn-primary,
+body.showroom-admin .btn-primary:disabled {
+    color: #1a1408;
+    background: linear-gradient(180deg, #f0d7a2, var(--sr-gold));
+    border-color: transparent;
+}
+
+body.showroom-admin .btn-primary:hover,
+body.showroom-admin .btn-primary:focus,
+body.showroom-admin .btn-primary:active,
+body.showroom-admin .show > .btn-primary.dropdown-toggle {
+    color: #1a1408;
+    background: linear-gradient(180deg, #f7e4ba, #b89245);
+    border-color: transparent;
+    box-shadow: 0 8px 18px rgba(198, 161, 91, 0.28);
+}
+
+body.showroom-admin .btn-outline-primary {
+    color: var(--sr-ink);
+    border-color: rgba(198, 161, 91, 0.7);
+    background: #fff;
+}
+
+body.showroom-admin .btn-outline-primary:hover {
+    color: #1a1408;
+    background: #fff4df;
+    border-color: var(--sr-gold);
+}
+
+body.showroom-admin .btn-info {
+    color: #fff;
+    background: #243044;
+    border-color: #243044;
+}
+
+body.showroom-admin .btn-info:hover {
+    color: #fff;
+    background: #1b2636;
+    border-color: #1b2636;
+}
+
+body.showroom-admin .btn-danger {
+    background: #8d3b32;
+    border-color: #8d3b32;
+}
+
+body.showroom-admin .btn-danger:hover {
+    background: #742f28;
+    border-color: #742f28;
+}
+
+body.showroom-admin .btn-secondary {
+    background: #e7e2d8;
+    border-color: #e7e2d8;
+    color: var(--sr-ink);
+}
+
+body.showroom-admin .form-control,
+body.showroom-admin .form-select {
+    border-radius: 12px;
+    border-color: rgba(16, 21, 28, 0.12);
+    min-height: 44px;
+}
+
+body.showroom-admin .form-control:focus,
+body.showroom-admin .form-select:focus {
+    border-color: rgba(198, 161, 91, 0.8);
+    box-shadow: 0 0 0 0.2rem rgba(198, 161, 91, 0.18);
+}
+
+body.showroom-admin .back-to-top {
+    border-radius: 14px;
+    background: var(--sr-ink);
+    color: var(--sr-gold);
+}
+
+body.showroom-admin .back-to-top:hover {
+    background: var(--sr-gold);
+    color: var(--sr-ink);
+}
+
+body.showroom-admin .dropdown-menu {
+    border: 1px solid var(--sr-line);
+    border-radius: 16px;
+    box-shadow: 0 16px 40px rgba(16, 21, 28, 0.12);
+}
+
+body.showroom-admin .badge {
+    border-radius: 999px;
+    padding: 0.45em 0.7em;
+    font-weight: 700;
+}
+
+body.showroom-admin .page-link {
+    color: var(--sr-ink);
+    border-color: var(--sr-line);
+}
+
+body.showroom-admin .page-item.active .page-link {
+    color: var(--sr-gold);
+    background: var(--sr-ink);
+    border-color: var(--sr-ink);
+}
+
+body.showroom-admin .pace .pace-progress {
+    background: var(--sr-gold) !important;
+}
