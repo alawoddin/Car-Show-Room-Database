@@ -263,7 +263,7 @@
 
         <div class="col-lg-4 responsive-column-half">
 
-            <div class="card card-item dashboard-info-card">
+            <div class="card card-item dashboard-info-card stat-delivered">
 
                 <div class="card-body d-flex align-items-center">
 
@@ -368,7 +368,7 @@
 
         <div class="col-lg-4 responsive-column-half">
 
-            <div class="card card-item dashboard-info-card">
+            <div class="card card-item dashboard-info-card stat-sold">
 
                 <div class="card-body d-flex align-items-center">
 
