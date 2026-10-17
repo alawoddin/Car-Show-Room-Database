@@ -624,6 +624,73 @@ body.showroom-admin .bg-warning {
     color: var(--sr-midnight) !important;
 }
 
+body.showroom-admin .sidebar-wrapper,
+html.dark-theme body.showroom-admin .sidebar-wrapper {
+    background: #8e1b2c;
+    border-right-color: rgba(255, 255, 255, 0.08);
+}
+
+body.showroom-admin .sidebar-header,
+html.dark-theme body.showroom-admin .sidebar-header {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+body.showroom-admin .showroom-mark {
+    color: #8e1b2c;
+    background: #ffffff;
+}
+
+body.showroom-admin .logo-text,
+html.dark-theme body.showroom-admin .sidebar-wrapper .sidebar-header .logo-text,
+body.showroom-admin .sidebar-wrapper .metismenu a,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu a {
+    color: #fff7f8;
+}
+
+body.showroom-admin .showroom-brand-sub,
+body.showroom-admin .sidebar-wrapper .metismenu ul a,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu ul a {
+    color: rgba(255, 247, 248, 0.72);
+}
+
+body.showroom-admin .sidebar-header .toggle-icon,
+html.dark-theme body.showroom-admin .sidebar-wrapper .sidebar-header .toggle-icon {
+    color: #fff7f8;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu a .parent-icon,
+body.showroom-admin .sidebar-wrapper .metismenu ul a i,
+body.showroom-admin .menu-label {
+    color: #ffd0d6;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu .mm-active > a,
+body.showroom-admin .sidebar-wrapper .metismenu a:hover,
+body.showroom-admin .sidebar-wrapper .metismenu a:focus,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu .mm-active > a,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu a:hover,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu a:focus {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: inset 3px 0 0 #ffffff;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu ul,
+html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu ul {
+    border-left-color: rgba(255, 255, 255, 0.28);
+}
+
+body.showroom-admin .metismenu .has-arrow:after {
+    border-color: rgba(255, 247, 248, 0.7);
+}
+
+body.showroom-admin .showroom-hero {
+    background: linear-gradient(120deg, #6e1220 0%, #a32034 58%, #d64555 100%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 18px 40px rgba(110, 18, 32, 0.22);
+}
+
 @media (max-width: 767.98px) {
     body.showroom-admin .showroom-hero {
         align-items: flex-start;
