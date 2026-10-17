@@ -1277,7 +1277,7 @@
         var wins = tally[i];
 
         var img = card.querySelector('.pick__img');
-        img.src = 'assets/img/cars/' + c.img + '.webp';
+        img.src = '/frontend/assets/img/cars/' + c.img + '.webp';
         img.alt = c.make + ' ' + c.model + ', front three-quarter view';
 
         card.classList.toggle('pick--lead', lead);
@@ -2475,7 +2475,7 @@
     function shotOf(c) {
       var shot = el('div', 'lcard__shot');
       var img = el('img', 'lcard__img');
-      img.src = 'assets/img/cars/' + c.photo + '.webp';
+      img.src = '/frontend/assets/img/cars/' + c.photo + '.webp';
       img.width = 1200;
       img.height = 750;
       img.alt = c.make + ' ' + c.model;
@@ -2594,7 +2594,7 @@
 
       var shot = el('div', 'vcard__shot');
       var img = el('img', 'vcard__img');
-      img.src = 'assets/img/cars/' + c.photo + '.webp';
+      img.src = '/frontend/assets/img/cars/' + c.photo + '.webp';
       img.width = 1200;
       img.height = 750;
       img.alt = c.make + ' ' + c.model;
@@ -2657,7 +2657,7 @@
 
       var shot = el('div', 'scard__shot');
       var img = el('img', 'scard__img');
-      img.src = 'assets/img/cars/' + c.photo + '.webp';
+      img.src = '/frontend/assets/img/cars/' + c.photo + '.webp';
       img.width = 1200;
       img.height = 750;
       img.alt = c.make + ' ' + c.model;
@@ -2730,7 +2730,7 @@
 
       var shot = el('div', 'rrow__shot');
       var img = el('img', 'rrow__img');
-      img.src = 'assets/img/cars/' + c.photo + '.webp';
+      img.src = '/frontend/assets/img/cars/' + c.photo + '.webp';
       img.width = 1200;
       img.height = 750;
       img.alt = c.make + ' ' + c.model;
@@ -2869,7 +2869,7 @@
     function shotOfMap(c, cls) {
       var shot = el('div', cls + '__shot');
       var img = el('img', cls + '__img');
-      img.src = 'assets/img/cars/' + c.photo + '.webp';
+      img.src = '/frontend/assets/img/cars/' + c.photo + '.webp';
       img.width = 1200;
       img.height = 750;
       img.alt = c.make + ' ' + c.model;
@@ -2990,7 +2990,7 @@
 
       var shot = el('div', cls + '__shot');
       var img = el('img', cls + '__img');
-      img.src = 'assets/img/cars/' + c.photo + '.webp';
+      img.src = '/frontend/assets/img/cars/' + c.photo + '.webp';
       img.width = 1200;
       img.height = 750;
       img.alt = c.make + ' ' + c.model;
@@ -8356,7 +8356,7 @@
       t.messages.forEach(function (m) {
         if (m.sys) { feed.appendChild(fill(tplSys, { text: m.text })); return; }
         var el = fill(m.who === 'me' ? tplMe : tplThem, { text: m.text, when: m.when });
-        if (m.who === 'them') { el.querySelector('img').src = t.photo || 'assets/img/logo-avava.svg'; }
+        if (m.who === 'them') { el.querySelector('img').src = t.photo || '/frontend/assets/img/logo-avava.svg'; }
         feed.appendChild(el);
       });
       quick.textContent = '';
@@ -9419,7 +9419,7 @@
       var picked = live().filter(function (r) { return state.selected[r.id]; });
       picked.forEach(function (r) {
         if (key === 'answer') { settle(r, 'Answered from the queue. The thread is open in the inbox.'); }
-        if (key === 'assign') { r.staff = 'NADIA'; r.staffPhoto = 'assets/img/avatar-sofia.webp'; }
+        if (key === 'assign') { r.staff = 'NADIA'; r.staffPhoto = '/frontend/assets/img/avatar-sofia.webp'; }
         if (key === 'slots') { settle(r, 'Saturday 10:00 and 14:00 offered. The booking writes itself when they pick one.'); }
       });
       render();

@@ -39,17 +39,17 @@
 <meta property="og:site_name" content="AVAVA">
 <meta property="og:title" content="AVAVA — Alpine multi-brand car marketplace">
 <meta property="og:description" content="41 all-wheel-drive cars ready this week. 200-point report published before you ask for it. No buyer fees.">
-<meta property="og:image" content="assets/img/og-cover.jpg">
+<meta property="og:image" content="/frontend/assets/img/og-cover.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/frontend/assets/img/favicon.svg" type="image/svg+xml">
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<link rel="preload" href="assets/img/hero-winter.webp" as="image" type="image/webp">
-<link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
-<link rel="stylesheet" href="assets/css/style1ef4.css?v=5d78136b">
+<link rel="preload" href="/frontend/assets/img/hero-winter.webp" as="image" type="image/webp">
+<link rel="stylesheet" href="/frontend/assets/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/frontend/assets/css/style1ef4.css?v=5d78136b">
 <noscript><style>.preloader { display: none; }</style></noscript>
 </head>
 <body>
@@ -110,15 +110,15 @@
   </div>
 
   <div class="hdr__bar">
-    <a class="hdr__logo" href="index.html"><img src="assets/img/logo-avava-white.svg" width="196" height="42" alt="AVAVA"></a>
+    <a class="hdr__logo" href="/"><img src="/frontend/assets/img/logo-avava-white.svg" width="196" height="42" alt="AVAVA"></a>
 
     <nav class="nav" id="nav" aria-label="Main">
       <ul class="nav__list">
         <li class="nav__item">
-          <a class="nav__link" href="index.html">Home <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <a class="nav__link" href="/">Home <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
           <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Home submenu"></button>
           <ul class="dd">
-            <li><a class="drow" href="index.html">Home <span class="drow__tag">CURRENT</span></a></li>
+            <li><a class="drow" href="/">Home <span class="drow__tag">CURRENT</span></a></li>
             <li><a class="drow" href="home-v2.html">Home v2</a></li>
             <li><a class="drow" href="home-v3.html">Home v3</a></li>
             <li><a class="drow" href="home-v4.html">Home v4</a></li>
@@ -259,7 +259,7 @@
 
   <!-- ============================================================ 1. Hero -->
   <section class="hero" id="hero" aria-labelledby="hero-title">
-    <img class="hero__photo" src="assets/img/hero-winter.webp" width="1794" height="876" alt="" fetchpriority="high">
+    <img class="hero__photo" src="/frontend/assets/img/hero-winter.webp" width="1794" height="876" alt="" fetchpriority="high">
     <div class="hero__scrim" aria-hidden="true"></div>
 
     <div class="hero__inner">
@@ -419,24 +419,24 @@
 
     <div class="feat" id="featured">
       <a class="fcard fcard--tall" href="#">
-        <img class="fcard__img" src="assets/img/listing-porsche-911.webp" width="1200" height="750" alt="Porsche 911 Carrera GTS in Munich">
+        <img class="fcard__img" src="/frontend/assets/img/listing-porsche-911.webp" width="1200" height="750" alt="Porsche 911 Carrera GTS in Munich">
         <span class="fcard__flag">PICK OF THE WEEK</span>
         <span class="fcard__meta"><span class="fcard__name">Porsche 911 Carrera GTS</span><span class="fcard__spec">&euro;164,900 &middot; 12,000 mi &middot; Munich</span></span>
       </a>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="assets/img/listing-amg-gt.webp" width="1600" height="900" alt="Mercedes-AMG GT 63 Coupé in Zürich">
+        <img class="fcard__img" src="/frontend/assets/img/listing-amg-gt.webp" width="1600" height="900" alt="Mercedes-AMG GT 63 Coupé in Zürich">
         <span class="fcard__meta"><span class="fcard__name">AMG GT 63 Coup&eacute;</span><span class="fcard__spec">&euro;178,000 &middot; Z&uuml;rich</span></span>
       </button>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="assets/img/listing-etron-gt.webp" width="1600" height="900" alt="Audi RS e-tron GT in Frankfurt">
+        <img class="fcard__img" src="/frontend/assets/img/listing-etron-gt.webp" width="1600" height="900" alt="Audi RS e-tron GT in Frankfurt">
         <span class="fcard__meta"><span class="fcard__name">RS e-tron GT</span><span class="fcard__spec">&euro;147,000 &middot; Frankfurt</span></span>
       </button>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="assets/img/listing-range-rover.webp" width="1600" height="900" alt="Range Rover Sport in Salzburg">
+        <img class="fcard__img" src="/frontend/assets/img/listing-range-rover.webp" width="1600" height="900" alt="Range Rover Sport in Salzburg">
         <span class="fcard__meta"><span class="fcard__name">Range Rover Sport</span><span class="fcard__spec">&euro;96,400 &middot; Salzburg</span></span>
       </button>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="assets/img/listing-continental-gt.webp" width="1600" height="900" alt="Bentley Continental GT in Geneva">
+        <img class="fcard__img" src="/frontend/assets/img/listing-continental-gt.webp" width="1600" height="900" alt="Bentley Continental GT in Geneva">
         <span class="fcard__meta"><span class="fcard__name">Continental GT</span><span class="fcard__spec">&euro;265,000 &middot; Geneva</span></span>
       </button>
     </div>
@@ -641,7 +641,7 @@
           <p class="trade__range"><span id="trade-low">&euro;0</span><span class="trade__dash"> &ndash; </span><span id="trade-high">&euro;0</span></p>
           <p class="trade__desc" id="trade-desc">2019 Mercedes-AMG GT Roadster &middot; 48,000 mi</p>
         </div>
-        <img class="trade__car" src="assets/img/trade-car.webp" width="1200" height="325" alt="">
+        <img class="trade__car" src="/frontend/assets/img/trade-car.webp" width="1200" height="325" alt="">
         <a class="btn btn--ink btn--accept" href="#">Accept offer<span class="btn__arrow btn__arrow--32" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
       </div>
 
@@ -700,32 +700,32 @@
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;On my driveway in four days, spotless and charged. Unreal service.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-daniel.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Daniel R.</span><span class="rev__car">Cayenne Coupe &middot; Z&uuml;rich</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-daniel.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Daniel R.</span><span class="rev__car">Cayenne Coupe &middot; Z&uuml;rich</span></span></figcaption>
         </figure>
         <figure class="rev rev--ink">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;The most transparent purchase I&rsquo;ve ever made. No surprises at all.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-sofia.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Sofia M.</span><span class="rev__car">Taycan Turbo GT &middot; Munich</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-sofia.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Sofia M.</span><span class="rev__car">Taycan Turbo GT &middot; Munich</span></span></figcaption>
         </figure>
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;Trade-in beat every other offer I got. Finance took ten minutes.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-aisha.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Aisha K.</span><span class="rev__car">Macan Electric &middot; Geneva</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-aisha.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Aisha K.</span><span class="rev__car">Macan Electric &middot; Geneva</span></span></figcaption>
         </figure>
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;They walked me through every feature. Customer for life.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-marco.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Marco L.</span><span class="rev__car">Panamera GTS &middot; Milan</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-marco.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Marco L.</span><span class="rev__car">Panamera GTS &middot; Milan</span></span></figcaption>
         </figure>
         <figure class="rev rev--ink">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;White-glove delivery is exactly that. Handled all the paperwork.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-james.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">James P.</span><span class="rev__car">911 Carrera &middot; Vienna</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-james.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">James P.</span><span class="rev__car">911 Carrera &middot; Vienna</span></span></figcaption>
         </figure>
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;No pressure at the showroom &mdash; just great people who love cars.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-nina.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Nina H.</span><span class="rev__car">718 Cayman &middot; Salzburg</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-nina.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Nina H.</span><span class="rev__car">718 Cayman &middot; Salzburg</span></span></figcaption>
         </figure>
       </div>
     </div>
@@ -804,7 +804,7 @@
   <section class="sec" aria-labelledby="cta-title">
     <div class="ctapanel">
       <span class="ctapanel__wordmark" aria-hidden="true">AVAVA</span>
-      <img class="ctapanel__car" src="assets/img/cta-car.webp" width="1341" height="384" alt="">
+      <img class="ctapanel__car" src="/frontend/assets/img/cta-car.webp" width="1341" height="384" alt="">
       <span class="ctapanel__scrim" aria-hidden="true"></span>
 
       <div class="ctapanel__inner">
@@ -850,13 +850,13 @@
     </div>
 
     <ul class="brands">
-      <li class="brand"><img class="brand__mark" src="assets/img/brands/alpine-motors.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Alpine Motors</span></li>
-      <li class="brand"><img class="brand__mark" src="assets/img/brands/baumann-sportwagen.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Baumann Sportwagen</span></li>
-      <li class="brand"><img class="brand__mark" src="assets/img/brands/elbe-prestige.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Elbe Prestige</span></li>
-      <li class="brand"><img class="brand__mark" src="assets/img/brands/nord-prestige.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Nord Prestige</span></li>
-      <li class="brand"><img class="brand__mark" src="assets/img/brands/rheinland-motors.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Rheinland Motors</span></li>
-      <li class="brand"><img class="brand__mark" src="assets/img/brands/sterling-automobile.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Sterling Automobile</span></li>
-      <li class="brand"><img class="brand__mark" src="assets/img/brands/volt-trading.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Volt Trading</span></li>
+      <li class="brand"><img class="brand__mark" src="/frontend/assets/img/brands/alpine-motors.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Alpine Motors</span></li>
+      <li class="brand"><img class="brand__mark" src="/frontend/assets/img/brands/baumann-sportwagen.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Baumann Sportwagen</span></li>
+      <li class="brand"><img class="brand__mark" src="/frontend/assets/img/brands/elbe-prestige.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Elbe Prestige</span></li>
+      <li class="brand"><img class="brand__mark" src="/frontend/assets/img/brands/nord-prestige.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Nord Prestige</span></li>
+      <li class="brand"><img class="brand__mark" src="/frontend/assets/img/brands/rheinland-motors.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Rheinland Motors</span></li>
+      <li class="brand"><img class="brand__mark" src="/frontend/assets/img/brands/sterling-automobile.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Sterling Automobile</span></li>
+      <li class="brand"><img class="brand__mark" src="/frontend/assets/img/brands/volt-trading.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Volt Trading</span></li>
     </ul>
   </section>
 
@@ -884,7 +884,7 @@
   <div class="footmain">
     <div class="footgrid">
       <div class="footbrand">
-        <img src="assets/img/logo-avava-white.svg" width="168" height="36" alt="AVAVA">
+        <img src="/frontend/assets/img/logo-avava-white.svg" width="168" height="36" alt="AVAVA">
         <p class="footbrand__text">Saturday mornings: new arrivals and price drops on the cars you saved. Nothing else, ever.</p>
         <form class="subscribe" action="#" method="post">
           <label class="visually-hidden" for="sub-email">Your email</label>
@@ -1126,8 +1126,8 @@
   </form>
 </dialog>
 
-<script src="assets/vendor/leaflet/leaflet.js"></script>
-<script src="assets/js/main1ef4.js?v=5d78136b"></script>
+<script src="/frontend/assets/vendor/leaflet/leaflet.js"></script>
+<script src="/frontend/assets/js/main1ef4.js?v=5d78136b"></script>
 </body>
 
 <!-- Mirrored from https://demo.gridgum.com/avavamotors/car-marketplace/index.html by HTTrack Website Copier/3.x [XR&CO], Tue, 06 Oct 2026 16:45:40 GMT -->
