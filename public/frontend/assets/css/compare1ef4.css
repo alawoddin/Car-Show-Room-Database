@@ -1,0 +1,541 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Compare page
+   Only what this page adds. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   The whole tool — shortlist row, table and verdict row — hangs off ONE track
+   definition in `--cmp-cols`. Change it in a single place or the four columns
+   stop lining up; that is the one thing this page cannot survive.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Intro
+   02. Grid track and the scroller
+   03. Shortlist cell
+   04. Slot cards
+   05. The specification table
+   06. Verdict row and CTAs
+   07. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Intro
+   ========================================================================== */
+
+/* `.intro` in style.css is already this exact grid — one grid, not two.
+   Nesting a second identical one collapses the paragraphs to a word per line;
+   the handoff calls that out as a real defect from an earlier port. Here the
+   60px spacer below carries the rhythm, so the shared bottom margin goes. */
+.intro--compare { margin-bottom: 0; }
+
+
+/* ==========================================================================
+   02. Grid track and the scroller
+   ========================================================================== */
+
+.cmp {
+  --cmp-cols: minmax(210px, 250px) repeat(3, minmax(0, 1fr));
+  --cmp-gap: 20px;
+  --cmp-pad: 24px;
+}
+
+/* Below the desktop target the four columns keep their width and the tool
+   scrolls sideways instead of crushing the figures. */
+.cmp__deck { min-width: 0; }
+
+.cmp__row {
+  display: grid;
+  grid-template-columns: var(--cmp-cols);
+  gap: var(--cmp-gap);
+}
+
+.cmp__row--slots { align-items: end; margin-bottom: 20px; }
+
+.cmp__row--verdict { align-items: stretch; margin-top: 20px; }
+
+
+/* ==========================================================================
+   03. Shortlist cell
+   ========================================================================== */
+
+.shortlist { padding-bottom: 8px; }
+
+.shortlist__lbl {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: var(--ink-2);
+}
+
+.shortlist__hint { margin-top: 10px; font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+
+.shortlist__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 14px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   04. Slot cards
+   ========================================================================== */
+
+.pick {
+  position: relative;
+  border: 1px solid var(--line-10);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.pick:hover { transform: translateY(-6px); box-shadow: 0 28px 54px -30px rgba(20, 22, 26, .45); }
+
+/* Only a sole leader is marked. On a tie the design shows no winner at all —
+   it must not invent one. */
+.pick--lead { border-color: var(--ink); box-shadow: 0 26px 52px -30px rgba(20, 22, 26, .5); }
+
+.pick__shot { position: relative; aspect-ratio: 16 / 10; background: var(--image-bed); }
+
+.pick__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.pick__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .34) 0%, rgba(20, 22, 26, 0) 38%, rgba(20, 22, 26, .78) 100%);
+  pointer-events: none;
+}
+
+.pick__body,
+.pick__tag {
+  position: absolute;
+  top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.pick__body {
+  left: 14px;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.pick__tag { right: 14px; background: rgba(20, 22, 26, .32); color: #FFFFFF; }
+
+.pick--lead .pick__tag { background: var(--accent); color: var(--ink); }
+
+.pick__id { position: absolute; left: 16px; right: 16px; bottom: 14px; }
+
+.pick__make {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .72);
+}
+
+.pick__model { margin-top: 7px; font-size: 23px; font-weight: 800; letter-spacing: -.026em; color: #FFFFFF; }
+
+.pick__panel { padding: 20px 22px 22px; }
+
+/* The price must reflow onto a second line, never truncate — an early
+   revision clipped six-figure figures with an ellipsis. */
+.pick__prices {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  flex-wrap: wrap;
+}
+
+.pick__price {
+  font-size: clamp(20px, 1.7vw, 27px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+}
+
+.pick__monthly { flex: none; font-size: 13px; color: var(--ink-2); white-space: nowrap; }
+
+.pick__score {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.pick__bar {
+  flex: 1 1 auto;
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .1);
+}
+
+/* The fill is wins/11, so it only ever takes twelve values — a modifier
+   class carries it and the markup stays free of inline styles. Module 17
+   swaps the class on every change, so all twelve are live. */
+.pick__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .28);
+}
+
+.pick__fill--w0  { width: 0; }
+.pick__fill--w1  { width: 9.0909%; }
+.pick__fill--w2  { width: 18.1818%; }
+.pick__fill--w3  { width: 27.2727%; }
+.pick__fill--w4  { width: 36.3636%; }
+.pick__fill--w5  { width: 45.4545%; }
+.pick__fill--w6  { width: 54.5454%; }
+.pick__fill--w7  { width: 63.6363%; }
+.pick__fill--w8  { width: 72.7272%; }
+.pick__fill--w9  { width: 81.8181%; }
+.pick__fill--w10 { width: 90.9090%; }
+.pick__fill--w11 { width: 100%; }
+
+.pick--lead .pick__fill { background: var(--accent); }
+
+.pick__wins {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.pick--lead .pick__wins { color: var(--ink); }
+
+.pick__picker { position: relative; display: block; margin-top: 16px; }
+
+.pick__select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  padding: 13px 40px 13px 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.pick__select:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.pick__chev {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   05. The specification table
+   ========================================================================== */
+
+/* A real <table> — the data is tabular, so screen readers get row headers
+   and column headers for free. The display overrides put the layout back on
+   the grid the design asks for. */
+.spec {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-collapse: collapse;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.spec__group { display: block; }
+
+.spec__grouphead,
+.spec__row {
+  display: grid;
+  grid-template-columns: var(--cmp-cols);
+  gap: var(--cmp-gap);
+  align-items: center;
+}
+
+/* The browser gives every th/td a 1px padding of its own; the cells that set
+   their own padding are unaffected, these two would grow the row by 2px. */
+.spec__head,
+.spec__grouptitle,
+.spec__groupnote,
+.spec__cell { padding: 0; }
+
+.spec__head,
+.spec__grouptitle { font-weight: 400; text-align: left; }
+
+.spec__grouphead { padding: 14px var(--cmp-pad); background: var(--ink); color: #FFFFFF; }
+
+.spec__grouptitle {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.spec__groupnote {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .42);
+}
+
+/* Zebra restarts inside each group, so it is a class, not :nth-child — the
+   group header would otherwise shift the count. */
+.spec__row { padding: 0 var(--cmp-pad); border-top: 1px solid var(--line-faint); }
+
+.spec__row--alt { background: #FCFCFB; }
+
+.spec__head { padding: 17px 0; }
+
+.spec__label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink);
+}
+
+.spec__note { display: block; margin-top: 5px; font-size: 12.5px; color: var(--ink-4); }
+
+.spec__cell { display: flex; align-items: center; gap: 10px; padding: 17px 0; }
+
+.spec__val { font-size: 19px; font-weight: 600; letter-spacing: -.015em; color: var(--ink); }
+
+.spec__val--best { font-weight: 800; }
+
+/* An em-dash is "not applicable", not a figure — it steps back in tone. */
+.spec__val--na { color: var(--ink-4); }
+
+.best {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.best__tick { display: inline-flex; align-items: center; color: var(--ink); }
+
+
+/* ==========================================================================
+   06. Verdict row and CTAs
+   ========================================================================== */
+
+.verdict {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 22px;
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.verdict__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.verdict__text { margin-top: 9px; font-size: 17px; font-weight: 800; letter-spacing: -.022em; color: var(--ink); }
+
+.bookcta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 15px 15px 24px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.bookcta:hover { background: var(--ink); color: #FFFFFF; }
+
+.bookcta--lead { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.bookcta--lead:hover { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+.bookcta__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+  transition: background .2s ease, color .2s ease;
+}
+
+.bookcta:hover .bookcta__arrow { background: #FFFFFF; color: var(--ink); }
+
+.bookcta--lead .bookcta__arrow { background: var(--accent); color: var(--ink); }
+
+.bookcta--lead:hover .bookcta__arrow { background: var(--ink); color: var(--accent); }
+
+
+/* ==========================================================================
+   07. Responsive
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  /* The tool becomes its own scroller. The columns keep their widths so the
+     figures stay readable, and the label column pins so you never lose the
+     row you are reading. */
+  .cmp {
+    --cmp-cols: 190px repeat(3, 260px);
+    --cmp-gap: 16px;
+    margin-right: -40px;
+    padding-right: 40px;
+    /* overflow-x on its own makes the block clip vertically too, which would
+       cut the card's hover lift and its shadow — so give them room. */
+    margin-top: -12px;
+    padding-top: 12px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .cmp::-webkit-scrollbar { width: 0; height: 0; }
+
+  .cmp__deck { width: -moz-min-content; width: min-content; }
+
+  /* The rounding has to come off the box and go onto the first and last rows:
+     an ancestor with `overflow: hidden` silently kills `position: sticky`, and
+     the pinned label column is the whole point of this layout. */
+  .spec { overflow: visible; }
+
+  .spec__group:first-child .spec__grouphead {
+    border-top-left-radius: 23px;
+    border-top-right-radius: 23px;
+  }
+
+  .spec__group:last-child .spec__row:last-child {
+    border-bottom-left-radius: 23px;
+    border-bottom-right-radius: 23px;
+  }
+
+  /* A pinned cell has to paint the full row height, or the figures slide out
+     from behind it. The label keeps its optical centring inside that block. */
+  .spec__row { align-items: stretch; }
+
+  /* The side padding moves off the row and onto the cells: a row's own
+     padding scrolls away with it, and the pinned label would end up flush
+     against the edge with its first glyph clipped. */
+  .spec__row,
+  .spec__grouphead { padding-left: 0; padding-right: 0; }
+
+  .spec__head,
+  .spec__grouptitle { padding-left: var(--cmp-pad); padding-right: 10px; }
+
+  .spec__cell:last-child,
+  .spec__groupnote { padding-right: var(--cmp-pad); }
+
+  .spec__head {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .spec__grouphead { align-items: stretch; padding-top: 0; padding-bottom: 0; }
+
+  .spec__grouptitle,
+  .spec__groupnote { display: flex; align-items: center; padding-top: 14px; padding-bottom: 14px; }
+
+  .spec__head,
+  .spec__grouptitle {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
+
+  .spec__row:not(.spec__row--alt) .spec__head { background: #FFFFFF; }
+  .spec__row--alt .spec__head { background: #FCFCFB; }
+  .spec__grouptitle { background: var(--ink); }
+}
+
+@media (max-width: 780px) {
+  .cmp {
+    --cmp-cols: 150px repeat(3, 230px);
+    --cmp-pad: 16px;
+    margin-right: -20px;
+    padding-right: 20px;
+  }
+
+  .pick__panel { padding: 16px 16px 18px; }
+  .pick__model { font-size: 20px; }
+  .pick__price { font-size: 22px; }
+  .shortlist__hint { font-size: 13px; }
+
+  /* A native select clips rather than ellipsises, so the make and model have
+     to fit the narrower card. */
+  .pick__select { padding: 12px 34px 12px 13px; font-size: 13px; }
+  .pick__chev { right: 11px; }
+}
+
+@media (max-width: 560px) {
+  .cmp { --cmp-cols: 128px repeat(3, 210px); --cmp-gap: 12px; }
+  .spec__val { font-size: 17px; }
+  .spec__note { font-size: 11.5px; }
+  .spec__label { font-size: 9.5px; }
+  .pick__select { font-size: 12.5px; }
+  .bookcta { padding-left: 18px; font-size: 13.5px; }
+}

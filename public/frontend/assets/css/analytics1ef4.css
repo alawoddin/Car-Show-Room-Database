@@ -1,0 +1,557 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Dealer analytics (dealer-analytics.html)
+   Only what this page adds. The light header, the page-header block and
+   the shared dots and rule are the inner-page template in style.css; the
+   ink rail is the dashboard chrome in profile.css.
+
+   Ninety days, read honestly: six numbers, the twelve-week trend, the
+   sources, the funnel, the model groups and three jobs. The charts are
+   divs; their heights and widths are the page's own counts, and the
+   generator refuses to build if these numbers drift from the data.
+   Accent marks: the delta pills that are good news, the viewings segment,
+   the free sources, the last funnel bar. Rust only for bad news: the
+   reply-time delta, the A-Class row, STOP BUYING THESE. Prefix ax-.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Labels and section heads
+   02. Period bar
+   03. Six numbers
+   04. Boxes and their feet
+   05. Twelve weeks
+   06. Where buyers come from
+   07. The funnel
+   08. By model
+   09. What it means
+   10. Responsive
+   11. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Labels and section heads
+   ========================================================================== */
+
+.axmain { --ax-rust: #8A4A22; }
+
+.axsec { display: block; }
+
+.axk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.axk--right { text-align: right; }
+
+.axmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.axhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.axhead__main { min-width: 0; }
+
+.axhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.axsep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.axnote { color: var(--ink); }
+
+.axnote[hidden] { display: none; }
+
+.axlink {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.axlink:hover { color: var(--ink); }
+
+.axlink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.axlink--rust { font-weight: 700; letter-spacing: .1em; color: var(--ax-rust); }
+
+.axlink--rust:hover { color: var(--ax-rust); }
+
+.axlink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   02. Period bar
+   ========================================================================== */
+
+.axperiod {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.axperiod__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.axperiod__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+/* When the line wraps, the dot leads the first line instead of floating between two. */
+.axperiod__live .dot { align-self: flex-start; margin-top: 3px; }
+
+.axperiod__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.axselect {
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.axselect:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+
+/* ==========================================================================
+   03. Six numbers
+   ========================================================================== */
+
+.axkpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.axkpi { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.axkpi__row { display: flex; align-items: baseline; gap: 9px; margin: 0; }
+
+.axkpi__n { font-size: 26px; font-weight: 800; line-height: 1; letter-spacing: -.034em; }
+
+.axdelta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 7px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink);
+}
+
+.axdelta--up { background: color-mix(in srgb, var(--accent) 45%, transparent); }
+
+.axdelta--down { background: rgba(138, 74, 34, .14); color: var(--ax-rust); }
+
+.axkpi__p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   04. Boxes and their feet
+   ========================================================================== */
+
+.axbox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.axbox__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.axfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 15px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.axfoot__t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.axfoot__t--body { font-size: 13.5px; line-height: 1.55; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   05. Twelve weeks
+   One scale only: the axis and the bars share 189px ÷ 15 units. The axis
+   has its own grid column so the labels never sit behind the first bar.
+   ========================================================================== */
+
+.axlegend { display: inline-flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+.axlegend__i {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.axswatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+
+.axswatch--ink { background: var(--ink); }
+
+.axswatch--accent { background: var(--accent); }
+
+.axplot { padding: 26px 24px 20px; }
+
+.axplot__grid { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; }
+
+.axaxis { position: relative; height: 189px; }
+
+.axaxis__n { position: absolute; right: 0; font-family: var(--mono); font-size: 8.5px; font-weight: 600; color: var(--ink-4); }
+
+.axaxis__n--0 { top: -6px; }
+
+.axaxis__n--1 { top: 57px; }
+
+.axaxis__n--2 { top: 120px; }
+
+.axaxis__n--3 { top: 183px; }
+
+.axarea { position: relative; height: 189px; }
+
+.axgrid { position: absolute; left: 0; right: 0; display: block; height: 1px; background: var(--line-faint); }
+
+.axgrid--0 { top: 0px; }
+
+.axgrid--1 { top: 63px; }
+
+.axgrid--2 { top: 126px; }
+
+.axgrid--3 { top: 189px; }
+
+.axcols { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 9px; align-items: end; position: relative; height: 189px; }
+
+.axcol { display: flex; flex-direction: column; justify-content: flex-end; min-width: 0; height: 189px; }
+
+.axcol__ink { display: block; width: 100%; border-radius: 5px 5px 0 0; background: var(--ink); }
+
+.axcol__acc { display: block; width: 100%; background: var(--accent); }
+
+/* Week by week: (enquiries − viewings) in ink over the viewings in accent. */
+.axcol__ink--0 { height: 51px; }
+
+.axcol__acc--0 { height: 25px; }
+
+.axcol__ink--1 { height: 63px; }
+
+.axcol__acc--1 { height: 38px; }
+
+.axcol__ink--2 { height: 63px; }
+
+.axcol__acc--2 { height: 25px; }
+
+.axcol__ink--3 { height: 75px; }
+
+.axcol__acc--3 { height: 38px; }
+
+.axcol__ink--4 { height: 76px; }
+
+.axcol__acc--4 { height: 25px; }
+
+.axcol__ink--5 { height: 88px; }
+
+.axcol__acc--5 { height: 25px; }
+
+.axcol__ink--6 { height: 63px; }
+
+.axcol__acc--6 { height: 25px; }
+
+.axcol__ink--7 { height: 76px; }
+
+.axcol__acc--7 { height: 25px; }
+
+.axcol__ink--8 { height: 89px; }
+
+.axcol__acc--8 { height: 50px; }
+
+.axcol__ink--9 { height: 114px; }
+
+.axcol__acc--9 { height: 50px; }
+
+.axcol__ink--10 { height: 101px; }
+
+.axcol__acc--10 { height: 50px; }
+
+.axcol__ink--11 { height: 126px; }
+
+.axcol__acc--11 { height: 50px; }
+
+.axplot__gap { display: block; }
+
+.axweeks { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 9px; margin-top: 8px; }
+
+.axweek { text-align: center; font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: .06em; color: var(--ink-2); }
+
+.axweek--on { color: var(--ink); }
+
+
+/* ==========================================================================
+   06. Where buyers come from
+   ========================================================================== */
+
+.axsrc {
+  display: grid;
+  grid-template-columns: minmax(0, 180px) minmax(0, 1fr) minmax(0, 88px) minmax(0, 108px);
+  align-items: center;
+  gap: 18px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.axsrc--head { padding: 13px 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
+
+.axsrc--last { border-bottom: 0; }
+
+.axsrc__main { min-width: 0; }
+
+.axsrc__name { display: block; font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.axsrc__note { display: block; margin-top: 5px; }
+
+.axsrc__bar { display: block; height: 10px; border-radius: 999px; background: rgba(20, 22, 26, .1); }
+
+.axsrc__fill { display: block; height: 10px; border-radius: 999px; background: var(--ink); }
+
+.axsrc__fill--free { background: var(--accent); }
+
+/* Share of the period's enquiries, source by source. */
+.axsrc__fill--0 { width: 44%; }
+
+.axsrc__fill--1 { width: 21%; }
+
+.axsrc__fill--2 { width: 18%; }
+
+.axsrc__fill--3 { width: 11%; }
+
+.axsrc__fill--4 { width: 6%; }
+
+.axsrc__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; text-align: right; }
+
+.axsrc__cost { text-align: right; }
+
+
+/* ==========================================================================
+   07. The funnel
+   The widths are a reading scale, not the literal shares — those would
+   leave five of the six bars invisible. The figures inside are the facts.
+   ========================================================================== */
+
+.axfun { padding: 12px 0 8px; }
+
+.axfun__row {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) minmax(0, 1fr) minmax(0, 92px);
+  align-items: center;
+  gap: 18px;
+  padding: 14px 24px;
+}
+
+.axfun__bar { display: block; height: 34px; border-radius: 10px; background: rgba(20, 22, 26, .08); }
+
+.axfun__fill {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  padding-left: 12px;
+  border-radius: 10px;
+  background: var(--ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.axfun__fill--accent { background: var(--accent); color: var(--ink); }
+
+.axfun__fill--0 { width: 100%; }
+
+.axfun__fill--1 { width: 62%; }
+
+.axfun__fill--2 { width: 34%; }
+
+.axfun__fill--3 { width: 22%; }
+
+.axfun__fill--4 { width: 14%; }
+
+.axfun__fill--5 { width: 9%; }
+
+.axfun__pct { text-align: right; }
+
+
+/* ==========================================================================
+   08. By model
+   ========================================================================== */
+
+.axmodel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 84px) minmax(0, 120px) minmax(0, 120px);
+  align-items: center;
+  gap: 18px;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.axmodel--head { padding: 13px 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
+
+.axmodel--last { border-bottom: 0; }
+
+.axmodel__name { min-width: 0; font-size: 14.5px; font-weight: 600; letter-spacing: -.018em; }
+
+.axmodel__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; text-align: right; }
+
+.axmodel__days { text-align: right; }
+
+.axmodel__gross { font-family: var(--mono); font-size: 13px; font-weight: 700; text-align: right; color: var(--ink); }
+
+.axmodel--flag .axmodel__days,
+.axmodel--flag .axmodel__gross { color: var(--ax-rust); }
+
+
+/* ==========================================================================
+   09. What it means
+   ========================================================================== */
+
+.axjobs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.axjob { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.axjob__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.axjob__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.axjob__link { margin-top: auto; align-self: flex-start; }
+
+
+/* ==========================================================================
+   10. Responsive
+   The rail folds above the content at 1100px (profile.css); the tables
+   give up their bar column first, then their gutters.
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .axsrc { grid-template-columns: minmax(0, 150px) minmax(0, 1fr) minmax(0, 80px) minmax(0, 100px); }
+}
+
+@media (max-width: 900px) {
+  .axkpis, .axjobs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .axsrc { grid-template-columns: minmax(0, 1fr) minmax(0, 72px) minmax(0, 84px); gap: 12px 18px; }
+
+  .axsrc__main, .axsrc__n, .axsrc__cost { grid-row: 1; }
+
+  .axsrc__bar { grid-row: 2; grid-column: 1 / -1; }
+
+  .axjob:last-child { grid-column: 1 / -1; }
+
+  .axsrc--head .axk:nth-child(2) { display: none; }
+
+  .axfun__row { grid-template-columns: minmax(0, 120px) minmax(0, 1fr) minmax(0, 84px); gap: 12px; }
+
+  .axmodel { grid-template-columns: minmax(0, 1fr) minmax(0, 48px) minmax(0, 90px) minmax(0, 90px); gap: 12px; }
+}
+
+@media (max-width: 640px) {
+  .axkpis, .axjobs { grid-template-columns: minmax(0, 1fr); }
+
+  .axperiod, .axbox__head, .axfoot { padding: 14px 18px; }
+
+  .axperiod__ctl { width: 100%; }
+
+  .axsep { display: none; }
+
+  .axselect { flex: 1 1 150px; min-width: 0; }
+
+  .axkpi, .axjob, .axsrc, .axfun__row, .axmodel { padding-left: 18px; padding-right: 18px; }
+
+  .axplot { padding: 20px 14px 16px; }
+
+  .axplot__grid { grid-template-columns: 28px minmax(0, 1fr); gap: 6px; }
+
+  .axcols, .axweeks { gap: 5px; }
+
+  .axweek { font-size: 7px; letter-spacing: 0; }
+
+  .axfun__row { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+
+  .axfun__pct { text-align: left; }
+
+  .axmodel { grid-template-columns: minmax(0, 1fr) minmax(0, 40px) minmax(0, 88px) minmax(0, 80px); gap: 8px; }
+
+  .axmodel__name { font-size: 13.5px; }
+}
+
+@media (max-width: 430px) {
+  .axweek:nth-child(odd) { visibility: hidden; }
+
+  .axsrc { grid-template-columns: minmax(0, 1fr) minmax(0, 64px) minmax(0, 72px); }
+
+  /* The model table folds: the name takes a line, the three figures share the next. */
+  .axmodel { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 8px; }
+
+  .axmodel__name { grid-column: 1 / -1; }
+
+  .axmodel--head .axk { letter-spacing: .08em; }
+
+  .axmodel--head .axk:first-child { display: none; }
+}
+
+
+/* ==========================================================================
+   11. Touch and reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .axlink, .axselect { transition: none; }
+
+  .axperiod .pulse { animation: none; }
+}

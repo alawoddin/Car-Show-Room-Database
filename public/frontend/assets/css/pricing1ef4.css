@@ -1,0 +1,842 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Pricing page
+   Only what this page adds. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Billing switch
+   02. Dealer tiers
+   03. What the price covers
+   04. Fees never charged, options priced here
+   05. The invoice
+   06. The comparison
+   07. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Billing switch
+   ========================================================================== */
+
+.planswitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.planswitch__track {
+  display: inline-flex;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.planswitch__btn {
+  padding: 11px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.planswitch__btn--on { background: var(--ink); color: #FFFFFF; font-weight: 700; }
+
+.planswitch__save {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+
+/* ==========================================================================
+   02. Dealer tiers
+   ========================================================================== */
+
+.tiers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.tier {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 36px 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-glass);
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+/* The middle tier is the one most dealers take, so it carries the weight. */
+.tier--hero {
+  padding: 40px 36px;
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #FFFFFF;
+  box-shadow: 0 34px 64px -30px rgba(20, 22, 26, .55);
+}
+
+.tier__badge {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+
+.tier__no {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  color: var(--ink-2);
+}
+
+.tier--hero .tier__no { color: rgba(255, 255, 255, .5); }
+
+.tier__name { margin-top: 14px; font-size: 34px; font-weight: 800; letter-spacing: -.03em; }
+
+/* The blurb holds a floor so the three price rows stay on one line. */
+.tier__blurb {
+  min-height: 44px;
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+.tier--hero .tier__blurb { color: rgba(255, 255, 255, .7); }
+
+.tier__price { display: flex; align-items: baseline; gap: 8px; margin-top: 26px; }
+
+.tier__amount { font-size: 52px; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+
+.tier__per { font-size: 15px; font-weight: 500; color: var(--ink-2); }
+
+.tier--hero .tier__per { color: rgba(255, 255, 255, .6); }
+
+.tier__billed { margin-top: 12px; font-size: 13.5px; color: var(--ink-2); }
+
+.tier--hero .tier__billed { color: rgba(255, 255, 255, .6); }
+
+.tier__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 26px;
+  padding: 17px 22px;
+  border: 1px solid var(--control);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 15.5px;
+  font-weight: 600;
+  text-align: center;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.tier__cta:hover { background: var(--ink); color: #FFFFFF; }
+
+.tier--hero .tier__cta { border-color: #FFFFFF; background: #FFFFFF; color: var(--ink); }
+.tier--hero .tier__cta:hover { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+.tier__listlbl {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.tier--hero .tier__listlbl { border-top-color: var(--on-dark-line); color: rgba(255, 255, 255, .5); }
+
+.tier__feats { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
+
+.tier__feat { display: flex; align-items: flex-start; gap: 12px; font-size: 14.5px; line-height: 1.5; }
+
+.tier--hero .tier__feat { color: rgba(255, 255, 255, .86); }
+
+.tier__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 19px;
+  height: 19px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   03. What the price covers
+   ========================================================================== */
+
+.sechead--covers,
+.sechead--invoice { align-items: flex-end; gap: 40px; margin-bottom: 34px; }
+
+.sechead--covers .h2,
+.sechead--invoice .h2 { margin-top: 14px; }
+
+.h2--covers { font-size: clamp(30px, 3vw, 54px); letter-spacing: -.032em; white-space: nowrap; }
+
+.sechead__lead--covers { max-width: 620px; margin-top: 16px; font-size: 16.5px; }
+
+.builtin {
+  flex: none;
+  padding: 26px 30px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+  text-align: right;
+}
+
+.builtin__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.builtin__sum {
+  margin-top: 12px;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -.038em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.builtin__note { margin-top: 10px; font-size: 14px; color: rgba(255, 255, 255, .66); }
+
+/* The 1px gap over a hairline background is the grid rule — no borders. */
+.covers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-glass);
+  overflow: hidden;
+  background: var(--line);
+}
+
+.cover { padding: 32px 30px 34px; background: #FFFFFF; color: var(--ink); }
+
+.cover--ink { background: var(--ink); color: #FFFFFF; }
+
+.cover__head { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+
+.cover__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.cover__no {
+  font-family: var(--display);
+  font-size: 34px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(20, 22, 26, .2);
+}
+
+.cover--ink .cover__no { -webkit-text-stroke-color: rgba(255, 255, 255, .34); }
+
+.cover__title { margin-top: 20px; font-size: 21px; font-weight: 700; letter-spacing: -.022em; text-wrap: pretty; }
+
+.cover__text {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.cover--ink .cover__text { color: rgba(255, 255, 255, .7); }
+
+.cover__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.cover--ink .cover__foot { border-top-color: var(--on-dark-line); }
+
+.cover__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.cover--ink .cover__lbl { color: rgba(255, 255, 255, .44); }
+
+.cover__was {
+  margin-top: 6px;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+  color: var(--ink-4);
+  text-decoration: line-through;
+  text-decoration-color: rgba(20, 22, 26, .32);
+}
+
+.cover--ink .cover__was { color: rgba(255, 255, 255, .6); text-decoration-color: rgba(255, 255, 255, .4); }
+
+/* Cell 04 has nothing to strike through — no one else offers it at all. */
+.cover__was--none { text-decoration: none; }
+
+.cover__now { text-align: right; }
+
+.cover__free { margin-top: 6px; font-size: 19px; font-weight: 800; letter-spacing: -.028em; color: var(--accent); }
+
+
+/* ==========================================================================
+   04. Fees never charged, options priced here
+   ========================================================================== */
+
+.feepair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 26px;
+  margin-top: 26px;
+}
+
+.feecard {
+  position: relative;
+  padding: 36px 34px 34px;
+  border-radius: var(--r-glass);
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.feecard__zero {
+  position: absolute;
+  right: -18px;
+  bottom: -46px;
+  font-family: var(--display);
+  font-size: 150px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.feecard__lbl,
+.optcard__lbl {
+  position: relative;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.feecard__lbl { color: rgba(255, 255, 255, .42); }
+
+.feecard__title,
+.optcard__title {
+  position: relative;
+  margin-top: 16px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.feelines { position: relative; margin-top: 24px; }
+.optlines { margin-top: 22px; }
+
+.feeline {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 18px;
+  padding: 15px 0;
+  border-top: 1px solid var(--on-dark-line);
+}
+
+.feeline__name { display: block; font-size: 16.5px; font-weight: 600; color: rgba(255, 255, 255, .88); }
+
+.feeline__note { display: block; margin-top: 4px; font-size: 13px; color: rgba(255, 255, 255, .5); }
+
+.feeline__was {
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .5);
+  text-decoration: line-through;
+  text-decoration-color: rgba(255, 255, 255, .4);
+}
+
+.feeline__free {
+  min-width: 52px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--accent);
+  text-align: right;
+}
+
+.feecard__note {
+  position: relative;
+  margin-top: 24px;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: var(--r-badge);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .82);
+}
+
+.feecard__note strong { font-size: 24px; font-weight: 800; letter-spacing: -.03em; color: var(--accent); }
+
+.optcard {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 34px 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-glass);
+  background: #FFFFFF;
+}
+
+.optcard__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+
+.optcard__chip {
+  flex: none;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.optline {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 17px 0;
+  border-top: 1px solid var(--line);
+}
+
+.optline__name { display: block; font-size: 16.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.optline__note { display: block; margin-top: 5px; font-size: 13.5px; color: var(--ink-2); }
+
+.optline__price { font-size: 19px; font-weight: 800; letter-spacing: -.028em; white-space: nowrap; }
+
+.optcard__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.optcard__note { max-width: 340px; font-size: 14.5px; line-height: 1.55; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   05. The invoice
+   ========================================================================== */
+
+.invoice {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+
+.inv {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: var(--r-glass);
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: 0 30px 60px -40px rgba(20, 22, 26, .4);
+}
+
+.inv__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 18px 30px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.inv__ref { display: inline-flex; align-items: center; gap: 10px; }
+
+.inv__date { font-weight: 600; color: rgba(255, 255, 255, .5); }
+
+/* Zebra rows: the eye tracks a long column of figures better on alternating
+   ground than on ruled white alone. */
+.inv__row {
+  display: grid;
+  grid-template-columns: 1.15fr 1.35fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 30px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.inv__row:nth-child(even) { background: #FCFCFB; }
+
+.inv__row--base { padding: 24px 30px; border-top: 0; background: var(--surface); }
+
+.inv__name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+.inv__row--base .inv__name { font-size: 17px; font-weight: 800; }
+
+.inv__note { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+
+.inv__val {
+  justify-self: end;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.inv__val--big { font-size: 24px; color: var(--ink); }
+.inv__val--accent { color: var(--accent); }
+
+.inv__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+}
+
+.inv__tick--solid { background: var(--accent); color: var(--ink); }
+
+/* Rows with nothing to tick keep the 20px so every name starts on one line. */
+.inv__tick--void { background: none; }
+
+.inv__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 26px 30px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.inv__totallbl { font-size: 19px; font-weight: 800; letter-spacing: -.024em; }
+
+.inv__totalnote {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.inv__sum { font-size: 34px; font-weight: 800; letter-spacing: -.035em; color: var(--accent); }
+
+
+/* ==========================================================================
+   06. The comparison
+   ========================================================================== */
+
+.compare { display: flex; flex-direction: column; gap: 24px; }
+
+.compare__card {
+  padding: 32px 30px 34px;
+  border: 1px solid rgba(20, 22, 26, .1);
+  border-radius: var(--r-glass);
+  background: var(--surface);
+}
+
+.compare__head { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+
+.compare__lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.compare__chip {
+  flex: none;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .08);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.compare__rows { margin-top: 20px; }
+
+.compare__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.compare__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--ink-3);
+}
+
+/* A grey dot marks a line that exists only on their invoice; the plain rows
+   carry an empty one of the same width so the names stay aligned. */
+.compare__dot,
+.compare__pad {
+  display: inline-block;
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.compare__dot { background: var(--ink-4); }
+
+.compare__val { font-size: 16px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+
+.compare__val--soft { color: var(--ink-3); }
+
+.compare__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1.5px solid rgba(20, 22, 26, .28);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.compare__total strong { font-size: 26px; font-weight: 800; letter-spacing: -.034em; }
+
+.compare__bars { margin-top: 22px; }
+
+.cbar__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.cbar__head--us { margin-top: 16px; }
+
+.cbar__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.cbar__val { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--ink); }
+
+.cbar__val--accent { color: var(--accent); }
+
+.cbar__track {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.cbar__fill { display: block; height: 100%; }
+
+.cbar__fill--them { width: 62%; background: var(--ink); }
+.cbar__fill--us { width: 6%; background: var(--accent); }
+
+.compare__delta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding: 16px 20px;
+  border-radius: var(--r-dd);
+  background: #FFFFFF;
+}
+
+.compare__minus { flex: none; font-size: 26px; font-weight: 800; letter-spacing: -.034em; color: var(--accent); }
+
+.compare__deltanote { font-size: 14px; line-height: 1.5; color: var(--ink-3); }
+
+.askcard {
+  padding: 30px;
+  border-radius: var(--r-glass);
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.askcard__text { font-size: 16px; line-height: 1.65; color: rgba(255, 255, 255, .78); }
+
+.askcard__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 22px;
+  padding: 15px 15px 15px 26px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  transition: background .2s ease;
+}
+
+.askcard__go:hover { background: var(--accent-hi); color: var(--ink); }
+
+.askcard__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   07. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .h2--covers { white-space: normal; }
+}
+
+@media (max-width: 1280px) {
+  .tiers { grid-template-columns: minmax(0, 1fr); max-width: 620px; margin: 0 auto; }
+  .tier--hero { padding: 36px 34px; }
+  .covers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .invoice { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 1024px) {
+  .feepair { grid-template-columns: minmax(0, 1fr); }
+
+  /* Stacked under the heading, the figure card reads better full width. */
+  .builtin { align-self: stretch; text-align: left; }
+}
+
+@media (max-width: 780px) {
+  .covers { grid-template-columns: minmax(0, 1fr); }
+  .cover { padding: 26px 22px 28px; }
+  .feecard,
+  .optcard { padding: 28px 22px; }
+  .feecard__zero { font-size: 120px; }
+  .inv__row,
+  .inv__row--base { grid-template-columns: minmax(0, 1fr) auto; gap: 14px; padding: 16px 20px; }
+  .inv__note { grid-column: 1 / -1; }
+  .inv__head,
+  .inv__total { padding: 18px 20px; }
+  .inv__sum { font-size: 28px; }
+  .compare__card { padding: 26px 22px 28px; }
+  .askcard { padding: 26px 22px; }
+  .planswitch { gap: 12px; }
+}
+
+@media (max-width: 560px) {
+  .tier { padding: 28px 22px; }
+  .tier--hero { padding: 32px 24px; }
+  .tier__name { font-size: 28px; }
+  .tier__amount { font-size: 42px; }
+  .feeline { grid-template-columns: 1fr auto auto; gap: 12px; }
+  .feecard__title,
+  .optcard__title { font-size: 24px; }
+  .optcard__head { flex-direction: column; gap: 14px; }
+  .compare__delta { flex-direction: column; align-items: flex-start; gap: 8px; }
+}

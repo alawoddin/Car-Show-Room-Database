@@ -1,0 +1,1208 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Cart
+   Only what this page adds. The light header, the page-header block and the
+   shared buttons, chips and dots are the inner-page template and live in
+   style.css.
+
+   The parts basket, and one structural idea: FITTING IS BOUGHT PER LINE, not
+   as a separate step. Each line the workshop can fit carries its own strip
+   with the price, the time and the next free bay, and the summary counts
+   those strips as one figure.
+
+   Four places on the page show pieces of one sum — the line totals, the
+   running-total strip, the summary panel and the count in the step rail.
+   None of them is typed; they are all read off the same calculation, first
+   by the generator and then by the script on every change.
+
+   The rhythm: 24px between the step rail and the basket (they belong
+   together), 40px wherever a new question starts. No hairlines between
+   blocks. Rust is the system's warning colour and appears twice: on the
+   low-stock pill and on the remove button's hover.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Rhythm
+   02. Step rail
+   03. Basket
+   04. Line card
+   05. Fitting strip
+   06. Running total
+   07. Order summary
+   08. Often added with
+   09. Saved for later
+   10. Guarantees
+   11. Empty basket
+   12. Responsive
+   13. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Rhythm
+   ========================================================================== */
+
+.ckgap { height: 40px; }
+
+.ckgap--near { height: 24px; }
+
+.cksec { padding: 0 40px; }
+
+.ckhead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.ckhead__k {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.ckhead__h { margin: 8px 0 0; font-size: 36px; font-weight: 800; letter-spacing: -.032em; line-height: 1.08; }
+
+.ckhead__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  margin-bottom: 4px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink);
+}
+
+.ckhead__more:hover { color: var(--accent-hi); }
+
+
+/* ==========================================================================
+   02. Step rail
+   ========================================================================== */
+
+.cksteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.ckstep {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 24px;
+  background: #FFFFFF;
+}
+
+.ckstep--on { background: var(--ink); color: #FFFFFF; }
+
+.ckstep__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.ckstep--on .ckstep__n { background: var(--accent); }
+
+.ckstep__k { font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.ckstep__s {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.ckstep--on .ckstep__s { color: rgba(255, 255, 255, .5); }
+
+
+/* ==========================================================================
+   03. Basket
+   ========================================================================== */
+
+.ckwrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+  gap: 26px;
+  align-items: start;
+}
+
+.ckmain { min-width: 0; }
+
+.ckheld {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.ckheld__k {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.ckheld__sep { width: 1px; height: 14px; background: rgba(20, 22, 26, .16); }
+
+.ckheld__from {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.ckheld { margin: 0 0 16px; }
+
+.ckheld__more {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+.ckheld__more:hover { color: var(--accent-hi); }
+
+.cklist { display: flex; flex-direction: column; gap: 14px; }
+
+
+/* ==========================================================================
+   04. Line card
+
+   A card with fitting added takes the ink border: the border is the state,
+   and it changes with the checkbox at the foot of the card.
+   ========================================================================== */
+
+.ckline {
+  border: 1px solid rgba(20, 22, 26, .13);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: border-color .18s ease;
+}
+
+.ckline--fit { border-color: var(--ink); }
+
+.ckline__body {
+  display: grid;
+  grid-template-columns: minmax(0, 210px) minmax(0, 1fr) auto;
+  gap: 22px;
+  padding: 20px 24px;
+}
+
+.ckline__frame {
+  position: relative;
+  align-self: start;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.ckline__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ckfits {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+
+.ckline__main { min-width: 0; }
+
+.ckline__meta {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ckline__brand {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.ckline__sku {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+}
+
+/* Rust, and only here and on the remove hover: it is the warning colour. */
+.cklow {
+  padding: 3px 7px;
+  border: 1px solid rgba(138, 74, 34, .4);
+  border-radius: 5px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #8A4A22;
+}
+
+.ckline__name { margin: 8px 0 0; font-size: 17.5px; font-weight: 700; letter-spacing: -.022em; }
+
+.ckline__facts {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.ckvar {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ckline__stock,
+.ckline__lead {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ckline__acts { display: flex; align-items: center; gap: 18px; margin-top: 14px; }
+
+.ckact {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color .16s ease;
+}
+
+.ckact:hover { color: var(--ink); }
+
+.ckact:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ckline__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  min-width: 158px;
+}
+
+.ckline__ctl { display: flex; align-items: center; gap: 12px; }
+
+.ckline__sum { margin: 0; text-align: right; }
+
+.ckline__total { font-size: 21px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.ckline__each { display: block; margin-top: 5px; font-size: 12.5px; color: var(--ink-2); text-align: right; }
+
+.ckremove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .16s ease, color .16s ease;
+}
+
+.ckremove:hover { border-color: #8A4A22; color: #8A4A22; }
+
+.ckremove:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ckqty {
+  display: inline-grid;
+  grid-template-columns: 32px minmax(36px, auto) 32px;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+}
+
+.ckqty__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .16s ease;
+}
+
+.ckqty__btn--more { background: var(--ink); color: #FFFFFF; }
+
+.ckqty__btn:hover { background: var(--surface); }
+
+.ckqty__btn--more:hover { background: #22262C; }
+
+.ckqty__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ckqty__btn[disabled] { opacity: .35; cursor: not-allowed; }
+
+.ckqty__n { text-align: center; font-size: 15px; font-weight: 800; }
+
+
+/* ==========================================================================
+   05. Fitting strip
+
+   A label across the foot of the card. Added: ink, with an accent box and
+   an ADDED badge. Not added: the surface grey with an empty box. The whole
+   strip is the click target — a strip that is mostly not the target reads as
+   a notice, not an offer.
+   ========================================================================== */
+
+.ckfit {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 13px 24px;
+  background: var(--surface);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.ckline--fit .ckfit { background: var(--ink); }
+
+.ckfit__in {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ckfit__say { display: inline-flex; align-items: center; gap: 12px; min-width: 0; }
+
+.ckfit__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid rgba(20, 22, 26, .28);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.ckfit__box svg { visibility: hidden; }
+
+.ckline--fit .ckfit__box { border: 0; background: var(--accent); }
+
+.ckline--fit .ckfit__box svg { visibility: visible; }
+
+.ckfit__in:focus-visible + .ckfit__box { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ckfit__glyph { display: inline-flex; flex: 0 0 auto; color: var(--ink); }
+
+.ckline--fit .ckfit__glyph { color: #FFFFFF; }
+
+.ckfit__k { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+
+.ckline--fit .ckfit__k { color: #FFFFFF; }
+
+.ckfit__t { font-size: 13.5px; color: var(--ink-3); }
+
+.ckline--fit .ckfit__t { color: rgba(255, 255, 255, .62); }
+
+.ckfit__end { display: inline-flex; align-items: center; gap: 12px; }
+
+.ckfit__badge {
+  display: none;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.ckline--fit .ckfit__badge { display: inline-block; }
+
+.ckfit__price { font-size: 15px; font-weight: 800; letter-spacing: -.022em; color: var(--ink-2); }
+
+.ckline--fit .ckfit__price { color: #FFFFFF; }
+
+
+/* ==========================================================================
+   06. Running total
+
+   It repeats the summary on purpose: the eye is at the foot of the list when
+   the last quantity changes, and the panel is a column away.
+   ========================================================================== */
+
+.ckrun {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 14px;
+  padding: 16px 24px;
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.ckrun__cells { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+.ckrun__cell { display: inline-flex; align-items: center; gap: 9px; }
+
+.ckrun__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.ckrun__v { font-size: 16px; font-weight: 800; letter-spacing: -.024em; }
+
+.ckrun__v--free { color: var(--accent); }
+
+.ckrun__cell--total { margin-left: auto; gap: 11px; }
+
+.ckrun__v--total { font-size: 24px; letter-spacing: -.03em; line-height: 1.08; }
+
+
+/* ==========================================================================
+   07. Order summary
+   ========================================================================== */
+
+.cksum {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  gap: 12px;
+}
+
+.ckpanel {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.ckpanel__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ckpanel__k {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.ckpanel__foot > .ckpanel__k { font-size: 8.5px; font-weight: 600; letter-spacing: .11em; }
+
+.ckpanel__held {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ckpanel__body { padding: 20px 24px 22px; }
+
+.ckrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.ckrow--vat { border-bottom: 0; }
+
+.ckrow__k { font-size: 14.5px; color: var(--ink-3); }
+
+.ckrow__t { display: block; }
+
+.ckrow__sub {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ckrow__v { font-size: 15px; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; }
+
+.ckrow__v--free { color: var(--accent); }
+
+.ckrow--vat .ckrow__k { font-size: 14px; color: var(--ink-2); }
+
+.ckrow--vat .ckrow__v { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+
+.cktotal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 1.5px solid var(--ink);
+}
+
+.cktotal__k { font-size: 15px; font-weight: 700; }
+
+.cktotal__n { font-size: 32px; font-weight: 800; letter-spacing: -.036em; line-height: 1; }
+
+.ckgo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 16px 16px 16px 24px;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  transition: filter .18s ease, transform .18s ease;
+}
+
+.ckgo:hover { filter: brightness(1.14); transform: translateY(-1px); color: #FFFFFF; }
+
+.ckgo--off { opacity: .45; pointer-events: none; }
+
+.ckgo__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.cksecure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.ckpromo {
+  display: flex;
+  gap: 9px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-10);
+}
+
+.ckpromo__in {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  transition: border-color .18s ease;
+}
+
+.ckpromo__in:focus-visible { outline: 0; border-color: var(--accent); }
+
+.ckpromo__go {
+  flex: 0 0 auto;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.ckpromo__go:hover { border-color: var(--ink); }
+
+.ckpromo__go:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ckpromo__note {
+  margin: 8px 0 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ckpanel__foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ckmarks { margin-left: auto; display: inline-flex; gap: 6px; }
+
+.ckmark {
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+}
+
+.ckvows { display: grid; gap: 11px; padding: 18px 22px; border-radius: 18px; background: var(--surface); }
+
+.ckvow { display: flex; align-items: center; gap: 11px; margin: 0; font-size: 13.5px; line-height: 1.5; }
+
+.ckvow__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   08. Often added with
+   ========================================================================== */
+
+.ckups {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ckup {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.ckup:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+}
+
+.ckup__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--image-bed);
+}
+
+.ckup__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ckwhy {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.ckup__body { display: flex; flex-direction: column; gap: 8px; padding: 16px 18px 18px; }
+
+.ckup__meta { margin: 0; display: flex; align-items: center; gap: 10px; }
+
+.ckup__name { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.018em; line-height: 1.33; }
+
+.ckup__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-10);
+}
+
+.ckup__price { font-size: 18px; font-weight: 800; letter-spacing: -.028em; }
+
+.ckadd {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 9px 9px 15px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.ckadd:hover { background: #22262C; }
+
+.ckadd--on { background: var(--accent); color: var(--ink); }
+
+.ckadd--on:hover { background: var(--accent-hi); }
+
+.ckadd--on .ckadd__k { white-space: nowrap; }
+
+.ckadd__disc { background: var(--ink); color: #FFFFFF; }
+
+.ckadd:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ckadd__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   09. Saved for later
+   ========================================================================== */
+
+.cksaved {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.cksaved__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.cksaved__all {
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+.cksaved__all:hover { color: var(--accent-hi); }
+
+.cksaved__all:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.cksaved__all[disabled] { opacity: .4; cursor: not-allowed; }
+
+.cksaved__none { margin: 0; padding: 18px 24px; font-size: 13.5px; color: var(--ink-3); }
+
+.ckrow2 {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 24px;
+}
+
+.ckrow2 + .ckrow2 { border-top: 1px solid var(--line-10); }
+
+.ckrow2__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 11px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.ckrow2__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ckrow2__main { min-width: 0; }
+
+.ckrow2__meta { margin: 0; }
+
+.ckrow2__name { margin: 5px 0 0; font-size: 15.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.ckrow2__stock {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ckrow2__end { display: inline-flex; align-items: center; gap: 18px; }
+
+.ckrow2__price { font-size: 17px; font-weight: 800; letter-spacing: -.026em; }
+
+.ckmove {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 10px 10px 17px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.ckmove:hover { border-color: var(--ink); }
+
+.ckmove:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ckmove__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   10. Guarantees
+   ========================================================================== */
+
+.ckvows3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.ckvow3 {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 26px 26px;
+  background: #FFFFFF;
+}
+
+.ckvow3__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.ckvow3__icon--accent { background: var(--accent); }
+
+.ckvow3__n { display: block; font-size: 20px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.ckvow3__k {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.ckvow3__t { margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   11. Empty basket
+
+   The handoff left this undesigned and it is the likeliest state on a parts
+   shop. Nothing on the page is hidden by it: the saved-for-later list and the
+   fitment finder are still there, and the empty card points at both.
+   ========================================================================== */
+
+.ckempty {
+  display: none;
+  padding: 44px 32px;
+  border: 1px dashed rgba(20, 22, 26, .22);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.cklist:empty + .ckempty { display: block; }
+
+.ckempty__k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.ckempty__h { margin: 12px 0 0; font-size: 26px; font-weight: 800; letter-spacing: -.03em; }
+
+.ckempty__t { margin: 10px auto 0; max-width: 420px; font-size: 14.5px; line-height: 1.6; color: var(--ink-3); }
+
+.ckempty__acts { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+
+.ckempty__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  transition: background .18s ease, color .18s ease;
+}
+
+.ckempty__btn--ink { background: var(--ink); color: #FFFFFF; }
+
+.ckempty__btn:hover { background: var(--ink); color: #FFFFFF; }
+
+.ckempty__btn--ink:hover { background: #22262C; }
+
+
+/* ==========================================================================
+   12. Responsive
+
+   The prototype is desktop only. The summary stops being sticky before it
+   stops fitting; the line card folds its three columns into two, then one.
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .ckwrap { grid-template-columns: minmax(0, 1fr); }
+
+  .cksum { position: static; }
+
+  .ckups { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .cksteps { grid-template-columns: minmax(0, 1fr); }
+
+  .ckline__body { grid-template-columns: minmax(0, 210px) minmax(0, 1fr); }
+
+  .ckline__side { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; }
+
+  .ckvows3 { grid-template-columns: minmax(0, 1fr); }
+
+  .ckrun { flex-wrap: wrap; row-gap: 12px; }
+
+  .ckrun__cell--total { margin-left: 0; }
+}
+
+@media (max-width: 760px) {
+  .cksec { padding: 0 20px; }
+
+  .ckhead { flex-wrap: wrap; }
+
+  .ckline__body { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 18px 18px; }
+
+  .ckline__frame { max-width: 320px; }
+
+  .ckfit { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 13px 18px; }
+
+  .ckfit__end { justify-content: space-between; }
+
+  .ckups { grid-template-columns: minmax(0, 1fr); }
+
+  .ckrow2 { grid-template-columns: 132px minmax(0, 1fr); }
+
+  .ckrow2__end { grid-column: 1 / -1; justify-content: space-between; }
+
+  .ckheld { flex-wrap: wrap; row-gap: 8px; }
+
+  .ckheld__more { margin-left: 0; }
+}
+
+@media (max-width: 430px) {
+  .cksec { padding: 0 16px; }
+
+  .ckline__side { flex-wrap: wrap; row-gap: 12px; }
+
+  .ckpromo { flex-wrap: wrap; }
+
+  .ckpromo__go { width: 100%; }
+
+  .ckpanel__foot { flex-wrap: wrap; row-gap: 8px; }
+
+  .ckmarks { margin-left: 0; flex-wrap: wrap; }
+}
+
+
+/* ==========================================================================
+   13. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .ckup:hover { transform: none; border-color: var(--line); box-shadow: none; }
+
+  .ckgo:hover { transform: none; filter: none; }
+
+  .ckremove:hover { border-color: rgba(20, 22, 26, .16); color: var(--ink-2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ckup, .ckgo { transition: border-color .2s ease, box-shadow .2s ease; }
+
+  .ckup:hover, .ckgo:hover { transform: none; }
+}

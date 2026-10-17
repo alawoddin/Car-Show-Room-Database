@@ -1,0 +1,855 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Service page
+   Only what this page adds. The light header, the page-header block, the
+   intro grid and the divider rhythm are the inner-page template and live in
+   style.css; the footer and dialogs come from there too.
+
+   No accent is set here on purpose: the page inherits the colour from the
+   home page the visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Service cards
+   02. Booking panel — head and slot rail
+   03. Booking panel — form
+   04. Booking panel — four steps
+   05. Service centres — map
+   06. Service centres — list
+   07. Responsive
+   ========================================================================== */
+
+
+/* On About the intro carries its own 44px before the photo band. Here the
+   60px spacer below it provides the rhythm, so the margin would double up. */
+.intro { margin-bottom: 0; }
+
+
+/* ==========================================================================
+   01. Service cards
+   ========================================================================== */
+
+.svgrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.svcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line-10);
+  border-radius: var(--r-glass);
+  overflow: hidden;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: transform .26s ease, box-shadow .26s ease;
+}
+
+.svcard:hover { transform: translateY(-10px); box-shadow: 0 34px 64px -28px rgba(20, 22, 26, .5); }
+
+/* Exactly one inverted card sets the rhythm of the grid — keep it at one. */
+.svcard--ink { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.svcard__shot {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.svcard__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.svcard__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .55) 0%, rgba(20, 22, 26, 0) 42%, rgba(20, 22, 26, .9) 100%);
+  pointer-events: none;
+}
+
+.svcard__index {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  font-family: var(--display);
+  font-size: 56px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, .42);
+}
+
+.svcard__chip {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, .4);
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .32);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.svcard__id {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+}
+
+.svcard__title {
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+  color: #FFFFFF;
+  text-wrap: pretty;
+}
+
+.svcard__tags { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
+
+.svcard__price {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.svcard__dur {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 13px;
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .32);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.svcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 16px;
+  padding: 24px 24px 22px;
+}
+
+.svcard__desc { font-size: 14.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.svcard--ink .svcard__desc { color: rgba(255, 255, 255, .72); }
+
+/* The promise line is the point of each card: one thing we commit to. */
+.svcard__promise {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.svcard__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  color: var(--ink);
+}
+
+.svcard--ink .svcard__tick { background: var(--accent); }
+
+.svcard__go {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 14px 22px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 700;
+  transition: background .2s ease, color .2s ease;
+}
+
+.svcard__go:hover { background: var(--ink); color: #FFFFFF; }
+
+.svcard--ink .svcard__go { background: var(--accent); color: var(--ink); }
+.svcard--ink .svcard__go:hover { background: #FFFFFF; color: var(--ink); }
+
+.svcard__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.svcard__go:hover .svcard__arrow { background: #FFFFFF; color: var(--ink); }
+.svcard--ink .svcard__go:hover .svcard__arrow { background: var(--ink); color: #FFFFFF; }
+
+
+/* ==========================================================================
+   02. Booking panel — head and slot rail
+   ========================================================================== */
+
+.bookpanel {
+  position: relative;
+  border-radius: var(--r-panel);
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.bookpanel__wordmark {
+  position: absolute;
+  right: -20px;
+  bottom: -34px;
+  font-family: var(--display);
+  font-size: 190px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.bookpanel__head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 48px 46px 0;
+}
+
+.bookpanel__flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.bookpanel__h {
+  margin-top: 20px;
+  font-size: clamp(30px, 3vw, 50px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+}
+
+.bookpanel__sub {
+  margin-top: 14px;
+  max-width: 560px;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .7);
+}
+
+.bookfacts { display: flex; align-items: baseline; gap: 28px; padding-bottom: 6px; }
+
+.bookfact { text-align: right; }
+
+.bookfact__sep { width: 1px; height: 34px; background: rgba(255, 255, 255, .16); }
+
+.bookfact__num { font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.bookfact__num--accent { color: var(--accent); }
+
+.bookfact__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+/* Times scroll rather than wrap: the row stays one line whatever the width. */
+.slotrail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 32px 46px 0;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .05);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.slotrail::-webkit-scrollbar { width: 0; height: 0; }
+
+.slotrail__lbl {
+  flex: none;
+  margin-right: 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--on-dark-muted);
+}
+
+.slot-pill {
+  flex: none;
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .82);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.slot-pill:hover { border-color: #FFFFFF; color: #FFFFFF; }
+
+/* The border stays on the chosen pill too — it is filled, not borderless. */
+.slot-pill--on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   03. Booking panel — form
+   ========================================================================== */
+
+.bookform { position: relative; padding: 0 46px; }
+
+.bookform__lbl {
+  margin-top: 32px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--on-dark-muted);
+}
+
+.needchips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+
+.needchip {
+  padding: 10px 17px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .82);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.needchip:hover { border-color: #FFFFFF; color: #FFFFFF; }
+
+.needchip--on {
+  border-color: #FFFFFF;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.wfields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.wfield { position: relative; }
+
+.wfield__lbl {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--on-dark-muted);
+}
+
+.wfield__in {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: var(--r-badge);
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+  font-family: var(--font);
+  font-size: 15px;
+  outline: none;
+}
+
+.wfield__in::placeholder { color: rgba(255, 255, 255, .38); }
+.wfield__in:focus { border-color: var(--accent); }
+
+.wfield__sel {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 42px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Native menus are painted by the OS — force them onto the panel's palette. */
+.wfield__sel option { background: var(--ink); color: #FFFFFF; }
+
+.wfield__chev {
+  position: absolute;
+  right: 15px;
+  bottom: 19px;
+  color: rgba(255, 255, 255, .6);
+  pointer-events: none;
+}
+
+/* The panel reports its own problem rather than letting a browser bubble
+   cover a field on a small screen. */
+.bookform__error {
+  margin-top: 26px;
+  padding: 12px 14px;
+  border: 1px solid rgba(224, 103, 74, .4);
+  border-radius: var(--r-badge);
+  background: rgba(224, 103, 74, .12);
+  font-size: 13.5px;
+  color: #F0B4A4;
+}
+
+.bookform__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 1px solid var(--on-dark-line);
+}
+
+.guarantees { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+
+.guarantee {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, .8);
+}
+
+.guarantee__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.bookform__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 16px 16px 30px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.bookform__go:hover { background: var(--accent-hi); }
+
+.bookform__go .btn__arrow { width: 36px; height: 36px; }
+
+
+/* ==========================================================================
+   04. Booking panel — four steps
+   ========================================================================== */
+
+/* The 1px gap over a lighter background is the divider — no borders needed. */
+.bsteps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 40px;
+  border-top: 1px solid var(--on-dark-line);
+  background: var(--on-dark-line);
+}
+
+.bstep { padding: 30px 28px 34px; background: var(--ink); }
+
+.bstep__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+
+.bstep__no { font-size: 28px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.bstep--on .bstep__no { color: var(--accent); }
+
+.bstep__tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--on-dark-muted);
+}
+
+.bstep__title { margin-top: 20px; font-size: 17px; font-weight: 700; letter-spacing: -.018em; }
+
+.bstep__text {
+  margin-top: 10px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .62);
+  text-wrap: pretty;
+}
+
+
+/* ==========================================================================
+   05. Service centres — map
+   ========================================================================== */
+
+.sechead--centres { margin-bottom: 30px; }
+.sechead--centres .h2 { margin-top: 22px; }
+
+.h2--centres { font-size: clamp(30px, 3vw, 54px); letter-spacing: -.032em; }
+
+.centres {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: stretch;
+}
+
+.wmap {
+  position: relative;
+  min-height: 600px;
+  border-radius: var(--r-glass);
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* Same Leaflet treatment as the showroom map on the home pages: the tiles are
+   drained of colour so the pins are the only thing carrying the accent. */
+.wmap__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: var(--image-bed);
+  filter: grayscale(1) contrast(.9) brightness(1.06);
+}
+
+.wmap__canvas .leaflet-container { background: var(--image-bed); font-family: var(--font); }
+
+.wmap__canvas .leaflet-top .leaflet-control { margin-top: 22px; }
+.wmap__canvas .leaflet-right .leaflet-control { margin-right: 22px; }
+
+.wmap__canvas .leaflet-control-zoom a {
+  border-color: var(--line);
+  background: rgba(255, 255, 255, .92);
+  color: var(--ink);
+}
+
+.wmap__canvas .leaflet-control-zoom a:hover { background: #FFFFFF; }
+
+.wmap__canvas .leaflet-control-attribution {
+  background: rgba(255, 255, 255, .8);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--ink-2);
+}
+
+.wmap__canvas .leaflet-control-attribution a { color: var(--ink-2); }
+
+/* Pins are pills carrying the city name, drawn in CSS through a divIcon. */
+.wpin-wrap { border: 0; background: none; }
+
+.wpin {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  white-space: nowrap;
+  box-shadow: 0 12px 26px -12px rgba(20, 22, 26, .6);
+  transform: translate(-50%, -50%);
+}
+
+.wpin--active { background: var(--ink); color: #FFFFFF; font-size: 11px; }
+
+.wpin__dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.wpin__dot--shut { background: var(--ink-4); }
+
+.wmap__bar {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  flex-wrap: wrap;
+  padding: 18px 20px;
+  border-radius: var(--r-dd);
+  background: rgba(20, 22, 26, .88);
+  color: #FFFFFF;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.wmap__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--on-dark-muted);
+}
+
+.wmap__near { margin-top: 6px; font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.wmap__go {
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.wmap__go:hover { background: var(--accent-hi); color: var(--ink); }
+
+
+/* ==========================================================================
+   06. Service centres — list
+   ========================================================================== */
+
+.wlist { display: flex; flex-direction: column; gap: 10px; }
+
+/* Each row is a control for the map: it selects a workshop rather than
+   navigating. --head is the permanent badge, --on is the current choice. */
+.wshop {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  padding: 18px 22px;
+  border: 1px solid var(--line-10);
+  border-radius: var(--r-dd);
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.wshop:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -24px rgba(20, 22, 26, .4); color: var(--ink); }
+
+.wshop--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+.wshop--on:hover { color: #FFFFFF; }
+
+.wshop__top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.wshop__city { font-size: 19px; font-weight: 700; letter-spacing: -.022em; }
+
+.wshop__bays {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.wshop--on .wshop__bays { color: rgba(255, 255, 255, .5); }
+
+.wshop__badge {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.wshop__addr {
+  display: block;
+  margin-top: 7px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.wshop--on .wshop__addr { color: rgba(255, 255, 255, .66); }
+
+.wshop__slot { text-align: right; }
+
+.wshop__time { display: block; font-size: 14.5px; font-weight: 800; color: var(--accent); }
+
+.wshop__next {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.wshop--on .wshop__next { color: rgba(255, 255, 255, .5); }
+
+.wpick {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding: 20px 22px;
+  border-radius: var(--r-dd);
+  background: var(--surface);
+}
+
+.wpick__text { font-size: 14.5px; line-height: 1.5; color: var(--ink-3); }
+
+.wpick__link {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   07. Responsive
+   ========================================================================== */
+
+@media (max-width: 1280px) {
+  .svgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bookpanel__head { padding: 38px 34px 0; }
+  .slotrail { margin: 26px 34px 0; }
+  .bookform { padding: 0 34px; }
+  .bsteps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1024px) {
+  .centres { grid-template-columns: minmax(0, 1fr); }
+  .wmap { min-height: 420px; }
+  .wfields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bookpanel__wordmark { font-size: 130px; }
+}
+
+@media (max-width: 780px) {
+  .svgrid { grid-template-columns: minmax(0, 1fr); }
+  .bookpanel__head { padding: 30px 22px 0; }
+  .slotrail { margin: 22px 22px 0; padding: 12px; }
+  .bookform { padding: 0 22px; }
+  .bookform__lbl { margin-top: 26px; }
+  .wfields { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .bsteps { grid-template-columns: minmax(0, 1fr); margin-top: 32px; }
+  .bstep { padding: 24px 22px 26px; }
+  .bookpanel__wordmark { font-size: 92px; right: -10px; bottom: -20px; }
+  .wmap { min-height: 320px; }
+  .wmap__bar { left: 12px; right: 12px; bottom: 12px; padding: 14px 16px; }
+  .svcard__title { font-size: 22px; }
+  .svcard__index { font-size: 44px; }
+}
+
+@media (max-width: 560px) {
+  .bookfacts { gap: 18px; }
+  .bookfact__num { font-size: 24px; }
+  .guarantees { gap: 12px; }
+  /* The panel reports its own problem rather than letting a browser bubble
+   cover a field on a small screen. */
+.bookform__error {
+  margin-top: 26px;
+  padding: 12px 14px;
+  border: 1px solid rgba(224, 103, 74, .4);
+  border-radius: var(--r-badge);
+  background: rgba(224, 103, 74, .12);
+  font-size: 13.5px;
+  color: #F0B4A4;
+}
+
+.bookform__foot { align-items: flex-start; }
+  .bookform__go { width: 100%; justify-content: space-between; }
+  .wshop { grid-template-columns: minmax(0, 1fr); }
+  .wshop__slot { text-align: left; }
+}

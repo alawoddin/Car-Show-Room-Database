@@ -1,0 +1,3793 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Listing Single v1
+   Only what this page adds. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css.
+
+   The car detail page: the deepest page in the set, and the one where a buyer
+   decides. Gallery, inspection report, the seller's own description, equipment,
+   a finance calculator, the seller, reviews with a public question box, and
+   similar cars nearby — with a buy panel that stays beside all of it.
+
+   ONE GRID holds sections 1 through 7 in the left column and the panel in the
+   right. That is not a preference: a panel whose parent is exactly its own
+   height has nowhere to travel and unpins the moment it pins. The left column
+   is five thousand pixels of content against a seven-hundred-pixel panel, and
+   the single grid is what gives the panel that travel.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The two-column frame
+   02. The gallery
+   03. The inspection report (dark)
+   04. The description and the service history
+   05. Equipment
+   06. The finance calculator (dark)
+   07. The seller
+   08. Reviews
+   09. The question box
+   10. The buy panel
+   11. Similar nearby
+   12. Responsive
+   13. v2 — the heavy sidebar
+   14. v2 — gallery, description, dark question form
+   15. v2 — responsive
+   16. v3 — the dossier frame and the left rail
+   17. v3 — gallery and the numbered sections
+   18. v3 — where it is, questions, similar
+   19. v3 — responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The two-column frame
+   ========================================================================== */
+
+/* The panel is a shade narrower than the 1.5/1 the design draws: the owner
+   asked for it, and the width it gives back goes to the report, which is the
+   block that most wants it. */
+.slay {
+  display: grid;
+  grid-template-columns: minmax(0, 1.72fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+
+/* align-items: start is half of what makes the panel sticky — a stretched grid
+   item is already the height of its row and has nothing to stick within. */
+.slay__main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Every block on this page opens with the same head: a heading on the left and
+   at most one thing on the right. Tighter than the template's .sechead--split,
+   because these are cards inside a column rather than sections of a page. */
+.sblkhead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.sblkhead__aside {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   02. The gallery
+   ========================================================================== */
+
+/* The hero and the thumbnail strip are siblings in the column, not one block:
+   the strip carries 10px of its own on top of the column's 16px gap, so the
+   step from photograph to thumbnails is 26px where every other step is 16px.
+   Wrapping the two in a container to tidy them collapses that to 10px. */
+.sgal__hero {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.sgal__img { width: 100%; height: 100%; object-fit: cover; }
+
+.sgal__chip {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.sgal__count {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.sgal__thumbs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* The inactive thumbnails carry a transparent border of the same width, so
+   choosing one moves nothing. */
+.sthumb {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+  cursor: pointer;
+}
+
+.sthumb--on { border-color: var(--ink); }
+
+.sthumb__img { width: 100%; height: 100%; object-fit: cover; }
+
+.sthumb__more {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 22, 26, .62);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   03. The inspection report (dark)
+   ========================================================================== */
+
+/* The page's argument, and it sits above the seller's own description on
+   purpose: the two faults are named in words, with their own photographs and
+   what it costs to put them right, before anybody is asked to read the sales
+   copy. Do not reorder it, do not fold the faults behind a toggle, and do not
+   replace the words with a count. */
+.srep {
+  position: relative;
+  padding: 34px 30px 32px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.srep__ghost {
+  position: absolute;
+  right: -26px;
+  bottom: -60px;
+  font-family: var(--display);
+  font-size: 190px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Everything above the ghost needs its own stacking position, or the number
+   paints over it. */
+.srep__head,
+.srep__tally,
+.srep__faults { position: relative; }
+
+.srep__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* With the eyebrow and the heading gone, the head row has one child left, and
+   space-between would push the PDF pill flush left under the outlined 200.
+   The row stops being a row. */
+.srep__head--bare { display: block; text-align: right; }
+
+.srep__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+/* This H2 and the one on Similar nearby keep an eyebrow above them, so they
+   carry a top margin the four de-pilled headings do not. */
+.srep__h2 {
+  margin: 18px 0 0;
+  font-size: clamp(26px, 2.5vw, 40px);
+  line-height: 1.06;
+  letter-spacing: -.034em;
+  color: #FFFFFF;
+}
+
+.srep__pdf {
+  padding: 14px 14px 14px 22px;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.stally {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 30px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .14);
+}
+
+/* The 1px gap is the rule: each cell repaints the ink ground and the grid's
+   own background shows through as the hairline. */
+.stally__cell { padding: 22px 20px 24px; background: var(--ink); }
+
+.stally__pair {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.stally__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.stally__num {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+/* Accent means the group came through with nothing against it. The group that
+   lost points says so in white — the colour is the claim. */
+.stally__num--clean { color: var(--accent); }
+
+.stally__note {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .62);
+  text-wrap: pretty;
+}
+
+.srep__faults {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.sfault {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .06);
+}
+
+.sfault__shot {
+  position: relative;
+  flex: none;
+  width: 132px;
+  aspect-ratio: 4 / 3;
+  border-radius: 11px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* Each fault carries its own photograph: the paint close-up under the stone
+   chip, the wheel close-up under the kerb rash — the same frame the AVAVA
+   Motors template captions "rear nearside rim, the noted wheel rash". */
+.sfault__img { width: 100%; height: 100%; object-fit: cover; }
+
+.sfault__body { min-width: 0; }
+
+.sfault__tags {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.sfault__bang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.sfault__kind {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.sfault__name {
+  margin-top: 9px;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  text-wrap: pretty;
+}
+
+.sfault__text {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .66);
+  text-wrap: pretty;
+}
+
+.sfault__cost {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   04. The description and the service history
+   ========================================================================== */
+
+.sdesc__p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.sdesc__p + .sdesc__p { margin-top: 14px; }
+
+.sdesc__hist {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+}
+
+.sdesc__histlbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+/* A timeline, not a table: the date is its own narrow track so the events line
+   up whatever length the dates are. */
+.shist {
+  display: grid;
+  grid-template-columns: minmax(0, 84px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 14px 0;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+/* The first row sits under the label instead of a rule, and takes the 6px the
+   label leaves rather than a border. */
+.shist:first-of-type { margin-top: 6px; border-top: 0; }
+
+.shist__date {
+  padding-top: 3px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.shist__body { min-width: 0; }
+
+.shist__event {
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.shist__note {
+  margin-top: 5px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+
+/* ==========================================================================
+   05. Equipment
+   ========================================================================== */
+
+/* Three cards over a hairline ground: the 1px gap is the rule and each card
+   repaints white on top of it. EXTERIOR spans both columns because seven items
+   in a half-width card is a column of orphans. */
+.sequip {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.sequip__card {
+  padding: 22px 22px 24px;
+  background: #FFFFFF;
+  transition: background .18s ease;
+}
+
+.sequip__card:hover { background: #FCFCFB; }
+
+.sequip__card--wide { grid-column: 1 / -1; }
+
+.sequip__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sequip__name { display: inline-flex; align-items: center; gap: 10px; }
+
+.sequip__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.sequip__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.sequip__n {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.026em;
+  color: var(--accent);
+}
+
+.sequip__items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.sequip__card--wide .sequip__items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 20px;
+}
+
+.sequip__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.sequip__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: rgba(20, 22, 26, .08);
+  color: var(--ink-2);
+}
+
+/* Five of the twenty-two are worth paying for again, and the tick says which:
+   filled and accented, with the line in bold beside it. */
+.sequip__item--pick { font-weight: 700; }
+
+.sequip__item--pick .sequip__tick { background: var(--accent); color: var(--ink); }
+
+.sequip__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.sequip__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.sequip__keytick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.sequip__sheet {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   06. The finance calculator (dark)
+   ========================================================================== */
+
+/* The monthly figure here and the one in the buy panel are the same number
+   read twice. They are wired to one calculation for that reason: two places
+   that state a payment and disagree is the worst thing this page could do. */
+.sfin {
+  position: relative;
+  padding: 30px 28px 32px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.sfin__ghost {
+  position: absolute;
+  right: -22px;
+  bottom: -54px;
+  font-family: var(--display);
+  font-size: 160px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sfin__head,
+.sfin__sliders,
+.sfin__figs,
+.sfin__cta { position: relative; }
+
+.sfin__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sfin__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.sfin__line {
+  display: flex;
+  align-items: baseline;
+  gap: 11px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.sfin__mo {
+  font-size: clamp(34px, 3vw, 46px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.sfin__per { font-size: 15px; color: rgba(255, 255, 255, .6); }
+
+.sfin__sliders {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.sslider__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sslider__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.sslider__val {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+}
+
+/* A span is inline until told otherwise, and an inline box drops the height,
+   the margin and the width the range inside it measures itself against — the
+   same lesson the listing sidebars taught. */
+.sslider__track {
+  display: block;
+  position: relative;
+  margin-top: 11px;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) 0 var(--fill, 0%), rgba(255, 255, 255, .18) var(--fill, 0%));
+}
+
+/* The seeded positions, so the tracks are filled correctly with the script
+   still loading — and wrong is worse than empty here, because the figures
+   beside them already say 30,000 and 60 months. The script takes over on the
+   first drag. */
+.sslider__track--dep { --fill: 18%; }
+.sslider__track--term { --fill: 67%; }
+
+/* The real control lies over the track invisibly, so it keeps every keyboard
+   and pointer behaviour a range input has, and the track paints the design. */
+.sslider__in {
+  position: absolute;
+  left: 0;
+  top: -8px;
+  width: 100%;
+  height: 21px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sslider__knob {
+  position: absolute;
+  left: var(--fill, 0%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 17px;
+  height: 17px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .3);
+  pointer-events: none;
+}
+
+.sfin__figs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 24px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .14);
+}
+
+.sfin__fig { padding: 16px 16px 18px; background: var(--ink); }
+
+.sfin__num {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+}
+
+.sfin__num--accent { color: var(--accent); }
+
+.sfin__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.sfin__cta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding: 15px 15px 15px 24px;
+  font-size: 15.5px;
+  font-weight: 700;
+}
+
+@media (hover: none) {
+  /* A 5px track is a 5px target. On a touch screen the input keeps the track's
+     look and takes the thumb's height. */
+  .sslider__in { top: -18px; height: 40px; }
+}
+
+
+/* ==========================================================================
+   10. The buy panel
+   ========================================================================== */
+
+/* The other half of the sticky rule: the panel is the grid's second column and
+   the grid is what it travels inside. top: 24px, not 0 — the site header is
+   not fixed, so the only thing above it is air. */
+.sbuy {
+  position: sticky;
+  top: 24px;
+  padding: 24px 24px 26px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+}
+
+.sbuy__price {
+  display: flex;
+  align-items: baseline;
+  gap: 11px;
+  flex-wrap: wrap;
+}
+
+.sbuy__num {
+  font-size: clamp(28px, 2.4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.sbuy__mo {
+  font-size: 14px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.sbuy__where {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 11px;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.sbuy__pin { flex: none; color: var(--accent); }
+
+.sbuy__seller {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 13px 14px;
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.sbuy__av {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.sbuy__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.sbuy__who { min-width: 0; flex: 1 1 auto; }
+
+.sbuy__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+.sbuy__badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.sbuy__rate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.sbuy__star { flex: none; color: var(--accent); }
+
+.sbuy__score { font-size: 12.5px; font-weight: 700; }
+
+.sbuy__sales {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sbuy__cta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 15px 15px 15px 24px;
+  font-size: 15.5px;
+}
+
+.sbuy__test {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 9px;
+  padding: 14px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.sbuy__test:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+.sbuy__promise {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+}
+
+.sbuy__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(196, 131, 47, .18);
+  color: var(--accent);
+}
+
+.sbuy__promisetx {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+/* The spec band lives in the panel rather than the content column on purpose:
+   the figures stay beside the buyer the whole scroll, and the left column
+   keeps its full width for the report. */
+.skey { margin-top: 18px; }
+
+.skey__head {
+  padding-bottom: 4px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.skey__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.skey__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.skey__val {
+  min-width: 0;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -.018em;
+}
+
+/* Seventeen characters of chassis number in a 327px panel: it is set in mono
+   so it can be read a character at a time, and ellipsised rather than wrapped
+   because half a VIN on a second line reads as a different number. */
+.skey__val--vin {
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   07. The seller
+   ========================================================================== */
+
+.sseller {
+  padding: 22px 24px 24px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+}
+
+.sseller__top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.sseller__av {
+  flex: none;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.sseller__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+/* 220px is the basis, not a minimum width: below it the Message pill drops to
+   its own line rather than squeezing the address off the end. */
+.sseller__who { min-width: 0; flex: 1 1 220px; }
+
+.sseller__name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+}
+
+.sseller__badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.sseller__rate {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 6px;
+}
+
+.sseller__star { flex: none; color: var(--accent); }
+
+.sseller__score { font-size: 13.5px; font-weight: 700; }
+
+.sseller__meta {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sseller__msg {
+  padding: 13px 13px 13px 22px;
+  gap: 11px;
+  font-size: 14.5px;
+  white-space: nowrap;
+}
+
+.sstat {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 20px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .1);
+}
+
+.sstat__cell { padding: 14px 15px 16px; background: #FFFFFF; }
+
+.sstat__num {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+}
+
+/* Only the reply time is accented: it is the figure a buyer is actually
+   waiting on. */
+.sstat__num--accent { color: var(--accent); }
+
+.sstat__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.sseller__more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 20px 0 12px;
+}
+
+.sseller__morelbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.sseller__all {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-decoration: underline;
+}
+
+.sseller__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.sother {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .18s ease, border-color .18s ease;
+}
+
+.sother:hover { transform: translateY(-3px); border-color: var(--ink); color: var(--ink); }
+
+.sother__shot { aspect-ratio: 16 / 10; background: var(--image-bed); }
+
+.sother__img { width: 100%; height: 100%; object-fit: cover; }
+
+.sother__body { padding: 12px 13px 14px; }
+
+.sother__name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -.016em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.sother__price {
+  margin-top: 7px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+}
+
+.sother__meta {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   08. Reviews
+   ========================================================================== */
+
+/* minmax(0, 150px), never a bare 150px: a fixed track cannot shrink, and the
+   histogram beside it has bars that must. */
+.srev__sum {
+  display: grid;
+  grid-template-columns: minmax(0, 150px) minmax(0, 1fr);
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.srev__score {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.srev__avg {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -.042em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.srev__stars { display: flex; gap: 2px; margin-top: 10px; color: var(--accent); }
+
+.srev__of {
+  margin-top: 11px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.srev__bars { padding: 16px 20px 18px; background: #FFFFFF; }
+
+.sbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sbar + .sbar { margin-top: 7px; }
+
+.sbar__n {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sbar__track {
+  flex: 1 1 auto;
+  height: 5px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .1);
+}
+
+/* Only the top row is accented: the accent is what buyers actually gave, and
+   spending it on all five would say nothing. */
+.sbar__fill {
+  display: block;
+  height: 100%;
+  width: var(--w, 0%);
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .28);
+}
+
+.sbar__fill--top { background: var(--accent); }
+
+/* The five widths are the distribution itself, and this template ships no
+   inline styles, so they live here as one class per row. A buyer wiring real
+   review data sets --w from script instead and these become the fallback. */
+.sbar--r5 .sbar__fill { width: 72%; }
+.sbar--r4 .sbar__fill { width: 19%; }
+.sbar--r3 .sbar__fill { width: 6%; }
+.sbar--r2 .sbar__fill { width: 2%; }
+.sbar--r1 .sbar__fill { width: 1%; }
+
+.sbar__count {
+  flex: none;
+  min-width: 26px;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.srev__traits {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 18px;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.srev__trait {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.srev__traitlbl {
+  overflow: hidden;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.srev__traitval {
+  flex: none;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.srev__sort {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.srev__sortlbl {
+  padding-right: 2px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.ssort {
+  padding: 8px 14px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.ssort:hover { border-color: var(--ink); }
+
+.ssort--on {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.srev__showing {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.srev__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.srevcard {
+  padding: 20px 22px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+  background: #FFFFFF;
+}
+
+/* The one buyers found most useful is bordered and lifted rather than moved:
+   sorting can put another review first, and the badge has to travel with the
+   review, not with the position. */
+.srevcard--top {
+  border-color: var(--ink);
+  box-shadow: 0 20px 40px -32px rgba(20, 22, 26, .42);
+}
+
+.srevcard__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.srevcard__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.srevcard__av {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.srevcard__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.srevcard__who { min-width: 0; flex: 1 1 auto; }
+
+.srevcard__name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+/* Which car they actually bought, not a verified tick with nothing behind it. */
+.srevcard__car {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .16);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.srevcard__when {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.srevcard__stars { display: flex; gap: 2px; color: var(--accent); }
+
+.srevcard__star--off { color: rgba(20, 22, 26, .16); }
+
+.srevcard__title {
+  margin-top: 14px;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  text-wrap: pretty;
+}
+
+.srevcard__body {
+  margin: 8px 0 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.srevcard__foot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.srevcard__help {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.srevcard__help:hover { border-color: var(--ink); background: var(--surface); }
+
+.srevcard__help--on { border-color: var(--ink); background: var(--surface); }
+
+.srevcard__report {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  text-decoration: underline;
+}
+
+.srev__all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px dashed rgba(20, 22, 26, .28);
+  border-radius: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.srev__all:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+
+/* ==========================================================================
+   09. The question box
+   ========================================================================== */
+
+/* The answer is the point: a question asked here is answered under the listing
+   where the next buyer reads it. If answers are private in production, this
+   copy has to change with them. */
+.sask {
+  margin-top: 16px;
+  padding: 22px 22px 24px;
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.sask__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.sask__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.sask__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sask__row { display: flex; gap: 12px; margin-top: 14px; }
+
+.sask__av {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.sask__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.sask__field { flex: 1 1 auto; min-width: 0; }
+
+.sask__in {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--ink);
+  resize: vertical;
+  transition: border-color .18s ease;
+}
+
+.sask__in:focus { border-color: var(--accent); outline: none; }
+
+.sask__starters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.sask__chip {
+  padding: 7px 13px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.sask__chip:hover { border-color: var(--ink); }
+
+.sask__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.sask__public { font-size: 12.5px; color: var(--ink-2); }
+
+.sask__post {
+  padding: 12px 12px 12px 20px;
+  gap: 11px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   11. Similar nearby
+   ========================================================================== */
+
+/* Outside the grid, after 60px of air: the two columns have ended, which is
+   also where the buy panel unpins. Four across the full width, not four in the
+   491px the left column had. */
+.ssim {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.ssimhead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+/* This heading and the report's keep their eyebrow, so they carry the top
+   margin the four de-pilled headings dropped. */
+.ssimhead__h2 {
+  margin: 14px 0 0;
+  font-size: clamp(26px, 2.5vw, 42px);
+  letter-spacing: -.034em;
+  white-space: nowrap;
+}
+
+.ssimhead__all {
+  padding: 14px 14px 14px 24px;
+  gap: 12px;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.simcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.simcard:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+}
+
+.simcard__shot { position: relative; aspect-ratio: 16 / 10; background: var(--image-bed); }
+
+.simcard__img { width: 100%; height: 100%; object-fit: cover; }
+
+.simcard__badge {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+/* A private seller gets glass rather than the accent: the accent on this page
+   means AVAVA stood behind it. */
+.simcard__badge--private {
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.simcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 9px;
+  padding: 15px 16px 17px;
+}
+
+.simcard__make {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.simcard__model {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.simcard__money {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.simcard__price {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+  white-space: nowrap;
+}
+
+.simcard__mo { font-size: 11.5px; color: var(--ink-2); white-space: nowrap; }
+
+.simcard__specs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px 8px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.simcard__dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.simcard__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.simcard__where {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.simcard__pin { flex: none; color: var(--accent); }
+
+.simcard__trust {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+/* Declared by the seller and not yet inspected: grey, because the accent on
+   this page is reserved for what AVAVA checked itself. */
+.simcard__trust--said { color: var(--ink-2); }
+
+
+/* ==========================================================================
+   12. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .ssim { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ssimhead__h2 { white-space: normal; }
+}
+
+/* Below this the panel stops being a column. It keeps its place in the reading
+   order — price, seller, the two calls to action and the figures still come
+   before the report — but it is one card in one column and has nothing left to
+   stick to, so the sticky comes off with the grid. */
+@media (max-width: 1100px) {
+  .slay { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .sbuy { position: static; }
+  .sequip__card--wide .sequip__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 780px) {
+  /* Three across, and the strip wraps to a second row rather than dropping
+     frames: the last thumbnail is the one that carries the "+N more". */
+  .sgal__thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .srep { padding: 26px 20px 24px; border-radius: 22px; }
+  .srep__ghost { font-size: 140px; }
+  .stally { grid-template-columns: minmax(0, 1fr); }
+
+  /* A 132px photograph beside 13px prose leaves the sentence a column three
+     words wide. The photograph goes on top instead. */
+  .sfault { flex-direction: column; }
+  .sfault__shot { width: 100%; aspect-ratio: 16 / 9; }
+
+  .sequip { grid-template-columns: minmax(0, 1fr); }
+  .sequip__card--wide .sequip__items { grid-template-columns: minmax(0, 1fr); }
+
+  .sfin { padding: 24px 20px 26px; }
+  .sfin__sliders { grid-template-columns: minmax(0, 1fr); }
+  .sfin__figs { grid-template-columns: minmax(0, 1fr); }
+
+  .sstat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sseller { padding: 18px 18px 20px; }
+  .sseller__list { grid-template-columns: minmax(0, 1fr); }
+
+  .srev__sum { grid-template-columns: minmax(0, 1fr); }
+  .srev__traits { grid-template-columns: minmax(0, 1fr); }
+  .srevcard { padding: 18px; }
+
+  .ssim { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .sgal__thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .sbuy { padding: 18px 18px 20px; }
+  .sask { padding: 18px 16px 20px; }
+
+  /* The avatar is a decoration once the field beside it is 200px wide. */
+  .sask__av { display: none; }
+
+  .srev__showing { margin-left: 0; width: 100%; }
+}
+
+
+/* ==========================================================================
+   13. v2 — the heavy sidebar
+   ========================================================================== */
+
+/* Two weightings of the same page. v1 gives the room to the content column and
+   the sidebar states price, seller and specs; v2 turns the sidebar into the
+   transaction surface — finance, delivery, promises, seller and part exchange
+   all without scrolling — and pays for it with a narrower report. */
+.slay--heavy { grid-template-columns: minmax(0, 1fr) 450px; }
+
+.slay--heavy .slay__main { gap: 32px; }
+
+/* The part-exchange box has to live inside the sticky wrapper. Dropped in as a
+   sibling it becomes a third grid child and auto-places under the LEFT column. */
+.sside {
+  position: sticky;
+  top: 24px;
+}
+
+.sside__card {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 24px 48px -34px rgba(20, 22, 26, .4);
+}
+
+/* Every band after the first is separated by the same hairline, so the card
+   reads as one object rather than eight stacked ones. */
+.sband + .sband { border-top: 1px solid rgba(20, 22, 26, .12); }
+
+.sband--status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.sband__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.sband__listed {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.sband--price { padding: 22px 22px 20px; }
+
+.sside__where {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 11px;
+}
+
+.sside__place {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* Accent-tinted rather than accent-filled: it is a claim about the guide
+   price, not something AVAVA inspected. */
+.sside__book {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .16);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.sside__cta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding: 15px 15px 15px 24px;
+  font-size: 15.5px;
+  transition: filter .18s ease, transform .18s ease;
+}
+
+.sside__cta:hover { filter: brightness(1.12); transform: translateY(-1px); }
+
+.sside__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 9px;
+}
+
+.sside__alt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.sside__alt:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+.sside__alt--on { border-color: var(--ink); background: var(--surface); }
+
+.sside__alt--on .sside__heart { fill: currentColor; }
+
+.sprom {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(20, 22, 26, .12);
+}
+
+.sprom__cell { padding: 13px 12px 14px; background: #FFFFFF; text-align: center; }
+
+.sprom__num { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.sprom__num--accent { color: var(--accent); }
+
+.sprom__lbl {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sband--fin { padding: 16px 22px 18px; }
+
+.sside__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sside__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.sside__link {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  text-decoration: underline;
+}
+
+.sside__link:hover { color: var(--ink); }
+
+.sside__from {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: 9px;
+  flex-wrap: wrap;
+}
+
+.sside__mo { font-size: 20px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.sside__terms { font-size: 12.5px; color: var(--ink-2); }
+
+.sside__deliver {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 11px;
+  padding-top: 11px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.sside__van {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.sside__delivertx {
+  min-width: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+
+.sband--keys { padding: 18px 22px 20px; }
+
+.skeys {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .1);
+}
+
+.skeys__cell { padding: 11px 13px; background: var(--surface); }
+
+.skeys__lbl {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.skeys__val {
+  margin-top: 5px;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.sside__vin {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Ellipsised rather than wrapped: half a chassis number on a second line reads
+   as a different number. */
+.sside__vinval {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A shade larger than ADJUST: it sits beside seventeen mono characters and has
+   to hold its own against them. */
+.sside__vinlink { flex: none; font-size: 9px; }
+
+.sband--seller,
+.sband--activity { background: var(--surface); }
+
+.sband--seller {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px;
+}
+
+.sside__av {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.sside__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.sside__who { min-width: 0; flex: 1 1 auto; }
+
+.sside__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+.sside__badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.sside__rate { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+
+.sside__star { flex: none; color: var(--accent); }
+
+.sside__score { font-size: 12px; font-weight: 700; }
+
+.sside__meta {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sside__disc {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: background .18s ease, color .18s ease;
+}
+
+.sside__disc:hover { background: var(--ink); color: #FFFFFF; }
+
+.sband--activity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 22px;
+}
+
+.sside__viewed {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sside__tools { display: flex; align-items: center; gap: 8px; }
+
+.sside__promise {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 10px;
+  padding: 0 4px;
+}
+
+.sside__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(196, 131, 47, .18);
+  color: var(--accent);
+}
+
+.sside__promisetx { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+/* -- the part-exchange box ---------------------------------------------- */
+
+.spx {
+  position: relative;
+  margin-top: 12px;
+  padding: 24px 22px 26px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.spx__ghost {
+  position: absolute;
+  right: -18px;
+  bottom: -48px;
+  font-family: var(--display);
+  font-size: 140px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.spx__body { position: relative; }
+
+.spx__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.spx__head {
+  margin: 12px 0 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.026em;
+  line-height: 1.25;
+  text-wrap: pretty;
+  color: #FFFFFF;
+}
+
+.spx__text {
+  margin: 9px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .66);
+  text-wrap: pretty;
+}
+
+.spx__field { display: flex; gap: 8px; margin-top: 16px; }
+
+.spx__in {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .06);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: #FFFFFF;
+  transition: border-color .18s ease;
+}
+
+.spx__in:focus { border-color: var(--accent); outline: none; }
+
+.spx__go {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--accent);
+  color: var(--ink);
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.spx__go:hover { filter: brightness(1.1); }
+
+.spx__figs {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.spx__num { font-size: 17px; font-weight: 800; letter-spacing: -.026em; line-height: 1; }
+
+.spx__num--accent { color: var(--accent); }
+
+.spx__flbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+
+/* ==========================================================================
+   14. v2 — gallery, description, dark question form
+   ========================================================================== */
+
+/* The height dependency is inverted on purpose: the thumbnail column sets the
+   row height and the hero fills it. An aspect-ratio on the hero plus
+   align-items: stretch is ignored — the stretched height is definite — and on
+   a flex child the same ratio resolves to width zero. align-items: stretch is
+   what keeps the two columns level; the 7fr : 1fr split only chooses how wide
+   the strip is. */
+.sgal--col {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.sgal--col .sgal__hero {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+/* The photograph has to leave the flow as well. Left in it, an <img> at
+   width:100% inside an auto-height box falls back to its own 16:9 and sets the
+   row height itself — which is exactly the dependency this layout inverts. */
+.sgal--col .sgal__img { position: absolute; inset: 0; }
+
+.sgal__strip {
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 6px;
+  min-width: 0;
+}
+
+.sgal__strip .sthumb { aspect-ratio: 16 / 9; border-radius: 10px; }
+
+.sgal__strip .sthumb__more { font-size: 11px; }
+
+/* v2 states the car's provenance in the seller's own voice, in a quoted card,
+   and moves the dated timeline into four stamps beside it. */
+.sdesc__card {
+  padding: 26px 26px 28px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.sdesc__by { display: flex; align-items: center; gap: 12px; }
+
+.sdesc__av {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.sdesc__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.sdesc__name { font-size: 14.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.sdesc__when {
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sdesc__q {
+  margin: 12px 0 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+/* The first paragraph is the claim; the three that follow are the detail. */
+.sdesc__q--lead { margin-top: 18px; color: var(--ink); }
+
+.sstamps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 16px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.sstamp { padding: 18px 20px 20px; background: #FFFFFF; }
+
+.sstamp__top { display: flex; align-items: center; gap: 9px; }
+
+.sstamp__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(196, 131, 47, .18);
+  color: var(--accent);
+}
+
+.sstamp__date {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.sstamp__event {
+  margin-top: 11px;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+
+.sstamp__note {
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+/* The question form inverted. Same markup as v1's, recoloured — this is the
+   third dark block in the column, and with the part-exchange box and the
+   footer that is the ceiling; a fourth would flatten the rhythm. */
+.sask--dark { background: var(--ink); color: #FFFFFF; }
+
+.sask--dark .sask__lbl,
+.sask--dark .sask__live,
+.sask--dark .sask__public { color: rgba(255, 255, 255, .5); }
+
+.sask--dark .sask__lbl { color: rgba(255, 255, 255, .44); }
+
+.sask--dark .sask__in {
+  border-color: rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+}
+
+.sask--dark .sask__in::placeholder { color: rgba(255, 255, 255, .38); }
+
+.sask--dark .sask__in:focus { border-color: var(--accent); }
+
+.sask--dark .sask__chip {
+  border-color: rgba(255, 255, 255, .22);
+  background: transparent;
+  color: rgba(255, 255, 255, .86);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.sask--dark .sask__chip:hover {
+  border-color: #FFFFFF;
+  background: rgba(255, 255, 255, .08);
+}
+
+/* On ink the post pill takes the accent, and its arrow disc goes ink so the
+   circle does not disappear into the pill. */
+.sask--dark .sask__post {
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+  transition: filter .18s ease;
+}
+
+.sask--dark .sask__post:hover { background: var(--accent); filter: brightness(1.08); }
+
+.sask--dark .sask__post .btn__arrow { background: var(--ink); color: var(--accent); }
+
+
+/* ==========================================================================
+   15. v2 — responsive
+   16. v3 — the dossier frame and the left rail
+   17. v3 — gallery and the numbered sections
+   18. v3 — where it is, questions, similar
+   19. v3 — responsive
+   ========================================================================== */
+
+/* The sidebar is a fixed 450px track, so it has to be released a step earlier
+   than v1's fluid one. */
+@media (max-width: 1240px) {
+  .slay--heavy { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .slay--heavy .slay__main { gap: 24px; }
+  .sside { position: static; }
+}
+
+@media (max-width: 780px) {
+  /* Six thumbnails in a column beside a hero leaves each about 40px wide.
+     Below this the strip goes under the photograph and lays out across. */
+  .sgal--col { grid-template-columns: minmax(0, 1fr); }
+  .sgal--col .sgal__hero { aspect-ratio: 16 / 9; height: auto; }
+  .sgal__strip { grid-auto-rows: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+
+  .sdesc__card { padding: 20px 18px 22px; }
+  .sstamps { grid-template-columns: minmax(0, 1fr); }
+  .sprom { grid-template-columns: minmax(0, 1fr); }
+  .skeys { grid-template-columns: minmax(0, 1fr); }
+  .spx { padding: 20px 18px 22px; }
+}
+
+@media (max-width: 560px) {
+  .sgal__strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sside__pair { grid-template-columns: minmax(0, 1fr); }
+  .sband--price,
+  .sband--fin,
+  .sband--keys { padding-left: 18px; padding-right: 18px; }
+  .sband--seller,
+  .sband--activity { padding-left: 18px; padding-right: 18px; }
+}
+
+
+/* ==========================================================================
+   16. v3 — the dossier frame and the left rail
+   ========================================================================== */
+
+/* The third weighting: the car as an audited document rather than a shop page.
+   A rail on the left carries the price, the calculator and a numbered table of
+   contents; the right column runs six numbered sections. Sections 05 and 06
+   and the similar grid sit outside this grid at full width — that is what
+   stops the rail from running past the body it belongs to. */
+.dos {
+  display: grid;
+  grid-template-columns: 380px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.drail {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Every section the contents card points at has to clear the header when the
+   anchor lands. */
+.dsec { scroll-margin-top: 96px; }
+
+.dsec + .dsec {
+  margin-top: 52px;
+  padding-top: 34px;
+  border-top: 1px solid rgba(20, 22, 26, .14);
+}
+
+/* The rule above only spaces one section from the next, so the first one sat
+   flush against the bottom of the gallery. It takes the same 34px the others
+   take above their hairline — without the hairline, because the photograph is
+   already an edge. */
+/* Written on the section rather than as an adjacent-sibling rule: the gallery
+   is preceded by a <script> holding the shot list, and any future element
+   between the two would silently drop this margin to zero. */
+#d-about { margin-top: 34px; }
+
+/* The heading is the one thing on this page that must never be squeezed out:
+   it is what the contents card links to. */
+.dsec__head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  min-height: 32px;
+  margin-bottom: 20px;
+}
+
+.dsec__head--split {
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.dsec__n {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-4, #9BA0A6);
+}
+
+/* Only the first number is accented: it opens the dossier, and the five that
+   follow are the sequence rather than the start of it. */
+.dsec__n--first { color: var(--accent); }
+
+.dsec__h2 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -.027em;
+}
+
+.dsec__sub { margin: 9px 0 0; font-size: 14.5px; color: var(--ink-3); }
+
+/* -- the price card ------------------------------------------------------ */
+
+.dprice {
+  padding: 28px 26px;
+  border-radius: 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.dprice__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dprice__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  opacity: .6;
+}
+
+.dprice__drop {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .2);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.dprice__line {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.dprice__now { font-size: 36px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.dprice__was { font-size: 13px; opacity: .5; text-decoration: line-through; }
+
+.dprice__mo { margin-top: 7px; font-size: 13.5px; opacity: .72; }
+
+.dprice__calc {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, .16);
+}
+
+.dprice__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.dprice__row + .dprice__track { margin-top: 11px; }
+
+.dprice__track + .dprice__row { margin-top: 15px; }
+
+.dprice__rlbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  opacity: .6;
+}
+
+.dprice__rval { font-size: 14px; font-weight: 700; }
+
+/* A range input on ink needs its own treatment: the light track is invisible
+   here and an ink thumb with a white ring reads as a hollow circle floating in
+   nothing. Any dark-panel slider in this system takes these values. */
+.dprice__track {
+  display: block;
+  position: relative;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) 0 var(--fill, 0%), rgba(255, 255, 255, .2) var(--fill, 0%));
+}
+
+/* The seeded positions, so the tracks are filled before the script runs. */
+.dprice__track--dep { --fill: 38%; }
+.dprice__track--term { --fill: 75%; }
+
+.dprice__in {
+  position: absolute;
+  left: 0;
+  top: -8px;
+  width: 100%;
+  height: 21px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dprice__knob {
+  position: absolute;
+  left: var(--fill, 0%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .3);
+  pointer-events: none;
+}
+
+@media (hover: none) {
+  .dprice__in { top: -18px; height: 40px; }
+}
+
+.dprice__book {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 15px 18px;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.dprice__acts { display: flex; gap: 9px; margin-top: 9px; }
+
+.dprice__save {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 14px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  background: none;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.dprice__save:hover { border-color: #FFFFFF; }
+
+.dprice__save--on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.dprice__save--on .dprice__heart { fill: currentColor; }
+
+.dprice__cmp {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 50%;
+  color: #FFFFFF;
+  transition: border-color .2s ease;
+}
+
+.dprice__cmp:hover { border-color: #FFFFFF; color: #FFFFFF; }
+
+/* -- the contents card --------------------------------------------------- */
+
+.dtoc {
+  padding: 22px 24px;
+  border: 1px solid rgba(20, 22, 26, .1);
+  border-radius: 24px;
+  background: var(--surface);
+}
+
+.dtoc__lbl {
+  margin-bottom: 4px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.dtoc__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dtoc__row:hover { color: var(--accent); }
+
+/* The hint states what the section holds, so it is counted from the section
+   and never written down. */
+.dtoc__hint {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--ink-4, #9BA0A6);
+}
+
+/* -- the seller card ----------------------------------------------------- */
+
+.dsold {
+  padding: 22px 24px;
+  border: 1px solid rgba(20, 22, 26, .1);
+  border-radius: 24px;
+  background: #FFFFFF;
+}
+
+.dsold__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.dsold__who { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
+
+.dsold__tile {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.dsold__img { width: 100%; height: 100%; object-fit: cover; }
+
+.dsold__name { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+
+.dsold__meta {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.dsold__msg {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.dsold__msg:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+
+/* ==========================================================================
+   17. v3 — gallery and the numbered sections
+   ========================================================================== */
+
+/* A fixed stage rather than a ratio: the strip below the hero is two rows of
+   four, and both halves have to end level. */
+/* The height is fixed, so anything inside that wants more has to be clipped
+   rather than allowed to paint over what follows: without this the thumbnail
+   strip can spill past the stage and cover the heading of section 01. */
+.dgal {
+  display: grid;
+  grid-template-columns: minmax(0, 2.05fr) minmax(0, 1fr);
+  gap: 14px;
+  height: 700px;
+  overflow: hidden;
+}
+
+.dgal__stage {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.dgal__img { width: 100%; height: 100%; object-fit: cover; }
+
+.dgal__label {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.dgal__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .92);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.dgal__arrow:hover { background: #FFFFFF; }
+
+.dgal__arrow--prev { left: 16px; }
+.dgal__arrow--next { right: 16px; }
+
+/* Three rows of two, not two rows of four: the strip is a 379px column beside
+   the hero, and four across it makes each tile 87px wide against 345px tall —
+   a stack of ribbons rather than photographs. The rows are what is fixed, so
+   the six tiles always divide the hero's height evenly. */
+.dgal__strip {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dthumb {
+  position: relative;
+  padding: 0;
+  border: 1.5px solid rgba(20, 22, 26, .14);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--image-bed);
+  cursor: pointer;
+}
+
+.dthumb--on { border-color: var(--ink); }
+
+.dthumb__img { width: 100%; height: 100%; object-fit: cover; }
+
+.dthumb__more {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 22, 26, .62);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+/* -- 01 The car ---------------------------------------------------------- */
+
+.dabout__p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.72;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.dabout__p + .dabout__p { margin-top: 14px; }
+
+.dabout__opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 48px;
+  margin-top: 26px;
+}
+
+.dabout__opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.dabout__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: rgba(196, 131, 47, .18);
+  color: var(--accent);
+}
+
+/* -- 02 Specification ---------------------------------------------------- */
+
+.dspec {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 40px;
+}
+
+.dspec__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 0;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.dspec__k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.dspec__v { font-size: 14.5px; font-weight: 700; text-align: right; }
+
+/* -- 03 Inspection ------------------------------------------------------- */
+
+.dchecks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.dcheck {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.dcheck__area { font-size: 15.5px; font-weight: 700; letter-spacing: -.015em; }
+
+.dcheck__note { margin-top: 4px; font-size: 13px; color: var(--ink-3); }
+
+.dcheck__tag {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .18);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.dcheck__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* Rust is the one second accent this system allows, and only for a noted
+   state: an outline rather than a fill, because nothing here failed. */
+.dcheck__tag--noted {
+  border: 1.5px solid #8A4A22;
+  background: transparent;
+  color: #8A4A22;
+}
+
+.dcheck__tag--noted .dcheck__dot { background: #8A4A22; }
+
+.dpdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 13px 13px 22px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.dpdf:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+/* -- 04 History ---------------------------------------------------------- */
+
+.dhist {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+}
+
+.dhist__rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+}
+
+.dhist__dot {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: 0 0 0 4px rgba(20, 22, 26, .12);
+}
+
+.dhist__dot--first {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(196, 131, 47, .22);
+}
+
+.dhist__line { flex: 1; width: 1.5px; min-height: 22px; background: rgba(20, 22, 26, .16); }
+
+/* The last entry's line goes, so the rail stops rather than running into the
+   section below it. */
+.dhist:last-child .dhist__line { background: transparent; }
+
+.dhist__body { padding-bottom: 22px; }
+
+.dhist__title { font-size: 16.5px; font-weight: 700; letter-spacing: -.015em; }
+
+.dhist__note { margin-top: 6px; font-size: 14.5px; line-height: 1.55; color: var(--ink-3); }
+
+.dhist__when {
+  padding-top: 5px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-4, #9BA0A6);
+  text-align: right;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   18. v3 — where it is, questions, similar
+   ========================================================================== */
+
+.dwhere {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 36px;
+  align-items: stretch;
+}
+
+.dwhere__map {
+  position: relative;
+  min-height: 430px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.dwhere__canvas { position: absolute; inset: 0; }
+
+/* Above Leaflet's own panes, which stop at 800. */
+.dwhere__chip {
+  position: absolute;
+  z-index: 900;
+  left: 20px;
+  top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 14px 30px -18px rgba(20, 22, 26, .5);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+/* The pin, drawn in HTML inside Leaflet's divIcon so it carries the page's own
+   accent and a real count. Leaflet drives the wrapper's transform to place it,
+   so the pin cannot carry one of its own: the wrapper is a zero-size point at
+   the coordinate and the pin hangs off it, centred and sitting above. */
+.dpin-wrap { background: none; border: 0; overflow: visible; }
+
+.dpin {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.dpin__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  box-shadow: 0 12px 26px -12px rgba(20, 22, 26, .6);
+}
+
+.dpin__badge {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 9.5px;
+}
+
+.dpin__stalk { width: 1px; height: 14px; background: var(--ink); }
+
+.dwhere__cards { display: flex; flex-direction: column; gap: 18px; }
+
+.dcard {
+  padding: 24px 26px 26px;
+  border: 1px solid rgba(20, 22, 26, .1);
+  border-radius: 24px;
+  background: var(--surface);
+}
+
+.dcard__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.dcard__addr { margin-top: 12px; font-size: 16px; line-height: 1.6; font-weight: 600; }
+
+.dcard__hours {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+}
+
+.dcard__hour {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 6px 0;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+/* Sunday is not a closed day, it is a different arrangement, so it takes the
+   accent rather than a dash. */
+.dcard__hour--appt { color: var(--accent); font-weight: 700; }
+
+.dcard__van {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.dcard__text { margin: 14px 0 0; font-size: 15px; line-height: 1.6; color: var(--ink-3); }
+
+.dcard__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 18px;
+  padding: 13px 13px 13px 22px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .18s ease;
+}
+
+.dcard__go:hover { background: #23272D; color: #FFFFFF; }
+
+/* -- 06 Questions -------------------------------------------------------- */
+
+.dqa__eyebrow {
+  margin-bottom: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.dqa__count {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.dqa__thread { display: flex; flex-direction: column; gap: 26px; }
+
+/* The thread comes before the form on purpose: what has already been asked
+   publicly is the answer to most of what a reader was going to ask. */
+.dqa__item {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+/* The indent is the thread structure — a reply that is not indented is not
+   visibly a reply. */
+.dqa__item--reply { margin-left: 58px; }
+
+.dqa__av {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.dqa__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.dqa__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dqa__name { font-size: 15px; font-weight: 700; letter-spacing: -.015em; }
+
+.dqa__badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.dqa__when {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-4, #9BA0A6);
+}
+
+.dqa__text {
+  margin: 9px 0 0;
+  font-size: 15.5px;
+  line-height: 1.66;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.dqa__acts { display: flex; align-items: center; gap: 18px; margin-top: 11px; }
+
+.dqa__like {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.dqa__like:hover { color: var(--ink); }
+
+.dqa__like--on { color: var(--accent); }
+
+.dqa__like--on .dqa__heart { fill: currentColor; }
+
+.dqa__reply {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.dqa__reply:hover { color: var(--ink); }
+
+.dform {
+  margin-top: 36px;
+  padding: 30px 30px 32px;
+  border-radius: 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.dform__h {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.024em;
+  color: #FFFFFF;
+}
+
+.dform__note {
+  margin: 9px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .62);
+}
+
+.dform__in,
+.dform__area {
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #FFFFFF;
+  transition: border-color .18s ease;
+}
+
+.dform__area { margin-top: 18px; resize: vertical; }
+
+.dform__in:focus,
+.dform__area:focus { border-color: var(--accent); outline: none; }
+
+.dform__in::placeholder,
+.dform__area::placeholder { color: rgba(255, 255, 255, .38); }
+
+.dform__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.dform__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.dform__notify {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, .72);
+  cursor: pointer;
+}
+
+.dform__box {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, .3);
+  border-radius: 6px;
+  color: transparent;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.dform__check:checked + .dform__box {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.dform__check:focus-visible + .dform__box { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The button says it is not ready rather than disappearing: it stays flat and
+   unreadable until there is a comment and a name to post it under. */
+.dform__post {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 13px 13px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .5);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: not-allowed;
+  transition: background .18s ease, color .18s ease;
+}
+
+.dform__post--ready {
+  background: #FFFFFF;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.dform__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(20, 22, 26, .14);
+  color: rgba(255, 255, 255, .5);
+}
+
+.dform__post--ready .dform__disc { background: var(--accent); color: var(--ink); }
+
+/* -- similar ------------------------------------------------------------- */
+
+.dsim {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.dsimcard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.dsimcard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+  color: var(--ink);
+}
+
+.dsimcard__shot { position: relative; aspect-ratio: 16 / 10; background: var(--image-bed); }
+
+.dsimcard__img { width: 100%; height: 100%; object-fit: cover; }
+
+.dsimcard__chip {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.dsimcard__body { padding: 18px 20px 20px; }
+
+.dsimcard__meta {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.dsimcard__name {
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.022em;
+  line-height: 1.25;
+  text-wrap: pretty;
+}
+
+.dsimcard__foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.dsimcard__price { font-size: 17px; font-weight: 800; letter-spacing: -.026em; }
+
+.dsimcard__city {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   19. v3 — responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .dos { grid-template-columns: 320px minmax(0, 1fr); gap: 28px; }
+  .dgal { height: 560px; }
+  .dsim { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* The rail is a fixed track and the dossier body needs its width back. */
+@media (max-width: 1100px) {
+  .dos { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .drail { position: static; }
+  .dwhere { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+}
+
+@media (max-width: 780px) {
+  /* The strip goes under the hero: four across a 300px column is a row of
+     stamps, not photographs. */
+  .dgal { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .dgal__stage { aspect-ratio: 16 / 9; }
+  /* Under the photograph the strip has the full width, so four across is the
+     right shape again — and the rows stop being fixed. */
+  .dgal__strip { grid-template-rows: none; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dthumb { aspect-ratio: 4 / 3; }
+
+  .dsec__h2 { font-size: 24px; }
+  .dabout__opts { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .dspec { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .dchecks { grid-template-columns: minmax(0, 1fr); }
+  .dqa__item--reply { margin-left: 24px; }
+  .dform { padding: 22px 20px 24px; }
+  .dform__pair { grid-template-columns: minmax(0, 1fr); }
+  .dsim { grid-template-columns: minmax(0, 1fr); }
+  .dcard { padding: 20px 18px 22px; }
+}
+
+@media (max-width: 560px) {
+  .dgal__strip { grid-template-rows: none; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dprice { padding: 22px 20px; }
+  .dprice__now { font-size: 30px; }
+  .dhist { grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
+  .dhist__when { grid-column: 2; text-align: left; padding-top: 0; margin-top: 6px; }
+}

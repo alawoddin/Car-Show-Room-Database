@@ -1,0 +1,764 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Dealer listings (dealer-listings.html)
+   Only what this page adds. The light header, the page-header block and
+   the shared dots and rule are the inner-page template in style.css; the
+   ink rail is the dashboard chrome in profile.css.
+
+   The dealer's stock list: one row per car, sorted by what costs the
+   most. Every row ends in one action; the selection states the money at
+   stake in a dark bar before offering the bulk actions. Accent marks:
+   LIVE chips, selected boxes, the sparklines on problem rows, the market
+   band's middle, the bulk Cut button, the completeness figure. Rust for
+   problem flags, over-ninety day counts, the no-defects figure and the
+   faint wash on problem rows. Prefix ls-.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Labels and section heads
+   02. Stock strip, search, Add a car
+   03. Filter tabs
+   04. The table: box, bulk bar, header row
+   05. Rows: pick, photo, car, interest, price, action
+   06. Sparkline heights
+   07. Pager, empty states
+   08. Quality of the stock list
+   09. Three rules
+   10. Responsive
+   11. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Labels and section heads
+   ========================================================================== */
+
+.lsmain { --ls-rust: #8A4A22; --ls-wash: rgba(138, 74, 34, .035); }
+
+.lssec { display: block; }
+
+.lsk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.lsmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.lsmeta--rust { color: var(--ls-rust); }
+
+.lshead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.lshead__main { min-width: 0; }
+
+.lshead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.lshead__aside { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.lssep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.lslink {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.lslink:hover { color: var(--ink); }
+
+.lslink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.lslink--rust { color: var(--ls-rust); }
+
+.lslink--rust:hover { color: var(--ls-rust); }
+
+
+/* ==========================================================================
+   02. Stock strip, search, Add a car
+   ========================================================================== */
+
+.lsstrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.lsstrip__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.lsstrip__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.lsstrip__live .dot { align-self: flex-start; margin-top: 3px; }
+
+.lsstrip__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.lssearch { position: relative; display: inline-flex; align-items: center; }
+
+.lssearch__icon { position: absolute; left: 14px; display: inline-flex; color: var(--ink-2); pointer-events: none; }
+
+.lssearch__in {
+  width: 250px;
+  height: 44px;
+  padding: 0 15px 0 38px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.lssearch__in::placeholder { color: var(--ink-2); font-weight: 500; }
+
+.lssearch__in:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+.lsgo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  height: 44px;
+  padding: 0 10px 0 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  transition: filter .18s ease;
+}
+
+.lsgo:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.lsgo__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   03. Filter tabs
+   ========================================================================== */
+
+.lstabs { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; }
+
+.lstab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.lstab:hover { border-color: var(--ink); }
+
+.lstab--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.lstab__n {
+  display: inline-block;
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.lstab--on .lstab__n { background: rgba(255, 255, 255, .16); color: #FFFFFF; }
+
+.lstab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   04. The table: box, bulk bar, header row
+   ========================================================================== */
+
+.lsbox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.lsbulk {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 13px 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.lsbulk__main { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.lsbulk__t { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; }
+
+.lsbulk__acts { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.lsbulk__cut {
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.lsbulk__cut:hover { filter: brightness(1.08); }
+
+.lsbulk__btn {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.lsbulk__btn:hover { border-color: #FFFFFF; }
+
+.lsbulk__btn--quiet { color: rgba(255, 255, 255, .8); }
+
+.lsbulk__cut:disabled, .lsbulk__btn:disabled { opacity: .4; cursor: default; filter: none; }
+
+.lsbulk__cut:focus-visible, .lsbulk__btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.lsth {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 150px) minmax(0, 1fr) minmax(0, 168px) minmax(0, 196px) minmax(0, 146px);
+  gap: 16px;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.lsth[hidden] { display: none; }
+
+.lsth__do { text-align: center; }
+
+
+/* ==========================================================================
+   05. Rows: pick, photo, car, interest, price, action
+   ========================================================================== */
+
+.lsrows { display: block; }
+
+.lsrow {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 150px) minmax(0, 1fr) minmax(0, 168px) minmax(0, 196px) minmax(0, 146px);
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--line-10);
+  background: #FFFFFF;
+}
+
+.lsrow--last { border-bottom-color: var(--line-10); }
+
+/* The faintest Rust in the system: enough to group the problem rows without alarm. */
+.lsrow--problem { background: var(--ls-wash); }
+
+.lspick { display: inline-flex; cursor: pointer; }
+
+.lstick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.lstick svg { visibility: hidden; }
+
+.lscheck:checked + .lstick,
+.lscheck:indeterminate + .lstick { border-color: var(--accent); background: var(--accent); }
+
+.lscheck:checked + .lstick svg,
+.lscheck:indeterminate + .lstick svg { visibility: visible; }
+
+.lscheck:focus-visible + .lstick { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.lsbulk .lscheck:focus-visible + .lstick { outline-color: #FFFFFF; }
+
+.lstick--all { border: 0; }
+
+.lsph {
+  position: relative;
+  display: block;
+  height: 96px;
+  border: 1px solid var(--line-10);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.lsph__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.lsph__mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+}
+
+.lschip {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.lschip--live { background: var(--accent); color: var(--ink); }
+
+.lschip--reserved { background: var(--ink); color: #FFFFFF; }
+
+.lschip--prep { background: var(--surface); color: var(--ink); }
+
+.lschip--expires { background: #FFFFFF; color: var(--ls-rust); }
+
+.lscar { min-width: 0; }
+
+.lscar__name { display: block; font-size: 16px; font-weight: 800; letter-spacing: -.024em; text-wrap: pretty; }
+
+.lscar__spec { display: block; margin-top: 6px; }
+
+.lscar__row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 9px; }
+
+.lsstock {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--ink);
+}
+
+.lsflag {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: rgba(138, 74, 34, .14);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ls-rust);
+}
+
+.lsint { min-width: 0; }
+
+.lsint__top { display: flex; align-items: center; gap: 10px; }
+
+.lsspark { display: inline-flex; align-items: flex-end; gap: 2px; height: 26px; }
+
+.lsspark__b { display: block; width: 4px; border-radius: 2px 2px 0 0; background: rgba(20, 22, 26, .28); }
+
+.lsrow--problem .lsspark__b { background: var(--accent); }
+
+.lsint__main { min-width: 0; }
+
+.lsint__n { display: block; font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.lsint__k { display: block; margin-top: 3px; font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: .09em; color: var(--ink-2); }
+
+.lsint__row { display: flex; align-items: center; gap: 12px; margin-top: 9px; }
+
+.lsprice { min-width: 0; }
+
+.lsprice__top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+
+.lsprice__n { font-size: 17px; font-weight: 800; letter-spacing: -.028em; }
+
+/* The market band: the middle half of the comparables in accent, this
+   car's tick at its position. main.js sets the three positions from the
+   row's data; without it the band shows the design's default shape. */
+.lsband {
+  position: relative;
+  display: block;
+  height: 8px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(20, 22, 26, .12) 0 var(--l, 24%), color-mix(in srgb, var(--accent) 32%, transparent) var(--l, 24%) var(--r, 70%), rgba(20, 22, 26, .12) var(--r, 70%) 100%);
+}
+
+.lsband__tick { position: absolute; top: -5px; left: var(--at, 50%); width: 3px; height: 18px; border-radius: 2px; background: var(--ink); }
+
+.lsrow--problem .lsband__tick { background: var(--ls-rust); }
+
+.lsprice__note { display: block; margin-top: 9px; font-size: 12px; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
+
+.lsdo { display: flex; flex-direction: column; gap: 8px; }
+
+.lsact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease, border-color .18s ease;
+}
+
+.lsact--ink { border: 1px solid var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.lsact--ink:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.lsact--out { border: 1px solid rgba(20, 22, 26, .18); background: transparent; color: var(--ink); }
+
+.lsact--out:hover { border-color: var(--ink); color: var(--ink); }
+
+.lsact--done { border: 1px solid transparent; background: var(--surface); color: var(--ink-2); cursor: default; }
+
+.lsact:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.lsdo__links { display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+.lsdo__sep { display: inline-block; width: 1px; height: 11px; background: rgba(20, 22, 26, .2); }
+
+
+/* ==========================================================================
+   06. Sparkline heights
+   Twelve bars per row, 3px to 26px, from the row's fourteen-day views.
+   ========================================================================== */
+
+.lsspark__b--3 { height: 3px; }
+
+.lsspark__b--4 { height: 4px; }
+
+.lsspark__b--5 { height: 5px; }
+
+.lsspark__b--6 { height: 6px; }
+
+.lsspark__b--7 { height: 7px; }
+
+.lsspark__b--8 { height: 8px; }
+
+.lsspark__b--9 { height: 9px; }
+
+.lsspark__b--10 { height: 10px; }
+
+.lsspark__b--11 { height: 11px; }
+
+.lsspark__b--12 { height: 12px; }
+
+.lsspark__b--13 { height: 13px; }
+
+.lsspark__b--14 { height: 14px; }
+
+.lsspark__b--15 { height: 15px; }
+
+.lsspark__b--16 { height: 16px; }
+
+.lsspark__b--17 { height: 17px; }
+
+.lsspark__b--18 { height: 18px; }
+
+.lsspark__b--19 { height: 19px; }
+
+.lsspark__b--20 { height: 20px; }
+
+.lsspark__b--21 { height: 21px; }
+
+.lsspark__b--22 { height: 22px; }
+
+.lsspark__b--23 { height: 23px; }
+
+.lsspark__b--24 { height: 24px; }
+
+.lsspark__b--25 { height: 25px; }
+
+.lsspark__b--26 { height: 26px; }
+
+
+/* ==========================================================================
+   07. Pager, empty states
+   ========================================================================== */
+
+.lspager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 22px;
+  background: var(--surface);
+}
+
+.lspager[hidden] { display: none; }
+
+.lspager__seen { display: inline-flex; align-items: baseline; gap: 9px; margin: 0; }
+
+.lspager__num { font-size: 20px; font-weight: 800; letter-spacing: -.03em; }
+
+.lspager__of { font-size: 14px; color: var(--ink-2); }
+
+.lspager__pages { display: inline-flex; align-items: center; gap: 7px; margin: 0; }
+
+.lspager__lbl { padding-right: 6px; }
+
+.lspager__list { display: inline-flex; align-items: center; gap: 7px; }
+
+.lspage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 11px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 11px;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.lspage:hover { border-color: var(--ink); }
+
+.lspage--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; font-weight: 800; }
+
+.lspager__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--ink);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.lspager__next:hover { filter: brightness(1.14); }
+
+.lspager__next:disabled { opacity: .35; cursor: default; filter: none; }
+
+.lspage:focus-visible, .lspager__next:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.lsempty { padding: 34px 24px 36px; text-align: center; }
+
+.lsempty[hidden] { display: none; }
+
+.lsempty__t { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -.024em; }
+
+.lsempty__p { max-width: 520px; margin: 8px auto 14px; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   08. Quality of the stock list
+   ========================================================================== */
+
+.lsqual {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.lsqcell { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.lsqcell__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.lsqcell__n--rust { color: var(--ls-rust); }
+
+.lsqcell__n--accent { color: var(--accent-deep); }
+
+.lsqcell__p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.lsqcell__link { margin-top: auto; align-self: flex-start; }
+
+
+/* ==========================================================================
+   09. Three rules
+   ========================================================================== */
+
+.lsrules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.lsrule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.lsrule__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.lsrule__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   10. Responsive
+   The rail folds above the content at 1100px (profile.css). The row gives
+   up its columns from the right: interest and price fold under the car
+   first, the photo last.
+   ========================================================================== */
+
+@media (max-width: 1380px) {
+  .lsth, .lsrow { grid-template-columns: 34px minmax(0, 120px) minmax(0, 1fr) minmax(0, 164px) minmax(0, 186px) minmax(0, 130px); gap: 12px; }
+
+  .lsprice__top .lsmeta { white-space: nowrap; }
+}
+
+/* The rail still sits beside the list down to 1100px, but the six-column
+   row starves the car column before that — it folds to three here. */
+@media (max-width: 1240px) {
+  .lsth { display: none; }
+
+  .lsrow { grid-template-columns: 34px minmax(0, 150px) minmax(0, 1fr); gap: 12px 16px; }
+
+  .lsint, .lsprice, .lsdo { grid-column: 2 / -1; }
+
+  .lsdo { flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; }
+}
+
+  .lsqual { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .lsrules { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .lssep { display: none; }
+}
+
+@media (max-width: 640px) {
+  .lsstrip, .lsbulk, .lspager, .lsrow { padding-left: 18px; padding-right: 18px; }
+
+  .lsstrip__ctl { width: 100%; }
+
+  .lssearch { flex: 1 1 auto; }
+
+  .lssearch__in { width: 100%; }
+
+  .lsrow { grid-template-columns: 34px minmax(0, 1fr); }
+
+  .lsph { grid-column: 2; height: 150px; }
+
+  .lscar { grid-column: 2; }
+
+  .lsqual { grid-template-columns: minmax(0, 1fr); }
+
+  .lsqcell, .lsrule { padding-left: 18px; padding-right: 18px; }
+
+  .lspager__pages { flex-wrap: wrap; }
+}
+
+@media (max-width: 430px) {
+  .lsdo { flex-wrap: wrap; gap: 10px 16px; }
+
+  .lsprice__top { flex-wrap: wrap; }
+
+  .lspage { min-width: 34px; height: 34px; padding: 0 9px; }
+
+  .lspager__lbl { display: none; }
+
+  .lspager__pages { display: flex; width: 100%; flex-wrap: nowrap; }
+
+  .lspager__list { flex: 1 1 auto; min-width: 0; flex-wrap: wrap; }
+
+  .lsbulk__main { flex-wrap: nowrap; }
+
+  .lsbulk__t { min-width: 0; }
+}
+
+
+/* ==========================================================================
+   11. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .lsgo:hover, .lsact--ink:hover, .lspager__next:hover, .lsbulk__cut:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lsgo, .lstab, .lstick, .lsact, .lslink, .lspage, .lspager__next, .lsbulk__cut, .lsbulk__btn, .lssearch__in { transition: none; }
+
+  .lsstrip .pulse { animation: none; }
+}

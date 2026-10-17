@@ -1,0 +1,1337 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Listings v5 and v6, the sidebar variants
+   Only what this page adds. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css; the photo
+   card is v2's and comes from listing.css, which this page loads first.
+
+   The fifth and sixth readings of the same inventory, and the only ones that
+   narrow by more than six things: a sticky rail of eleven facets on the left,
+   and a results column on the right that switches between nine photo cards and
+   nine wide rows. v6 is v5 with every panel turned white — one theme value
+   apart, so it lives here rather than in a seventh file.
+
+   Everything else in the family is full-bleed. Here the results live in a
+   column, so every block inside it is sized for that column and not for the
+   page — that is where this page's layout defects come from.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The two-column board
+   02. The rail — shell, head and active chips
+   03. The rail — the eleven fields
+   04. The rail — the two ranges
+   05. The rail — inspection and availability
+   06. The rail — the foot that always shows the count
+   07. The results bar and the view switch
+   08. The photo cards in a narrow column
+   09. The wide row
+   10. The pagination rail
+   11. The sourcing band
+   12. The light variant — v6
+   13. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The two-column board
+   ========================================================================== */
+
+/* align-items: start is what lets the rail be sticky — a stretched grid item
+   is already as tall as the row and has nothing to stick within. */
+.board {
+  display: grid;
+  grid-template-columns: minmax(290px, 330px) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+
+
+/* ==========================================================================
+   02. The rail — shell, head and active chips
+   ========================================================================== */
+
+.frail {
+  position: sticky;
+  top: 24px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.frail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 22px 22px 18px;
+}
+
+.frail__live { display: inline-flex; align-items: center; gap: 9px; }
+
+.frail__word { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .13em; }
+
+.frail__count {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+
+.frail__reset {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.frail__reset:hover { color: #FFFFFF; }
+
+.frail__chips { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; padding: 0 22px 20px; }
+
+/* Nothing chosen yet, so the row takes no height at all. */
+.frail__chips:empty { display: none; }
+
+.fchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 6px 6px 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.fchip__x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .14);
+  color: inherit;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.fchip__x:hover { background: rgba(255, 255, 255, .3); }
+
+
+/* ==========================================================================
+   03. The rail — the eleven fields
+   ========================================================================== */
+
+/* Dropdowns rather than chip rows: eleven facets as chips was a wall of
+   buttons, and the rail has one column to spend. */
+.frail__fields {
+  display: grid;
+  gap: 18px;
+  padding: 20px 22px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.ffld { display: block; }
+
+.ffld__lbl {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+/* The chips at the top of the rail say which facets are on; colouring eleven
+   labels as well would be the same fact twice, in the loudest colour. */
+
+.ffld__pick { position: relative; display: block; }
+
+.ffld__in {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 50px;
+  padding: 0 38px 0 14px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.ffld__in:hover { border-color: rgba(255, 255, 255, .4); }
+
+.ffld__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The list is drawn by the OS, so the dark ground has to be stated here. */
+.ffld__in option { background: var(--ink); color: #FFFFFF; }
+
+.ffld__chev {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: rgba(255, 255, 255, .6);
+  pointer-events: none;
+}
+
+/* YEAR FROM and YEAR TO are one thought, so they share a line. */
+.ffld__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+
+/* ==========================================================================
+   04. The rail — the two ranges
+   ========================================================================== */
+
+/* The visible track is ours and the real <input type="range"> lies over it at
+   zero opacity — the same trick the filter cells use for their selects. It
+   keeps the knob and the fill exactly as drawn without reaching for the
+   vendor-prefixed slider pseudo-elements. */
+.frange { display: block; }
+
+.frange__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+
+.frange__val { font-size: 20px; font-weight: 800; letter-spacing: -.03em; }
+
+.frange__max {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.frange__track {
+  /* A <span> is inline until told otherwise, and an inline box drops height,
+     margin-top and the width the slider inside it measures itself against. */
+  display: block;
+  position: relative;
+  margin-top: 12px;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) 0 var(--fill, 100%), rgba(255, 255, 255, .2) var(--fill, 100%) 100%);
+}
+
+.frange__knob {
+  position: absolute;
+  left: var(--fill, 100%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .3);
+  pointer-events: none;
+}
+
+.frange__in {
+  position: absolute;
+  left: 0;
+  top: -10px;
+  width: 100%;
+  height: 25px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.frange__in:focus-visible ~ .frange__knob { box-shadow: 0 0 0 2px var(--accent-hi); }
+
+/* A 5px track is a mouse target. On a touch screen the invisible input grows
+   to something a thumb can actually catch. */
+@media (hover: none) {
+  .frange__in { top: -18px; height: 40px; }
+}
+
+
+/* ==========================================================================
+   05. The rail — inspection and availability
+   ========================================================================== */
+
+.finsp { padding: 2px 22px 22px; }
+
+.finsp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 9px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+  text-align: left;
+  cursor: pointer;
+}
+
+.finsp__right { display: inline-flex; align-items: center; gap: 9px; }
+
+.finsp__n { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .08em; color: var(--accent); }
+
+.finsp__chev { display: inline-flex; color: rgba(255, 255, 255, .5); transition: transform .2s ease; }
+
+.finsp--shut .finsp__chev { transform: rotate(180deg); }
+
+.finsp--shut .finsp__list { display: none; }
+
+.finsp__list { margin-top: -4px; }
+
+.fopt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 -10px;
+  padding: 11px 10px;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.fopt:hover { background: rgba(255, 255, 255, .06); }
+
+.fopt__side { display: inline-flex; align-items: center; gap: 11px; }
+
+/* The real checkbox is hidden behind the drawn one, which keeps the keyboard
+   and the label click working for free. */
+.fopt__in {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fopt__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 19px;
+  height: 19px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink);
+}
+
+.fopt__box svg { display: none; }
+
+.fopt__in:checked + .fopt__box { border-color: var(--accent); background: var(--accent); }
+
+.fopt__in:checked + .fopt__box svg { display: block; }
+
+.fopt__in:focus-visible + .fopt__box { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.fopt__label { font-size: 14.5px; font-weight: 500; color: rgba(255, 255, 255, .82); }
+
+.fopt__in:checked ~ .fopt__label { font-weight: 700; color: #FFFFFF; }
+
+.fopt__n {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .4);
+}
+
+/* An option that would empty the floor says so before it is pressed. */
+.fopt--none .fopt__label { color: rgba(255, 255, 255, .4); }
+
+.fopt--none .fopt__n { color: rgba(255, 255, 255, .24); }
+
+
+/* ==========================================================================
+   06. The rail — the foot that always shows the count
+   ========================================================================== */
+
+.ffoot {
+  padding: 20px 22px 22px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .03);
+}
+
+.ffoot__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+
+.ffoot__num { font-size: 30px; font-weight: 800; letter-spacing: -.034em; line-height: 1; color: var(--accent); }
+
+.ffoot__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.ffoot__go {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 15px 15px 15px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.ffoot__go:hover { background: var(--accent-hi); }
+
+.ffoot__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.ffoot__save {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .4);
+  text-align: center;
+}
+
+
+/* ==========================================================================
+   07. The results bar and the view switch
+   ========================================================================== */
+
+.rbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 20px 26px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+}
+
+.rbar__left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.rbar__count { font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+
+.rbar__meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.rbar__sep { width: 1px; height: 16px; background: rgba(20, 22, 26, .16); }
+
+.rbar__on { font-size: 14px; color: var(--ink-3); }
+
+.rbar__clear {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rbar__right { display: flex; align-items: center; gap: 12px; }
+
+/* 44px buttons inside a 1px border make 46px, which is the select's height.
+   Two pixels out here reads as a misalignment across the whole bar. */
+.vswitch {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.vswitch__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.vswitch__btn + .vswitch__btn { border-left: 1px solid rgba(20, 22, 26, .12); }
+
+.vswitch__btn--on { background: var(--ink); color: #FFFFFF; }
+
+.rsort__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.rsort__pick { position: relative; display: block; }
+
+.rsort__select {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 46px;
+  padding: 0 40px 0 16px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.rsort__select:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.rsort__chev {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   08. The photo cards in a narrow column
+   ========================================================================== */
+
+/* The card itself is v2's and comes from listing.css. Only the spec strip
+   changes: in a ~380px card, three floored tracks with nowrap values refuse
+   to shrink and overflow:hidden clips "1,020 hp" to "1,0…". */
+.results { margin-top: 18px; }
+
+/* Both views stay in the DOM and one is hidden, so the hidden one has to beat
+   its own display rule rather than rely on the browser's [hidden] default. */
+.cardgrid[hidden],
+.rowlist[hidden] { display: none; }
+
+.cardgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+
+.cardgrid .lcard__specs { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+
+.cardgrid .lcard__sval { white-space: normal; text-wrap: pretty; }
+
+.emptyrow {
+  max-width: 640px;
+  padding: 22px 26px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+
+/* ==========================================================================
+   09. The wide row
+   ========================================================================== */
+
+.rowlist { display: flex; flex-direction: column; gap: 16px; }
+
+/* Two tracks, not three: a floored third column for the price pushes the row
+   past the column and the price is what gets cut. The price sits on its own
+   row in column 2 instead. */
+.rrow {
+  display: grid;
+  grid-template-columns: minmax(0, 250px) minmax(0, 1fr);
+  grid-auto-rows: auto;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #FFFFFF;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.rrow:hover { transform: translateY(-4px); box-shadow: 0 24px 46px -26px rgba(20, 22, 26, .42); }
+
+.rrow--lead { border-color: var(--ink); box-shadow: 0 24px 48px -34px rgba(20, 22, 26, .4); }
+
+/* No aspect-ratio here on purpose: it fights the stretched row height and the
+   photograph ends up wider than its track. */
+.rrow__shot {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 210px;
+  align-self: stretch;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.rrow__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.rrow__kind {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.rrow__tag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.rrow__mark {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.rrow__mark:hover,
+.rrow__mark[aria-pressed="true"] { background: var(--ink); color: #FFFFFF; }
+
+.rrow__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  min-width: 0;
+  padding: 20px 22px;
+}
+
+.rrow__meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.rrow__where {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.rrow__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
+
+.rrow__model { margin-top: 8px; font-size: 24px; font-weight: 800; letter-spacing: -.026em; text-wrap: pretty; }
+
+.rrow__facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 12px 14px; }
+
+.rfact__v { font-size: 14.5px; font-weight: 800; letter-spacing: -.02em; text-wrap: pretty; }
+
+.rfact__k {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+/* The fault named in words, in a box of its own — the row has the width for
+   the sentence the cards have to compress into a count. */
+.rrow__fault {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 15px;
+  border: 1px solid var(--line-10);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.rrow__mk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.rrow__ftext { min-width: 0; font-size: 13.5px; font-weight: 600; text-wrap: pretty; }
+
+.rrow__flabel {
+  margin-right: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.rrow__money {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 12px 16px;
+  flex-wrap: wrap;
+  grid-column: 2;
+  padding: 0 22px 20px;
+  text-align: right;
+}
+
+.rrow__price { font-size: clamp(20px, 1.6vw, 26px); font-weight: 800; letter-spacing: -.03em; white-space: nowrap; }
+
+.rrow__mo { margin-top: 5px; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+
+.rrow__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 11px;
+  padding: 12px 12px 12px 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .18s ease;
+}
+
+.rrow__cta:hover { background: #23272D; color: #FFFFFF; }
+
+.rrow__ctac {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.rrow__cmp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.rrow__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border: 1px solid rgba(20, 22, 26, .28);
+  border-radius: 5px;
+  color: #FFFFFF;
+}
+
+.rrow__cbx {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.rrow__box svg { display: none; }
+
+.rrow__cbx:checked + .rrow__box { border-color: var(--ink); background: var(--ink); }
+
+.rrow__cbx:checked + .rrow__box svg { display: block; }
+
+.rrow__cbx:focus-visible + .rrow__box { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   10. The pagination rail
+   ========================================================================== */
+
+.prail {
+  margin-top: 26px;
+  padding: 30px 34px;
+  border-radius: 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.prail__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.prail__cap {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.prail__seen { display: flex; align-items: baseline; gap: 12px; margin-top: 10px; }
+
+.prail__num { font-size: 34px; font-weight: 800; letter-spacing: -.036em; line-height: 1; }
+
+.prail__of { font-size: 15px; color: rgba(255, 255, 255, .6); }
+
+.prail__nav { display: flex; align-items: center; gap: 12px; }
+
+.prail__nav[hidden] { display: none; }
+
+.prail__prev {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  background: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.prail__prev:hover { background: rgba(255, 255, 255, .06); }
+
+.prail__prev[disabled] { color: rgba(255, 255, 255, .35); cursor: default; }
+
+.prail__prev[disabled]:hover { background: none; }
+
+.prail__next {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px 14px 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.prail__next:hover { background: var(--accent-hi); }
+
+.prail__nextc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+/* Only the line is absolute. The ticks stay in flow, because a wrapper whose
+   whole height was its own top padding closed 5px early and cut every label
+   in half against the panel edge. */
+.prail__track { position: relative; margin-top: 30px; padding-top: 16px; }
+
+.prail__line { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: rgba(255, 255, 255, .16); }
+
+.prail__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--fill, 0%);
+  height: 2px;
+  background: var(--accent);
+  transition: width .28s ease;
+}
+
+.prail__ticks { display: grid; }
+
+.ptick {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ptick__dot {
+  width: 8px;
+  height: 8px;
+  margin-top: -19px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .28);
+  transition: background .2s ease;
+}
+
+.ptick--done .ptick__dot { background: color-mix(in srgb, var(--accent) 55%, transparent); }
+
+.ptick--on .ptick__dot { width: 12px; height: 12px; margin-top: -21px; background: var(--accent); }
+
+.ptick__num {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.ptick--on .ptick__num { font-weight: 700; color: #FFFFFF; }
+
+.ptick__range {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .3);
+}
+
+.ptick--on .ptick__range { color: rgba(255, 255, 255, .6); }
+
+.ptick:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+
+/* ==========================================================================
+   11. The sourcing band
+   ========================================================================== */
+
+.band {
+  position: relative;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.band__wordmark {
+  position: absolute;
+  right: -22px;
+  bottom: -60px;
+  font-family: var(--display);
+  font-size: 180px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(20, 22, 26, .2);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.band__head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 46px 46px 0;
+}
+
+.band__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(20, 22, 26, .28);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.band__h {
+  margin-top: 18px;
+  font-size: clamp(30px, 3vw, 48px);
+  font-weight: 800;
+  letter-spacing: -.038em;
+  line-height: 1.02;
+}
+
+.band__cta {
+  margin-bottom: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 16px 16px 28px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .2s ease;
+}
+
+.band__cta:hover { background: #23272D; color: #FFFFFF; }
+
+.band__ctac {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.band__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 40px;
+  background: rgba(20, 22, 26, .22);
+  border-top: 1px solid rgba(20, 22, 26, .22);
+}
+
+.bstep { padding: 28px 26px 30px; background: var(--accent); }
+
+.bstep__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.bstep__no { font-size: 28px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.bstep__when {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(20, 22, 26, .62);
+}
+
+.bstep__title { margin-top: 18px; font-size: 18px; font-weight: 700; letter-spacing: -.02em; text-wrap: pretty; }
+
+.bstep__text { margin-top: 9px; font-size: 13.5px; line-height: 1.6; color: rgba(20, 22, 26, .72); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   12. The light variant — v6
+   ==========================================================================
+
+   The same conversion as v2 and v4, applied to the rail, the pagination panel
+   and the sourcing band. Turning the accent band white removes the page's only
+   large colour field, so the accent has to earn its place in small ones. On
+   this page it survives on exactly five things:
+
+     1. the pulsing live dots,
+     2. the counters — CARS MATCH, the seen figure,
+     3. the filled part of every track: price, mileage, progress,
+     4. the arrow circle inside each ink button,
+     5. the step numbers 01–03 and the no-faults chip.
+
+   A sixth use would cost the ink/accent hierarchy that makes the figures read
+   as live data, so if one appears, one of these has to give way.
+
+   The pagination ticks are the trap the handoff calls out: their three colours
+   come from a class in the prototype, not from the markup, so a theme switch
+   that only touches the template leaves them white on white. Here they come
+   from these rules.
+   ========================================================================== */
+
+.listing--light .frail,
+.listing--light .prail,
+.listing--light .band {
+  border: 1px solid rgba(20, 22, 26, .22);
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+/* -- the rail ------------------------------------------------------------ */
+.listing--light .frail__reset { color: var(--ink-2); }
+
+.listing--light .frail__reset:hover { color: var(--ink); }
+
+.listing--light .fchip { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--ink); }
+
+.listing--light .fchip__x { background: rgba(20, 22, 26, .12); }
+
+.listing--light .fchip__x:hover { background: rgba(20, 22, 26, .24); }
+
+.listing--light .frail__fields,
+.listing--light .ffoot { border-top-color: var(--line); }
+
+.listing--light .ffld__lbl,
+.listing--light .frange__max,
+.listing--light .finsp__head,
+.listing--light .ffoot__lbl { color: var(--ink-2); }
+
+.listing--light .ffld__in {
+  border-color: rgba(20, 22, 26, .18);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.listing--light .ffld__in:hover { border-color: rgba(20, 22, 26, .4); }
+
+.listing--light .ffld__in option { background: #FFFFFF; color: var(--ink); }
+
+.listing--light .ffld__chev,
+.listing--light .finsp__chev { color: var(--ink-2); }
+
+/* -- the two ranges ------------------------------------------------------ */
+.listing--light .frange__track {
+  background: linear-gradient(90deg, var(--accent) 0 var(--fill, 100%), rgba(20, 22, 26, .14) var(--fill, 100%) 100%);
+}
+
+.listing--light .frange__knob { border-color: #FFFFFF; box-shadow: 0 0 0 1px rgba(20, 22, 26, .28); }
+
+/* -- inspection and availability ----------------------------------------- */
+.listing--light .fopt { border-top-color: rgba(20, 22, 26, .1); }
+
+.listing--light .fopt:hover { background: var(--surface); }
+
+.listing--light .fopt__box { border-color: rgba(20, 22, 26, .28); }
+
+.listing--light .fopt__label { color: var(--ink); }
+
+.listing--light .fopt__n { color: var(--ink-4); }
+
+.listing--light .fopt--none .fopt__label { color: var(--ink-4); }
+
+.listing--light .fopt--none .fopt__n { color: rgba(20, 22, 26, .22); }
+
+/* -- the rail's foot ----------------------------------------------------- */
+.listing--light .ffoot { background: var(--surface); }
+
+.listing--light .ffoot__go { background: var(--ink); color: #FFFFFF; }
+
+.listing--light .ffoot__go:hover { background: #23272D; }
+
+.listing--light .ffoot__arrow { background: var(--accent); color: var(--ink); }
+
+.listing--light .ffoot__save { color: var(--ink-4); }
+
+/* -- the pagination rail ------------------------------------------------- */
+.listing--light .prail__cap,
+.listing--light .prail__of { color: var(--ink-2); }
+
+.listing--light .prail__prev { border-color: rgba(20, 22, 26, .18); color: var(--ink); }
+
+.listing--light .prail__prev:hover { background: var(--surface); }
+
+.listing--light .prail__prev[disabled] { color: var(--ink-4); }
+
+.listing--light .prail__prev[disabled]:hover { background: none; }
+
+.listing--light .prail__next { background: var(--ink); color: #FFFFFF; }
+
+.listing--light .prail__next:hover { background: #23272D; }
+
+.listing--light .prail__nextc { background: var(--accent); color: var(--ink); }
+
+.listing--light .prail__line { background: rgba(20, 22, 26, .14); }
+
+.listing--light .ptick__dot { background: rgba(20, 22, 26, .22); }
+
+.listing--light .ptick--done .ptick__dot { background: color-mix(in srgb, var(--accent) 50%, transparent); }
+
+.listing--light .ptick--on .ptick__dot { background: var(--accent); }
+
+.listing--light .ptick__num,
+.listing--light .ptick__range { color: var(--ink-4); }
+
+.listing--light .ptick--on .ptick__num { color: var(--ink); }
+
+.listing--light .ptick--on .ptick__range { color: var(--ink-2); }
+
+/* -- the sourcing band --------------------------------------------------- */
+.listing--light .band__wordmark { -webkit-text-stroke-color: rgba(20, 22, 26, .07); }
+
+.listing--light .band__live { border-color: rgba(20, 22, 26, .16); }
+
+.listing--light .band__steps { background: var(--line); border-top-color: var(--line); }
+
+.listing--light .bstep { background: #FFFFFF; }
+
+/* The step numbers are one of the five places the accent still earns. */
+.listing--light .bstep__no { color: var(--accent); }
+
+.listing--light .bstep__when { color: var(--ink-2); }
+
+.listing--light .bstep__text { color: var(--ink-3); }
+
+
+/* ==========================================================================
+   13. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .cardgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Below this the rail is wider than the room left for the results, so it
+   stops being a rail and becomes the block above them. */
+@media (max-width: 1100px) {
+  .board { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .frail { position: static; }
+  .frail__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ffld__pair { grid-column: 1 / -1; }
+  .cardgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .band__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .cardgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 780px) {
+  .frail { border-radius: 22px; }
+  .frail__fields { grid-template-columns: minmax(0, 1fr); }
+  .cardgrid { grid-template-columns: minmax(0, 1fr); }
+
+  /* The photograph goes above the text rather than beside it. */
+  .rrow { grid-template-columns: minmax(0, 1fr); }
+  .rrow__shot { min-height: 200px; aspect-ratio: 16 / 10; }
+  .rrow__money { grid-column: 1; justify-content: flex-start; text-align: left; }
+
+  .prail { padding: 24px 22px; border-radius: 20px; }
+  .prail__ticks { overflow-x: auto; }
+
+  .band { border-radius: 24px; }
+  .band__head { padding: 30px 22px 0; }
+  .band__steps { grid-template-columns: minmax(0, 1fr); margin-top: 30px; }
+  .bstep { padding: 22px 22px 24px; }
+  .band__wordmark { font-size: 110px; bottom: -34px; }
+}
+
+@media (max-width: 560px) {
+  .rbar { padding: 16px 18px; gap: 16px; }
+  .rbar__right { width: 100%; justify-content: space-between; }
+  .prail__head { gap: 18px; }
+  .prail__nav { width: 100%; }
+  .prail__next { flex: 1 1 auto; justify-content: space-between; }
+}
+
+
+/* ==========================================================================
+   The row opens the car
+
+   Same stretched link as the grid card, with one difference: the row carries a
+   save button of its own, so that button is lifted above the stretched anchor
+   or it stops being clickable.
+   ========================================================================== */
+
+.rrow { position: relative; }
+
+.rrow__cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.rrow__mark { position: relative; z-index: 2; }

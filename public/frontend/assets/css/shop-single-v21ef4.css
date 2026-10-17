@@ -1,0 +1,1316 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Shop single v2
+   The second product-page layout, and only what it changes. The page loads
+   shop-single.css first: the rhythm, the fitting panel, delivery, the
+   alternatives row and the review cards are the same blocks as v1 and are
+   not restated here.
+
+   THE PANEL DOES THE ARITHMETIC. v1 states a price and leaves the buyer to
+   add it up; v2 walks three steps and prints the total. That is the whole
+   argument for this layout, and it is also its risk: five figures in one
+   panel that can disagree. They all come off one derivation.
+
+   The other three changes follow from it. The gallery puts the thumbnails on
+   the left and stretches both columns to the panel's height, so the two
+   columns end level. The fitment strip becomes a table, so the evidence has
+   cells of its own. The Q&A becomes owner comments — including a critical
+   one with the seller's reply, which is the same posture the car pages take
+   by publishing faults.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Gallery
+   02. Buy panel
+   03. Fitment table
+   04. Specification and description
+   05. Owner comments
+   06. Responsive
+   07. Touch
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Gallery
+
+   Thumbnails left, hero right, and the row stretches: the gallery is exactly
+   as tall as the panel beside it. The thumbnails carry no aspect-ratio — a
+   ratio would fight the stretched track and collapse it — they take a sixth
+   of the height each.
+   ========================================================================== */
+
+.jshop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 450px;
+  gap: 26px;
+  align-items: start;
+}
+
+/* The same rail as v1, mirrored: one part thumbnails to seven parts hero, and
+   the thumbnails set the height at 16:9 each. Proportional rather than a
+   fixed 143px — a fixed rail holds its height while the hero widens, and on a
+   wide screen the picture stretches into a letterbox. */
+.jgal {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 7fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.jthumbs {
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 8px;
+  min-width: 0;
+}
+
+.jthumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  padding: 0;
+  border: 2px solid rgba(20, 22, 26, .14);
+  border-radius: 10px;
+  background: var(--image-bed);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.jthumb--on { border-color: var(--ink); }
+
+.jthumb--empty { cursor: default; }
+
+.jthumb:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Absolute for the same reason as the hero's: a thumbnail image left in flow
+   sizes its own row and the rail stops dividing the height it was given. */
+.jthumb__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jhero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* Absolute, or the picture's own proportions set the hero's height and the
+   rail beside it stops being what decides the geometry. */
+.jhero__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jhero__chip {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.jhero__count {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .78);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: #FFFFFF;
+}
+
+
+/* ==========================================================================
+   02. Buy panel
+
+   Dark, sticky, and it adds up. Every figure in the summary is one
+   derivation: size price × quantity, fitting × quantity, the delivery
+   threshold, and the total that follows. Authored separately they drift, and
+   a panel whose own lines disagree is worse than one that never totalled
+   anything.
+   ========================================================================== */
+
+.jbuy {
+  position: sticky;
+  top: 96px;
+  align-self: start;
+  display: grid;
+  gap: 12px;
+}
+
+.jpanel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  background: var(--ink);
+}
+
+.jpanel__word {
+  position: absolute;
+  z-index: 0;
+  right: 18px;
+  top: 2px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 140px;
+  line-height: .8;
+  letter-spacing: -.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(255, 255, 255, .07);
+  pointer-events: none;
+  user-select: none;
+}
+
+.jpanel__in { position: relative; z-index: 1; padding: 20px 22px 22px; }
+
+.jpanel__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+.jpanel__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: #FFFFFF;
+}
+
+.jpanel__sku {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.jstep {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 10px;
+}
+
+.jstep__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.jstep__note {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, .5);
+}
+
+.jstep__both {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.jstep__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.jsizes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+/* Each card carries its own price. The two sizes are different products and
+   the buyer is choosing between them, not filtering. */
+.jsize {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 12px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.jsize:hover { border-color: rgba(255, 255, 255, .45); }
+
+.jsize:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.jsize--on { border-color: #FFFFFF; background: #FFFFFF; }
+
+.jsize__mm { font-size: 14px; font-weight: 600; letter-spacing: -.02em; color: #FFFFFF; }
+
+.jsize--on .jsize__mm { font-weight: 800; color: var(--ink); }
+
+.jsize__axle {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.jsize--on .jsize__axle { color: var(--ink-2); }
+
+.jsize__price { margin-top: 4px; font-size: 11.5px; font-weight: 700; color: rgba(255, 255, 255, .7); }
+
+.jsize--on .jsize__price { color: var(--ink); }
+
+.jsize__tick {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.jsize--on .jsize__tick { display: inline-flex; }
+
+.jqty {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.jstepper {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 36px;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 12px;
+}
+
+.jstepper__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .08);
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.jstepper__btn:hover { background: rgba(255, 255, 255, .16); }
+
+.jstepper__btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.jstepper__btn[disabled] { opacity: .4; cursor: not-allowed; }
+
+.jstepper__n {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: #FFFFFF;
+}
+
+.jqty__say { font-size: 13px; color: rgba(255, 255, 255, .6); }
+
+.jqty__all { display: block; margin-top: 2px; font-size: 13px; color: var(--accent); }
+
+.jqty__all:hover { color: var(--accent-hi); }
+
+.jfit {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  cursor: pointer;
+}
+
+.jfit__in {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.jfit__track {
+  display: block;
+  position: relative;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 23px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.jfit__knob {
+  position: absolute;
+  top: 3px;
+  left: 20px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: left .16s ease;
+}
+
+.jfit__in:not(:checked) + .jfit__track { background: rgba(255, 255, 255, .2); }
+
+.jfit__in:not(:checked) + .jfit__track .jfit__knob { left: 3px; }
+
+.jfit__in:focus-visible + .jfit__track { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.jfit__lbl { font-size: 13.5px; font-weight: 700; letter-spacing: -.018em; color: #FFFFFF; }
+
+.jfit__sub { display: block; margin-top: 2px; font-size: 12px; color: rgba(255, 255, 255, .6); }
+
+.jfit__plus { margin-left: auto; font-size: 14px; font-weight: 800; color: var(--accent); }
+
+.jsum {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.jsum__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 5px 0;
+}
+
+.jsum__k { font-size: 14px; color: rgba(255, 255, 255, .7); }
+
+.jsum__v { font-size: 14.5px; font-weight: 700; color: #FFFFFF; }
+
+.jsum__v--free { color: var(--accent); }
+
+.jtotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.jtotal__k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.jtotal__vat { display: block; margin-top: 3px; font-family: var(--font); font-size: 12px; letter-spacing: normal; color: rgba(255, 255, 255, .5); }
+
+.jtotal__n { font-size: 32px; font-weight: 800; letter-spacing: -.036em; color: #FFFFFF; }
+
+.jadd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 6px 6px 6px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.jadd:hover { background: var(--accent-hi); }
+
+.jadd:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.jadd__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.junder {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.jsave {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .7);
+}
+
+.jsave:hover { color: #FFFFFF; }
+
+.jback {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, .55);
+}
+
+.jback__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  color: var(--accent);
+}
+
+/* The set is the panel's bottom band: a different basket, offered where the
+   buyer has just finished totalling this one. */
+.jset {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 22px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .04);
+}
+
+.jset__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.jset__t { font-size: 12.5px; color: rgba(255, 255, 255, .72); }
+
+.jset__price { margin-left: auto; font-size: 12.5px; font-weight: 700; color: #FFFFFF; }
+
+.jset__go {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.jset__go:hover { color: var(--accent-hi); }
+
+.jcells {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.jcell { padding: 14px 12px 15px; background: #FFFFFF; }
+
+.jcell__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.jcell__lbl {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   03. Fitment table
+
+   The verdict gets a cell and so does each piece of evidence. A compatibility
+   claim comes from the supplier's fitment data, never from a text match on a
+   model name — the table is what that data looks like when it is shown rather
+   than summarised.
+   ========================================================================== */
+
+.jfits {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(3, minmax(0, 140px)) auto;
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.jfits__say {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+  background: #FFFFFF;
+}
+
+.jfits__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.jfits__name { font-size: 15.5px; font-weight: 800; letter-spacing: -.022em; }
+
+.jfits__from {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.jfits__cell { padding: 18px 20px; background: #FFFFFF; }
+
+.jfits__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.jfits__k {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.jfits__change {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 22px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.jfits__change:hover { background: var(--line-faint); color: var(--ink); }
+
+
+/* ==========================================================================
+   04. Specification and description
+
+   The caveat is pulled out of the prose onto an accent rule, and the winter
+   tyre is offered one line below it. Burying the limitation and then selling
+   the alternative elsewhere is the thing this page refuses to do.
+   ========================================================================== */
+
+.jtwo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 450px;
+  gap: 26px;
+  align-items: start;
+}
+
+.jchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 14px 0 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.jchip__n { font-size: 10px; font-weight: 800; }
+
+.jchip__t {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.jpara { margin: 16px 0 0; font-size: 16px; line-height: 1.72; color: var(--ink-3); }
+
+.jpull {
+  display: grid;
+  grid-template-columns: 3px minmax(0, 1fr);
+  gap: 18px;
+  margin: 18px 0 0;
+}
+
+.jpull__rule { border-radius: 999px; background: var(--accent); }
+
+.jpull__t { font-size: 17px; font-weight: 600; line-height: 1.7; letter-spacing: -.012em; }
+
+.jfigs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 22px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.jfig { padding: 18px 20px 20px; background: #FFFFFF; }
+
+.jfig__n { font-size: 22px; font-weight: 800; letter-spacing: -.028em; }
+
+.jfig__n--accent { color: var(--accent); }
+
+.jfig__k {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.jfig__note { display: block; margin-top: 3px; font-size: 11.5px; color: var(--ink-4); }
+
+.jwinter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--ink);
+}
+
+.jwinter__t { font-size: 13.5px; color: rgba(255, 255, 255, .72); }
+
+.jwinter__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.jwinter__go:hover { color: var(--accent-hi); }
+
+.jwinter__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* The table stays beside the prose while it is read: the figure a paragraph
+   refers to is one glance away rather than one scroll. */
+.jtable {
+  position: sticky;
+  top: 96px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.jtable__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 22px;
+  background: var(--ink);
+}
+
+.jtable__k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: #FFFFFF;
+}
+
+.jtable__n {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.jrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 22px;
+  background: #FFFFFF;
+}
+
+.jrow + .jrow { border-top: 1px solid var(--line-faint); }
+
+.jrow--alt { background: #FCFCFB; }
+
+.jrow__k {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.jrow__v { font-size: 14px; font-weight: 700; letter-spacing: -.014em; text-align: right; }
+
+.jfoot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.jfoot__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.jfoot__grade {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 7px;
+  background: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+/* The second grade is the one the label marks down, so it is outlined rather
+   than filled: the row says A on accent and C on white without a word. */
+.jfoot__grade--low {
+  border: 1px solid rgba(20, 22, 26, .16);
+  background: #FFFFFF;
+}
+
+.jfoot__db {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.jpdf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--line);
+  background: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.jpdf:hover { background: var(--surface); color: var(--ink); }
+
+.jpdf__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   05. Owner comments
+
+   The critical comment stays and so does the reply under it. Three stars
+   beside sixty-four is what makes the sixty-four believable — the same
+   argument the car pages make by publishing the faults they found.
+   ========================================================================== */
+
+.jchead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+}
+
+.jchead__n { font-size: 22px; font-weight: 800; letter-spacing: -.028em; }
+
+.jchead__score {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.jchead__avg { font-size: 13.5px; font-weight: 700; }
+
+.jchead__inc {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.jfilters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.jfilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.jfilter:hover { border-color: rgba(20, 22, 26, .34); }
+
+.jfilter:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.jfilter--on { border-color: var(--ink); background: var(--ink); font-weight: 700; color: #FFFFFF; }
+
+.jfilter__n {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+}
+
+.jfilter--on .jfilter__n { color: rgba(255, 255, 255, .6); }
+
+.jstack {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.jcom {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: 14px;
+  padding: 22px 24px 20px;
+  background: #FFFFFF;
+}
+
+.jcom + .jcom { border-top: 1px solid var(--line); }
+
+.jcom__av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--image-bed);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.jcom__av { overflow: hidden; }
+
+.jcom__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.jcom__who {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.jcom__name { font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.jcom__badge {
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.jcom__car {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.jcom__stars { display: block; margin-top: 10px; }
+
+.jcom__t { margin: 8px 0 0; font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.jcom__b { margin: 6px 0 0; font-size: 14.5px; line-height: 1.62; color: var(--ink-3); }
+
+.jreply {
+  display: grid;
+  grid-template-columns: 61px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.jreply__who {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: #FFFFFF;
+}
+
+.jreply__t { font-size: 14px; line-height: 1.6; color: var(--ink-3); }
+
+.jcom__acts { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+
+.jact {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.jact--pill {
+  padding: 6px 13px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+}
+
+.jact--pill:hover { border-color: rgba(20, 22, 26, .34); }
+
+.jact:hover { color: var(--ink); }
+
+.jact:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.jcom__when {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.jall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.jall:hover { background: var(--line-faint); color: var(--ink); }
+
+.jall__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.jsay {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 16px 22px;
+  border-radius: 18px;
+  background: var(--ink);
+}
+
+.jsay__who { display: inline-flex; align-items: center; gap: 12px; }
+
+.jsay__av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .1);
+  color: #FFFFFF;
+}
+
+.jsay__k { font-size: 13.5px; color: rgba(255, 255, 255, .72); }
+
+.jsay__in {
+  width: 100%;
+  height: 48px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 13.5px;
+}
+
+.jsay__in::placeholder { color: rgba(255, 255, 255, .42); }
+
+.jsay__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.jsay__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 5px 5px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.jsay__go:hover { background: var(--accent-hi); }
+
+.jsay__go:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.jsay__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+
+/* ==========================================================================
+   06. Responsive
+
+   The prototype is desktop only. The panel stops being sticky before it stops
+   fitting, and the gallery stops stretching before the thumbnails become
+   slivers.
+   ========================================================================== */
+
+@media (max-width: 1240px) {
+  .jshop { grid-template-columns: minmax(0, 1fr); align-items: start; }
+
+  .jbuy { position: static; }
+
+  .jgal { height: auto; }
+
+  .jgal .jhero { aspect-ratio: 3 / 2; height: auto; }
+
+  .jtwo { grid-template-columns: minmax(0, 1fr); }
+
+  .jtable { position: static; }
+}
+
+@media (max-width: 980px) {
+  .jfits { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .jfits__say { grid-column: 1 / -1; }
+
+  .jfits__change { grid-column: 1 / -1; justify-content: center; }
+
+  .jfigs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .jcom { grid-template-columns: 40px minmax(0, 1fr); }
+
+  .jcom__when { grid-column: 2; }
+}
+
+@media (max-width: 760px) {
+  .jgal { grid-template-columns: minmax(0, 1fr); }
+
+  .jthumbs { width: auto; }
+
+  .jthumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .jthumb { aspect-ratio: 16 / 9; height: auto; }
+
+  .jwinter { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  .jwinter__go { margin-left: 0; }
+
+  .jsay { grid-template-columns: minmax(0, 1fr); }
+
+  .jchead { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
+@media (max-width: 430px) {
+  .jpanel { padding: 18px 16px 18px; }
+
+  .jsizes { grid-template-columns: minmax(0, 1fr); }
+
+  .jfits { grid-template-columns: minmax(0, 1fr); }
+
+  .jfigs { grid-template-columns: minmax(0, 1fr); }
+
+  .jcells { grid-template-columns: minmax(0, 1fr); }
+
+  .jset { flex-wrap: wrap; }
+
+  .jset__price { margin-left: 0; }
+
+  .jpull { grid-template-columns: 3px minmax(0, 1fr); gap: 12px; }
+}
+
+
+/* ==========================================================================
+   07. Touch
+   ========================================================================== */
+
+@media (hover: none) {
+  .jsize:hover { border-color: rgba(255, 255, 255, .22); }
+
+  .jsize--on:hover { border-color: #FFFFFF; }
+
+  .jfilter:hover { border-color: rgba(20, 22, 26, .16); }
+
+  .jstepper__btn:hover { background: rgba(255, 255, 255, .08); }
+}

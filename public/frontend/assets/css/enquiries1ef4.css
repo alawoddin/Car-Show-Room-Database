@@ -1,0 +1,739 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Dealer enquiries (dealer-enquiries.html)
+   Only what this page adds. The light header, the page-header block and the
+   shared dots and rule are the inner-page template in style.css; the ink
+   rail is the dashboard chrome in profile.css.
+
+   The answer queue: who to answer next, why them, and enough of the car to
+   answer without leaving the page. Waiting time is the primary fact, so it
+   sits beside every message with a bar and a line naming what the delay
+   costs. Accent marks: the priority numerals, the ring on a waiting
+   buyer's avatar, the strong signal chips, the bar under four hours, the
+   bulk Answer button and the enquiry-to-sale figure. Rust for overdue
+   clocks, breached bars, the average-reply card and the row wash.
+   Prefix eq-.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Labels and section heads
+   02. Status bar
+   03. Filter tabs
+   04. The queue: box, bulk bar, header row
+   05. Row: priority, buyer, question, car, read, action
+   06. SLA bars
+   07. One-tap replies, foot, empty states
+   08. How you are answering
+   09. Saved replies and the three rules
+   10. Responsive
+   11. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Labels and section heads
+   ========================================================================== */
+
+.eqmain { --eq-rust: #8A4A22; --eq-wash: rgba(138, 74, 34, .035); }
+
+.eqsec { display: block; }
+
+.eqk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.eqmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.eqhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.eqhead__main { min-width: 0; }
+
+.eqhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.eqhead__aside { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.eqsep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.eqlink {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.eqlink:hover { color: var(--ink); }
+
+.eqlink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.eqlink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   02. Status bar
+   ========================================================================== */
+
+.eqbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.eqbar__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.eqbar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.eqbar__live .dot { align-self: flex-start; margin-top: 3px; }
+
+.eqbar__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.eqselect {
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.eqselect:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+
+/* ==========================================================================
+   03. Filter tabs
+   ========================================================================== */
+
+.eqtabs { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; }
+
+.eqtab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.eqtab:hover { border-color: var(--ink); }
+
+.eqtab--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.eqtab__n {
+  display: inline-block;
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.eqtab--on .eqtab__n { background: rgba(255, 255, 255, .16); color: #FFFFFF; }
+
+.eqtab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   04. The queue: box, bulk bar, header row
+   ========================================================================== */
+
+.eqbox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.eqbulk {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 13px 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.eqbulk__main { display: inline-flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+
+.eqbulk__t { min-width: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; }
+
+.eqbulk__acts { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.eqbulk__go {
+  height: 38px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.eqbulk__go:hover { filter: brightness(1.08); }
+
+.eqbulk__btn {
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.eqbulk__btn:hover { border-color: #FFFFFF; }
+
+.eqbulk__go:disabled, .eqbulk__btn:disabled { opacity: .4; cursor: default; filter: none; }
+
+.eqbulk__go:focus-visible, .eqbulk__btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.eqth {
+  display: grid;
+  grid-template-columns: minmax(0, 42px) minmax(0, 236px) minmax(0, 1fr) minmax(0, 182px) minmax(0, 158px) minmax(0, 156px);
+  gap: 16px;
+  padding: 12px 22px 12px 25px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.eqth[hidden] { display: none; }
+
+.eqth__do, .eqth__act { text-align: center; }
+
+
+/* ==========================================================================
+   05. Row: priority, buyer, question, car, read, action
+   ========================================================================== */
+
+.eqrows { display: block; }
+
+.eqrow { border-bottom: 1px solid var(--line-10); background: #FFFFFF; }
+
+.eqrow--last { border-bottom: 0; }
+
+/* Waiting rows carry the faintest Rust in the system and an accent edge. */
+.eqrow--urgent { background: var(--eq-wash); }
+
+.eqline {
+  display: grid;
+  grid-template-columns: minmax(0, 42px) minmax(0, 236px) minmax(0, 1fr) minmax(0, 182px) minmax(0, 158px) minmax(0, 156px);
+  align-items: center;
+  gap: 16px;
+  padding: 17px 22px 15px;
+  border-left: 3px solid transparent;
+}
+
+.eqrow--urgent .eqline { border-left-color: var(--accent); }
+
+.eqdo { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+
+.eqdo__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 9px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.eqrow--urgent .eqdo__n { background: var(--ink); font-size: 12px; color: var(--accent); }
+
+.eqpick { display: inline-flex; cursor: pointer; }
+
+.eqtick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.eqtick svg { visibility: hidden; }
+
+.eqcheck:checked + .eqtick { border-color: var(--accent); background: var(--accent); }
+
+.eqcheck:checked + .eqtick svg { visibility: visible; }
+
+.eqcheck:focus-visible + .eqtick { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.eqbuyer { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+.eqava {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.eqrow--urgent .eqava { box-shadow: 0 0 0 2px var(--accent); }
+
+.eqava__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.eqava__mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+}
+
+.eqbuyer__main { min-width: 0; }
+
+.eqbuyer__name { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.eqbuyer__who { display: block; margin-top: 5px; }
+
+.eqsigs { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+
+.eqsig {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+
+.eqsig--strong { background: color-mix(in srgb, var(--accent) 38%, transparent); }
+
+.eqasked { min-width: 0; }
+
+.eqasked__top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.eqintent {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.eqwhen {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.eqwhen--late { color: var(--eq-rust); }
+
+.eqasked__line { display: block; margin-top: 8px; font-size: 13.5px; line-height: 1.55; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   06. SLA bars
+   How much of the day has gone. The widths are the page's own clocks and
+   the generator refuses to build if they drift from the data.
+   ========================================================================== */
+
+.eqsla { display: block; height: 4px; margin-top: 9px; border-radius: 999px; background: rgba(20, 22, 26, .1); }
+
+.eqsla__fill { display: block; height: 4px; border-radius: 999px; background: var(--accent); }
+
+.eqsla--late .eqsla__fill, .eqsla--day .eqsla__fill { background: var(--eq-rust); }
+
+.eqsla--w15 .eqsla__fill { width: 15%; }
+
+.eqsla--w43 .eqsla__fill { width: 43%; }
+
+.eqsla--w100 .eqsla__fill { width: 100%; }
+
+.eqsla__t {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.eqrow--urgent .eqsla__t { color: var(--eq-rust); }
+
+.eqrow--urgent:has(.eqsla--ok) .eqsla__t { color: var(--ink-2); }
+
+.eqcar { display: flex; align-items: center; gap: 11px; min-width: 0; }
+
+.eqcar__ph {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 60px;
+  height: 44px;
+  border: 1px solid var(--line-10);
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.eqcar__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.eqcar__mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+}
+
+.eqcar__main { min-width: 0; }
+
+.eqcar__name { display: block; font-size: 13.5px; font-weight: 700; letter-spacing: -.02em; text-wrap: pretty; }
+
+.eqcar__price { display: block; margin-top: 4px; font-size: 13px; font-weight: 800; letter-spacing: -.022em; }
+
+.eqcar__fact { display: block; margin-top: 4px; }
+
+.eqread { min-width: 0; }
+
+.eqread__t { display: block; font-size: 14px; font-weight: 800; letter-spacing: -.022em; color: var(--ink); }
+
+.eqrow--urgent .eqread__t { color: var(--eq-rust); }
+
+.eqread__p { display: block; margin-top: 6px; font-size: 12px; line-height: 1.45; color: var(--ink-2); text-wrap: pretty; }
+
+.eqdoing { display: flex; flex-direction: column; gap: 8px; }
+
+.eqact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: filter .18s ease, border-color .18s ease;
+}
+
+.eqact--ink { border: 1px solid var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.eqact--ink:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.eqact--out { border: 1px solid rgba(20, 22, 26, .18); background: transparent; color: var(--ink); }
+
+.eqact--out:hover { border-color: var(--ink); color: var(--ink); }
+
+.eqact--done { border: 1px solid transparent; background: var(--surface); color: var(--ink-2); cursor: default; }
+
+.eqgo__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.eqdoing__row { display: flex; align-items: center; justify-content: center; gap: 9px; }
+
+.eqdoing__sep { display: inline-block; width: 1px; height: 11px; background: rgba(20, 22, 26, .2); }
+
+.eqstaff { display: inline-flex; align-items: center; gap: 6px; }
+
+.eqstaff__ava {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.eqstaff__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+
+/* ==========================================================================
+   07. One-tap replies, foot, empty states
+   ========================================================================== */
+
+.eqtaps { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 0; padding: 0 22px 16px 61px; }
+
+.eqtaps__k { flex: none; }
+
+.eqtap {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .16s ease, background .16s ease;
+}
+
+.eqtap:hover { border-color: var(--ink); }
+
+.eqtap--used { border-color: var(--accent); background: var(--accent); }
+
+.eqtap:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.eqfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 16px 22px;
+  background: var(--surface);
+}
+
+.eqfoot__t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.eqfoot__acts { display: inline-flex; align-items: center; gap: 16px; flex: none; }
+
+.eqempty { padding: 34px 24px 36px; text-align: center; }
+
+.eqempty[hidden] { display: none; }
+
+.eqempty__t { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -.024em; }
+
+.eqempty__p { max-width: 520px; margin: 8px auto 14px; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   08. How you are answering
+   ========================================================================== */
+
+.eqmetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.eqmetric { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.eqmetric__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.eqmetric__n--rust { color: var(--eq-rust); }
+
+.eqmetric__n--accent { color: var(--accent-deep); }
+
+.eqmetric__p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   09. Saved replies and the three rules
+   ========================================================================== */
+
+.eqsaved {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.eqcard { display: flex; flex-direction: column; gap: 10px; padding: 18px 20px 20px; background: #FFFFFF; }
+
+.eqcard__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.eqout {
+  align-self: flex-start;
+  margin-top: auto;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.eqout:hover { border-color: var(--ink); }
+
+.eqout:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.eqrules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.eqrule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.eqrule__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.eqrule__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   10. Responsive
+   The rail folds above the content at 1100px (profile.css), but the six
+   columns starve before that, so the row folds at 1240px: the buyer keeps
+   the top line, everything else stacks under it.
+   ========================================================================== */
+
+/* Six columns need the design's 1656px: the five fixed tracks and their
+   gutters take 901px, so below this the question column — the one holding
+   a quote, a clock and a bar — starves. The row folds instead, and the
+   rail stays beside it until profile.css moves it at 1100px. */
+@media (max-width: 1560px) {
+  .eqth { display: none; }
+
+  .eqline { grid-template-columns: minmax(0, 38px) minmax(0, 1fr); gap: 12px 14px; }
+
+  .eqasked, .eqcar, .eqread, .eqdoing { grid-column: 2; }
+
+  .eqdoing { flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; }
+
+  .eqtaps { padding-left: 52px; }
+}
+
+@media (max-width: 900px) {
+  .eqmetrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .eqsaved, .eqrules { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .eqsep { display: none; }
+}
+
+@media (max-width: 640px) {
+  .eqbar, .eqbulk, .eqfoot, .eqline { padding-left: 18px; padding-right: 18px; }
+
+  .eqbar__ctl { width: 100%; }
+
+  .eqselect { flex: 1 1 150px; min-width: 0; }
+
+  .eqmetrics { grid-template-columns: minmax(0, 1fr); }
+
+  .eqmetric, .eqcard, .eqrule { padding-left: 18px; padding-right: 18px; }
+
+  .eqtaps { padding: 0 18px 16px 48px; }
+
+  .eqfoot__acts { flex-wrap: wrap; gap: 12px 16px; }
+}
+
+@media (max-width: 430px) {
+  .eqline { grid-template-columns: minmax(0, 30px) minmax(0, 1fr); gap: 10px; }
+
+  .eqdo__n { width: 22px; height: 22px; }
+
+  .eqdoing { flex-wrap: wrap; gap: 10px 16px; }
+
+  .eqbuyer { flex-wrap: wrap; }
+
+  .eqtaps { padding-left: 18px; }
+}
+
+
+/* ==========================================================================
+   11. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .eqact--ink:hover, .eqbulk__go:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eqtab, .eqtick, .eqact, .eqlink, .eqtap, .eqout, .eqbulk__go, .eqbulk__btn, .eqselect { transition: none; }
+
+  .eqbar .pulse, .eqbulk .pulse { animation: none; }
+}

@@ -1,0 +1,1374 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Shop single v1
+   Only what this page adds. The light header, the page-header block and the
+   shared buttons, chips and dots are the inner-page template and live in
+   style.css.
+
+   The product page for one part. It carries the argument the car pages make —
+   say the awkward thing out loud — into a shop: the description states that
+   this tyre is noisier than a touring tyre and wrong below seven degrees, and
+   the figure tile behind it prints the seven.
+
+   THE BUY PANEL IS THE PAGE. Everything else answers a question it raises:
+   the fitment line answers "does it fit mine", the specification answers "on
+   what evidence", the accent panel answers "who puts it on", the reviews
+   answer "who else", and the alternatives answer "what if not this one".
+
+   The rhythm carries the grouping: 16px from the gallery to the fitment line,
+   because the line is the gallery's caption, and 40px wherever a new question
+   starts. No hairlines between blocks.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Rhythm
+   02. Gallery
+   03. Buy panel
+   04. Fitment line
+   05. Specification and description
+   06. Fitting
+   07. Reviews and questions
+   08. Delivery and returns
+   09. Alternatives
+   10. Responsive
+   11. Touch
+   12. Reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Rhythm
+   ========================================================================== */
+
+.ygap { height: 40px; }
+
+/* The fitment line is the gallery's caption, not the next section. */
+.ygap--near { height: 16px; }
+
+.ysec { padding: 0 40px; }
+
+
+/* ==========================================================================
+   02. Gallery
+
+   The hero has no aspect-ratio of its own: it takes the height the thumbnail
+   column sets, so the two always end level. An aspect-ratio on a stretched
+   hero resolves against a definite height and renders square — the trap the
+   Single v4 handoff documents.
+
+   With one photograph there is no column to set the height, so the hero falls
+   back to the 4:3 its source is shot at. The rail returns the moment a second
+   angle lands.
+   ========================================================================== */
+
+.yshop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 26px;
+  align-items: start;
+}
+
+.ygal {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.yhero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* Absolute, or the picture's own proportions set the hero's height and the
+   rail beside it stops being what decides the geometry. */
+.yhero__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yhero__chip {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.yhero__count {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .78);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: #FFFFFF;
+}
+
+.ythumbs {
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ythumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 2px solid rgba(20, 22, 26, .14);
+  border-radius: 10px;
+  background: var(--image-bed);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ythumb--on { border-color: var(--ink); }
+
+.ythumb:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Absolute for the same reason as the hero's: a thumbnail image left in flow
+   sizes its own row and the rail stops dividing the height it was given. */
+.ythumb__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* A slot with no photograph yet says which angle belongs in it rather than
+   sitting blank — the six the handoff names, in its order. It is not a
+   button you can press, because there is nothing behind it. */
+.ythumb--empty { cursor: default; }
+
+/* Absolute, like the photograph it stands in for: an empty slot that took its
+   height from its own caption would push the rail past the hero and take the
+   geometry over. */
+.yslot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px;
+  color: var(--ink-4);
+}
+
+.yslot__cap {
+  font-family: var(--mono);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   03. Buy panel
+
+   Sticky, and the only sticky thing on the page: a buyer scrolling the
+   specification is still deciding, and the price and the button are what they
+   are deciding about.
+   ========================================================================== */
+
+.ybuy {
+  position: sticky;
+  top: 96px;
+  display: grid;
+  gap: 12px;
+}
+
+.ypanel {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.ypanel__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 22px;
+  background: var(--ink);
+}
+
+.ypanel__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: #FFFFFF;
+}
+
+.ypanel__sku {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.ypanel__body { padding: 24px 22px 22px; }
+
+.yprice {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.yprice__now {
+  font-size: clamp(30px, 2.4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -.038em;
+  line-height: 1;
+}
+
+.yprice__unit { font-size: 13.5px; color: var(--ink-2); }
+
+.yfour {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.yfour__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.yfour__fit { font-size: 12.5px; color: var(--ink-2); }
+
+.ysize {
+  margin: 18px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.ysize__head {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.ysize__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* The axle rides inside the button. It is what stops a buyer ordering four of
+   the wrong size — the two differ by one digit and by which end of the car
+   they go on. */
+.ysize__opt {
+  display: grid;
+  gap: 2px;
+  padding: 9px 12px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 11px;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ysize__opt:hover { border-color: rgba(20, 22, 26, .38); }
+
+.ysize__opt:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ysize__opt--on { border-color: var(--ink); background: var(--ink); }
+
+.ysize__mm {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.ysize__opt--on .ysize__mm { font-weight: 700; color: #FFFFFF; }
+
+.ysize__axle {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.ysize__opt--on .ysize__axle { color: rgba(255, 255, 255, .55); }
+
+.ycart {
+  display: grid;
+  grid-template-columns: minmax(0, 132px) minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.yqty {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 34px;
+  align-items: center;
+  padding: 7px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+}
+
+.yqty__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.yqty__btn:hover { background: rgba(20, 22, 26, .08); }
+
+.yqty__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.yqty__n {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.yadd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 8px 0 18px;
+  height: 50px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ink);
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.yadd:hover { background: #22262C; }
+
+.yadd:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.yadd__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.yfit {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 13px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.yfit__in {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.yfit__track {
+  display: block;
+  position: relative;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 23px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.yfit__knob {
+  position: absolute;
+  top: 3px;
+  left: 20px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--ink);
+  transition: left .16s ease;
+}
+
+.yfit__in:not(:checked) + .yfit__track { background: rgba(20, 22, 26, .18); }
+
+.yfit__in:not(:checked) + .yfit__track .yfit__knob { left: 3px; }
+
+.yfit__in:focus-visible + .yfit__track { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.yfit__lbl { font-size: 14px; font-weight: 700; letter-spacing: -.018em; }
+
+.yfit__sub { display: block; margin-top: 2px; font-size: 12.5px; color: var(--ink-2); }
+
+.yfree {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.yfree__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--ink);
+}
+
+.ycells {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border-top: 1px solid var(--line);
+}
+
+.ycell {
+  padding: 12px 14px;
+  background: #FFFFFF;
+  text-align: center;
+}
+
+.ycell__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.ycell__lbl {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ynote {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 18px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.ynote__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   04. Fitment line
+
+   One line instead of a fitment section, and it states the evidence rather
+   than the verdict: the year, the generation, the axle and the size as fitted
+   from the factory. A compatibility claim without its evidence is marketing.
+   ========================================================================== */
+
+.yfits {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 26px;
+  border-radius: 18px;
+  background: var(--ink);
+}
+
+.yfits__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.yfits__name {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #FFFFFF;
+}
+
+.yfits__why {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, .62);
+}
+
+.yfits__change {
+  margin-left: auto;
+  flex: 0 0 auto;
+  padding: 9px 17px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.yfits__change:hover { border-color: #FFFFFF; color: #FFFFFF; }
+
+
+/* ==========================================================================
+   05. Specification and description
+   ========================================================================== */
+
+.ytwo {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.yhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.yhead__k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.yh2 {
+  margin: 6px 0 0;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.1;
+}
+
+.yspec {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 30px;
+}
+
+.yspec__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line-10);
+}
+
+.yspec__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.yspec__v { font-size: 14.5px; font-weight: 700; letter-spacing: -.014em; text-align: right; }
+
+.yhomo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.yhomo__tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+
+.yhomo__t { font-size: 13.5px; line-height: 1.55; color: var(--ink-3); }
+
+.ywhy { font-size: 15.5px; line-height: 1.75; color: var(--ink-3); }
+
+.ywhy + .ywhy { margin-top: 14px; }
+
+.yfig {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 20px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 16px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.yfig__cell { padding: 18px 20px; background: #FFFFFF; }
+
+.yfig__n { font-size: 20px; font-weight: 800; letter-spacing: -.026em; }
+
+.yfig__n--accent { color: var(--accent); }
+
+.yfig__lbl {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   06. Fitting
+
+   Ink on accent needs more weight than ink on white at the same size, so the
+   labels in this panel sit at .78 rather than the catalogue grey.
+   ========================================================================== */
+
+.yfitting {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 32px 32px;
+  border-radius: 24px;
+  background: var(--accent);
+}
+
+.yfitting__word {
+  position: absolute;
+  z-index: 0;
+  right: 26px;
+  top: 4px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 150px;
+  line-height: .8;
+  letter-spacing: -.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(20, 22, 26, .16);
+  pointer-events: none;
+  user-select: none;
+}
+
+.yfitting__in { position: relative; z-index: 1; }
+
+.yfitting__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(20, 22, 26, .28);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink);
+}
+
+.yfitting__h {
+  margin: 14px 0 0;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.12;
+}
+
+.yfitting__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  margin-top: 10px;
+}
+
+.yfitting__t {
+  max-width: 720px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(20, 22, 26, .76);
+}
+
+.yfitting__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  padding: 6px 6px 6px 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.yfitting__cta:hover { background: #22262C; color: #FFFFFF; }
+
+.yfitting__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.yfitting__cells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 24px;
+  border-radius: 16px;
+  background: rgba(20, 22, 26, .18);
+  overflow: hidden;
+}
+
+.yfitting__cell { padding: 18px 20px; background: var(--accent); }
+
+.yfitting__n { font-size: 19px; font-weight: 800; letter-spacing: -.024em; color: var(--ink); }
+
+.yfitting__lbl {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(20, 22, 26, .78);
+}
+
+
+/* ==========================================================================
+   07. Reviews and questions
+
+   The star row is drawn from the score rather than typed, which is how the
+   prototype came to show five full stars over a stated 4.8 and a whole star
+   out beside a review that says half a star off.
+   ========================================================================== */
+
+.yscore {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+}
+
+.yscore__n { font-size: 30px; font-weight: 800; letter-spacing: -.03em; color: var(--accent); }
+
+.yscore__of {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ystars { display: inline-flex; gap: 3px; }
+
+.yrevs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.yrev {
+  padding: 22px 24px 24px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+.yrev--first { border-color: var(--ink); }
+
+.yrev__top { display: flex; align-items: center; gap: 12px; }
+
+.yrev__av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--image-bed);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.yrev__who { font-size: 14px; font-weight: 700; letter-spacing: -.014em; }
+
+.yrev__car {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.yrev__av { overflow: hidden; }
+
+.yrev__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.yrev__stars { margin-left: auto; }
+
+.yrev__t { margin: 14px 0 0; font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.yrev__b { margin: 7px 0 0; font-size: 14px; line-height: 1.6; color: var(--ink-3); }
+
+.yqa {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 26px;
+  margin-top: 26px;
+}
+
+.yqa__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.yqa__in {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ythread {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 13px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+
+/* The answer keeps its own rule: in the prototype every row in the thread has
+   one, and the indent alone is what says which is which. */
+.ythread--answer { padding-left: 52px; }
+
+.ythread__av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--image-bed);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ythread__av { overflow: hidden; }
+
+.ythread__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.ythread__who {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.ythread__name { font-size: 14.5px; font-weight: 700; letter-spacing: -.016em; }
+
+.ythread__badge {
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.ythread__when {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ythread__t { margin: 7px 0 0; font-size: 14.5px; line-height: 1.6; color: var(--ink-3); }
+
+.yask {
+  align-self: start;
+  padding: 24px 26px 26px;
+  border-radius: 20px;
+  background: var(--ink);
+}
+
+.yask__h { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.02em; color: #FFFFFF; }
+
+.yask__sub { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: rgba(255, 255, 255, .6); }
+
+.yask__area,
+.yask__in {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 13.5px;
+}
+
+.yask__area {
+  margin-top: 16px;
+  min-height: 93px;
+  border-radius: 12px;
+  resize: vertical;
+}
+
+.yask__in { border-radius: 10px; }
+
+.yask__area::placeholder,
+.yask__in::placeholder { color: rgba(255, 255, 255, .42); }
+
+.yask__area:focus-visible,
+.yask__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.yask__pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.yask__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 5px 5px 5px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.yask__go:hover { background: var(--surface); }
+
+.yask__go:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.yask__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+
+/* ==========================================================================
+   08. Delivery and returns
+   ========================================================================== */
+
+.ydel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.ydel__cell { padding: 24px 26px 26px; background: #FFFFFF; }
+
+.ydel__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.ydel__icon--accent { background: var(--accent); }
+
+.ydel__n { font-size: 22px; font-weight: 800; letter-spacing: -.028em; }
+
+.ydel__lbl {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.ydel__t { margin: 10px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   09. Alternatives
+
+   One card per photograph, and the front-axle size is the single exception:
+   it is the same tyre, and the label says which end of the car it goes on.
+   The last card is the set, which is an offer rather than a product, so it
+   carries a panel instead of a photograph.
+   ========================================================================== */
+
+.yalts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.yalt {
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+/* The card lifts five pixels, takes the ink border and drops a shadow — the
+   design's own hover, and the only motion on the row. */
+.yalt:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+  color: var(--ink);
+}
+
+.yalt:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* The other size is the card a buyer on this page is most likely to want —
+   they have two axles and this page covers one — so it wears the ink border
+   the way the first review card does. */
+.yalt--pick { border-color: var(--ink); }
+
+/* Every one of these is a span inside an <a>, and a span with padding or a
+   ratio stays inline until it is told otherwise: the frame ignored its 4:3
+   and the brand line ran into the name. */
+.yalt__frame {
+  display: block;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--image-bed);
+}
+
+.yalt__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.yalt__chip {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+/* The set is priced, not photographed. */
+.yalt__offer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: var(--ink);
+}
+
+.yalt__save {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  color: var(--accent);
+}
+
+.yalt__body { display: block; padding: 16px 18px 18px; }
+
+.yalt__brand {
+  display: block;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.yalt__name {
+  display: block;
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+.yalt__stock {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.yalt__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-10);
+}
+
+.yalt__price { font-size: 18px; font-weight: 800; letter-spacing: -.026em; }
+
+.yalt__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   10. Responsive
+
+   The prototype is desktop only. The panel stops being sticky before it stops
+   fitting: a sticky element taller than the viewport traps the page.
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .yshop { grid-template-columns: minmax(0, 1fr); }
+
+  .ybuy { position: static; }
+
+  .yqa { grid-template-columns: minmax(0, 1fr); }
+
+  .yalts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 980px) {
+  .ytwo { grid-template-columns: minmax(0, 1fr); }
+
+  .yrevs { grid-template-columns: minmax(0, 1fr); }
+
+  .ydel { grid-template-columns: minmax(0, 1fr); }
+
+  .yfitting__cells { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .yfitting__row { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 760px) {
+  .ysec { padding: 0 20px; }
+
+  .ygal { grid-template-columns: minmax(0, 1fr); }
+
+  /* The rail goes under the hero as a grid rather than a row: six thumbnails
+     laid out in a line need 568px and the page is 320 wide. */
+  .ythumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .ygal .yhero { aspect-ratio: 3 / 2; height: auto; }
+
+  .yspec { grid-template-columns: minmax(0, 1fr); }
+
+  .yalts { grid-template-columns: minmax(0, 1fr); }
+
+  .yfitting { padding: 24px 20px 22px; }
+
+  .yfitting__word { display: none; }
+
+  .yfitting__h { font-size: 26px; }
+
+  .yh2 { font-size: 28px; }
+
+  .yfits { flex-wrap: wrap; gap: 12px; padding: 16px 18px; }
+
+  .yfits__change { margin-left: 0; }
+}
+
+@media (max-width: 430px) {
+  .ysec { padding: 0 16px; }
+
+  .ypanel__body { padding: 20px 16px 18px; }
+
+  .ypanel__top { padding: 12px 16px; }
+
+  .ysize__row { grid-template-columns: minmax(0, 1fr); }
+
+  .ycart { grid-template-columns: minmax(0, 1fr); }
+
+  .yfitting__cells { grid-template-columns: minmax(0, 1fr); }
+
+  .yfig { grid-template-columns: minmax(0, 1fr); }
+
+  .yhead { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+  .yask__pair { grid-template-columns: minmax(0, 1fr); }
+
+  .ythread--answer { padding-left: 24px; }
+}
+
+
+/* ==========================================================================
+   11. Touch
+
+   :hover sticks on a touch screen, so the hover states are handed to pointers
+   that can actually hover.
+   ========================================================================== */
+
+@media (hover: none) {
+  .ysize__opt:hover { border-color: rgba(20, 22, 26, .14); }
+
+  /* No lift on a touch screen: :hover sticks there and the card would stay
+     raised after the finger has gone. */
+  .yalt:hover {
+    transform: none;
+    border-color: var(--line);
+    box-shadow: none;
+  }
+
+  .yalt--pick:hover { border-color: var(--ink); }
+
+  .yqty__btn:hover { background: var(--surface); }
+}
+
+
+/* ==========================================================================
+   12. Reduced motion
+
+   A visitor who has asked their system for less movement gets the border and
+   the shadow but not the lift.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .yalt { transition: border-color .2s ease, box-shadow .2s ease; }
+
+  .yalt:hover { transform: none; }
+}

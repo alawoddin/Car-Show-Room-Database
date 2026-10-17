@@ -1,0 +1,468 @@
+/* ==========================================================================
+   AVAVA — Dealer settings (dealer-settings.html)
+   Prefix dst. Every setting with the consequence of changing it.
+
+   1. Shared atoms
+   2. Status bar and the confirmation strip
+   3. Your account
+   4. Switches and sessions
+   5. The notification matrix
+   6. Leaving, figures and rules
+   7. Narrow screens
+   ========================================================================== */
+
+/* -----------------------------------------------------------------
+   1. Shared atoms
+   ----------------------------------------------------------------- */
+.dstmain { --dst-rust: #8A4A22; }
+
+.dstsec { display: block; min-width: 0; }
+
+.dstk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.dstk--center { text-align: center; }
+
+.dstmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.dstsep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.dsthead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.dsthead__main { min-width: 0; }
+
+.dsthead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; text-wrap: pretty; }
+
+.dstlink {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+}
+
+.dstlink:hover { color: var(--ink); }
+
+.dstlink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.dstlink--rust { font-weight: 700; letter-spacing: .1em; color: var(--dst-rust); }
+
+.dstlink--rust:hover { color: var(--dst-rust); }
+
+.dstlink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.dstcard { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; background: #FFFFFF; }
+
+.dstfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  background: var(--surface);
+}
+
+.dstfoot--line { border-top: 1px solid rgba(20, 22, 26, .12); }
+
+.dstfoot__t { min-width: 0; margin: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.dstfoot__t--rust { color: var(--dst-rust); }
+
+.dstdisc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* -----------------------------------------------------------------
+   2. Status bar and the confirmation strip
+   ----------------------------------------------------------------- */
+.dstbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.dstbar__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; min-width: 0; }
+
+.dstbar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.dstbar__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.dstgo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 10px 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.dstgo:hover { filter: brightness(1.14); }
+
+.dstgo:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.dstdone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 17px 22px;
+  border: 1px solid var(--accent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.dstdone[hidden] { display: none; }
+
+.dstdone--rust { border-color: var(--dst-rust); background: rgba(138, 74, 34, .1); }
+
+.dstdone__main { display: inline-flex; align-items: center; gap: 13px; min-width: 0; }
+
+.dstdone__tile {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.dstdone--rust .dstdone__tile { color: #FFFFFF; background: var(--dst-rust); }
+
+.dstdone__t { display: block; font-size: 15.5px; font-weight: 800; letter-spacing: -.022em; }
+
+.dstdone__s { display: block; margin-top: 6px; }
+
+.dstx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.dstx:hover { border-color: var(--ink); }
+
+.dstx:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* -----------------------------------------------------------------
+   3. Your account
+   ----------------------------------------------------------------- */
+.dstfields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 24px 26px; }
+
+.dstfield { display: block; min-width: 0; }
+
+.dstfield__k { display: block; margin-bottom: 8px; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.dstin {
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font-family: var(--font);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dstin--select { padding-right: 34px; appearance: none; -webkit-appearance: none; cursor: pointer;
+  background: #FFFFFF url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%2314161A' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5'/%3E%3C/svg%3E") no-repeat right 14px center; }
+
+.dstin:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+.dstfield__note { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+/* -----------------------------------------------------------------
+   4. Switches and sessions
+   ----------------------------------------------------------------- */
+.dstrows { display: flex; flex-direction: column; gap: 1px; background: rgba(20, 22, 26, .12); }
+
+.dstrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: start;
+  padding: 16px 20px;
+  background: #FFFFFF;
+}
+
+.dstrow__t { display: block; font-size: 14.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.dstrow__s { display: block; margin-top: 6px; font-size: 12.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+.dstsw {
+  flex: none;
+  position: relative;
+  width: 50px;
+  height: 28px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 999px;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.dstsw__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(20, 22, 26, .28);
+  transition: left .18s ease, background .18s ease;
+}
+
+.dstsw[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); }
+
+.dstsw[aria-pressed="true"] .dstsw__knob { left: 25px; background: var(--accent); }
+
+.dstsw:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.dstsession {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 178px) minmax(0, 128px);
+  gap: 16px;
+  align-items: center;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.dstsession--head { padding: 12px 24px; background: var(--surface); border-bottom-color: rgba(20, 22, 26, .12); }
+
+.dstsession--stale { background: rgba(138, 74, 34, .035); }
+
+.dstsession__row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.dstsession__t { font-size: 14px; font-weight: 700; letter-spacing: -.02em; }
+
+.dstsession__where { display: block; margin-top: 5px; }
+
+.dstsession__when { font-size: 13px; color: var(--ink-2); }
+
+.dstsession__when--rust { color: var(--dst-rust); }
+
+.dstsession__do { display: flex; justify-content: flex-end; }
+
+.dstnow { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.dstpill {
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.dstout {
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.dstout:hover { border-color: var(--ink); }
+
+.dstout--rust { border-color: var(--dst-rust); color: var(--dst-rust); }
+
+.dstout--big { height: 38px; padding: 0 16px; font-size: 12.5px; }
+
+.dstout:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* -----------------------------------------------------------------
+   5. The notification matrix
+   ----------------------------------------------------------------- */
+.dstmatrix, .dstmatrix--head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(3, minmax(0, 74px));
+  gap: 16px;
+  align-items: center;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.dstmatrix--head { padding: 12px 24px; background: var(--surface); border-bottom-color: rgba(20, 22, 26, .12); }
+
+.dstevent { min-width: 0; }
+
+.dstevent__t { display: block; font-size: 14px; font-weight: 700; letter-spacing: -.02em; }
+
+.dstevent__s { display: block; margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.dstcellwrap { display: flex; justify-content: center; }
+
+.dstcell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.dstcell svg { opacity: 0; }
+
+.dstcell[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); }
+
+.dstcell[aria-pressed="true"] svg { opacity: 1; }
+
+.dstcell:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.dstlock {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+/* -----------------------------------------------------------------
+   6. Leaving, figures and rules
+   ----------------------------------------------------------------- */
+.dstgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.dstgrid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.dstgrid--flat { border: 0; border-radius: 0; }
+
+.dstcost { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.dstcost__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.dstcost__n--accent { color: var(--accent-deep); }
+
+.dstcost__n--rust { color: var(--dst-rust); }
+
+.dstcost__note { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.dstleave { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.dstleave__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.dstleave__p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.dstleave__link { margin-top: 2px; align-self: flex-start; }
+
+.dstrule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.dstrule__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.dstrule__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+/* -----------------------------------------------------------------
+   7. Narrow screens
+   ----------------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .dstgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .dstsession, .dstsession--head { grid-template-columns: minmax(0, 1fr) minmax(0, 120px); }
+
+  .dstsession__do { grid-column: 1 / -1; justify-content: flex-start; }
+
+  .dstsession--head .dstk:nth-child(3) { display: none; }
+}
+
+@media (max-width: 700px) {
+  .dstgrid, .dstgrid--three { grid-template-columns: minmax(0, 1fr); }
+
+  .dstfields { grid-template-columns: minmax(0, 1fr); }
+
+  .dstbar, .dstrow, .dstfields, .dstfoot, .dstsession, .dstsession--head, .dstmatrix, .dstmatrix--head {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .dstbar__ctl { width: 100%; }
+
+  .dstgo { flex: 1 1 auto; justify-content: center; }
+
+  .dstmatrix, .dstmatrix--head { grid-template-columns: minmax(0, 1fr) repeat(3, minmax(0, 40px)); gap: 10px; }
+}
+
+@media (max-width: 430px) {
+  .dsthead { gap: 12px; }
+
+  .dstrow { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+  .dstmatrix, .dstmatrix--head { grid-template-columns: minmax(0, 1fr) repeat(3, minmax(0, 30px)); gap: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dstgo, .dstsw, .dstsw__knob, .dstcell, .dstout, .dstx, .dstin { transition: none; }
+
+  .dstgo:hover { filter: none; }
+}

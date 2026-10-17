@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Alpine Motors">
+  <rect width="512" height="512" fill="#1F4034"/>
+  <path d="M256 118L400 386H112L256 118z" fill="none" stroke="#F1EEE7" stroke-width="42" stroke-linejoin="round"/>
+  <path d="M256 118l58 108-58 40-58-40 58-108z" fill="#8FBF6B"/>
+</svg>

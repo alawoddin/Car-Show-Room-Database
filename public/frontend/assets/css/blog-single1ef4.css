@@ -1,0 +1,1086 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Blog post
+   Only what this page adds. The light header, the page-header block and the
+   shared dots, pulse and rule are the inner-page template and live in
+   style.css.
+
+   Two columns for the whole length of the page: the piece on the left, a
+   sticky rail on the right (contents, the car the piece is about, the
+   newsletter). Below the article a comment thread with author replies and a
+   composer; below that, three more pieces.
+
+   The reading contract: body 17px on 1.78 with 18px between paragraphs. It
+   is not tightened to fit more above the fold.
+
+   Accent marks: the highlighted figure, the aside's ! tile, the pull-quote
+   rule, the principle ticks, the active contents row, the TWO FAULTS chip,
+   the promo price, the AVAVA reply tags and the Post-comment pill. Three
+   dark surfaces — the aside, the author replies, the composer — plus the
+   promo card.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Layout
+   02. Byline and hero
+   03. Prose
+   04. Editorial devices: figures, aside, quote, principles
+   05. Foot of the article: tags, author
+   06. Rail: contents, the car, the newsletter
+   07. Comments
+   08. More from the journal
+   09. Responsive
+   10. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Layout
+   ========================================================================== */
+
+.posec { padding: 0 40px; }
+
+/* The title is one line in the design; it may break only where the page
+   header itself stacks. */
+.potitle { white-space: nowrap; }
+
+.pogap { height: 40px; }
+
+.pogrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+  gap: 34px;
+  align-items: start;
+}
+
+.poart { min-width: 0; }
+
+.porail {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.poside { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+.poava {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.poava--52 { width: 52px; height: 52px; }
+
+.poava--42 { width: 42px; height: 42px; }
+
+.poava--dark { background: rgba(255, 255, 255, .1); }
+
+.poava__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The ink pill with an accent disc, and its accent twin. */
+.popill {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 12px 12px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.popill:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.popill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.popill__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.popill--accent { background: var(--accent); font-weight: 700; color: var(--ink); }
+
+.popill--accent:hover { filter: brightness(1.08); color: var(--ink); }
+
+.popill--accent .popill__disc { background: var(--ink); color: var(--accent); }
+
+.popill--wide { display: flex; justify-content: space-between; gap: 10px; width: 100%; font-size: 14px; }
+
+.popill--head { gap: 12px; padding: 13px 13px 13px 22px; font-size: 14.5px; }
+
+.popill--head .popill__disc { width: 30px; height: 30px; }
+
+.popill--post { gap: 11px; padding: 13px 13px 13px 22px; font-size: 14.5px; }
+
+
+/* ==========================================================================
+   02. Byline and hero
+   ========================================================================== */
+
+.pobyline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pobyline__who { display: flex; align-items: center; gap: 13px; }
+
+.pobyline__main { min-width: 0; }
+
+.pobyline__name { display: block; font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.pobyline__role {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.pobyline__end { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+.pobyline__meta {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.poacts { display: flex; gap: 7px; }
+
+.poact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.poact:hover { border-color: var(--ink); background: var(--surface); }
+
+.poact:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ponote {
+  margin: 10px 0 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.pohero {
+  position: relative;
+  margin: 18px 0 0;
+  aspect-ratio: 21 / 9;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.pohero__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pohero__cap {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .78);
+  backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: #FFFFFF;
+}
+
+.polede {
+  margin: 32px 0 22px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.62;
+  letter-spacing: -.018em;
+  text-wrap: pretty;
+}
+
+
+/* ==========================================================================
+   03. Prose
+   ========================================================================== */
+
+.poh2 {
+  margin: 34px 0 16px;
+  scroll-margin-top: 100px;
+  font-size: clamp(21px, 1.8vw, 27px);
+  font-weight: 800;
+  letter-spacing: -.028em;
+  line-height: 1.24;
+}
+
+.pop { margin: 0 0 18px; font-size: 17px; line-height: 1.78; color: var(--ink); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   04. Editorial devices
+   ========================================================================== */
+
+.pofigs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 26px 0 30px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.pofig { padding: 20px 22px 22px; background: #FFFFFF; }
+
+.pofig__n { display: block; font-size: 26px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.pofig__n--accent { color: var(--accent); }
+
+.pofig__k {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pofig__s { display: block; margin-top: 5px; font-size: 12.5px; color: var(--ink-2); }
+
+.poaside {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  margin: 26px 0 30px;
+  padding: 22px 24px;
+  border-radius: 18px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.poaside__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: start;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.poaside__t { margin: 0; font-size: 16px; line-height: 1.7; text-wrap: pretty; }
+
+.poquote {
+  margin: 26px 0 30px;
+  padding: 24px 26px 24px 28px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 18px 18px 0;
+  background: var(--surface);
+}
+
+.poquote__t { margin: 0; font-size: 19px; font-weight: 700; line-height: 1.6; letter-spacing: -.022em; text-wrap: pretty; }
+
+.poquote__by {
+  display: block;
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.poprin { display: flex; flex-direction: column; gap: 12px; margin: 26px 0 30px; }
+
+.poprin__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 13px;
+  padding: 15px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.poprin__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.poprin__main { min-width: 0; }
+
+.poprin__k { display: block; font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.poprin__t { display: block; margin-top: 5px; font-size: 14px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   05. Foot of the article
+   ========================================================================== */
+
+.potags {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 34px 0 0;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.potags__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.potag {
+  padding: 7px 13px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: border-color .18s ease;
+}
+
+.potag:hover { border-color: var(--ink); color: var(--ink); }
+
+.potag--on { border-color: var(--ink); background: var(--ink); font-weight: 700; color: #FFFFFF; }
+
+.potag--on:hover { color: #FFFFFF; }
+
+.poauthor {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-top: 20px;
+  padding: 22px 24px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.poauthor__main { min-width: 0; }
+
+.poauthor__name { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.poauthor__bio { margin: 5px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   06. Rail: contents, the car, the newsletter
+   ========================================================================== */
+
+.pobox {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+/* A label alone in a block head sits in the page's line box, as in the
+   design: the head is 19px tall, the label its own 13px. */
+.pobox__head { padding: 16px 20px; border-bottom: 1px solid var(--line); line-height: 19px; }
+
+.pobox__k {
+  display: inline;
+  margin: 0;
+  line-height: normal;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.pok {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+/* The active row follows the reader: the script moves it with the scroll. */
+.potoc {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: start;
+  gap: 11px;
+  padding: 12px 20px;
+  border-left: 2px solid transparent;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+.potoc + .potoc { border-top: 1px solid var(--line-10); }
+
+.potoc:hover { background: var(--surface); color: var(--ink); }
+
+.potoc--on { border-left-color: var(--accent); background: var(--surface); }
+
+.potoc__n { padding-top: 3px; font-family: var(--mono); font-size: 9.5px; font-weight: 700; color: var(--ink-4); }
+
+.potoc--on .potoc__n { color: var(--accent); }
+
+.potoc__t { min-width: 0; font-size: 13.5px; font-weight: 500; letter-spacing: -.018em; line-height: 1.45; text-wrap: pretty; }
+
+.potoc--on .potoc__t { font-weight: 700; }
+
+.pocar {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.pocar__photo { position: relative; display: block; aspect-ratio: 4 / 3; background: var(--image-bed); }
+
+.pocar__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pocar__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .1) 0%, rgba(20, 22, 26, 0) 40%, rgba(20, 22, 26, .92) 100%);
+  pointer-events: none;
+}
+
+.pocar__chip {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.pocar__cap { position: absolute; left: 16px; right: 16px; bottom: 14px; }
+
+.pocar__k {
+  display: block;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .72);
+}
+
+.pocar__model { display: block; margin-top: 5px; font-size: 17px; font-weight: 800; letter-spacing: -.024em; }
+
+.pocar__body { padding: 16px 20px 18px; }
+
+.pocar__row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 0 14px; }
+
+.pocar__price { font-size: 20px; font-weight: 800; letter-spacing: -.03em; color: var(--accent); }
+
+.pocar__meta {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.ponews {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin: 0;
+  padding: 20px 20px 22px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.ponews__t { margin: 0; font-size: 14px; line-height: 1.6; text-wrap: pretty; }
+
+.ponews__in {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color .18s ease;
+}
+
+.ponews__in:focus-visible { outline: 0; border-color: var(--accent); }
+
+.ponews__s {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   07. Comments
+   ========================================================================== */
+
+.pocomments { scroll-margin-top: 100px; }
+
+.pohead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.pohead__h { margin: 12px 0 0; font-size: clamp(24px, 2.2vw, 34px); font-weight: 800; letter-spacing: -.032em; }
+
+.pohead__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.pofilters { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 0 0 16px; }
+
+.pofilter {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.pofilter:hover { border-color: var(--ink); }
+
+.pofilter:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.pofilter--on { border-color: var(--ink); background: var(--ink); font-weight: 700; color: #FFFFFF; }
+
+.pofilter__n { font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--ink-2); }
+
+.pofilter--on .pofilter__n { color: rgba(255, 255, 255, .55); }
+
+.pothreads { display: flex; flex-direction: column; }
+
+.pothread {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 15px;
+  padding: 22px 0;
+}
+
+.pothread + .pothread { border-top: 1px solid var(--line); }
+
+.pothreads__end { height: 0; border-top: 1px solid var(--line); }
+
+.pothread__main { min-width: 0; }
+
+.pothread__row { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.pothread__name { font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.porole {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.powhen { font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: .1em; color: var(--ink-4); }
+
+.pothread__t { margin: 10px 0 0; max-width: 720px; font-size: 15.5px; line-height: 1.7; color: var(--ink-3); text-wrap: pretty; }
+
+.pothread__acts { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+
+.pohelp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .18s ease, color .18s ease;
+}
+
+.pohelp:hover { border-color: var(--ink); color: var(--ink); }
+
+.pohelp:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.pohelp__n { font-variant-numeric: tabular-nums; }
+
+.pohelp--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.pohelp--on:hover { color: #FFFFFF; }
+
+.poreply {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.poreply:hover { color: var(--ink); }
+
+.poreply:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Author replies are the dark blocks: the section working as designed. */
+.poanswer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 13px;
+  margin-top: 16px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.poanswer__tag {
+  align-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.poanswer__main { min-width: 0; }
+
+.poanswer__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.poanswer__name { font-size: 13.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.poanswer__when { font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: .1em; color: rgba(255, 255, 255, .44); }
+
+.poanswer__t { margin: 9px 0 0; font-size: 14.5px; line-height: 1.68; color: rgba(255, 255, 255, .78); text-wrap: pretty; }
+
+.poall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 16px;
+  padding: 15px;
+  border: 1px dashed rgba(20, 22, 26, .28);
+  border-radius: 16px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.poall:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+.poall__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.pocompose {
+  margin: 20px 0 0;
+  padding: 26px 28px 28px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.pocompose__head { display: flex; align-items: flex-start; gap: 15px; }
+
+.pocompose__main { min-width: 0; }
+
+.pocompose__h { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+
+.pocompose__t { margin: 6px 0 0; font-size: 13.5px; line-height: 1.6; color: rgba(255, 255, 255, .6); text-wrap: pretty; }
+
+.pocompose__area {
+  display: block;
+  width: 100%;
+  margin: 18px 0 0;
+  padding: 15px 17px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color .18s ease;
+}
+
+/* 17, not 13: the design's textarea sat on a baseline and left four pixels
+   of descender under itself. */
+.pocompose__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 17px; }
+
+.pocompose__in {
+  display: block;
+  width: 100%;
+  height: 46px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  transition: border-color .18s ease;
+}
+
+.pocompose__area::placeholder,
+.pocompose__in::placeholder { color: rgba(255, 255, 255, .45); }
+
+.pocompose__area:focus-visible,
+.pocompose__in:focus-visible { outline: 0; border-color: var(--accent); }
+
+.pocompose__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.pocheck { position: relative; display: inline-flex; align-items: center; gap: 11px; cursor: pointer; }
+
+.pocheck__in {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pocheck__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  border: 1.5px solid rgba(255, 255, 255, .3);
+  border-radius: 6px;
+  color: var(--ink);
+}
+
+.pocheck__box svg { visibility: hidden; }
+
+.pocheck__in:checked + .pocheck__box { border-color: var(--accent); background: var(--accent); }
+
+.pocheck__in:checked + .pocheck__box svg { visibility: visible; }
+
+.pocheck__in:focus-visible + .pocheck__box { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.pocheck__t { font-size: 13.5px; color: rgba(255, 255, 255, .72); }
+
+.pocompose__note {
+  margin: 14px 0 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .6);
+}
+
+.porules {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px 22px 24px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.porules__row { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: 11px; }
+
+.porules__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.porules__main { min-width: 0; }
+
+.porules__k { display: block; font-size: 13.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.porules__t { display: block; margin-top: 4px; font-size: 12.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   08. More from the journal
+   ========================================================================== */
+
+.pocards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.pocard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .13);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.pocard:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -30px rgba(20, 22, 26, .42);
+  color: var(--ink);
+}
+
+.pocard__media { position: relative; display: block; aspect-ratio: 16 / 9; background: var(--image-bed); }
+
+.pocard__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pocard__chip {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.pocard__body { display: flex; flex-direction: column; flex: 1 1 auto; padding: 18px 20px 20px; }
+
+.pocard__h { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -.024em; line-height: 1.3; text-wrap: pretty; }
+
+.pocard__meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 16px; }
+
+.pocard__by { font-size: 12.5px; font-weight: 700; }
+
+.pocard__date { font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: .1em; color: var(--ink-2); white-space: nowrap; }
+
+
+/* ==========================================================================
+   09. Responsive
+
+   The prototype is desktop only. Below 1100px the rail moves under the
+   article; the comment thread and the three cards fold after it.
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .potitle { white-space: normal; }
+}
+
+@media (max-width: 1100px) {
+  .pogrid { grid-template-columns: minmax(0, 1fr); }
+
+  .porail { position: static; }
+
+  .pocards { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .pofigs { grid-template-columns: minmax(0, 1fr); }
+
+  .poauthor { grid-template-columns: auto minmax(0, 1fr); }
+
+  .poauthor .popill { grid-column: 1 / -1; justify-self: start; }
+
+  .pocompose__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .posec { padding: 0 20px; }
+
+  .pohero { border-radius: 18px; }
+
+  .pohero__cap { left: 12px; bottom: 12px; }
+
+  .polede { font-size: 18px; }
+
+  .pop { font-size: 16px; }
+
+  .pocompose { padding: 20px 18px 20px; }
+
+  .pothread { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; }
+
+  .poava--42 { width: 36px; height: 36px; }
+}
+
+@media (max-width: 430px) {
+  .posec { padding: 0 16px; }
+
+  .pohero { aspect-ratio: 16 / 9; }
+
+  .pobyline__end { width: 100%; justify-content: space-between; }
+
+  .pocompose__foot .popill { width: 100%; justify-content: space-between; }
+}
+
+
+/* ==========================================================================
+   10. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .pocard:hover { transform: none; border-color: rgba(20, 22, 26, .13); box-shadow: none; }
+
+  .popill:hover, .popill--accent:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pocard { transition: border-color .2s ease, box-shadow .2s ease; }
+
+  .pocard:hover { transform: none; }
+
+  .pohead__live .pulse { animation: none; }
+}

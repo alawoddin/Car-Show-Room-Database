@@ -1,0 +1,918 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Blog list
+   Only what this page adds. The light header, the page-header block and the
+   shared dots, pulse and rule are the inner-page template and live in
+   style.css.
+
+   Three columns: categories and reading tools on the left, three long post
+   cards in the middle, promotional stock and shop cards on the right. Both
+   side columns are sticky and scroll with the middle, which is by far the
+   tallest. The right column is advertising and is allowed to be — it is the
+   one place in the system where commerce sits beside editorial — so it is
+   also the first thing to go when the screen narrows.
+
+   Accent marks: the active category's left border, the LATEST chip, the lead
+   card's arrow disc, the ranked 01, the free-check panel, the promo price, the
+   subscribe disc. Two dark surfaces (most read, the car) and the accent panel.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Layout
+   02. Side boxes (categories, archive, who writes, shop)
+   03. Search
+   04. Most read
+   05. Subjects and RSS
+   06. Post cards
+   07. Pagination
+   08. Promotion: the car, the free check, the newsletter
+   09. Responsive
+   10. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Layout
+   ========================================================================== */
+
+.blsec { padding: 0 40px; }
+
+.blgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 264px) minmax(0, 1fr) minmax(0, 300px);
+  gap: 24px;
+  align-items: start;
+}
+
+.blside {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.blmain { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+
+.bldisc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.bldisc--ink { background: var(--ink); color: var(--accent); }
+
+
+/* ==========================================================================
+   02. Side boxes
+   ========================================================================== */
+
+.blbox {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+/* A label alone in a block head sits in the page's line box, as in the
+   design: the head is 19px tall, the label its own 13px. In a flex head the
+   label is its own box. */
+.blbox__head { padding: 16px 20px; border-bottom: 1px solid var(--line); line-height: 19px; }
+
+.blbox__head > .blbox__k { display: inline; line-height: normal; }
+
+.blbox__head--row { line-height: normal; }
+
+.blbox__head--row > .blbox__k { display: block; }
+
+.blbox__head--row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px 20px;
+}
+
+.blbox__k {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.blbox__all {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.blbox__all:hover { color: var(--ink-3); }
+
+/* Categories: the active row takes the accent on its left edge and the
+   surface fill; the others carry a transparent edge so nothing shifts. */
+.blcat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  border-left: 2px solid transparent;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+.blcat:hover { background: var(--surface); color: var(--ink); }
+
+.blcat--on { border-left-color: var(--accent); background: var(--surface); }
+
+.blcat__main { min-width: 0; }
+
+.blcat__k { display: block; font-size: 14.5px; font-weight: 600; letter-spacing: -.02em; }
+
+.blcat--on .blcat__k { font-weight: 800; }
+
+.blcat__t { display: block; margin-top: 4px; font-size: 12px; color: var(--ink-2); }
+
+.blcat__n {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+}
+
+.blcat--on .blcat__n { color: var(--ink); }
+
+.blarch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 20px;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+.blarch + .blarch { border-top: 1px solid var(--line-10); }
+
+.blarch:hover { background: var(--surface); color: var(--ink); }
+
+.blarch__k { font-size: 14.5px; font-weight: 600; letter-spacing: -.02em; }
+
+.blarch__n { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--ink-2); }
+
+.blwho {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 20px;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+.blwho + .blwho { border-top: 1px solid var(--line-10); }
+
+.blwho:hover { background: var(--surface); color: var(--ink); }
+
+.blwho__main { min-width: 0; }
+
+.blwho__k { display: block; font-size: 13px; font-weight: 700; letter-spacing: -.018em; }
+
+.blwho__s {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.blwho__n { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--ink-2); }
+
+.blava {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.blava--30 { width: 30px; height: 30px; }
+
+.blava__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blshop {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+.blshop + .blshop { border-top: 1px solid var(--line-10); }
+
+.blshop:hover { background: var(--surface); color: var(--ink); }
+
+.blshop__frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.blshop__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blshop__main { min-width: 0; }
+
+.blshop__brand {
+  display: block;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.blshop__k { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; letter-spacing: -.018em; }
+
+.blshop__p { font-size: 13.5px; font-weight: 800; letter-spacing: -.02em; }
+
+
+/* ==========================================================================
+   03. Search
+   ========================================================================== */
+
+.blsearch { position: relative; margin: 0; }
+
+.blsearch__icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  display: inline-flex;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.blsearch__in {
+  display: block;
+  width: 100%;
+  height: 46px;
+  padding: 0 15px 0 42px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 14px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color .18s ease;
+}
+
+.blsearch__in:focus-visible { outline: 0; border-color: var(--accent); }
+
+.blempty {
+  margin: 0;
+  padding: 26px 26px;
+  border: 1px dashed rgba(20, 22, 26, .22);
+  border-radius: 24px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+
+/* ==========================================================================
+   04. Most read
+   ========================================================================== */
+
+.blread {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.blread__mark {
+  position: absolute;
+  right: -12px;
+  bottom: -38px;
+  font-family: var(--display);
+  font-size: 120px;
+  font-weight: 400;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.1px rgba(255, 255, 255, .08);
+  pointer-events: none;
+  user-select: none;
+}
+
+.blread__k {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding: 17px 20px 15px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: .13em;
+  color: #FFFFFF;
+}
+
+/* The prototype left these titles in the page's link colour — ink on ink,
+   invisible. The design meant them white. */
+.blread__kt { display: inline-block; }
+
+.blread__row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: start;
+  gap: 12px;
+  padding: 13px 20px;
+  color: #FFFFFF;
+  transition: background .18s ease;
+}
+
+.blread__row + .blread__row { border-top: 1px solid rgba(255, 255, 255, .12); }
+
+.blread__row:hover { background: rgba(255, 255, 255, .05); color: #FFFFFF; }
+
+.blread__i {
+  padding-top: 2px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .4);
+}
+
+.blread__row:first-of-type .blread__i { color: var(--accent); }
+
+.blread__main { min-width: 0; }
+
+.blread__t { display: block; font-size: 13.5px; font-weight: 700; letter-spacing: -.018em; line-height: 1.4; text-wrap: pretty; }
+
+.blread__s {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+
+/* ==========================================================================
+   05. Subjects and RSS
+   ========================================================================== */
+
+.bltags {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px 20px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.bltags__list { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.bltag {
+  padding: 7px 12px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: border-color .18s ease;
+}
+
+.bltag:hover { border-color: var(--ink); color: var(--ink); }
+
+.bltag--on { border-color: var(--ink); background: var(--ink); font-weight: 700; color: #FFFFFF; }
+
+.bltag--on:hover { color: #FFFFFF; }
+
+.blrss {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 15px 15px 20px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 18px;
+  color: var(--ink);
+  transition: border-color .18s ease;
+}
+
+.blrss:hover { border-color: var(--ink); color: var(--ink); }
+
+.blrss__main { min-width: 0; }
+
+.blrss__k { display: block; font-size: 14px; font-weight: 700; letter-spacing: -.018em; }
+
+.blrss__s {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   06. Post cards
+
+   The first carries an ink border and a soft shadow; hover lifts every card
+   5px and gives it the ink border.
+   ========================================================================== */
+
+.blpost {
+  display: block;
+  border: 1px solid rgba(20, 22, 26, .13);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.blpost--lead { border-color: var(--ink); box-shadow: 0 26px 52px -38px rgba(20, 22, 26, .42); }
+
+.blpost:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 28px 54px -32px rgba(20, 22, 26, .44);
+  color: var(--ink);
+}
+
+.blpost__hero {
+  position: relative;
+  display: block;
+  aspect-ratio: 21 / 9;
+  background: var(--image-bed);
+}
+
+.blpost__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blchip {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.blchip--accent { background: var(--accent); }
+
+.blpost__body { display: block; padding: 24px 26px 24px; }
+
+.blpost__h {
+  margin: 0;
+  font-size: clamp(22px, 1.9vw, 29px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1.18;
+  text-wrap: pretty;
+}
+
+.blpost__t { margin: 13px 0 0; font-size: 15.5px; line-height: 1.68; color: var(--ink-3); text-wrap: pretty; }
+
+.blpost__foot {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.blpost__who { min-width: 0; }
+
+.blpost__name { display: block; font-size: 13.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.blpost__role {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.blpost__end { display: inline-flex; align-items: center; gap: 12px; margin-left: auto; }
+
+.blpost__date {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   07. Pagination
+   ========================================================================== */
+
+.blpag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 18px;
+}
+
+.blpag__count { display: inline-flex; align-items: baseline; gap: 10px; margin: 0; }
+
+.blpag__n { font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+
+.blpag__of { font-size: 14px; color: var(--ink-2); }
+
+.blrail {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.blrail__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 46px;
+  height: 42px;
+  padding: 0 6px;
+  border-left: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+.blrail__btn:hover { background: var(--surface); color: var(--ink); }
+
+.blrail__btn--on { background: var(--ink); font-weight: 800; color: #FFFFFF; }
+
+.blrail__btn--on:hover { background: var(--ink); color: #FFFFFF; }
+
+.blrail__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-4);
+  cursor: default;
+}
+
+.blrail__arrow--next {
+  border-left: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.blrail__arrow--next:hover { color: var(--ink); }
+
+.blrail__btn:focus-visible,
+.blrail__arrow:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+
+/* ==========================================================================
+   08. Promotion: the car, the free check, the newsletter
+   ========================================================================== */
+
+.blcar {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.blcar__photo { position: relative; display: block; aspect-ratio: 4 / 3; background: var(--image-bed); }
+
+.blcar__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blcar__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .1) 0%, rgba(20, 22, 26, 0) 40%, rgba(20, 22, 26, .92) 100%);
+  pointer-events: none;
+}
+
+.blcar__chip {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.blcar__cap { position: absolute; left: 16px; right: 16px; bottom: 14px; }
+
+.blcar__make {
+  display: block;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .72);
+}
+
+.blcar__model { display: block; margin-top: 5px; font-size: 17px; font-weight: 800; letter-spacing: -.024em; }
+
+.blcar__body { padding: 16px 20px 18px; }
+
+.blcar__row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0; }
+
+.blcar__price { font-size: 20px; font-weight: 800; letter-spacing: -.03em; color: var(--accent); }
+
+.blcar__meta {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.blpill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px 12px 12px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.blpill:hover { filter: brightness(1.06); color: var(--ink); }
+
+.blpill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.blpill__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.blpill--ink { margin-top: 4px; background: var(--ink); font-weight: 600; color: #FFFFFF; }
+
+.blpill--ink:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.blpill--ink .blpill__disc { background: var(--accent); color: var(--ink); }
+
+.blcheck {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 20px 22px;
+  border-radius: 20px;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.blcheck__k {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+/* The ring of the pulse is ink here: on the accent panel an accent ring
+   would be the colour of the panel. */
+.blcheck .pulse { animation-name: pulse-ink; }
+
+.blcheck__t { margin: 0; font-size: 14.5px; font-weight: 600; line-height: 1.55; text-wrap: pretty; }
+
+.blcheck__row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(20, 22, 26, .22);
+}
+
+.blcheck__n { display: block; font-size: 19px; font-weight: 800; letter-spacing: -.028em; line-height: 1; }
+
+.blcheck__s {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(20, 22, 26, .7);
+}
+
+.blnews {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin: 0;
+  padding: 20px 20px 22px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.blnews__t { margin: 0; font-size: 14px; line-height: 1.6; text-wrap: pretty; }
+
+.blnews__in {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color .18s ease;
+}
+
+.blnews__in:focus-visible { outline: 0; border-color: var(--accent); }
+
+.blnews .blpill--ink { margin-top: 0; }
+
+.blnews__s {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   09. Responsive
+
+   The prototype is desktop only, sized for 1656px. Below 1200px the right
+   column — the advertising — goes, and the posts get the room. Below 900px
+   the posts come first and the reading tools follow them.
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .blgrid { grid-template-columns: minmax(0, 264px) minmax(0, 1fr); }
+
+  .blside { position: static; }
+
+  .blside--promo { display: none; }
+}
+
+@media (max-width: 900px) {
+  .blgrid { grid-template-columns: minmax(0, 1fr); }
+
+  .blmain { order: -1; }
+
+  .blpost__h { font-size: 22px; }
+}
+
+@media (max-width: 760px) {
+  .blsec { padding: 0 20px; }
+
+  .blpost__body { padding: 20px 20px 20px; }
+
+  .blpag { padding: 16px 18px; }
+
+  .blpost__end { margin-left: 0; width: 100%; justify-content: space-between; }
+}
+
+@media (max-width: 430px) {
+  .blsec { padding: 0 16px; }
+
+  .blpost__hero { aspect-ratio: 16 / 9; }
+
+  .blrail__btn { min-width: 40px; }
+
+  .blrail__arrow { width: 40px; }
+}
+
+
+/* ==========================================================================
+   10. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .blpost:hover { transform: none; border-color: rgba(20, 22, 26, .13); box-shadow: none; }
+
+  .blpost--lead:hover { border-color: var(--ink); box-shadow: 0 26px 52px -38px rgba(20, 22, 26, .42); }
+
+  .blpill:hover, .blpill--ink:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blpost { transition: border-color .2s ease, box-shadow .2s ease; }
+
+  .blpost:hover { transform: none; }
+
+  .blread .pulse, .blcheck .pulse { animation: none; }
+}

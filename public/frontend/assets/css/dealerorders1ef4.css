@@ -1,0 +1,721 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Dealer orders (dealer-orders.html)
+   Only what this page adds. The light header, the page-header block and the
+   shared dots and rule are the inner-page template in style.css; the ink
+   rail is the dashboard chrome in profile.css.
+
+   Everything sold and not yet finished, in the order it leaves the
+   building. Two kinds of order run two tracks, and the same row renders
+   all four vocabularies. Money in and money out are never one figure, and
+   the page names the failure: the late parcel whose buyer has not been
+   told. Accent marks: today's rows and badges, completed track ticks, the
+   car tile, the label button, the payout and the zero-disputes figure.
+   Rust for the late order, the uninformed buyer, refunds owed and their
+   row wash. Prefix dor-.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Labels and section heads
+   02. Status bar and search
+   03. Tabs and the bulk bar
+   04. The row: kind, order, track, money, action
+   05. Pager, empty state, foot
+   06. Money and last month
+   07. Three rules
+   08. Responsive
+   09. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Labels and section heads
+   ========================================================================== */
+
+.dormain { --dor-rust: #8A4A22; --dor-wash: rgba(138, 74, 34, .05); }
+
+.dorsec { display: block; }
+
+.dork { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.dormeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.dorhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.dorhead__main { min-width: 0; }
+
+.dorhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.dorhead__aside { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.dorsep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.dorlink {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  transition: color .18s ease;
+}
+
+.dorlink:hover { color: var(--ink); }
+
+.dorlink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.dorlink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   02. Status bar and search
+   ========================================================================== */
+
+.dorbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.dorbar__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.dorbar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.dorbar__live .dot { align-self: flex-start; margin-top: 3px; }
+
+.dorbar__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.dorsearch { position: relative; display: inline-flex; align-items: center; }
+
+.dorsearch__icon { position: absolute; left: 14px; display: inline-flex; color: var(--ink-2); pointer-events: none; }
+
+.dorsearch__in {
+  width: 250px;
+  height: 44px;
+  padding: 0 15px 0 38px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.dorsearch__in::placeholder { color: var(--ink-2); font-weight: 500; }
+
+.dorsearch__in:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+.dorselect {
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.dorselect:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+
+/* ==========================================================================
+   03. Tabs and the bulk bar
+   ========================================================================== */
+
+.dortabs { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; }
+
+.dortab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.dortab:hover { border-color: var(--ink); }
+
+.dortab--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.dortab__n {
+  display: inline-block;
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.dortab--on .dortab__n { background: rgba(255, 255, 255, .16); color: #FFFFFF; }
+
+.dortab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.dorbox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.dorbulk {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 13px 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.dorbulk__t { min-width: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; }
+
+.dorbulk__acts { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.dorbulk__go {
+  height: 38px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.dorbulk__go:hover { filter: brightness(1.08); }
+
+.dorbulk__btn {
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.dorbulk__btn:hover { border-color: #FFFFFF; }
+
+.dorbulk__go:disabled, .dorbulk__btn:disabled { opacity: .4; cursor: default; filter: none; }
+
+.dorbulk__go:focus-visible, .dorbulk__btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+
+/* ==========================================================================
+   04. The row: kind, order, track, money, action
+   ========================================================================== */
+
+.dorth {
+  display: grid;
+  grid-template-columns: minmax(0, 44px) minmax(0, 236px) minmax(0, 1fr) minmax(0, 196px) minmax(0, 158px);
+  gap: 16px;
+  padding: 12px 22px 12px 25px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.dorth[hidden] { display: none; }
+
+.dorth__act { text-align: center; }
+
+.dorrows { display: block; }
+
+.dorrow {
+  display: grid;
+  grid-template-columns: minmax(0, 44px) minmax(0, 236px) minmax(0, 1fr) minmax(0, 196px) minmax(0, 158px);
+  align-items: center;
+  gap: 16px;
+  padding: 17px 22px;
+  border-bottom: 1px solid var(--line-10);
+  border-left: 3px solid transparent;
+  background: #FFFFFF;
+}
+
+.dorrow[hidden] { display: none; }
+
+.dorrow--last { border-bottom: 0; }
+
+.dorrow--today { border-left-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+
+.dorrow--wrong { border-left-color: var(--dor-rust); background: var(--dor-wash); }
+
+.dorkind { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+.dortile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.dortile--car { background: var(--ink); color: var(--accent); }
+
+.dorpick { display: inline-flex; cursor: pointer; }
+
+.dortick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.dortick svg { visibility: hidden; }
+
+.dorcheck:checked + .dortick { border-color: var(--accent); background: var(--accent); }
+
+.dorcheck:checked + .dortick svg { visibility: visible; }
+
+.dorcheck:focus-visible + .dortick { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.dororder { min-width: 0; }
+
+.dororder__top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.dorno { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .11em; color: var(--ink); }
+
+.dorbadge {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.dorbadge--today { background: var(--accent); }
+
+.dorbadge--wrong { background: rgba(138, 74, 34, .14); color: var(--dor-rust); }
+
+.dororder__item { display: flex; align-items: center; gap: 11px; min-width: 0; margin-top: 10px; }
+
+.dorthumb {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 56px;
+  height: 42px;
+  border: 1px solid var(--line-10);
+  border-radius: 9px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.dorthumb__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.dorthumb__mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+}
+
+.dororder__main { min-width: 0; }
+
+.dororder__t { display: block; font-size: 14px; font-weight: 700; letter-spacing: -.02em; text-wrap: pretty; }
+
+.dororder__main .dormeta { display: block; margin-top: 4px; }
+
+.dorbuyer { display: flex; align-items: center; gap: 9px; min-width: 0; margin-top: 10px; }
+
+.dorava {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.dorava__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.dorava__mark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--ink-2);
+}
+
+.dorbuyer__main { min-width: 0; }
+
+.dorbuyer__name { display: block; font-size: 13px; font-weight: 700; letter-spacing: -.02em; }
+
+.dorbuyer__main .dormeta { display: block; margin-top: 3px; }
+
+.dorwhere { min-width: 0; }
+
+/* The track: four steps, whatever the order is. Completed ones are
+   ink-filled with an accent tick; the rest keep their number. */
+.dortrack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.dorstep { display: flex; flex-direction: column; gap: 5px; padding: 9px 11px 10px; background: #FFFFFF; }
+
+.dorstep--done { background: var(--ink); }
+
+.dorstep__top { display: inline-flex; align-items: center; gap: 6px; }
+
+.dorstep__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.dorstep__disc svg { visibility: hidden; }
+
+.dorstep--done .dorstep__disc { border-color: transparent; background: var(--accent); }
+
+.dorstep--done .dorstep__disc svg { visibility: visible; }
+
+.dorstep__n { font-family: var(--mono); font-size: 7.5px; font-weight: 700; letter-spacing: .09em; color: var(--ink-2); }
+
+.dorstep--done .dorstep__n { color: rgba(255, 255, 255, .5); }
+
+.dorstep__k { font-size: 12px; font-weight: 700; letter-spacing: -.018em; color: var(--ink); }
+
+.dorstep--done .dorstep__k { color: #FFFFFF; }
+
+.dorwhere__p { display: block; margin-top: 10px; font-size: 13px; line-height: 1.55; color: var(--ink-3); text-wrap: pretty; }
+
+.dormoney { min-width: 0; }
+
+.dormoney__n { display: block; font-size: 19px; font-weight: 800; letter-spacing: -.028em; }
+
+.dormoney .dormeta { display: block; margin-top: 5px; }
+
+.dorpill {
+  display: inline-block;
+  margin-top: 9px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.dorpill--accent { background: var(--accent); }
+
+.dorpill--rust { background: rgba(138, 74, 34, .14); color: var(--dor-rust); }
+
+.doract { display: flex; flex-direction: column; gap: 8px; }
+
+.dorgo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: filter .18s ease, border-color .18s ease;
+}
+
+.dorgo--ink { border: 1px solid var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.dorgo--ink:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.dorgo--out { border: 1px solid rgba(20, 22, 26, .18); background: transparent; color: var(--ink); }
+
+.dorgo--out:hover { border-color: var(--ink); color: var(--ink); }
+
+.doract__row { display: flex; align-items: center; justify-content: center; gap: 9px; }
+
+.doract__sep { display: inline-block; width: 1px; height: 11px; background: rgba(20, 22, 26, .2); }
+
+
+/* ==========================================================================
+   05. Pager, empty state, foot
+   ========================================================================== */
+
+.dorpager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 22px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.dorpager__seen { display: inline-flex; align-items: baseline; gap: 9px; margin: 0; }
+
+.dorpager__num { font-size: 20px; font-weight: 800; letter-spacing: -.03em; }
+
+.dorpager__of { font-size: 14px; color: var(--ink-2); }
+
+.dorpager__pages { display: inline-flex; align-items: center; gap: 7px; margin: 0; }
+
+.dorpager__pages[hidden] { display: none; }
+
+.dorpager__lbl { padding-right: 6px; }
+
+.dorpage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 11px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 11px;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.dorpage:hover { border-color: var(--ink); }
+
+.dorpage--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; font-weight: 800; }
+
+.dorpage:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.dorempty { padding: 34px 24px 36px; text-align: center; }
+
+.dorempty[hidden] { display: none; }
+
+.dorempty__t { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -.024em; }
+
+.dorempty__p { max-width: 520px; margin: 8px auto 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+.dorfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 16px 22px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.dorfoot__t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   06. Money and last month
+   ========================================================================== */
+
+.dorcells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.dorcell { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.dorcell__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.dorcell__n--rust { color: var(--dor-rust); }
+
+.dorcell__n--accent { color: var(--accent-deep); }
+
+.dorcell__p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.dorstrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 14px 0 0;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.dorstrip__t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   07. Three rules
+   ========================================================================== */
+
+.dorrules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.dorrule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.dorrule__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.dorrule__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   08. Responsive
+   Five columns need the design's width; below that the order keeps the
+   left column and the track, money and action stack beside it.
+   ========================================================================== */
+
+@media (max-width: 1440px) {
+  .dorth { display: none; }
+
+  .dorrow { grid-template-columns: minmax(0, 40px) minmax(0, 236px) minmax(0, 1fr); gap: 12px 14px; }
+
+  .dormoney, .doract { grid-column: 3; }
+
+  .doract { flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; }
+}
+
+@media (max-width: 1100px) {
+  .dorcells { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .dorrow { grid-template-columns: minmax(0, 40px) minmax(0, 1fr); }
+
+  .dorwhere, .dormoney, .doract { grid-column: 2; }
+}
+
+@media (max-width: 900px) {
+  .dorrules { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .dorsep { display: none; }
+}
+
+@media (max-width: 640px) {
+  .dorbar, .dorbulk, .dorrow, .dorpager, .dorfoot, .dorstrip { padding-left: 18px; padding-right: 18px; }
+
+  .dorbar__ctl { width: 100%; }
+
+  .dorsearch { flex: 1 1 auto; }
+
+  .dorsearch__in { width: 100%; }
+
+  .dorcells { grid-template-columns: minmax(0, 1fr); }
+
+  .dorcell, .dorrule { padding-left: 18px; padding-right: 18px; }
+
+  .dortrack { gap: 8px 12px; }
+}
+
+@media (max-width: 430px) {
+  .dorrow { grid-template-columns: minmax(0, 34px) minmax(0, 1fr); gap: 10px; }
+
+  .doract { flex-wrap: wrap; gap: 10px 16px; }
+
+  .dortrack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .dorstep { padding: 8px 10px 9px; }
+
+  .dorpager { flex-direction: column; align-items: flex-start; }
+}
+
+
+/* ==========================================================================
+   09. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .dorgo--ink:hover, .dorbulk__go:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dortab, .dortick, .dorgo, .dorlink, .dorpage, .dorbulk__go, .dorbulk__btn, .dorselect, .dorsearch__in { transition: none; }
+
+  .dorbar .pulse { animation: none; }
+}

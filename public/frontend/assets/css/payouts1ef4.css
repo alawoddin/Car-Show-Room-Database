@@ -1,0 +1,683 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Dealer payouts (dealer-payouts.html)
+   Only what this page adds. The light header, the page-header block and
+   the shared dots and rule are the inner-page template in style.css; the
+   ink rail is the dashboard chrome in profile.css.
+
+   What we owe the dealer, line by line including the zeros, and which of
+   their accounts it lands in. Nothing is netted silently: the refund is a
+   negative line and the fees are lines that read €0. Accent marks: those
+   zero lines, the default account's badge and tile, the add and save
+   discs, the confirmation strip and the fees figure of the year. Rust for
+   the verifying badge, REMOVE and the refunds deducted. Prefix pay-.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Labels and section heads
+   02. Status bar
+   03. Friday's payout: lines, total, paying into
+   04. Accounts: cards, the add form, the confirmation strip
+   05. What landed before
+   06. The year and the rules
+   07. Responsive
+   08. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Labels and section heads
+   ========================================================================== */
+
+.paymain { --pay-rust: #8A4A22; }
+
+.paysec { display: block; }
+
+.payk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.payk--light { color: #FFFFFF; }
+
+.payk--right { text-align: right; }
+
+.paymeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.payhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.payhead__main { min-width: 0; }
+
+.payhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.paysep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.paysep--light { background: rgba(255, 255, 255, .24); }
+
+.paylink {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  transition: color .18s ease;
+}
+
+.paylink:hover { color: var(--ink); }
+
+.paylink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.paylink--rust { color: var(--pay-rust); }
+
+.paylink--rust:hover { color: var(--pay-rust); }
+
+.paylink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.payx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .18s ease, color .18s ease;
+}
+
+.payx:hover { border-color: var(--ink); color: var(--ink); }
+
+.payx:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   02. Status bar
+   ========================================================================== */
+
+.paybar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.paybar__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.paybar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.paybar__live .dot { align-self: flex-start; margin-top: 3px; }
+
+.paybar__ctl { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.payselect {
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.payselect:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+
+/* ==========================================================================
+   03. Friday's payout: lines, total, paying into
+   ========================================================================== */
+
+.paybox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.paybox--ink { border-color: var(--ink); }
+
+.paysplit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); }
+
+.paylines { min-width: 0; }
+
+.paylines__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.payline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.payline__main { min-width: 0; }
+
+.payline__t { display: block; font-size: 14.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.payline__main .paymeta { display: block; margin-top: 5px; }
+
+.payline__n { flex: none; font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--ink); }
+
+.payline__n--accent { color: var(--accent-deep); }
+
+.payline__n--rust { color: var(--pay-rust); }
+
+/* The total sits under a heavier rule: it is the sum of everything above. */
+.paytotal {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 24px 20px;
+  border-top: 1.5px solid var(--ink);
+}
+
+.paytotal__t { display: block; font-size: 15.5px; font-weight: 800; letter-spacing: -.024em; }
+
+.paytotal__n { flex: none; font-size: 26px; font-weight: 800; letter-spacing: -.034em; }
+
+.paylines__foot {
+  margin: 0;
+  padding: 15px 24px 18px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.payinto { display: flex; flex-direction: column; gap: 12px; padding: 20px 24px 22px; border-left: 1px solid var(--line); background: var(--surface); }
+
+.payinto__note { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+.payinto__fx { display: block; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+.payfield { display: block; min-width: 0; }
+
+.payfield__k { display: block; margin-bottom: 8px; }
+
+.payfield__help { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+.payin {
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+select.payin { cursor: pointer; }
+
+.payin--mono { font-family: var(--mono); font-size: 13.5px; letter-spacing: .04em; }
+
+.payin::placeholder { color: var(--ink-2); font-weight: 500; }
+
+.payin:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+.paycard--live { border-color: var(--ink); }
+
+.paycard { display: flex; flex-direction: column; gap: 7px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: #FFFFFF; }
+
+.payiban { font-family: var(--mono); font-size: 14px; font-weight: 700; letter-spacing: .04em; color: var(--ink); }
+
+.payiban--small { font-size: 12.5px; }
+
+.paycheck { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+
+.paycheck__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 5px;
+  color: var(--ink);
+}
+
+.paycheck__box svg { visibility: hidden; }
+
+.paycheck__in:checked + .paycheck__box { border-color: var(--accent); background: var(--accent); }
+
+.paycheck__in:checked + .paycheck__box svg { visibility: visible; }
+
+.paycheck__in:focus-visible + .paycheck__box { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.paycheck__t { font-size: 13px; line-height: 1.5; color: var(--ink-3); }
+
+.paycheck__mail { font-family: var(--mono); font-size: 12px; color: var(--ink); }
+
+.paygo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  align-self: flex-start;
+  height: 44px;
+  padding: 0 10px 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.paygo:hover { filter: brightness(1.14); }
+
+.paygo__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.paygo:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   04. Accounts: cards, the add form, the confirmation strip
+   ========================================================================== */
+
+.payaccs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.payacc { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.payacc--on { background: var(--ink); color: #FFFFFF; }
+
+.payacc__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+.paytile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.payacc--on .paytile { background: var(--accent); color: var(--ink); }
+
+.paystate {
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.paystate--default { background: var(--accent); }
+
+.paystate--verified { background: var(--surface); }
+
+.paystate--verifying { background: rgba(138, 74, 34, .14); color: var(--pay-rust); }
+
+.payacc__bank { font-size: 15.5px; font-weight: 800; letter-spacing: -.024em; }
+
+.payacc--on .payacc__who, .payacc--on .paymeta { color: rgba(255, 255, 255, .6); }
+
+.payacc--on .payiban { color: #FFFFFF; }
+
+.payacc__row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.paychip {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+
+.payacc--on .paychip { background: rgba(255, 255, 255, .14); color: #FFFFFF; }
+
+.payacc__acts { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: auto; padding-top: 6px; }
+
+.payacc--on .paylink { color: rgba(255, 255, 255, .72); }
+
+.payacc--on .paylink:hover { color: #FFFFFF; }
+
+.payact {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.payact:hover { border-color: var(--ink); }
+
+.payact:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.paynote { margin: 12px 0 0; font-size: 13px; line-height: 1.55; color: var(--pay-rust); }
+
+.paynote[hidden] { display: none; }
+
+.payadded {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 17px 22px;
+  border: 1px solid var(--accent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.payadded[hidden] { display: none; }
+
+.payadded__main { display: inline-flex; align-items: center; gap: 13px; min-width: 0; }
+
+.payadded__tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.payadded__text { min-width: 0; }
+
+.payadded__t { display: block; font-size: 15.5px; font-weight: 800; letter-spacing: -.022em; }
+
+.payadded__text .paymeta { display: block; margin-top: 6px; }
+
+.payform { margin-bottom: 14px; border: 1px solid var(--ink); border-radius: 22px; overflow: hidden; }
+
+.payform[hidden] { display: none; }
+
+.payform__head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.payform__note { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: rgba(255, 255, 255, .6); }
+
+.payform__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 22px 24px; }
+
+.payform__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.payform__t { min-width: 0; font-size: 13px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+.payform__acts { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.payout {
+  height: 46px;
+  padding: 0 20px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.payout:hover { border-color: var(--ink); }
+
+.payconfirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  height: 46px;
+  padding: 0 11px 0 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.payconfirm:hover { filter: brightness(1.14); }
+
+.payout:focus-visible, .payconfirm:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   05. What landed before
+   ========================================================================== */
+
+.payrow {
+  display: grid;
+  grid-template-columns: minmax(0, 130px) minmax(0, 1fr) minmax(0, 220px) minmax(0, 120px) minmax(0, 110px);
+  align-items: center;
+  gap: 18px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.payrow--head { padding: 13px 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
+
+.payrow--last { border-bottom: 0; }
+
+.payrow__d, .payrow__a { min-width: 0; }
+
+.payrow__t { min-width: 0; font-size: 14px; font-weight: 700; letter-spacing: -.02em; }
+
+.payrow__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; text-align: right; }
+
+.payrow__doc { text-align: right; }
+
+.payfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.payfoot__t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   06. The year and the rules
+   ========================================================================== */
+
+.paycells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.paycell { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.paycell__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.paycell__n--accent { color: var(--accent-deep); }
+
+.paycell__n--rust { color: var(--pay-rust); }
+
+.paycell__p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.payrules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.payrule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.payrule__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.payrule__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   07. Responsive
+   ========================================================================== */
+
+@media (max-width: 1240px) {
+  .paysplit { grid-template-columns: minmax(0, 1fr); }
+
+  .payinto { border-left: 0; border-top: 1px solid var(--line); }
+
+  .payrow { grid-template-columns: minmax(0, 110px) minmax(0, 1fr) minmax(0, 150px) minmax(0, 100px) minmax(0, 90px); gap: 12px; }
+}
+
+@media (max-width: 1100px) {
+  .paycells { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .payaccs { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .payrules { grid-template-columns: minmax(0, 1fr); }
+
+  .payform__grid { grid-template-columns: minmax(0, 1fr); }
+
+  .payrow { grid-template-columns: minmax(0, 1fr) minmax(0, 110px); gap: 8px 12px; }
+
+  .payrow__t { grid-column: 1 / -1; }
+
+  .payrow--head .payk:nth-child(2), .payrow--head .payk:nth-child(3) { display: none; }
+}
+
+@media (max-width: 700px) {
+  .paysep { display: none; }
+}
+
+@media (max-width: 640px) {
+  .paybar, .payline, .paytotal, .paylines__head, .paylines__foot, .payinto, .payrow, .payfoot, .payform__head, .payform__grid, .payform__foot, .payadded { padding-left: 18px; padding-right: 18px; }
+
+  .paybar__ctl { width: 100%; }
+
+  .payselect { flex: 1 1 150px; min-width: 0; }
+
+  .paycells { grid-template-columns: minmax(0, 1fr); }
+
+  .payacc, .paycell, .payrule { padding-left: 18px; padding-right: 18px; }
+
+  .paytotal__n { font-size: 22px; }
+}
+
+@media (max-width: 430px) {
+  .payline, .paytotal { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  .payiban { font-size: 12.5px; letter-spacing: .02em; }
+
+  .payrow { grid-template-columns: minmax(0, 1fr); }
+
+  .payrow__n, .payrow__doc { text-align: left; }
+}
+
+
+/* ==========================================================================
+   08. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .paygo:hover, .payconfirm:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paygo, .payact, .paylink, .payout, .payconfirm, .payselect, .payin, .payx { transition: none; }
+
+  .paybar .pulse { animation: none; }
+}

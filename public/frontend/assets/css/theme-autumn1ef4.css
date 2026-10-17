@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Autumn theme
+   Worn by home-v3.html (v1 structure) and home-v4.html (v2 structure) — the
+   season and the hero strategy are independent axes, so this file carries
+   only the season. Everything here is an override on top of style.css; no
+   layout is repeated.
+
+   Three things change, and the handoff is explicit that they travel
+   together: the accent, the hero photograph with a much lighter scrim, and
+   the hero stat row flipped to white so it survives the brighter image.
+
+   The accent itself is not here: it lives in style.css under
+   :root[data-accent="autumn"], because the colour travels with the visitor
+   between pages while the photograph belongs to the page.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Hero — lighter scrim
+   02. Hero — stat row on a bright photograph
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Hero — lighter scrim
+   ========================================================================== */
+
+/* The autumn frame is brighter and lower in contrast than the snow one, so
+   the scrim drops from 66% of the hero at .74 to 52% at .34. Any heavier and
+   the larches go muddy. */
+.hero--autumn .hero__scrim {
+  height: 52%;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .34) 0%, rgba(20, 22, 26, .16) 55%, rgba(20, 22, 26, 0) 100%);
+}
+
+
+/* ==========================================================================
+   02. Hero — stat row on a bright photograph
+   ========================================================================== */
+
+/* Ink numbers vanish against the autumn image — the row goes white, and the
+   rule and dividers lift with it. */
+.hero--autumn .hstat__num,
+.hero--autumn .hstat__lbl { color: #FFFFFF; }
+
+.hero--autumn .hero__stats { border-top-color: rgba(255, 255, 255, .34); }
+
+.hero--autumn .hstat__sep { background: rgba(255, 255, 255, .38); }

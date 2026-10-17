@@ -1,0 +1,1653 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Shop single v3
+   The third product-page layout, and only what it adds. The page loads
+   shop-single.css first: the rhythm, the alternatives row and the shared
+   heading type are the same as v1 and v2 and are not restated here.
+
+   THIS ONE IS A TEMPLATE FOR ANY PART. Nothing in the structure assumes a
+   tyre: the fitment list is mixed makes, the approval row says OEM rather
+   than a marque's own code, and the badge says FITS YOUR CAR. Wear & life
+   becomes Service life for a part that wears differently, and drops out
+   entirely for one that does not.
+
+   THE ARGUMENT IS THE COMPARISON. Five measurements against the part this
+   one replaced, and one of them is worse — a comparison where every row wins
+   is an advertisement. The verdict is computed from the value and the
+   direction, so no row can wear a pill its own numbers contradict.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Top block
+   02. Section nav
+   03. Performance
+   04. About
+   05. Specification
+   06. Fitment
+   07. Wear and life
+   08. Fitting and bays
+   09. Comments
+   10. Delivery terms
+   11. Responsive
+   12. Touch
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Top block
+
+   A true 50/50. The gallery is a flex row rather than a grid: the hero sets
+   the height from its own 4:3 and the strip divides it, which keeps the
+   thumbnails square-ish however many there are — a grid would let them
+   letterbox down to a caption-clipping sliver.
+   ========================================================================== */
+
+.v3top {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  align-items: start;
+}
+
+.v3gal { display: flex; align-items: stretch; gap: 12px; }
+
+.v3hero {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* Absolute, or the picture's own proportions set the hero's height and the
+   rail beside it stops being what decides the geometry. */
+.v3hero__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v3hero__kind {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .72);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: #FFFFFF;
+}
+
+.v3hero__fits {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.v3hero__cap {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.v3hero__count {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .72);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: #FFFFFF;
+}
+
+.v3strip {
+  flex: none;
+  width: 164px;
+  display: grid;
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 10px;
+}
+
+.v3thumb {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 1.5px solid rgba(20, 22, 26, .14);
+  border-radius: 14px;
+  background: var(--image-bed);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.v3thumb--on { border-color: var(--ink); }
+
+.v3thumb--empty { cursor: default; }
+
+.v3thumb:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Absolute for the same reason as the hero's: a thumbnail image left in flow
+   sizes its own row and the rail stops dividing the height it was given. */
+.v3thumb__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.v3thumb__more {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 22, 26, .58);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #FFFFFF;
+}
+
+.v3buy__brand {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.v3buy__h {
+  margin: 10px 0 0;
+  font-size: clamp(30px, 2.9vw, 46px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1.08;
+}
+
+.v3meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.v3meta__score { display: inline-flex; align-items: center; gap: 8px; }
+
+.v3meta__n { font-size: 14px; font-weight: 700; }
+
+.v3meta__of { font-size: 14px; color: var(--ink-2); }
+
+.v3meta__sep { width: 1px; height: 16px; background: rgba(20, 22, 26, .16); }
+
+.v3meta__stock { display: inline-flex; align-items: center; gap: 9px; font-size: 14px; color: var(--ink-3); }
+
+.v3buy__say { margin: 16px 0 0; font-size: 16px; line-height: 1.68; color: var(--ink-3); }
+
+.v3price {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-top: 22px;
+  flex-wrap: wrap;
+}
+
+.v3price__n { font-size: clamp(32px, 2.8vw, 44px); font-weight: 800; letter-spacing: -.038em; line-height: 1; }
+
+.v3price__each { font-size: 15px; color: var(--ink-2); }
+
+.v3price__vat { margin: 6px 0 0; font-size: 14px; color: var(--ink-2); }
+
+.v3k {
+  display: block;
+  margin: 22px 0 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.v3sizes { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.v3size {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 11px;
+  padding: 12px 18px;
+  border: 1.5px solid rgba(20, 22, 26, .18);
+  border-radius: 14px;
+  background: none;
+  cursor: pointer;
+}
+
+.v3size:hover { border-color: rgba(20, 22, 26, .38); }
+
+.v3size:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3size--on { border-color: var(--ink); background: var(--ink); }
+
+.v3size__mm { font-size: 14.5px; font-weight: 600; letter-spacing: -.02em; color: var(--ink); }
+
+.v3size--on .v3size__mm { font-weight: 800; color: #FFFFFF; }
+
+.v3size__axle {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.v3size--on .v3size__axle { color: rgba(255, 255, 255, .55); }
+
+.v3size__price { font-size: 13px; font-weight: 700; }
+
+.v3size--on .v3size__price { color: var(--accent); }
+
+.v3cart { display: flex; align-items: center; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
+
+.v3step {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+}
+
+.v3step__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.v3step__btn:hover { background: var(--surface); }
+
+.v3step__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3step__btn[disabled] { opacity: .35; cursor: not-allowed; }
+
+.v3step__n { text-align: center; font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
+
+.v3add {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: 1 1 260px;
+  padding: 6px 6px 6px 22px;
+  height: 52px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.v3add:hover { background: #22262C; }
+
+.v3add:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3add__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.v3save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 50%;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.v3save:hover { border-color: var(--ink); }
+
+.v3save:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3fitline {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding: 16px 20px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.v3fitline__k { font-weight: 700; color: var(--ink); }
+
+.v3promises { margin-top: 20px; }
+
+.v3promise {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+  font-size: 14.5px;
+}
+
+.v3promise__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   02. Section nav
+
+   The CTA follows the reader the whole way down, which is what lets the buy
+   column stop being sticky. A page this deep otherwise asks the buyer to
+   scroll back up to act on what they have just read.
+   ========================================================================== */
+
+.v3nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 40px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, .86);
+  backdrop-filter: blur(12px);
+}
+
+.v3nav__links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.v3nav__a {
+  padding: 8px 14px;
+  /* A transparent border on every link so the active one does not shift the
+     row by a pixel when it lights up. */
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.v3nav__a:hover { background: var(--surface); color: var(--ink); }
+
+.v3nav__a--on { border-color: var(--ink); background: var(--ink); font-weight: 700; color: #FFFFFF; }
+
+.v3nav__a--on:hover { background: var(--ink); color: #FFFFFF; }
+
+.v3nav__price { margin-left: auto; text-align: right; }
+
+.v3nav__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.v3nav__for { display: block; font-size: 12.5px; font-weight: 500; color: var(--ink-2); }
+
+.v3nav__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+  padding: 5px 5px 5px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.v3nav__add:hover { background: #22262C; }
+
+.v3nav__add:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3nav__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* The nav is 76px tall and sticks to the top, so a heading jumped to from it
+   would otherwise land underneath. */
+.v3sec { scroll-margin-top: 120px; }
+
+
+/* ==========================================================================
+   03. Performance
+
+   Two bars a row: this part in accent, the one it replaced in grey. The bar
+   is drawn for goodness rather than for the raw figure, because the rows do
+   not agree on which way is good — a shorter braking distance and a longer
+   tread life are both wins.
+   ========================================================================== */
+
+.v3legend { display: inline-flex; align-items: center; gap: 18px; }
+
+.v3legend__k { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; }
+
+.v3legend__k--old { color: var(--ink-2); }
+
+.v3legend__dot { width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
+
+.v3legend__dot--old { background: rgba(20, 22, 26, .24); }
+
+.v3perf {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.v3row {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 108px;
+  gap: 26px;
+  align-items: center;
+  padding: 18px 26px;
+  background: #FFFFFF;
+}
+
+.v3row--alt { background: #FCFCFB; }
+
+.v3row + .v3row { border-top: 1px solid var(--line-10); }
+
+.v3row__k { font-size: 14.5px; font-weight: 700; letter-spacing: -.016em; }
+
+.v3row__way {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-4);
+}
+
+.v3bars { display: grid; gap: 8px; }
+
+.v3bar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+
+.v3bar__track {
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .08);
+  overflow: hidden;
+}
+
+.v3bar__fill { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+
+.v3bar__fill--old { background: rgba(20, 22, 26, .24); }
+
+.v3bar__v { font-size: 14px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
+
+.v3bar__v--old { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+
+.v3verdict {
+  justify-self: end;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.v3verdict--worse { background: var(--surface); color: var(--ink); }
+
+.v3note {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 26px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.v3note__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   04. About
+   ========================================================================== */
+
+.v3about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 320px;
+  gap: 34px;
+  align-items: start;
+}
+
+.v3chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 22px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--surface);
+}
+
+.v3chip__n { font-size: 10px; font-weight: 800; }
+
+.v3chip__t { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; }
+
+.v3para { margin: 0 0 16px; font-size: 16px; line-height: 1.72; color: var(--ink-3); }
+
+.v3pull { display: grid; grid-template-columns: 3px minmax(0, 1fr); gap: 18px; margin: 0 0 16px; }
+
+.v3pull__rule { border-radius: 999px; background: var(--accent); }
+
+.v3pull__t { font-size: 17px; font-weight: 600; line-height: 1.7; letter-spacing: -.012em; }
+
+.v3short { padding: 20px 22px 22px; border-radius: 18px; background: var(--surface); }
+
+.v3short__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.v3short__row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 0;
+  font-size: 13.5px;
+}
+
+.v3short__row + .v3short__row { border-top: 1px solid var(--line); }
+
+.v3short__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* A limitation is not a tick in another colour: it gets a cross, and the
+   colour is the one the whole template uses for a fault. */
+.v3short__disc--no {
+  border: 1.5px solid rgba(138, 74, 34, .5);
+  background: none;
+  color: #8A4A22;
+}
+
+.v3short__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 5px 5px 5px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.v3short__go:hover { background: #22262C; color: #FFFFFF; }
+
+.v3short__disc2 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   05. Specification
+   ========================================================================== */
+
+.v3spec {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 300px);
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.v3group { padding: 24px 26px 26px; background: #FFFFFF; }
+
+.v3group__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.v3line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 0;
+}
+
+.v3line + .v3line { border-top: 1px solid var(--line-10); }
+
+.v3line__k { font-size: 13.5px; color: var(--ink-2); }
+
+.v3line__v { font-size: 14.5px; font-weight: 700; letter-spacing: -.014em; text-align: right; }
+
+.v3label { padding: 24px 26px 26px; background: var(--ink); }
+
+.v3label__k {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.v3label__row { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+
+.v3label__tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: var(--accent);
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.v3label__tile--plain { background: rgba(255, 255, 255, .1); color: #FFFFFF; }
+
+.v3label__tile--small { font-size: 13px; }
+
+.v3label__t { font-size: 13.5px; font-weight: 700; color: #FFFFFF; }
+
+.v3label__note {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.v3label__pdf {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #FFFFFF;
+}
+
+.v3label__pdf:hover { color: var(--accent); }
+
+.v3label__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   06. Fitment
+
+   The car the size does not fit is shown rather than quietly left out, and
+   the size that does fit it is named underneath. A fitment list that only
+   ever says yes is not a fitment list.
+   ========================================================================== */
+
+.v3cars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.v3car {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #FFFFFF;
+}
+
+.v3car--mine { border-color: var(--ink); }
+
+.v3car__name { font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.v3car__badge {
+  display: inline-block;
+  margin-left: 9px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.v3car__spec {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.v3car__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.v3car__mark--no {
+  border: 1.5px solid rgba(138, 74, 34, .5);
+  background: none;
+  color: #8A4A22;
+}
+
+.v3swap {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 14px;
+  padding: 16px 22px;
+  border-radius: 16px;
+  background: var(--surface);
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.v3swap__go {
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   07. Wear and life
+
+   Four readings from new to the depth we replace at. The last one is our
+   threshold and it is above the legal one — the panel says both numbers so
+   the difference is the buyer's to judge.
+   ========================================================================== */
+
+.v3wear {
+  position: relative;
+  overflow: hidden;
+  padding: 34px 34px 32px;
+  border-radius: 22px;
+  background: var(--ink);
+}
+
+.v3wear__word {
+  position: absolute;
+  z-index: 0;
+  right: 30px;
+  top: 6px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 170px;
+  line-height: .8;
+  letter-spacing: -.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(255, 255, 255, .07);
+  pointer-events: none;
+  user-select: none;
+}
+
+.v3stages {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .14);
+  overflow: hidden;
+}
+
+.v3stage {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 22px 22px 24px;
+  background: var(--ink);
+}
+
+.v3stage__km {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.v3stage--first .v3stage__km { color: var(--accent); }
+
+.v3stage__mm { font-size: 19px; font-weight: 800; letter-spacing: -.026em; color: #FFFFFF; }
+
+.v3stage__track { height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .14); overflow: hidden; }
+
+.v3stage__fill { display: block; height: 100%; border-radius: 999px; background: rgba(255, 255, 255, .55); }
+
+.v3stage__fill--last { background: var(--accent); }
+
+.v3stage__head { font-size: 15px; font-weight: 700; letter-spacing: -.018em; color: #FFFFFF; }
+
+.v3stage__say { display: block; margin: 4px 0 0; font-size: 13px; line-height: 1.55; color: rgba(255, 255, 255, .62); }
+
+.v3wear__foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, .72);
+}
+
+.v3wear__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex: 0 0 auto;
+  padding: 6px 6px 6px 18px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.v3wear__go:hover { color: var(--accent); }
+
+.v3wear__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   08. Fitting and bays
+   ========================================================================== */
+
+.v3fit {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.v3bays {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.v3bays__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.v3bays__k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.v3bays__where {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.v3bay {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 15px 24px;
+  border: 0;
+  border-top: 1px solid var(--line-10);
+  background: #FFFFFF;
+  text-align: left;
+  cursor: pointer;
+}
+
+.v3bay:first-of-type { border-top: 0; }
+
+.v3bay:hover { background: var(--surface); }
+
+.v3bay:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+.v3bay--on { background: var(--surface); }
+
+.v3bay__day { font-size: 14.5px; font-weight: 600; }
+
+.v3bay--on .v3bay__day { font-weight: 800; }
+
+.v3bay__at { font-family: var(--mono); font-size: 13px; font-weight: 700; }
+
+.v3bay__left {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.v3bay--on .v3bay__left { background: var(--accent); }
+
+.v3hold {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--ink);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.v3hold:hover { background: #22262C; color: #FFFFFF; }
+
+.v3hold__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   09. Comments
+
+   The summary bar shows the distribution the score is read from, so a reader
+   can see the six critical ones behind the average rather than take it on
+   trust.
+   ========================================================================== */
+
+.v3sum {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 28px;
+  border-radius: 22px;
+  background: var(--ink);
+}
+
+.v3sum__word {
+  position: absolute;
+  z-index: 0;
+  right: 26px;
+  top: -14px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 130px;
+  line-height: .8;
+  letter-spacing: -.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(255, 255, 255, .07);
+  pointer-events: none;
+  user-select: none;
+}
+
+.v3sum__in {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: auto 1px minmax(0, 1fr) 1px minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+}
+
+.v3sum__rule { background: rgba(255, 255, 255, .14); }
+
+.v3sum__score { display: grid; gap: 6px; }
+
+.v3sum__n { font-size: 40px; font-weight: 800; letter-spacing: -.04em; color: var(--accent); line-height: 1; }
+
+.v3sum__of {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.v3hist { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+
+.v3hist__col { display: grid; gap: 6px; }
+
+.v3hist__k {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.v3hist__n { font-size: 10px; font-weight: 700; color: #FFFFFF; }
+
+.v3hist__track { height: 5px; border-radius: 999px; background: rgba(255, 255, 255, .14); overflow: hidden; }
+
+.v3hist__fill { display: block; height: 100%; border-radius: 999px; background: rgba(255, 255, 255, .4); }
+
+.v3hist__fill--top { background: var(--accent); }
+
+.v3themes { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.v3theme {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .84);
+}
+
+.v3theme--top { border-color: var(--accent); background: var(--accent); font-weight: 700; color: var(--ink); }
+
+.v3theme__n { font-family: var(--mono); font-size: 8px; font-weight: 600; color: rgba(255, 255, 255, .5); }
+
+.v3theme--top .v3theme__n { color: rgba(20, 22, 26, .6); }
+
+.v3tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 16px;
+  flex-wrap: wrap;
+}
+
+.v3filter {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.v3filter:hover { border-color: rgba(20, 22, 26, .34); }
+
+.v3filter:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3filter--on { border-color: var(--ink); background: var(--ink); font-weight: 700; color: #FFFFFF; }
+
+.v3filter__n { font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--ink-2); }
+
+.v3filter--on .v3filter__n { color: rgba(255, 255, 255, .55); }
+
+.v3sort {
+  margin-left: auto;
+  height: 38px;
+  padding: 0 34px 0 14px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.v3sort:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3list {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.v3com {
+  display: grid;
+  grid-template-columns: minmax(0, 196px) minmax(0, 1fr);
+  gap: 26px;
+  padding: 22px 24px 20px;
+  background: #FFFFFF;
+}
+
+.v3com + .v3com { border-top: 1px solid var(--line); }
+
+/* The critical one is set apart rather than buried: it is the entry that
+   makes the other sixty-three worth reading. */
+.v3com--critical { background: #FCFCFB; }
+
+.v3com__av { overflow: hidden; }
+
+.v3com__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.v3com__who { display: flex; align-items: center; gap: 12px; }
+
+.v3com__av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--image-bed);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.v3com__name { font-size: 14px; font-weight: 700; letter-spacing: -.014em; }
+
+.v3com__when {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.v3fitted { display: block; margin-top: 12px; padding: 12px 14px; border-radius: 11px; background: var(--surface); }
+
+.v3fitted__k {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.v3fitted__car { display: block; margin: 4px 0 8px; font-size: 13px; font-weight: 700; letter-spacing: -.014em; }
+
+.v3fitted__run { display: flex; align-items: center; gap: 10px; }
+
+.v3fitted__track { flex: 1 1 auto; height: 4px; border-radius: 999px; background: var(--line); overflow: hidden; }
+
+.v3fitted__fill { display: block; height: 100%; border-radius: 999px; background: var(--accent); }
+
+.v3fitted__km { font-family: var(--mono); font-size: 9px; font-weight: 700; white-space: nowrap; }
+
+.v3com__verified {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.v3com__head { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+
+.v3com__t { margin: 0; font-size: 16.5px; font-weight: 700; letter-spacing: -.022em; }
+
+.v3com__tag {
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.v3com__tag--critical { background: rgba(138, 74, 34, .12); color: #8A4A22; }
+
+.v3com__b { margin: 8px 0 0; font-size: 14.5px; line-height: 1.62; color: var(--ink-3); }
+
+.v3reply {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 11px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 13px 16px;
+  border-radius: 13px;
+  background: var(--ink);
+}
+
+.v3reply__who {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.v3reply__t { font-size: 13.5px; line-height: 1.6; color: rgba(255, 255, 255, .78); }
+
+.v3acts { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+
+.v3act {
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.v3act:hover { color: var(--ink); }
+
+.v3act:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.v3all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.v3all:hover { background: var(--line-faint); color: var(--ink); }
+
+.v3all__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.v3say {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--ink);
+}
+
+.v3say__av {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .1);
+  color: #FFFFFF;
+}
+
+.v3say__in {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 13.5px;
+}
+
+.v3say__in::placeholder { color: rgba(255, 255, 255, .42); }
+
+.v3say__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.v3say__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 5px 5px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.v3say__go:hover { background: var(--accent-hi); }
+
+.v3say__go:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.v3say__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+
+/* ==========================================================================
+   10. Delivery terms
+   ========================================================================== */
+
+.v3terms {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 18px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.v3term {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 20px 24px;
+  background: #FFFFFF;
+}
+
+.v3term__n { font-size: 21px; font-weight: 800; letter-spacing: -.026em; white-space: nowrap; }
+
+.v3term__n--accent { color: var(--accent); }
+
+.v3term__k {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.v3term__t { font-size: 13.5px; line-height: 1.55; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   11. Responsive
+   ========================================================================== */
+
+@media (max-width: 1240px) {
+  .v3top { grid-template-columns: minmax(0, 1fr); }
+
+  .v3about { grid-template-columns: minmax(0, 1fr); }
+
+  .v3spec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .v3cars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .v3fit { grid-template-columns: minmax(0, 1fr); }
+
+  .v3stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .v3sum__in { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+
+  .v3sum__rule { display: none; }
+}
+
+@media (max-width: 980px) {
+  .v3nav { padding: 12px 20px; }
+
+  .v3nav__links { display: none; }
+
+  .v3row { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+  .v3verdict { justify-self: start; }
+
+  .v3com { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+
+  .v3terms { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .v3gal { flex-direction: column; }
+
+  .v3strip { width: auto; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .v3thumb { aspect-ratio: 4 / 3; height: auto; }
+
+  .v3spec { grid-template-columns: minmax(0, 1fr); }
+
+  .v3cars { grid-template-columns: minmax(0, 1fr); }
+
+  .v3stages { grid-template-columns: minmax(0, 1fr); }
+
+  .v3wear { padding: 24px 20px 22px; }
+
+  .v3wear__word { display: none; }
+
+  .v3say { grid-template-columns: minmax(0, 1fr); }
+
+  .v3swap { flex-wrap: wrap; gap: 12px; }
+
+  .v3swap__go { margin-left: 0; }
+}
+
+@media (max-width: 430px) {
+  .v3hist { grid-template-columns: minmax(0, 1fr); }
+
+  .v3sizes { flex-direction: column; }
+
+  .v3size { justify-content: space-between; }
+
+  .v3cart { flex-direction: column; align-items: stretch; }
+
+  .v3sort { margin-left: 0; width: 100%; }
+
+  .v3bay { grid-template-columns: minmax(0, 1fr) auto; }
+}
+
+
+/* ==========================================================================
+   12. Touch
+   ========================================================================== */
+
+@media (hover: none) {
+  .v3size:hover { border-color: rgba(20, 22, 26, .18); }
+
+  .v3size--on:hover { border-color: var(--ink); }
+
+  .v3filter:hover { border-color: rgba(20, 22, 26, .16); }
+
+  .v3bay:hover { background: #FFFFFF; }
+
+  .v3bay--on:hover { background: var(--surface); }
+
+  .v3nav__a:hover { background: none; }
+
+  .v3nav__a--on:hover { background: var(--ink); }
+}

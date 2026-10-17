@@ -1,0 +1,877 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Profile
+   Only what this page adds. The light header, the page-header block and the
+   shared dots, pulse and rule are the inner-page template and live in
+   style.css.
+
+   The buyer's account page: one dark sticky sidebar that carries the whole
+   dashboard, one bordered card that edits every detail we hold, and a
+   data-and-privacy row that says what we keep. The page is deliberately
+   small — it edits facts, it does not try to be a home for the account.
+
+   Accent marks: the avatar rings, the verified pills, the current nav row,
+   Sell my car, €0 FEES PAID, the unsaved dot, focus rings, the consent tick
+   and the Save arrow disc. Rust appears once, on the delete link — the
+   system's warning colour, never decoration.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Layout
+   02. Sidebar: identity, nav, sell, stats, sign out
+   03. Details card: head, photo
+   04. Fields
+   05. Consent and actions
+   06. Data and privacy
+   07. Responsive
+   08. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Layout
+   ========================================================================== */
+
+.uasec { padding: 0 40px; }
+
+.uagrid {
+  display: grid;
+  grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+
+/* The dealer rail is twenty pixels wider: twelve rows with reasons need it. */
+.uagrid--wide { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
+
+.uamain { display: flex; flex-direction: column; gap: 34px; min-width: 0; }
+
+/* The title is one line in the design; it may break only where the page
+   header itself stacks. */
+.uatitle { white-space: nowrap; }
+
+.uak {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.uahide {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   02. Sidebar
+
+   Ink, one column, no internal gaps: the rows are hairline-separated bands,
+   not cards. The current row takes the accent on its left edge; the others
+   carry a transparent edge so nothing shifts on hover.
+   ========================================================================== */
+
+.uaside {
+  position: sticky;
+  top: 24px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.uawho { position: relative; padding: 20px 20px 18px; border-bottom: 1px solid rgba(255, 255, 255, .14); }
+
+.uawho__mark {
+  position: absolute;
+  right: -8px;
+  top: -14px;
+  font-family: var(--display);
+  font-size: 80px;
+  font-weight: 400;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, .07);
+  pointer-events: none;
+  user-select: none;
+}
+
+.uawho__row { position: relative; display: flex; align-items: center; gap: 13px; }
+
+.uaava {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .1);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* A dealer's logo tile: the same 46px slot, squared off. */
+.uaava--logo { border-radius: 13px; }
+
+.uaava__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.uaava__mono,
+.uaslot__mono {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: rgba(255, 255, 255, .7);
+}
+
+.uaava--photo .uaava__mono,
+.uaslot--photo .uaslot__mono { display: none; }
+
+.uawho__main { min-width: 0; }
+
+.uawho__name { display: block; font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.uawho__since {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.uawho__row2 { position: relative; display: flex; align-items: center; gap: 8px; margin: 14px 0 0; }
+
+.uaverified {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(198, 230, 59, .2);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: #FFFFFF;
+}
+
+.uaverified svg { color: var(--accent); }
+
+.uawho__bought {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+/* The group label sits in the sidebar's own line box, as in the design:
+   the band is 37.5px tall, the label its own 12px. The heading takes the
+   body's 16px so the 9px label sits inside the strut instead of stretching
+   it — at the heading's own 24px the band grew by a pixel and a half. */
+.uagroup { margin: 0; padding: 14px 20px 6px; font-size: 16px; line-height: 17.5px; }
+
+.uagroup__t {
+  display: inline;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.uanav {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 20px;
+  border-left: 2px solid transparent;
+  color: #FFFFFF;
+  transition: background .18s ease;
+}
+
+.uanav:hover { background: rgba(255, 255, 255, .06); color: #FFFFFF; }
+
+.uanav--on { border-left-color: var(--accent); background: rgba(255, 255, 255, .08); }
+
+.uanav__i { display: inline-flex; color: rgba(255, 255, 255, .5); }
+
+.uanav--on .uanav__i { color: var(--accent); }
+
+.uanav__main { min-width: 0; }
+
+.uanav__k { display: block; font-size: 14.5px; font-weight: 600; letter-spacing: -.02em; color: rgba(255, 255, 255, .84); }
+
+.uanav--on .uanav__k { font-weight: 800; color: #FFFFFF; }
+
+.uanav__s {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: rgba(255, 255, 255, .58);
+}
+
+.uanav__n {
+  min-width: 22px;
+  padding: 3px 7px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .1);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.uasellwrap { padding: 16px 20px 0; }
+
+.uasell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--accent);
+  color: var(--ink);
+  transition: filter .18s ease;
+}
+
+.uasell:hover { filter: brightness(1.08); color: var(--ink); }
+
+/* The block is the current item on the sell page: an ink ring inside the tile. */
+.uasell--on { box-shadow: inset 0 0 0 2px var(--ink); }
+
+.uasell__tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.uasell__main { min-width: 0; }
+
+.uasell__k { display: block; font-size: 14.5px; font-weight: 800; letter-spacing: -.02em; }
+
+.uasell__s {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(20, 22, 26, .66);
+}
+
+.uastats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .14);
+}
+
+.uastat { padding: 14px 12px 15px; background: var(--ink); text-align: center; }
+
+.uastat__n { display: block; font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.uastat__n--accent { color: var(--accent); }
+
+.uastat__k {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.uaout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 20px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .72);
+  transition: color .18s ease;
+}
+
+.uaout:hover { color: #FFFFFF; }
+
+.uaout__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .1);
+  color: #FFFFFF;
+}
+
+
+/* ==========================================================================
+   03. Details card: head, photo
+   ========================================================================== */
+
+.uacard {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.uacard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.uacard__group { display: inline-flex; align-items: center; gap: 11px; }
+
+/* The unsaved pill is real dirty-state UI: the dot pulses only while there
+   is something to save. */
+.uaunsaved {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.uaunsaved .dot { display: none; }
+
+.uaunsaved--dirty .dot { display: block; }
+
+.uacard__saved {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.uaphoto {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 20px;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.uaslot { position: relative; width: 76px; height: 76px; }
+
+.uaslot__ring {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+  box-shadow: 0 0 0 2px var(--accent);
+  transition: box-shadow .18s ease;
+}
+
+.uaslot--over .uaslot__ring { box-shadow: 0 0 0 2px var(--accent), 0 0 0 6px rgba(198, 230, 59, .3); }
+
+.uaslot__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.uaslot__mono { font-size: 18px; color: var(--ink-2); }
+
+.uaslot__edit {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.uaslot__edit:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.uaphoto__main { min-width: 0; }
+
+.uaphoto__k {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.uaphoto__row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 11px; }
+
+.uabtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, color .18s ease;
+}
+
+.uabtn:hover { border-color: var(--ink); color: var(--ink); }
+
+.uabtn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.uabtn--quiet { color: var(--ink-2); }
+
+.uaphoto__rule { margin: 11px 0 0; font-size: 12.5px; line-height: 1.55; color: var(--ink-2); }
+
+
+/* ==========================================================================
+   04. Fields
+
+   Every help line states a consequence, never the field's own name back at
+   the user.
+   ========================================================================== */
+
+.uafields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 24px 24px 8px;
+}
+
+.uafield { display: block; min-width: 0; }
+
+.uafield--wide { grid-column: 1 / -1; }
+
+.uafield__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+
+.ualabel {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.ualabel--block { display: block; margin-bottom: 8px; }
+
+.uain {
+  display: block;
+  width: 100%;
+  height: 48px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.uaarea {
+  display: block;
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.uain:focus-visible,
+.uaarea:focus-visible { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(198, 230, 59, .3); }
+
+.uain:disabled { opacity: .55; }
+
+.uain::placeholder { color: var(--ink-4); }
+
+.uahelp { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+.uapill {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(198, 230, 59, .3);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.uacount {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.uacount--over { color: #8A4A22; }
+
+.uasub {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+.uasub__k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.uasub__rule { flex: 1 1 auto; height: 1px; background: var(--line); }
+
+.uacheck {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.uacheck__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(20, 22, 26, .28);
+  border-radius: 5px;
+  color: var(--ink);
+}
+
+.uacheck__box svg { visibility: hidden; }
+
+.uahide:checked + .uacheck__box { border: 0; background: var(--accent); }
+
+.uahide:checked + .uacheck__box svg { visibility: visible; }
+
+.uahide:focus-visible + .uacheck__box { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.uacheck__t { font-size: 13px; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   05. Consent and actions
+   ========================================================================== */
+
+.uaconsent {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 24px 20px;
+  cursor: pointer;
+}
+
+.uaconsent__box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border: 1.5px solid rgba(20, 22, 26, .28);
+  border-radius: 6px;
+  color: var(--ink);
+}
+
+.uaconsent__box svg { visibility: hidden; }
+
+.uahide:checked + .uaconsent__box { border: 0; background: var(--accent); }
+
+.uahide:checked + .uaconsent__box svg { visibility: visible; }
+
+.uahide:focus-visible + .uaconsent__box { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.uaconsent__t { font-size: 14px; line-height: 1.55; color: var(--ink-3); }
+
+.uaconsent__t2 { color: var(--ink-2); }
+
+.uaacts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.uaacts__note { display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: var(--ink-2); }
+
+.uaacts__btns { display: inline-flex; align-items: center; gap: 10px; }
+
+.uadiscard {
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.uadiscard:hover { border-color: var(--ink); }
+
+.uasave {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 10px 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.uasave:hover { filter: brightness(1.14); }
+
+.uasave__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.uadiscard:focus-visible,
+.uasave:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.uadiscard[disabled],
+.uasave[disabled] { opacity: .45; cursor: default; }
+
+.uasave[disabled]:hover { filter: none; }
+
+
+/* ==========================================================================
+   06. Data and privacy
+   ========================================================================== */
+
+.uapriv__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.uapriv__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.uapriv {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.uacell { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.uacell__k { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.uacell__t { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.uacell__a {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 9px;
+  margin-top: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.uacell__a:hover { color: var(--ink-3); }
+
+.uacell__a:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.uacell__a--rust { color: #8A4A22; }
+
+.uacell__a--rust:hover { color: #8A4A22; }
+
+.uacell__note {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   07. Responsive
+
+   The prototype is desktop only. Below 1100px the sidebar stops being sticky
+   and sits above the card; the field grid and the privacy row fold after.
+   ========================================================================== */
+
+/* Below this the one-line title plus the 560px lede no longer fit between the gutters. */
+@media (max-width: 1380px) {
+  .uatitle { white-space: normal; }
+}
+
+@media (max-width: 1100px) {
+  .uagrid { grid-template-columns: minmax(0, 1fr); }
+
+  .uaside { position: static; }
+}
+
+@media (max-width: 900px) {
+  .uafields { grid-template-columns: minmax(0, 1fr); }
+
+  .uapriv { grid-template-columns: minmax(0, 1fr); }
+
+  .uastats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .uasec { padding: 0 20px; }
+
+  .uaphoto { grid-template-columns: minmax(0, 1fr); }
+
+  .uacard__head, .uaacts { flex-direction: column; align-items: flex-start; }
+
+  .uaacts__btns { width: 100%; justify-content: flex-end; }
+
+  .uasub { flex-wrap: wrap; }
+}
+
+@media (max-width: 430px) {
+  .uasec { padding: 0 16px; }
+
+  .uafields { padding: 20px 18px 8px; }
+
+  .uaphoto, .uacard__head, .uaacts, .uaconsent { padding-left: 18px; padding-right: 18px; }
+
+  .uacell { padding: 18px 18px 20px; }
+}
+
+
+/* ==========================================================================
+   08. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .uasell:hover, .uasave:hover { filter: none; }
+
+  .uanav:hover { background: transparent; }
+
+  .uanav--on:hover { background: rgba(255, 255, 255, .08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uaunsaved .pulse { animation: none; }
+}

@@ -1,0 +1,895 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Shop v3
+   Only what this page adds. The light header, the page-header block and the
+   shared buttons, chips and dots are the inner-page template and live in
+   style.css.
+
+   The plain shop, and the one to build if only one ships. No filter rail and
+   no timeframe columns — a search field, a row of category chips, one honest
+   line about what the car is due, and a grid.
+
+   THE DIAGNOSTIC IS A HINT INSIDE A FAMILIAR SHOP, not a new information
+   architecture. It gets one dark strip and a badge on the two cards it names;
+   the rest of the page is a shop, laid out the way a shopper expects.
+
+   The rhythm carries the grouping: 24px between blocks that belong together
+   (search → chips → due line, band → pagination) and 40px where a new task
+   starts. No hairlines between blocks.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Rhythm
+   02. Search and car
+   03. Category chips
+   04. The due line
+   05. Results head
+   06. The grid
+   07. Fitting and delivery
+   08. Pagination
+   09. Responsive
+   10. Touch
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Rhythm
+   ========================================================================== */
+
+.zgap { height: 40px; }
+
+/* Blocks that answer the same question stand closer together. */
+.zgap--near { height: 24px; }
+
+.zsec { scroll-margin-top: 96px; }
+
+
+/* ==========================================================================
+   02. Search and car
+
+   The car sits beside the search box rather than in a finder band of its own:
+   that is what makes the fitment promise legible without a section for it.
+   ========================================================================== */
+
+.zfind {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.zsearch { position: relative; }
+
+.zsearch__glass {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.zsearch__in {
+  width: 100%;
+  box-sizing: border-box;
+  height: 64px;
+  padding: 0 22px 0 56px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 16px;
+  background: #FFFFFF;
+  font-family: inherit;
+  font-size: 16.5px;
+  font-weight: 500;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .18s ease;
+}
+
+.zsearch__in:focus { border-color: var(--accent); }
+
+.zsearch__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.zsearch__in::placeholder { color: var(--ink-2); }
+
+.zcar {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  height: 64px;
+  padding: 0 22px;
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.zcar__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.zcar__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.zcar__name {
+  margin-top: 4px;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+
+.zcar__change {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.zcar__change:hover { color: var(--ink); }
+
+
+/* ==========================================================================
+   03. Category chips
+   ========================================================================== */
+
+.zchips { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.zchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 20px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.zchip:hover { border-color: var(--ink); }
+
+.zchip:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.zchip--on {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+/* A shelf with nothing on it for this car stays on the row — hiding it would
+   leave the buyer wondering where suspension went — but it says it is empty
+   rather than accepting a click that changes nothing. */
+.zchip[disabled] {
+  border-color: rgba(20, 22, 26, .1);
+  color: var(--ink-4);
+  cursor: not-allowed;
+}
+
+.zchip[disabled]:hover { border-color: rgba(20, 22, 26, .1); }
+
+.zchip__n { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink-2); }
+
+.zchip[disabled] .zchip__n { color: var(--ink-4); }
+
+.zchip--on .zchip__n { color: rgba(255, 255, 255, .6); }
+
+
+/* ==========================================================================
+   04. The due line
+
+   The measurement is the point. A generic "you may need parts" banner is
+   advertising; naming the millimetres and the service that measured them is
+   the same candour the car pages use — which is also why the quiet state
+   carries its evidence rather than just saying nothing is wrong.
+   ========================================================================== */
+
+.zdue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px 26px;
+  border-radius: 18px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.zdue__text { display: flex; align-items: center; gap: 14px; min-width: 0; }
+
+.zdue__dot { flex: none; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); }
+
+.zdue__dot--calm { background: rgba(255, 255, 255, .5); }
+
+.zdue__line { font-size: 15.5px; line-height: 1.5; }
+
+.zdue__claim { font-weight: 700; }
+
+.zdue__why { color: rgba(255, 255, 255, .62); }
+
+.zdue__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 12px 12px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* The quiet state has nothing to jump to, so its link reads back rather than
+   forward — into the report that made the measurement. */
+.zdue__go--calm { background: none; border: 1px solid rgba(255, 255, 255, .28); color: #FFFFFF; }
+
+.zdue__go--calm:hover { border-color: #FFFFFF; color: #FFFFFF; }
+
+
+/* ==========================================================================
+   05. Results head
+   ========================================================================== */
+
+.zhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+}
+
+.zhead__count { display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap; }
+
+.zhead__big { font-size: 22px; font-weight: 800; letter-spacing: -.028em; }
+
+.zhead__sub { font-size: 14px; color: var(--ink-2); }
+
+.zhead__tools { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+/* A real checkbox behind the drawn switch: the prototype draws two spans,
+   which cannot be tabbed to, toggled with a space or read out as a control. */
+.zswitch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+
+.zswitch__in {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.zswitch__track {
+  position: relative;
+  flex: none;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .2);
+  transition: background .18s ease;
+}
+
+.zswitch__knob {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: transform .18s ease, background .18s ease;
+}
+
+.zswitch__in:checked + .zswitch__track { background: var(--accent); }
+
+.zswitch__in:checked + .zswitch__track .zswitch__knob {
+  transform: translateX(18px);
+  background: var(--ink);
+}
+
+.zswitch__in:focus-visible + .zswitch__track { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.zswitch__lbl { font-size: 14px; font-weight: 600; }
+
+.zsort { position: relative; display: inline-flex; }
+
+.zsort__select {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 44px;
+  padding: 0 40px 0 18px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  background: none;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+}
+
+.zsort__select:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.zsort__chev {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   06. The grid
+   ========================================================================== */
+
+.zgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.zcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+/* The two parts the car is due wear the ink border, so the badge is not the
+   only thing carrying the claim. */
+.zcard--due { border-color: var(--ink); }
+
+.zcard:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+}
+
+.zcard:focus-within { border-color: var(--ink); }
+
+/* Both children are absolutely positioned, so the ratio is the only thing
+   giving the frame a height. */
+.zcard__frame { position: relative; aspect-ratio: 4 / 3; background: var(--image-bed); }
+
+.zcard__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.zph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: rgba(20, 22, 26, .3);
+}
+
+.zph__size {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(20, 22, 26, .3);
+}
+
+.zph__lbl {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(20, 22, 26, .42);
+}
+
+.zbadge {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.zsave {
+  position: absolute;
+  right: 11px;
+  top: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.zsave:hover { background: #FFFFFF; }
+
+.zsave:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.zsave--on { background: var(--accent); }
+
+.zsave--on .zheart { fill: currentColor; }
+
+.zcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 9px;
+  padding: 16px 18px 18px;
+}
+
+.zcard__meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+.zcard__brand {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+/* The part number is what a buyer cross-references before ordering: data, not
+   a footnote, so it is read at 10px in the label grey. */
+.zcard__sku {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+}
+
+.zcard__name {
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.zcard__stock { display: flex; align-items: center; gap: 8px; }
+
+.zdot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+.zdot--out { background: var(--ink-4); }
+
+.zcard__slabel { font-size: 12.5px; color: var(--ink-3); }
+
+/* margin-top: auto is what lines the prices up across a row of cards whose
+   names run to different lengths. */
+.zcard__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.zcard__price { font-size: 19px; font-weight: 800; letter-spacing: -.028em; white-space: nowrap; }
+
+.zadd {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 10px 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.zadd:hover { background: #23262C; }
+
+.zadd:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.zadd[disabled] { background: rgba(20, 22, 26, .28); cursor: not-allowed; }
+
+.zadd--in { background: var(--accent); color: var(--ink); }
+
+.zadd__plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.zadd--in .zadd__plus { background: var(--ink); color: var(--accent); }
+
+.zadd[disabled] .zadd__plus { background: rgba(255, 255, 255, .3); }
+
+/* With "Only what fits" on and a narrow shelf, nothing matching is likely —
+   so the page says so plainly and offers the toggle as the way out. */
+.zempty {
+  padding: 48px 30px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.zempty__title { font-size: 17px; font-weight: 700; letter-spacing: -.022em; }
+
+.zempty__note { margin: 8px 0 0; font-size: 14px; color: var(--ink-3); }
+
+.zempty__btn {
+  margin-top: 16px;
+  padding: 12px 20px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.zempty__btn:hover { border-color: var(--ink); }
+
+.zempty__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   07. Fitting and delivery
+   ========================================================================== */
+
+.zband {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.zfit {
+  position: relative;
+  padding: 30px 32px 32px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.zfit__ghost {
+  position: absolute;
+  right: -16px;
+  bottom: -48px;
+  font-family: var(--display);
+  font-size: 150px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(20, 22, 26, .18);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.zfit__body { position: relative; }
+
+.zfit__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 13px;
+  border: 1px solid rgba(20, 22, 26, .28);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.zfit__h2 {
+  margin: 15px 0 0;
+  font-size: clamp(22px, 2vw, 32px);
+  font-weight: 800;
+  letter-spacing: -.034em;
+  line-height: 1.06;
+}
+
+.zfit__p {
+  margin: 11px 0 0;
+  max-width: 440px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(20, 22, 26, .76);
+}
+
+.zfit__figs {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(20, 22, 26, .2);
+}
+
+.zfit__num { font-size: 19px; font-weight: 800; letter-spacing: -.028em; line-height: 1; }
+
+/* Ink on accent needs more weight than ink on white at the same size. */
+.zfit__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(20, 22, 26, .78);
+}
+
+.zfit__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 14px 14px 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Three rows, and the 1px gap over the tinted ground is the hairline — the
+   rows carry no borders of their own. */
+.zterms {
+  display: grid;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.zterm {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  background: #FFFFFF;
+}
+
+.zterm__fig { flex: none; min-width: 88px; }
+
+.zterm__num { font-size: 21px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.zterm__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.zterm__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   08. Pagination
+   ========================================================================== */
+
+.zpage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 22px 26px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 20px;
+}
+
+.zpage__lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.zpage__rail {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.zpage__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 42px;
+  border: 0;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.zpage__arrow:first-child { border-left: 0; background: none; }
+
+.zpage__arrow:hover { background: rgba(20, 22, 26, .1); }
+
+.zpage__arrow:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+.zpage__arrow[disabled] { background: none; color: var(--ink-4); cursor: default; }
+
+.zpage__n {
+  min-width: 46px;
+  height: 42px;
+  padding: 0 6px;
+  border: 0;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  background: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.zpage__n:hover { background: var(--surface); }
+
+.zpage__n:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+.zpage__n--on { background: var(--ink); color: #FFFFFF; font-weight: 800; }
+
+.zpage__n--on:hover { background: var(--ink); }
+
+/* A bare skipped integer reads as a typo, so the gap says it is a gap. */
+.zpage__gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  color: var(--ink-4);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   09. Responsive
+
+   The handoff says "no responsive breakpoints; desktop target, 1656px". The
+   grid steps 4 → 3 → 2 → 1, the search row lets the car chip drop under the
+   field, and the band unstacks — everything else already wraps.
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .zgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1100px) {
+  .zgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .zband { grid-template-columns: minmax(0, 1fr); }
+  .zfit { padding: 26px 24px 28px; }
+}
+
+@media (max-width: 780px) {
+  .zgap { height: 30px; }
+  .zgap--near { height: 18px; }
+
+  /* The car chip goes under the field rather than squeezing it to nothing. */
+  .zfind { grid-template-columns: minmax(0, 1fr); }
+  .zcar { justify-content: flex-start; }
+
+  /* The chips scroll sideways instead of stacking into an eight-line block:
+     the row is a control strip, not a list. */
+  .zchips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .zchips::-webkit-scrollbar { display: none; }
+
+  .zchip { flex: none; }
+
+  .zdue { padding: 18px 20px; }
+  .zdue__go { width: 100%; justify-content: space-between; }
+
+  .zhead { gap: 14px; padding-bottom: 14px; margin-bottom: 18px; }
+  .zhead__big { font-size: 20px; }
+
+  .zfit__ghost { font-size: 110px; }
+  .zfit__figs { gap: 18px; }
+
+  .zterm { padding: 16px 20px; gap: 14px; }
+  .zterm__fig { min-width: 74px; }
+
+  .zpage { padding: 18px 18px; gap: 14px; }
+}
+
+@media (max-width: 560px) {
+  .zgrid { grid-template-columns: minmax(0, 1fr); }
+
+  .zcar { height: auto; padding: 14px 18px; }
+  .zcar__name { white-space: normal; }
+
+  .zfit { padding: 22px 18px 24px; }
+  .zfit__ghost { font-size: 90px; }
+  .zfit__cta { width: 100%; justify-content: space-between; }
+
+  .zterm { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  .zpage__rail { width: 100%; justify-content: center; }
+  .zpage__n { min-width: 36px; padding: 0 4px; }
+  .zpage__gap { min-width: 24px; }
+  .zpage__arrow { width: 36px; }
+}
+
+
+/* ==========================================================================
+   10. Touch
+   ========================================================================== */
+
+@media (hover: none) {
+  .zcar__change { padding: 11px 0; margin: -11px 0; }
+
+  /* A hover lift on a touch screen is a state nobody can leave. */
+  .zcard:hover { transform: none; box-shadow: none; }
+}

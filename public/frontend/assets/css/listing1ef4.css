@@ -1,0 +1,1111 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Listings v1 and v2
+   Only what these pages add. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css.
+
+   This page deliberately carries no hairline dividers below the header: three
+   dark panels and a bordered card grid are already strongly bounded, so the
+   rhythm is bare spacers instead.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Filter panel
+   02. Quick picks and fields
+   03. Panel foot
+   04. Sort bar
+   05. The card grid
+   06. The card hover — the inversion
+   07. Pagination
+   08. Sourcing panel
+   09. The light variant — v2
+   10. The photo-led card — v2
+   11. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Filter panel
+   ========================================================================== */
+
+.fpanel {
+  position: relative;
+  padding-bottom: 44px;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.fpanel__wordmark {
+  position: absolute;
+  right: -26px;
+  bottom: -66px;
+  font-family: var(--display);
+  font-size: 200px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.fpanel__head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 44px 46px 0;
+}
+
+.fpanel__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.fpanel__h {
+  margin-top: 18px;
+  font-size: clamp(28px, 2.8vw, 46px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+}
+
+.fpanel__right { display: flex; align-items: flex-end; gap: 26px; }
+
+.fcount { text-align: right; }
+
+.fcount__num { font-size: 34px; font-weight: 800; letter-spacing: -.034em; line-height: 1; color: var(--accent); }
+
+.fcount__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.fcount__sep { width: 1px; height: 38px; background: rgba(255, 255, 255, .16); }
+
+.fsort { min-width: 220px; }
+
+
+/* ==========================================================================
+   02. Quick picks and fields
+   ========================================================================== */
+
+.qpicks {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 30px 46px 0;
+}
+
+.qpicks__lbl {
+  padding-right: 4px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .42);
+}
+
+.qchip {
+  padding: 9px 16px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .84);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.qchip:hover { border-color: rgba(255, 255, 255, .5); }
+
+.qchip--on { border-color: var(--accent); background: var(--accent); color: var(--ink); font-weight: 700; }
+
+.qchip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.ffields {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 18px;
+  padding: 28px 46px 0;
+}
+
+.ffield { display: block; }
+
+.ffield__lbl {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.ffield__pick { position: relative; display: block; }
+
+.ffield__in {
+  width: 100%;
+  height: 52px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.ffield__in::placeholder { color: rgba(255, 255, 255, .38); font-weight: 500; }
+
+.ffield__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+select.ffield__in {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* The list is drawn by the OS, so the dark ground has to be stated here. */
+select.ffield__in option { background: var(--ink); color: #FFFFFF; }
+
+.ffield__chev {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: rgba(255, 255, 255, .6);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   03. Panel foot
+   ========================================================================== */
+
+.fpanel__foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin: 28px 46px 0;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.fpledges { display: flex; flex-wrap: wrap; gap: 20px; }
+
+.fpledge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, .78);
+}
+
+.fpledge__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.fpanel__acts { display: flex; align-items: center; gap: 14px; }
+
+.freset {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .6);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.freset:hover { color: #FFFFFF; }
+
+.fshow {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 16px 16px 30px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.fshow:hover { background: var(--accent-hi); }
+
+.fshow__arrow,
+.pager__morec,
+.source__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   04. Sort bar
+   ========================================================================== */
+
+/* Two sort controls on purpose — one for people who set filters, one for
+   people who just scroll. Module 22 keeps them in step. */
+.sortbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.sortbar__count {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.sortbar__pick { position: relative; display: block; }
+
+.sortbar__select {
+  height: 48px;
+  padding: 0 46px 0 22px;
+  border: 1px solid var(--cta-line, rgba(20, 22, 26, .2));
+  border-radius: 999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.sortbar__select:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.sortbar__chev {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   05. The card grid
+   ========================================================================== */
+
+.lgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+
+.lempty {
+  max-width: 640px;
+  margin-bottom: 26px;
+  padding: 22px 26px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+.lcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line-10);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: transform .24s ease, box-shadow .24s ease, background .24s ease, border-color .24s ease;
+}
+
+.lcard__shot { position: relative; aspect-ratio: 16 / 10; background: var(--image-bed); }
+
+.lcard__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.lcard__where {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.lcard__body { display: flex; flex-direction: column; flex: 1 1 auto; padding: 22px 22px 24px; }
+
+.lcard__make {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  transition: color .24s ease;
+}
+
+.lcard__model { margin-top: 8px; font-size: 22px; font-weight: 800; letter-spacing: -.026em; text-wrap: pretty; }
+
+/* The price must wrap, never ellipsise — a six-figure figure has to stay
+   readable when the row runs out of room. */
+.lcard__prices {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.lcard__price {
+  font-size: clamp(21px, 1.7vw, 27px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+  transition: color .24s ease;
+}
+
+.lcard__mo { flex: none; font-size: 13px; color: var(--ink-2); white-space: nowrap; transition: color .24s ease; }
+
+/* The fault the inspection found, in words. A clean car swaps to an accent
+   tint so "nothing found" reads as a result, not as an absence. */
+.lcard__fault {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1px solid var(--line-10);
+  border-radius: 14px;
+  background: var(--surface);
+  transition: background .24s ease, border-color .24s ease;
+}
+
+.lcard__fault--clean {
+  border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.lcard__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.lcard__ftext { min-width: 0; }
+
+.lcard__flabel {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  transition: color .24s ease;
+}
+
+.lcard__fline {
+  display: block;
+  margin-top: 6px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  font-weight: 600;
+  text-wrap: pretty;
+}
+
+.lcard__specs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 18px;
+  /* `margin-top: auto` on the CTA below only opens a gap when the card has
+     slack; on a full card it collapses to nothing, so the space belongs here. */
+  padding-bottom: 20px;
+  border-top: 1px solid var(--line-10);
+  transition: border-color .24s ease;
+}
+
+.lcard__sval { font-size: 15px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
+
+.lcard__slabel {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+  transition: color .24s ease;
+}
+
+.lcard__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding: 14px 14px 14px 22px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 600;
+  transition: background .24s ease, color .24s ease;
+}
+
+.lcard__ctac {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+  transition: background .24s ease, color .24s ease;
+}
+
+
+/* ==========================================================================
+   06. The card hover — the inversion
+   One card in the grid is permanently dark as the grid's rhythm; on hover any
+   other card takes the same treatment. It recolours descendants, so it cannot
+   live on the element — this block is the reason the page has a stylesheet.
+   ========================================================================== */
+
+.lcard--dark,
+.lcard:not(.lcard--photo):hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.lcard:not(.lcard--photo):hover { transform: translateY(-8px); box-shadow: 0 30px 58px -28px rgba(20, 22, 26, .46); }
+
+.lcard--dark .lcard__make,
+.lcard:not(.lcard--photo):hover .lcard__make { color: rgba(255, 255, 255, .5); }
+
+.lcard--dark .lcard__price,
+.lcard:not(.lcard--photo):hover .lcard__price { color: var(--accent); }
+
+.lcard--dark .lcard__mo,
+.lcard:not(.lcard--photo):hover .lcard__mo { color: rgba(255, 255, 255, .6); }
+
+.lcard--dark .lcard__fault,
+.lcard:not(.lcard--photo):hover .lcard__fault {
+  border-color: rgba(255, 255, 255, .12);
+  background: rgba(255, 255, 255, .06);
+}
+
+.lcard--dark .lcard__flabel,
+.lcard:not(.lcard--photo):hover .lcard__flabel { color: rgba(255, 255, 255, .5); }
+
+.lcard--dark .lcard__slabel,
+.lcard:not(.lcard--photo):hover .lcard__slabel { color: rgba(255, 255, 255, .44); }
+
+.lcard--dark .lcard__specs,
+.lcard:not(.lcard--photo):hover .lcard__specs { border-top-color: rgba(255, 255, 255, .14); }
+
+.lcard--dark .lcard__cta,
+.lcard:not(.lcard--photo):hover .lcard__cta { background: var(--accent); color: var(--ink); }
+
+.lcard--dark .lcard__ctac,
+.lcard:not(.lcard--photo):hover .lcard__ctac { background: var(--ink); color: var(--accent); }
+
+
+/* ==========================================================================
+   07. Pagination
+   ========================================================================== */
+
+/* Saying how many are left, not just how many pages exist. */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+  padding: 24px 30px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.pager__left { display: flex; align-items: center; gap: 26px; }
+
+.pager__seen { display: grid; grid-template-columns: auto auto; gap: 0 12px; align-items: baseline; }
+
+.pager__num { font-size: 28px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.pager__num--accent { color: var(--accent); }
+
+.pager__of { font-size: 14px; color: rgba(255, 255, 255, .6); }
+
+.pager__track {
+  grid-column: 1 / -1;
+  width: 220px;
+  max-width: 100%;
+  height: 5px;
+  margin-top: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .16);
+}
+
+.pager__fill { display: block; width: var(--seen, 0%); height: 100%; border-radius: 999px; background: var(--accent); }
+
+.pager__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.pager__sep { width: 1px; height: 44px; background: rgba(255, 255, 255, .16); }
+
+.pager__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 14px 14px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .2s ease, opacity .2s ease;
+}
+
+.pager__more:hover { background: var(--accent-hi); }
+
+.pager__more[disabled] { opacity: .4; cursor: default; }
+
+.pager__pages { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+/* The numbers live in their own box, so the row's gap does not reach them. */
+.pager__list { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.pager__plabel {
+  padding-right: 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.pnum {
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 11px;
+  background: transparent;
+  color: rgba(255, 255, 255, .86);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+
+.pnum:hover { border-color: #FFFFFF; }
+
+.pnum--on { border-color: #FFFFFF; background: #FFFFFF; color: var(--ink); font-weight: 800; }
+
+.pnum--gap { border: 0; cursor: default; color: rgba(255, 255, 255, .44); }
+
+.pnum--gap:hover { border: 0; }
+
+.pager__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, .1);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.pager__next:hover { background: var(--accent); color: var(--ink); }
+
+.pager__next[disabled] { opacity: .35; cursor: default; }
+
+
+/* ==========================================================================
+   08. Sourcing panel
+   ========================================================================== */
+
+.source {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: 48px;
+  align-items: center;
+  padding: 46px 46px 44px;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.source__wordmark {
+  position: absolute;
+  right: -24px;
+  bottom: -62px;
+  font-family: var(--display);
+  font-size: 190px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.source__lead { position: relative; }
+
+.source__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.source__h {
+  margin-top: 18px;
+  font-size: clamp(28px, 2.8vw, 46px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1.04;
+}
+
+/* The honest failure case is part of the promise. */
+.source__sub { margin-top: 14px; font-size: 16px; line-height: 1.6; color: rgba(255, 255, 255, .68); }
+
+.source__figs {
+  display: flex;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.sfig__num { font-size: 24px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.sfig__num--accent { color: var(--accent); }
+
+.sfig__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.source__form { position: relative; }
+
+.source__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+.source__error {
+  margin-top: 16px;
+  padding: 13px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.source__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 13px;
+  width: 100%;
+  margin-top: 18px;
+  padding: 15px 15px 15px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.source__cta:hover { background: var(--accent-hi); }
+
+
+/* ==========================================================================
+   09. The light variant — v2
+   ==========================================================================
+
+   Listings v2 is the same page read as a document instead of an instrument:
+   the three dark panels turn white and the footer is left as the page's only
+   dark surface. The mapping below is the handoff's own token table, in its
+   order, so the same conversion can be reused on any other dark panel.
+
+     panel   #14161A          ->  #FFFFFF + 1px rgba(20, 22, 26, .22)
+     text    #FFFFFF          ->  var(--ink)
+     body    rgba(255…,.68–.78)  ->  var(--ink-3)
+     labels  rgba(255…,.42–.5)   ->  var(--ink-2)
+     field   rgba(255…,.06)/.18  ->  var(--surface) / rgba(20, 22, 26, .18)
+     chips   rgba(255…,.22)      ->  rgba(20, 22, 26, .16)
+     hairline rgba(255…,.14)     ->  var(--line)
+     track   rgba(255…,.16–.18)  ->  rgba(20, 22, 26, .14)
+     tile    rgba(255…,.1)       ->  var(--surface)
+     stroke  rgba(255…,.09)      ->  rgba(20, 22, 26, .07)
+
+   The accent survives only where it carries meaning — the counters, the live
+   dots, the filled part of a bar, the button's arrow circle. It never becomes
+   a large fill on a white panel; the ink button is what that fill turns into.
+   ========================================================================== */
+
+/* -- the three panels --------------------------------------------------- */
+.listing--light .fpanel,
+.listing--light .pager,
+.listing--light .source {
+  border: 1px solid rgba(20, 22, 26, .22);
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.listing--light .fpanel__wordmark,
+.listing--light .source__wordmark { -webkit-text-stroke: 1.2px rgba(20, 22, 26, .07); }
+
+/* -- outlined pills and chips ------------------------------------------- */
+.listing--light .fpanel__live,
+.listing--light .source__live,
+.listing--light .qchip { border-color: rgba(20, 22, 26, .16); }
+
+.listing--light .qchip { color: var(--ink); }
+
+.listing--light .qchip:hover { border-color: rgba(20, 22, 26, .42); }
+
+/* -- labels and body copy ----------------------------------------------- */
+.listing--light .fcount__lbl,
+.listing--light .ffield__lbl,
+.listing--light .qpicks__lbl,
+.listing--light .pager__of,
+.listing--light .pager__lbl,
+.listing--light .pager__plabel,
+.listing--light .pnum--gap,
+.listing--light .sfig__lbl,
+.listing--light .freset { color: var(--ink-2); }
+
+.listing--light .fpledge,
+.listing--light .source__sub { color: var(--ink-3); }
+
+.listing--light .freset:hover { color: var(--ink); }
+
+/* Ink for the plain figures — the one that carries the promise keeps the
+   accent, which is the whole rule of the light conversion. */
+.listing--light .sfig__num:not(.sfig__num--accent) { color: var(--ink); }
+
+/* -- fields -------------------------------------------------------------- */
+.listing--light .ffield__in {
+  border-color: rgba(20, 22, 26, .18);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.listing--light .ffield__in::placeholder { color: var(--ink-2); }
+
+.listing--light select.ffield__in option { background: #FFFFFF; color: var(--ink); }
+
+.listing--light .ffield__chev { color: var(--ink); }
+
+/* -- hairlines, separators, tracks --------------------------------------- */
+.listing--light .fpanel__foot,
+.listing--light .source__figs { border-top-color: var(--line); }
+
+.listing--light .fcount__sep,
+.listing--light .pager__sep { background: rgba(20, 22, 26, .16); }
+
+.listing--light .pager__track { background: rgba(20, 22, 26, .14); }
+
+/* -- the primary buttons invert: ink fill, white label, accent circle ----- */
+.listing--light .fshow,
+.listing--light .pager__more,
+.listing--light .source__cta {
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.listing--light .fshow:hover,
+.listing--light .pager__more:hover,
+.listing--light .source__cta:hover { background: #23272D; }
+
+.listing--light .fshow__arrow,
+.listing--light .pager__morec,
+.listing--light .source__arrow { background: var(--accent); color: var(--ink); }
+
+/* -- page numbers -------------------------------------------------------- */
+.listing--light .pnum { border-color: rgba(20, 22, 26, .16); color: var(--ink); }
+
+.listing--light .pnum:hover { border-color: var(--ink); }
+
+.listing--light .pnum--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.listing--light .pager__next { background: var(--surface); color: var(--ink); }
+
+.listing--light .pager__next:hover { background: var(--accent); color: var(--ink); }
+
+/* The band was written to sit on the dark panel; only its text needs turning. */
+.listing--light .source__error { color: var(--ink); }
+
+
+/* ==========================================================================
+   10. The photo-led card — v2
+   ==========================================================================
+
+   The same data, read from the photograph down: make, city and model sit on
+   the image over a scrim, and the fault count becomes a corner chip instead
+   of a sentence. Nothing here inverts — the card lifts, and that is all.
+   ========================================================================== */
+
+.lcard--photo .lcard__shot { aspect-ratio: 16 / 11; }
+
+/* Three stops, not two: the top darkens just enough to carry the chips, the
+   middle clears the car, and the bottom carries the model. */
+.lcard__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .42) 0%, rgba(20, 22, 26, 0) 36%, rgba(20, 22, 26, .88) 100%);
+  pointer-events: none;
+}
+
+/* The published-faults count, stated before the buyer has to ask for it. */
+.lcard__faults {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .34);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #FFFFFF;
+}
+
+/* A clean car is the one thing on this card worth the accent. */
+.lcard__faults--clean { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+.lcard__over { position: absolute; left: 18px; right: 18px; bottom: 18px; }
+
+/* White over the scrim, not over the card — a contrast sweep will read it
+   against the photograph and flag it; the scrim is what makes it legible. */
+.lcard--photo .lcard__make { color: rgba(255, 255, 255, .72); }
+
+.lcard--photo .lcard__model { font-size: 23px; letter-spacing: -.028em; color: #FFFFFF; }
+
+.lcard--photo .lcard__prices { margin-top: 0; }
+
+.lcard--photo .lcard__specs { margin-top: 20px; }
+
+.lcard--photo .lcard__cta { background: var(--surface); color: var(--ink); }
+
+.lcard--photo .lcard__ctac { background: var(--ink); color: #FFFFFF; }
+
+.lcard--photo:hover { transform: translateY(-8px); box-shadow: 0 30px 58px -28px rgba(20, 22, 26, .46); }
+
+/* One lead card, marked by its edge rather than by a dark fill. */
+.lcard--lead { border-color: var(--ink); box-shadow: 0 26px 52px -32px rgba(20, 22, 26, .48); }
+
+.lcard--lead .lcard__cta { background: var(--ink); color: #FFFFFF; }
+
+.lcard--lead .lcard__ctac { background: var(--accent); color: var(--ink); }
+
+
+/* ==========================================================================
+   11. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .ffields { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 1180px) {
+  .lgrid { grid-template-columns: repeat(2, 1fr); }
+  .source { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 38px 34px 36px; }
+  .fpanel__head,
+  .qpicks,
+  .ffields { padding-left: 34px; padding-right: 34px; }
+  .fpanel__foot { margin-left: 34px; margin-right: 34px; }
+  .fpanel__wordmark { font-size: 150px; bottom: -48px; }
+}
+
+@media (max-width: 1024px) {
+  .ffields { grid-template-columns: repeat(2, 1fr); }
+  .fpanel__right { width: 100%; justify-content: space-between; }
+  .pager { gap: 20px; }
+  .pager__left { width: 100%; justify-content: space-between; }
+}
+
+@media (max-width: 780px) {
+  .fpanel { border-radius: 24px; padding-bottom: 34px; }
+  .fpanel__head { padding: 30px 22px 0; gap: 22px; }
+  .qpicks { padding: 24px 22px 0; }
+  .ffields { grid-template-columns: minmax(0, 1fr); padding: 22px 22px 0; }
+  .fpanel__foot { margin: 24px 22px 0; }
+  .fpanel__acts { width: 100%; }
+  .fshow { flex: 1 1 auto; justify-content: space-between; }
+
+  /* The count and the sort cannot share a phone line: the select holds a
+     220px floor, which pushed it past the panel's own gutter at every width
+     from 390 down. It takes the next line instead, and the rule that used to
+     divide the two has nothing left to divide. */
+  .fpanel__right { flex-wrap: wrap; gap: 18px; }
+  .fcount__sep { display: none; }
+  .fsort { flex: 1 1 100%; min-width: 0; }
+  .fpanel__wordmark { font-size: 110px; bottom: -34px; }
+
+  .sortbar { gap: 14px; }
+  .sortbar__select { height: 44px; font-size: 14.5px; }
+
+  .lgrid { grid-template-columns: minmax(0, 1fr); }
+
+  .pager { flex-direction: column; align-items: stretch; padding: 20px 22px; border-radius: 18px; }
+  .pager__track { width: 100%; }
+  .pager__more { justify-content: space-between; }
+  .pager__pages { justify-content: space-between; }
+
+  .source { padding: 30px 22px 32px; border-radius: 24px; }
+  .source__grid { grid-template-columns: minmax(0, 1fr); }
+  .source__wordmark { font-size: 110px; bottom: -34px; }
+}
+
+@media (max-width: 560px) {
+  .fpledges { gap: 12px; }
+  .fpledge { font-size: 13px; }
+  .source__figs { gap: 20px; }
+  .pager__left { flex-direction: column; align-items: stretch; gap: 16px; }
+  .pager__sep { display: none; }
+}
+
+@media (max-width: 360px) {
+  /* Below 360 the button's own content is wider than what the reset link
+     leaves it, so the two stop sharing a line. Above this width they fit,
+     and the row is left as the earlier breakpoints set it. */
+  .fpanel__acts { flex-wrap: wrap; }
+  .fshow { flex: 1 1 100%; }
+}
+
+
+/* ==========================================================================
+   The card opens the car
+
+   The five single layouts exist to be looked at, so a card leads to one of
+   them. The card's own call to action is the only anchor in it, and it is
+   stretched over the whole card: one link, the whole tile is the target, and
+   no interactive element is nested inside another — which is what happens if
+   the card itself becomes an <a>.
+   ========================================================================== */
+
+.lcard { position: relative; }
+
+.lcard__cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}

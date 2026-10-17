@@ -1,0 +1,564 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — FAQ page
+   Only what this page adds. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The dark ask panel
+   02. Search field
+   03. Topic chips
+   04. Guarantee strip
+   05. Answers and category tiles
+   06. The accordion
+   07. Category tiles and the closing strip
+   08. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The dark ask panel
+   ========================================================================== */
+
+.askpanel {
+  position: relative;
+  padding: 46px 46px 0;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+/* The motif bleeds off the top-right corner, behind everything. */
+.askpanel__wordmark {
+  position: absolute;
+  right: -24px;
+  top: -40px;
+  font-family: var(--display);
+  font-size: 230px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.askpanel__head {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.askpanel__lead { max-width: 700px; }
+
+.askpanel__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.askpanel__h {
+  margin-top: 18px;
+  font-size: clamp(30px, 3vw, 48px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1.04;
+}
+
+.askpanel__sub { margin-top: 14px; font-size: 16.5px; line-height: 1.6; color: rgba(255, 255, 255, .7); }
+
+.askpanel__figs { display: flex; align-items: baseline; gap: 28px; padding-top: 8px; }
+
+
+/* ==========================================================================
+   02. Search field
+   ========================================================================== */
+
+/* Presentational on this build — the field is styled and labelled, but there
+   is no answer index behind it yet, so it is deliberately not a <form>: an
+   empty submit would reload the page for nothing. */
+.askfield { position: relative; margin-top: 30px; }
+
+.askfield__glass {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: rgba(255, 255, 255, .5);
+  pointer-events: none;
+}
+
+.askfield__input {
+  width: 100%;
+  height: 68px;
+  padding: 0 168px 0 54px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-size: 17.5px;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+.askfield__input::placeholder { color: rgba(255, 255, 255, .42); }
+
+.askfield__input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Safari draws its own clear button on type="search"; the accent button is
+   already sitting in that corner. */
+.askfield__input::-webkit-search-decoration,
+.askfield__input::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+.askfield__go {
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  height: 50px;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 9px 0 24px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 15.5px;
+  font-weight: 700;
+  transition: background .2s ease;
+}
+
+.askfield__go:hover { background: var(--accent-hi); color: var(--ink); }
+
+.askfield__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   03. Topic chips
+   ========================================================================== */
+
+.topics {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.topics__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .42);
+}
+
+.topic {
+  padding: 8px 15px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .86);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.topic:hover { border-color: rgba(255, 255, 255, .5); }
+
+.topic--on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.topic:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+
+/* ==========================================================================
+   04. Guarantee strip
+   ========================================================================== */
+
+/* The 1px gap over a hairline background is the rule between the cells. */
+.pledges {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 36px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .14);
+}
+
+.pledge { padding: 24px 26px 26px; background: var(--ink); }
+
+.pledge__head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.pledge__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.pledge__note { margin-top: 10px; padding-left: 31px; font-size: 14px; color: rgba(255, 255, 255, .62); }
+
+
+/* ==========================================================================
+   05. Answers and category tiles
+   ========================================================================== */
+
+.answers {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  margin-top: 26px;
+}
+
+
+/* ==========================================================================
+   06. The accordion
+   ========================================================================== */
+
+.qabox { padding: 34px 34px 22px; border: 1px solid var(--line); border-radius: 26px; }
+
+.qabox__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 8px;
+}
+
+.qabox__title { font-size: 25px; font-weight: 800; letter-spacing: -.028em; }
+
+.qabox__count {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.qa { border-top: 1px solid var(--line); }
+
+/* The question is an <h4> so the page has a real outline; every visual
+   property belongs to the button inside it. */
+.qa__h { font: inherit; }
+
+.qa__summary {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 0;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.qa__summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Closed the marker is a plus; open it turns a quarter and becomes a cross. */
+.qa__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  transform: rotate(0deg);
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+.qa--open .qa__mark { border-color: var(--accent); background: var(--accent); transform: rotate(45deg); }
+
+.qa__text { min-width: 0; flex: 1 1 auto; }
+
+.qa__meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.qa__cat,
+.qa__count {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-4);
+}
+
+.qa__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
+
+.qa__q {
+  display: block;
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.4;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.qa__answer { padding: 0 0 26px 50px; }
+
+.qa__a { font-size: 15.5px; line-height: 1.7; color: var(--ink-3); text-wrap: pretty; }
+
+.qa__foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 18px; }
+
+.qa__fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.qa__policy {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.qa__policy:hover { color: var(--accent); }
+
+
+/* ==========================================================================
+   07. Category tiles and the closing strip
+   ========================================================================== */
+
+.cats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.cat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 22px 26px;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: background .2s ease;
+}
+
+.cat:hover { background: var(--surface); color: var(--ink); }
+
+.cat__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.cat__name {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+.cat__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  min-width: 26px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.cat__text { font-size: 13.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+.cat__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.askmore {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+  padding: 24px 26px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.askmore__h { font-size: 16.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.askmore__note { margin-top: 6px; font-size: 14px; color: var(--ink-3); }
+
+.askmore__cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px 14px 22px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease;
+}
+
+.askmore__cta:hover { background: var(--accent); color: var(--ink); }
+
+.askmore__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  transition: background .2s ease, color .2s ease;
+}
+
+.askmore__cta:hover .askmore__arrow { background: var(--ink); color: var(--accent); }
+
+
+/* ==========================================================================
+   08. Responsive
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .answers { grid-template-columns: minmax(0, 1fr); }
+  .askpanel { padding: 38px 34px 0; }
+  .askpanel__wordmark { font-size: 180px; right: -18px; top: -30px; }
+}
+
+@media (max-width: 1024px) {
+  .askpanel__head { gap: 26px; }
+  .askpanel__figs { padding-top: 0; }
+
+  /* Three cells in two columns leave a fourth slot empty, and an empty slot
+     shows the strip's own hairline background as a pale block — so the odd
+     cell takes the whole row. */
+  .pledges { grid-template-columns: repeat(2, 1fr); }
+  .pledge:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 780px) {
+  .askpanel { padding: 30px 22px 0; border-radius: 24px; }
+  .askpanel__wordmark { font-size: 130px; top: -22px; }
+
+  /* Below this width the button would eat the field, so it steps under it.
+     Once it does, the wrapper is taller than the field and centring the
+     magnifier on the wrapper would drop it between the two — so it is pinned
+     to the middle of the input instead. */
+  .askfield__input { height: 60px; padding: 0 18px 0 48px; font-size: 16px; }
+  .askfield__glass { left: 18px; top: 31px; }
+  .askfield__go {
+    position: static;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    margin-top: 10px;
+    padding: 0 9px 0 24px;
+  }
+
+  .pledges { grid-template-columns: minmax(0, 1fr); }
+  .pledge { padding: 18px 22px 20px; }
+
+  .qabox { padding: 26px 22px 18px; border-radius: 22px; }
+  .qabox__head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .qabox__title { font-size: 22px; }
+  .qa__summary { gap: 14px; padding: 20px 0; }
+  .qa__q { font-size: 18px; }
+  .qa__answer { padding-left: 44px; padding-bottom: 22px; }
+
+  .cats { grid-template-columns: minmax(0, 1fr); border-radius: 22px; }
+  .askmore { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 560px) {
+  .askpanel__figs { gap: 18px; }
+  .topics { gap: 8px; }
+  .topic { padding: 7px 13px; font-size: 13px; }
+  .qa__answer { padding-left: 0; }
+  .askmore__cta { width: 100%; justify-content: space-between; }
+}

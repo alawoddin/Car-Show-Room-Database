@@ -1,0 +1,646 @@
+/* ==========================================================================
+   AVAVA — Dealer reviews (dealer-reviews.html)
+   Prefix rv. What buyers wrote, and the dealer's answers underneath.
+
+   1. Shell and shared atoms
+   2. Status bar
+   3. The score
+   4. Tabs and the list shell
+   5. A review row
+   6. The composer
+   7. Pager, themes, figures and rules
+   8. Narrow screens
+   ========================================================================== */
+
+/* -----------------------------------------------------------------
+   1. Shell and shared atoms
+   ----------------------------------------------------------------- */
+.rvmain { --rv-rust: #8A4A22; }
+
+.rvsec { display: block; min-width: 0; }
+
+.rvk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.rvk--light { color: #FFFFFF; }
+
+.rvk--right { text-align: right; }
+
+.rvmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.rvsep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.rvhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.rvhead__main { min-width: 0; }
+
+.rvhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; text-wrap: pretty; }
+
+.rvlink {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+}
+
+.rvlink:hover { color: var(--ink); }
+
+.rvlink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.rvlink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.rvcard { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; background: #FFFFFF; }
+
+/* -----------------------------------------------------------------
+   2. Status bar
+   ----------------------------------------------------------------- */
+.rvbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.rvbar__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; min-width: 0; }
+
+.rvbar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.rvbar__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.rvselect {
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%2314161A' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5'/%3E%3C/svg%3E") no-repeat right 14px center;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.rvselect:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+/* -----------------------------------------------------------------
+   3. The score
+   ----------------------------------------------------------------- */
+.rvscore { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
+
+.rvscore__main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border-right: 1px solid rgba(20, 22, 26, .12);
+}
+
+.rvscore__n { font-size: 56px; font-weight: 800; letter-spacing: -.04em; line-height: 1; }
+
+.rvstars { display: inline-flex; align-items: center; gap: 2px; }
+
+.rvscore__say { font-size: 13px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.rvbars { padding: 20px 24px 22px; min-width: 0; }
+
+.rvbar-row {
+  display: grid;
+  grid-template-columns: minmax(0, 58px) minmax(0, 1fr) minmax(0, 42px);
+  gap: 12px;
+  align-items: center;
+  padding: 7px 0;
+}
+
+.rvbar-row__k {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.rvbar-row__track { display: block; height: 9px; border-radius: 999px; background: rgba(20, 22, 26, .1); }
+
+.rvbar-row__fill { display: block; height: 9px; border-radius: 999px; background: var(--ink); }
+
+.rvbar-row__fill--rust { background: var(--rv-rust); }
+
+/* Доля каждой оценки. Ширины перечислены здесь, потому что в разметке
+   этого шаблона inline-стилей нет; сборщик сверяет их с данными. */
+.rvbar-row--w84 .rvbar-row__fill { width: 84%; }
+.rvbar-row--w9 .rvbar-row__fill { width: 9%; }
+.rvbar-row--w4 .rvbar-row__fill { width: 4%; }
+.rvbar-row--w2 .rvbar-row__fill { width: 2%; }
+.rvbar-row--w0 .rvbar-row__fill { width: 0%; }
+
+.rvbar-row__n { text-align: right; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink); }
+
+.rvscore__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+}
+
+.rvscore__foot-t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+/* -----------------------------------------------------------------
+   4. Tabs and the list shell
+   ----------------------------------------------------------------- */
+.rvtabs { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; }
+
+.rvtab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.rvtab:hover { border-color: var(--ink); }
+
+.rvtab--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.rvtab__n {
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.rvtab--on .rvtab__n { background: rgba(255, 255, 255, .16); color: #FFFFFF; }
+
+.rvtab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.rvstrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 13px 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.rvstrip__main { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+
+.rvstrip__t { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; }
+
+.rvstrip__aside { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: rgba(255, 255, 255, .6); }
+
+.rvempty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 50px 24px;
+  border-bottom: 1px solid var(--line-10);
+  background: #FFFFFF;
+}
+
+.rvempty[hidden] { display: none; }
+
+.rvempty__t { max-width: 420px; font-size: 14px; line-height: 1.55; color: var(--ink-3); text-align: center; text-wrap: pretty; }
+
+/* -----------------------------------------------------------------
+   5. A review row
+   ----------------------------------------------------------------- */
+.rvrow { border-bottom: 1px solid var(--line-10); background: #FFFFFF; }
+
+.rvrow[hidden] { display: none; }
+
+/* While a review waits, the row carries the wash and the accent edge. */
+.rvrow--open { background: rgba(138, 74, 34, .035); }
+
+.rvrow__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 232px) minmax(0, 1fr) minmax(0, 166px);
+  gap: 20px;
+  padding: 20px 22px;
+  border-left: 3px solid transparent;
+}
+
+.rvrow--open .rvrow__grid { border-left-color: var(--accent); }
+
+.rvwho { min-width: 0; }
+
+.rvwho__top { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+.rvava {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 50%;
+  overflow: hidden;
+  background: #EDEDE9;
+}
+
+.rvrow--open .rvava { box-shadow: 0 0 0 2px var(--accent); }
+
+.rvava__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.rvava__mark { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--ink); }
+
+.rvwho__main { min-width: 0; }
+
+.rvwho__name { display: block; font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.rvwho__when { display: block; margin-top: 5px; }
+
+.rvrate { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 12px; }
+
+.rvrate__n { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--ink); }
+
+.rvsubj { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 11px; }
+
+.rvbadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+
+.rvsaid { min-width: 0; }
+
+.rvsaid__t { display: block; font-size: 16px; font-weight: 800; letter-spacing: -.024em; text-wrap: pretty; }
+
+.rvsaid__b { display: block; margin-top: 9px; font-size: 14px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.rvwait { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
+
+.rvwait__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(138, 74, 34, .14);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--rv-rust);
+}
+
+.rvwait__hint { min-width: 0; font-size: 12.5px; color: var(--ink-2); text-wrap: pretty; }
+
+.rvsaid__reply {
+  display: block;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px 14px 14px 4px;
+  background: var(--surface);
+}
+
+.rvreply__head { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.rvreply__who { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .09em; color: var(--ink); }
+
+.rvreply__b { display: block; margin-top: 8px; font-size: 13.5px; line-height: 1.6; color: var(--ink); }
+
+.rvdo { display: flex; flex-direction: column; gap: 8px; }
+
+.rvact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  background: var(--ink);
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease, border-color .18s ease;
+}
+
+.rvact:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.rvact--out { border-color: rgba(20, 22, 26, .18); background: transparent; color: var(--ink); }
+
+.rvact--out:hover { border-color: var(--ink); color: var(--ink); filter: none; }
+
+.rvact:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.rvdo__row { display: flex; align-items: center; justify-content: center; gap: 9px; }
+
+.rvdo__sep { display: inline-block; width: 1px; height: 11px; background: rgba(20, 22, 26, .2); }
+
+.rvhelp { display: block; margin-top: 2px; text-align: center; }
+
+.rvhelp[hidden] { display: none; }
+
+/* -----------------------------------------------------------------
+   6. The composer
+   ----------------------------------------------------------------- */
+.rvform { padding: 0 22px 20px 25px; }
+
+.rvform[hidden] { display: none; }
+
+.rvform__box { padding: 16px 18px 18px; border: 1px solid var(--ink); border-radius: 16px; background: var(--surface); }
+
+.rvform__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+.rvopeners { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 12px; }
+
+.rvopeners:empty { display: none; }
+
+.rvopener {
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.rvopener:hover { border-color: var(--ink); }
+
+.rvopener:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.rvtext {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.rvtext:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+.rvform__foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+
+.rvform__warn { min-width: 0; font-size: 12.5px; color: var(--ink-2); text-wrap: pretty; }
+
+.rvform__btns { display: inline-flex; align-items: center; gap: 10px; }
+
+.rvcancel {
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.rvcancel:hover { border-color: var(--ink); }
+
+.rvsend {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 10px 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.rvsend:hover { filter: brightness(1.14); }
+
+.rvsend__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.rvcancel:focus-visible, .rvsend:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* -----------------------------------------------------------------
+   7. Pager, themes, figures and rules
+   ----------------------------------------------------------------- */
+.rvpager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px 22px;
+  background: var(--surface);
+}
+
+.rvpager__main { display: inline-flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+
+.rvpager__n { font-size: 20px; font-weight: 800; letter-spacing: -.03em; }
+
+.rvpager__t { font-size: 14px; color: var(--ink-2); }
+
+.rvtheme, .rvtheme--head {
+  display: grid;
+  grid-template-columns: minmax(0, 190px) minmax(0, 1fr) minmax(0, 58px);
+  gap: 14px;
+  align-items: center;
+  padding: 13px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.rvtheme--head { padding: 12px 24px; background: var(--surface); border-bottom-color: rgba(20, 22, 26, .12); }
+
+.rvtheme__t { min-width: 0; font-size: 14.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.rvtheme__say { min-width: 0; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.rvtheme__n { text-align: right; font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--ink); }
+
+.rvtheme__n--rust { color: var(--rv-rust); }
+
+.rvfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  background: var(--surface);
+}
+
+.rvfoot__t { min-width: 0; margin: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.rvgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.rvgrid--rules { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+.rvcell { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.rvcell__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.rvcell__n--accent { color: var(--accent-deep); }
+
+.rvcell__note { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.rvrule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.rvrule__t { font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.rvrule__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+/* -----------------------------------------------------------------
+   8. Narrow screens
+   ----------------------------------------------------------------- */
+@media (max-width: 1440px) {
+}
+
+@media (max-width: 1240px) {
+  .rvrow__grid { grid-template-columns: minmax(0, 200px) minmax(0, 1fr) minmax(0, 150px); gap: 16px; }
+}
+
+@media (max-width: 1100px) {
+
+  .rvgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .rvrow__grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+
+  .rvdo { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 12px; }
+
+  .rvhelp { margin-top: 0; }
+}
+
+@media (max-width: 900px) {
+  .rvscore { grid-template-columns: minmax(0, 1fr); }
+
+  .rvscore__main { border-right: 0; border-bottom: 1px solid rgba(20, 22, 26, .12); }
+
+  .rvtheme, .rvtheme--head { grid-template-columns: minmax(0, 1fr) minmax(0, 58px); }
+
+  .rvtheme__say { grid-column: 1 / -1; }
+
+  .rvtheme--head .rvk:nth-child(2) { display: none; }
+}
+
+@media (max-width: 700px) {
+
+  .rvgrid, .rvgrid--rules { grid-template-columns: minmax(0, 1fr); }
+
+  .rvbar, .rvstrip, .rvpager, .rvrow__grid, .rvform { padding-left: 18px; padding-right: 18px; }
+
+  .rvform { padding-left: 21px; }
+
+  .rvbar__ctl { width: 100%; }
+
+  .rvselect { flex: 1 1 auto; width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .rvtheme, .rvtheme--head { padding-left: 18px; padding-right: 18px; }
+
+  .rvfoot { padding-left: 18px; padding-right: 18px; }
+
+  .rvscore__main, .rvbars { padding-left: 18px; padding-right: 18px; }
+
+  .rvscore__n { font-size: 46px; }
+
+  .rvdo, .rvform__btns { width: 100%; }
+
+  .rvact, .rvsend, .rvcancel { flex: 1 1 auto; justify-content: center; }
+}
+
+@media (max-width: 430px) {
+
+  .rvbar-row { grid-template-columns: minmax(0, 44px) minmax(0, 1fr) minmax(0, 34px); gap: 9px; }
+
+  .rvhead { gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rvtab, .rvact, .rvopener, .rvcancel, .rvsend, .rvselect { transition: none; }
+
+  .rvact:hover, .rvsend:hover { filter: none; }
+}

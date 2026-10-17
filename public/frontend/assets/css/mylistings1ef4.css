@@ -1,0 +1,659 @@
+/* ==========================================================================
+   AVAVA — My listings (my-listings.html)
+   The seller's side of the user dashboard, on the profile.css sidebar. Not
+   an editor: the price, the enquiries and the completeness of the listing,
+   all from one comparable set. Prefix my-.
+   ========================================================================== */
+
+.mymain { --my-body: #4C5157; --my-rust: #8A4A22; }
+
+.mydiary { display: block; }
+
+.mysec[hidden], .mydiary[hidden], .myempty[hidden], .mynote[hidden], .myenq__reply[hidden], .myrow[hidden], .mydraft[hidden] { display: none; }
+
+.myk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.mymeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.mysec { display: block; }
+
+.myhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.myhead__main { min-width: 0; }
+
+.myhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.myhead__aside { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+/* -------------------------------------------------------------------------- toolbar */
+
+.mytop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 18px;
+  padding: 15px 22px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.mytop__status { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; margin: 0; }
+
+.mytop__live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.mytop__sep { width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.mytop__fee { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.mytop__acts { display: inline-flex; align-items: center; gap: 10px; }
+
+.myfilter {
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.myfilter:focus-visible, .myprice__in:focus-visible, .myreply:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(198, 230, 59, .35); }
+
+.myadd {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 10px 0 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  transition: filter .18s ease;
+}
+
+.myadd:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.mydisc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* -------------------------------------------------------------------------- the live card */
+
+.mycard { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; background: #FFFFFF; }
+
+.mycard--live { border-color: var(--ink); }
+
+.mycard--paused { border-color: rgba(20, 22, 26, .14); }
+
+.mycard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+}
+
+.mycard__ref { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; margin: 0; }
+
+.mycard__sep { width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.mypill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.mypill--live { background: var(--accent); }
+
+.mycard--paused .mypill--live { background: #FFFFFF; border: 1px solid rgba(20, 22, 26, .16); padding: 4px 10px; }
+
+.mycard__body { display: grid; grid-template-columns: minmax(0, 232px) minmax(0, 1fr) minmax(0, 242px); }
+
+.mycard__photo { position: relative; align-self: stretch; min-height: 230px; background: #EDEDE9; }
+
+.mycard--paused .mycard__photo { opacity: .55; }
+
+.mycard__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.mychip {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.mycard__main { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 20px 24px 22px; }
+
+.mycard__name { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -.026em; }
+
+.mycard__spec { margin: -8px 0 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.mystats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.mystat { padding: 14px 16px 15px; background: #FFFFFF; }
+
+.mystat__n { display: block; font-size: 24px; font-weight: 800; letter-spacing: -.032em; line-height: 1; }
+
+.mystat__n--accent { color: var(--accent-deep, #7A9A12); }
+
+.mystat__l { display: block; margin-top: 7px; font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.myinsight { display: flex; align-items: flex-start; gap: 10px; margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--my-body); text-wrap: pretty; }
+
+.myinsight__i { flex: none; display: inline-flex; margin-top: 2px; color: var(--accent-deep, #7A9A12); }
+
+.mycard__rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 11px;
+  padding: 20px 24px;
+  border-left: 1px solid rgba(20, 22, 26, .1);
+  background: var(--surface);
+}
+
+.mycard__price { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -.032em; }
+
+.mycta {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 42px;
+  margin-top: 4px;
+  padding: 0 10px 0 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  transition: filter .18s ease;
+}
+
+.mycta:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.mycta__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.mylink {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.mylink--quiet { font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.mylink:hover { color: #5A5F65; }
+
+.mylink:disabled { color: var(--ink-4); cursor: default; text-decoration: none; }
+
+.myquiet { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.mynote {
+  margin: 0;
+  padding: 12px 24px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+  background: rgba(198, 230, 59, .18);
+}
+
+.mynote--plain { margin-top: 12px; border: 0; background: none; padding: 0; color: var(--ink-2); }
+
+.myempty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 44px 24px;
+  border: 1px dashed rgba(20, 22, 26, .24);
+  border-radius: 20px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.myempty__t { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.022em; }
+
+.myempty__p { max-width: 420px; margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--my-body); text-wrap: pretty; }
+
+/* -------------------------------------------------------------------------- the price */
+
+.mybox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.mybox__head, .mybox__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  background: var(--surface);
+}
+
+.mybox__head { border-bottom: 1px solid rgba(20, 22, 26, .12); }
+
+.mybox__foot { border-top: 1px solid rgba(20, 22, 26, .12); }
+
+.mybox__note { margin: 0; font-size: 13px; color: var(--ink-2); }
+
+.myprice { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); }
+
+.myprice__band { min-width: 0; padding: 22px 24px 24px; }
+
+.myprice__ends { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0; }
+
+.myprice__end { font-weight: 600; }
+
+.myrail {
+  position: relative;
+  height: 8px;
+  margin: 12px 0 0;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .14);
+}
+
+.myrail__iqr { position: absolute; top: 0; bottom: 0; left: var(--left, 22%); width: var(--width, 46%); background: rgba(198, 230, 59, .55); }
+
+.myrail__tick { position: absolute; top: -6px; left: var(--at, 50%); width: 3px; height: 20px; border-radius: 2px; background: var(--ink); }
+
+.myprice__you { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 14px 0 0; }
+
+.myyou {
+  padding: 5px 11px;
+  border-radius: 8px;
+  background: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: #FFFFFF;
+}
+
+.myprice__advice { max-width: 520px; margin: 16px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--my-body); text-wrap: pretty; }
+
+.myprice__act {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 22px 24px 24px;
+  border-left: 1px solid rgba(20, 22, 26, .1);
+  background: var(--surface);
+}
+
+.myfield { display: block; }
+
+.myfield__lbl { display: block; margin: 0 0 8px; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.myprice__in {
+  width: 100%;
+  height: 48px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.mygo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 46px;
+  padding: 0 10px 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.mygo:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.mygo:disabled { opacity: .42; cursor: default; filter: none; }
+
+.mygo--small { height: 40px; padding: 0 16px; font-size: 13px; font-weight: 600; }
+
+.myprice__note { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--ink-2); }
+
+/* -------------------------------------------------------------------------- enquiries */
+
+.myenq {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(20, 22, 26, .1);
+}
+
+.myenq--last { border-bottom: 0; }
+
+.myenq__ava {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 50%;
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.myenq__main { min-width: 0; }
+
+.myenq__who { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; }
+
+.myenq__name { font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.myintent {
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.myintent--viewing, .myintent--exchange { background: var(--surface); }
+
+.myenq__line { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--my-body); text-wrap: pretty; }
+
+.myenq__reply { display: flex; align-items: flex-end; gap: 10px; margin: 10px 0 0; }
+
+.myreply {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 13px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  resize: vertical;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.myenq__acts { display: inline-flex; align-items: center; gap: 10px; }
+
+.myout {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.myout:hover { border-color: var(--ink); color: var(--ink); }
+
+.myout--file { border-color: var(--ink); }
+
+.myout--file:hover { background: var(--ink); color: #FFFFFF; }
+
+.myout--file:has(:focus-visible) { box-shadow: 0 0 0 3px rgba(198, 230, 59, .5); }
+
+/* -------------------------------------------------------------------------- listing quality */
+
+.myq {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(20, 22, 26, .1);
+}
+
+.myq--last { border-bottom: 0; }
+
+.myq__disc {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: transparent;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.myq--done .myq__disc { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+.myq__main { min-width: 0; }
+
+.myq__item { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.myq__effect { margin: 5px 0 0; font-size: 13px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.myq__end { display: inline-flex; align-items: center; }
+
+.mydone { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+/* -------------------------------------------------------------------------- draft */
+
+.mydraft {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  border: 1px dashed rgba(20, 22, 26, .26);
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.mydraft__thumb { position: relative; flex: none; display: block; width: 86px; height: 64px; border: 1px solid rgba(20, 22, 26, .12); border-radius: 12px; overflow: hidden; background: #EDEDE9; }
+
+.mydraft__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.mydraft__main { min-width: 0; }
+
+.mydraft__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.mydraft__p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+
+.mydraft__acts { display: inline-flex; align-items: center; gap: 10px; }
+
+.mygo--plain { height: 42px; padding: 0 18px; font-size: 13px; font-weight: 600; }
+
+.myrust {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--my-rust);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* -------------------------------------------------------------------------- closed */
+
+.myrow {
+  display: grid;
+  grid-template-columns: minmax(0, 96px) minmax(0, 1fr) minmax(0, 130px) minmax(0, 150px) minmax(0, 132px);
+  align-items: center;
+  gap: 16px;
+  padding: 15px 24px;
+  border-bottom: 1px solid rgba(20, 22, 26, .1);
+}
+
+.myrow--last { border-bottom: 0; }
+
+.myrow__car { min-width: 0; margin: 0; font-size: 14.5px; font-weight: 600; letter-spacing: -.018em; }
+
+.myrow__made { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.myrow .mylink { justify-self: end; align-self: center; }
+
+/* -------------------------------------------------------------------------- three rules */
+
+.myrules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.myrules__cell { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.myrules__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.myrules__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--my-body); text-wrap: pretty; }
+
+/* -------------------------------------------------------------------------- responsive */
+
+@media (max-width: 1180px) {
+  .mycard__body { grid-template-columns: minmax(0, 200px) minmax(0, 1fr) minmax(0, 212px); }
+  .myprice { grid-template-columns: minmax(0, 1fr) minmax(0, 280px); }
+  .mystats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .myrow { grid-template-columns: minmax(0, 80px) minmax(0, 1fr) minmax(0, 110px) minmax(0, 120px) minmax(0, 120px); gap: 12px; }
+}
+
+@media (max-width: 900px) {
+  .mycard__body { grid-template-columns: minmax(0, 200px) minmax(0, 1fr); }
+  .mycard__rail { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 14px 24px; border-left: 0; border-top: 1px solid rgba(20, 22, 26, .1); }
+  .mycta { margin-top: 0; }
+  .myprice { grid-template-columns: 1fr; }
+  .myprice__act { border-left: 0; border-top: 1px solid rgba(20, 22, 26, .1); }
+  .myenq { grid-template-columns: auto minmax(0, 1fr); }
+  .myenq__acts { grid-column: 2; }
+  .myrow { grid-template-columns: minmax(0, 80px) minmax(0, 1fr) minmax(0, 110px); }
+  .myrow .mymeta:nth-child(4) { grid-column: 2; }
+  .myrow .mylink { grid-column: 3; }
+  .mydraft { grid-template-columns: auto minmax(0, 1fr); }
+  .mydraft__acts { grid-column: 1 / -1; }
+  .myrules { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .mytop { padding: 14px 16px; }
+  .mytop__acts { width: 100%; flex-wrap: wrap; }
+  .myfilter { flex: 1 1 100%; }
+  .myadd { flex: 1 1 auto; justify-content: space-between; }
+  .mycard__head, .mycard__main, .mycard__rail, .mybox__head, .mybox__foot, .myprice__band, .myprice__act, .myenq, .myq, .myrow, .mydraft, .myrules__cell { padding-left: 18px; padding-right: 18px; }
+  .mycard__body { grid-template-columns: 1fr; }
+  .mycard__photo { aspect-ratio: 16 / 10; min-height: 0; }
+  .myenq { grid-template-columns: 1fr; }
+  .myenq__ava { display: none; }
+  .myenq__acts { grid-column: 1; flex-wrap: wrap; }
+  .myq { grid-template-columns: auto minmax(0, 1fr); }
+  .myq__end { grid-column: 2; }
+  .myrow { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+  .myrow__car { grid-column: 1 / -1; }
+  .myrow .mymeta:nth-child(4), .myrow .mylink { grid-column: auto; }
+  .myrow .mylink { justify-self: end; }
+  .myempty { padding: 32px 18px; }
+}
+
+@media (max-width: 430px) {
+  .mytop__status { gap: 8px; }
+  .mystats { grid-template-columns: 1fr; }
+  .myenq__reply { flex-direction: column; align-items: stretch; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .myadd, .mycta, .mygo, .myout, .mylink, .myq__disc, .myfilter, .myprice__in { transition: none; }
+}

@@ -1,0 +1,455 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — About page
+   Only the blocks this page adds. The light header, the page-title rule and
+   the divider rhythm live in style.css because every inner page uses them;
+   Why AVAVA, Testimonials and Showrooms come from style.css unchanged.
+
+   The accent is not set here on purpose: this page inherits the colour from
+   whichever home page the visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Page header block
+   02. Intro and the showroom band
+   03. Timeline
+   04. Team rail
+   05. Responsive
+   ========================================================================== */
+
+
+/* On the home pages Why AVAVA is the first block after the hero and carries
+   its own 60px of top padding. Here the divider above it already provides
+   that, and the two would stack into 120px. */
+.sec--why { padding-top: 0; }
+
+
+/* ==========================================================================
+   01. Showroom band
+   ========================================================================== */
+
+.floorband {
+  position: relative;
+  height: 340px;
+  margin: 0 0 44px;
+  border-radius: var(--r-glass);
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.floorband__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.floorband__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 30px;
+  background: linear-gradient(180deg, rgba(20, 22, 26, 0) 0%, rgba(20, 22, 26, .82) 100%);
+  color: #FFFFFF;
+}
+
+.floorband__title { font-size: 22px; font-weight: 700; letter-spacing: -.024em; }
+
+.floorband__meta {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .7);
+  text-align: right;
+}
+
+
+/* ==========================================================================
+   03. Timeline
+   ========================================================================== */
+
+.timehead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 26px;
+}
+
+.timehead__h { font-size: clamp(26px, 2.4vw, 40px); font-weight: 800; letter-spacing: -.03em; }
+
+.timehead__span {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.timeline { position: relative; padding-top: 30px; }
+
+.timeline__track,
+.timeline__fill {
+  position: absolute;
+  top: 6px;
+  height: 2px;
+  border-radius: 999px;
+}
+
+.timeline__track { left: 0; right: 0; background: var(--line); }
+
+/* One quarter of the rail is behind us: the first decision. */
+.timeline__fill {
+  left: 0;
+  width: 25%;
+  background: var(--accent);
+}
+
+.timeline__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* The white ring is what lifts the dot off the rail behind it. */
+.timeline__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px #FFFFFF, 0 0 0 5.5px rgba(20, 22, 26, .28);
+}
+
+.timeline__dot--on {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px #FFFFFF, 0 0 0 5.5px var(--ink);
+}
+
+.timeline__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 26px;
+}
+
+.mile {
+  position: relative;
+  padding: 30px 28px 32px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #FFFFFF;
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.mile:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -28px rgba(20, 22, 26, .4); }
+
+.mile--on {
+  border-color: var(--ink);
+  box-shadow: 0 24px 48px -30px rgba(20, 22, 26, .45);
+}
+
+.mile__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mile__year { font-size: 34px; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
+
+.mile--on .mile__year { color: var(--accent); }
+
+.mile__no {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-4);
+}
+
+.mile__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.mile__title {
+  margin-top: 22px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  text-wrap: pretty;
+}
+
+.mile__text {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+
+/* ==========================================================================
+   04. Team rail
+   ========================================================================== */
+
+.sechead--team { margin-bottom: 34px; }
+.sechead--team .h2 { margin-top: 14px; }
+
+.h2--team { font-size: clamp(30px, 3vw, 54px); letter-spacing: -.032em; white-space: nowrap; }
+
+.sechead__lead--team { max-width: 600px; font-size: 17px; }
+
+/* Four cards fit the row; the other four arrive by scrolling. The rail stays
+   inside the page gutter, so the first card lines up with everything else. */
+.teamrail {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  padding: 6px 0 22px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.teamrail::-webkit-scrollbar { width: 0; height: 0; }
+
+.tcard {
+  flex: 0 0 calc((100% - 72px) / 4);
+  scroll-snap-align: start;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line-10);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.tcard:hover { transform: translateY(-8px); box-shadow: 0 30px 58px -28px rgba(20, 22, 26, .46); }
+
+/* The founder's card is inverted — it marks who signs the reports off. */
+.tcard--founder { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.tcard__shot {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.tcard__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Dark at both ends: the index and city chip read at the top, the name at
+   the bottom, and the face keeps the clear middle. */
+.tcard__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .5) 0%, rgba(20, 22, 26, 0) 34%, rgba(20, 22, 26, .9) 100%);
+  pointer-events: none;
+}
+
+.tcard__index {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  font-family: var(--display);
+  font-size: 46px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, .5);
+}
+
+.tcard__city {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 5px 11px;
+  border: 1px solid rgba(255, 255, 255, .4);
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .3);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.tcard__id {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 20px;
+}
+
+.tcard__flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.tcard__name {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+  color: #FFFFFF;
+  text-wrap: pretty;
+}
+
+.tcard__role {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.tcard__body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex: 1 1 auto;
+  padding: 24px 22px 22px;
+}
+
+.tcard__bio { font-size: 14px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.tcard--founder .tcard__bio { color: rgba(255, 255, 255, .72); }
+
+.tcard__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.tcard--founder .tcard__foot { border-top-color: var(--on-dark-line); }
+
+.tcard__fig { font-size: 24px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.tcard--founder .tcard__fig { color: var(--accent); }
+
+.tcard__cap {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.tcard--founder .tcard__cap { color: rgba(255, 255, 255, .44); }
+
+.tcard__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #FFFFFF;
+  transition: background .18s ease, color .18s ease;
+}
+
+.tcard__go:hover { background: var(--accent); color: var(--ink); }
+
+.tcard--founder .tcard__go { background: var(--accent); color: var(--ink); }
+.tcard--founder .tcard__go:hover { background: #FFFFFF; color: var(--ink); }
+
+.teamfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   05. Responsive
+   ========================================================================== */
+
+@media (max-width: 1280px) {
+  .tcard { flex-basis: calc((100% - 48px) / 3); }
+}
+
+@media (max-width: 1024px) {
+  .h2--team { white-space: normal; }
+  .timeline__grid { grid-template-columns: repeat(2, 1fr); row-gap: 44px; }
+  .timeline__dots { grid-template-columns: repeat(2, 1fr); }
+  .timeline__fill { width: 50%; }
+  .tcard { flex-basis: calc((100% - 24px) / 2); }
+  .floorband { height: 280px; }
+}
+
+@media (max-width: 780px) {
+  .timeline__grid { grid-template-columns: minmax(0, 1fr); row-gap: 16px; }
+  .timeline__track,
+  .timeline__fill,
+  .timeline__dots { display: none; }
+  .timeline { padding-top: 0; }
+  .tcard { flex-basis: 78%; }
+  .floorband { height: 220px; }
+  .floorband__cap { flex-direction: column; align-items: flex-start; gap: 8px; padding: 20px; }
+  .floorband__title { font-size: 18px; }
+  .floorband__meta { text-align: left; }
+  .teamfoot { font-size: 9px; }
+}
+
+@media (max-width: 560px) {
+  .h2--team { font-size: clamp(26px, 7.6vw, 36px); }
+  .tcard { flex-basis: 86%; }
+}

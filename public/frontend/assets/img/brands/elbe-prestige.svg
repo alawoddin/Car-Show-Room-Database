@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Elbe Prestige">
+  <rect width="512" height="512" fill="#27435C"/>
+  <path d="M150 120h212v46H196v66h140v46H196v68h172v46H150z" fill="#F1EEE7"/>
+  <path d="M196 232c26-22 52-22 78 0s52 22 62 6" fill="none" stroke="#8FB4D9" stroke-width="22" stroke-linecap="round"/>
+</svg>

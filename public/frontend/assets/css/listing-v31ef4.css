@@ -1,0 +1,1355 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Listings v3 and v4, the search-first variants
+   Only what this page adds. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css.
+
+   The third and fourth readings of the same inventory. v1 puts a dark form on
+   a light page, v2 turns every panel white, and v3 opens on a sentence: the
+   buyer types what they are after, the page shows what it understood as
+   removable chips, and the six cells below are how it is corrected. v4 is v3
+   with every panel turned white and the card grid swapped for a spec sheet —
+   the same structure, so it lives here rather than in a fourth file.
+
+   Three dark blocks stack here — the search panel, the card grid and the
+   sourcing panel — separated by white gaps that are load-bearing. The page
+   carries no hairline dividers below the header; the spacers are the rhythm.
+
+   The class names are this page's own (v-prefixed) rather than shared with
+   listing.css: v3 keeps the same information but almost none of the same
+   boxes, and one stylesheet per reading beats one stylesheet with three
+   sets of overrides fighting each other.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The search panel — shell and head
+   02. The query field
+   03. What we read it as
+   04. Narrow further
+   05. The filter bar
+   06. The sort line
+   07. The ink card
+   08. The segmented rail
+   09. The sourcing panel
+   10. The light variant — v4
+   11. The spec-sheet card — v4
+   12. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The search panel — shell and head
+   ========================================================================== */
+
+/* Bottom padding is zero on purpose: the filter bar is the panel's last
+   child and is meant to sit flush against its rounded bottom edge. */
+.vfind {
+  position: relative;
+  padding: 44px 46px 0;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+/* The stock figure as wallpaper. Outline only — the 1.3px stroke at .07 is
+   the whole of it, so it reads as texture rather than as a heading. */
+.vfind__wordmark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--display);
+  font-size: 320px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.3px rgba(255, 255, 255, .07);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vfind__head {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.vfind__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.vfind__h {
+  margin-top: 18px;
+  font-size: clamp(28px, 2.8vw, 46px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+}
+
+.vfind__figs { display: flex; align-items: flex-end; gap: 26px; }
+
+.vfig { text-align: right; }
+
+.vfig__num { font-size: 30px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.vfig__num--accent { color: var(--accent); }
+
+.vfig__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.vfig__sep { width: 1px; height: 36px; background: rgba(255, 255, 255, .16); }
+
+
+/* ==========================================================================
+   02. The query field
+   ========================================================================== */
+
+.vquery { position: relative; margin-top: 26px; }
+
+.vquery__glass {
+  position: absolute;
+  left: 22px;
+  top: 25px;
+  display: inline-flex;
+  color: rgba(255, 255, 255, .5);
+  pointer-events: none;
+}
+
+.vquery__in {
+  width: 100%;
+  height: 70px;
+  padding: 0 176px 0 56px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .08);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFFFFF;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.vquery__in::placeholder { color: rgba(255, 255, 255, .42); font-weight: 500; }
+
+.vquery__in:hover { border-color: rgba(255, 255, 255, .4); }
+
+.vquery__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.vquery__in::-webkit-search-decoration,
+.vquery__in::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+.vquery__go {
+  position: absolute;
+  right: 9px;
+  top: 9px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 10px 0 24px;
+  border: 0;
+  border-radius: 13px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.vquery__go:hover { background: var(--accent-hi); }
+
+.vquery__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   03. What we read it as
+   ========================================================================== */
+
+/* One chip per filter the sentence filled. The cross clears the filter AND
+   the words that set it, so the field and the chips can never disagree —
+   which is the whole promise this page makes above the fold. */
+.vread {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.vread__lbl,
+.vnarrow__lbl {
+  padding-right: 4px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .42);
+}
+
+.rchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 8px 8px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.rchip__key { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .1em; opacity: .62; }
+
+.rchip__val { font-size: 13.5px; font-weight: 700; }
+
+.rchip__x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(20, 22, 26, .16);
+  color: inherit;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.rchip__x:hover { background: rgba(20, 22, 26, .3); }
+
+.vclear {
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .6);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.vclear:hover { color: #FFFFFF; }
+
+/* Nothing understood yet, so the row has nothing to say. */
+.vread--empty .vread__lbl { color: rgba(255, 255, 255, .28); }
+
+
+/* ==========================================================================
+   04. Narrow further
+   ========================================================================== */
+
+.vnarrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.nchip {
+  padding: 9px 16px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .84);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.nchip:hover { border-color: #FFFFFF; }
+
+.nchip--on { border-color: var(--accent); background: var(--accent); color: var(--ink); font-weight: 700; }
+
+.nchip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+
+/* ==========================================================================
+   05. The filter bar
+   ========================================================================== */
+
+/* The negative margin bleeds the bar to the panel's edge; the 1px gap over a
+   hairline background is what draws the grid lines between cells. */
+.vbar {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr) auto;
+  gap: 1px;
+  margin: 30px -46px 0;
+  background: rgba(255, 255, 255, .14);
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+/* The whole cell is the control — a transparent select is laid over it so the
+   chevron and the typography stay ours while the hit target stays generous. */
+.vcell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 22px 22px 24px;
+  margin-top: -1px;
+  border-top: 2px solid transparent;
+  background: var(--ink);
+  transition: background .2s ease;
+}
+
+.vcell:hover { background: #1B1E23; }
+
+.vcell--on { border-top-color: var(--accent); }
+
+.vcell__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .42);
+}
+
+.vcell--on .vcell__lbl { color: var(--accent); }
+
+.vcell__val {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .6);
+}
+
+.vcell--on .vcell__val { font-weight: 700; color: #FFFFFF; }
+
+.vcell__chev { display: inline-flex; flex: none; color: rgba(255, 255, 255, .5); }
+
+.vcell__pick {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* The list is drawn by the OS, so the dark ground has to be stated here. */
+.vcell__pick option { background: var(--ink); color: #FFFFFF; }
+
+.vcell__pick:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; opacity: 1; }
+
+/* The seventh track. Its right padding matches the panel's, so the figure
+   sits on the same line as everything above it. */
+.vtile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  padding: 22px 46px 24px 26px;
+  background: var(--accent);
+  color: var(--ink);
+  transition: background .2s ease;
+}
+
+.vtile:hover { background: var(--accent-hi); color: var(--ink); }
+
+.vtile__num { font-size: 26px; font-weight: 800; letter-spacing: -.032em; line-height: 1; }
+
+.vtile__lbl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .12em; }
+
+
+/* ==========================================================================
+   06. The sort line
+   ========================================================================== */
+
+/* No panel and no rule under it — on this page the sort is a single pill
+   floating between the search block and the grid. */
+.vsort {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.vsort__count {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.vsort__pick { position: relative; display: block; }
+
+.vsort__select {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 48px;
+  padding: 0 44px 0 20px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.vsort__select:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.vsort__chev {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--ink);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   07. The ink card
+   ========================================================================== */
+
+.vgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch; }
+
+.vempty {
+  max-width: 640px;
+  margin-bottom: 26px;
+  padding: 22px 26px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+/* Dark cards on a light page — the third card treatment in the set, and the
+   only one that needs no inversion on hover: it is already inverted. */
+.vcard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+  transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.vcard:hover { transform: translateY(-8px); box-shadow: 0 32px 60px -30px rgba(20, 22, 26, .6); }
+
+.vcard__shot { position: relative; aspect-ratio: 16 / 10; background: var(--image-bed); }
+
+.vcard__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Only the cars that have earned a word carry one. */
+.vcard__tag {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.vcard__body { display: flex; flex-direction: column; flex: 1 1 auto; padding: 22px 22px 24px; }
+
+.vcard__meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.vcard__where {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.vcard__state {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+/* A clean report is the one thing on this card worth the accent. */
+.vcard__state--clean { color: var(--accent); }
+
+.vcard__model { margin-top: 10px; font-size: 22px; font-weight: 800; letter-spacing: -.026em; text-wrap: pretty; }
+
+.vcard__prices {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 12px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.vcard__price {
+  font-size: clamp(21px, 1.7vw, 27px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+.vcard__mo { flex: none; font-size: 13px; color: rgba(255, 255, 255, .6); white-space: nowrap; }
+
+/* minmax(0,1fr), never 1fr: with the default minmax(auto,1fr) the tracks
+   refuse to shrink below their content and overflow:hidden silently clips
+   "1,020 hp" to "1,0…". The values must stay wrappable for the same reason. */
+.vcard__specs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .14);
+}
+
+.vcard__cell { padding: 12px 14px; background: var(--ink); }
+
+.vcard__sval { font-size: 14px; font-weight: 800; letter-spacing: -.02em; text-wrap: pretty; }
+
+.vcard__slabel {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+/* margin-top:auto is what levels the buttons when a model name wraps to two
+   lines; the air above it is the spec tile's margin, because auto collapses
+   to nothing on the tallest card in the row. */
+.vcard__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding: 14px 14px 14px 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 700;
+  transition: background .2s ease;
+}
+
+.vcard__cta:hover { background: var(--accent-hi); color: var(--ink); }
+
+.vcard__ctac {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   08. The segmented rail
+   ========================================================================== */
+
+/* No dark bar and no load-more on this variant: one row, and the pages are a
+   single segmented pill rather than separate buttons. */
+.vpager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.vpager__left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.vpager__num { font-size: 26px; font-weight: 800; letter-spacing: -.032em; line-height: 1; }
+
+.vpager__num--accent { color: var(--accent); }
+
+.vpager__word { font-size: 15px; color: var(--ink-2); }
+
+.vpager__sep { width: 1px; height: 26px; background: rgba(20, 22, 26, .16); }
+
+.vpager__lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.rail {
+  display: flex;
+  align-items: stretch;
+  max-width: 100%;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* The numbers live in their own box so the rail can repaint just them. */
+.rail__list { display: flex; }
+
+.rail__arrow,
+.rail__page,
+.rail__gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 52px;
+  padding: 15px 0;
+  border: 0;
+  border-right: 1px solid rgba(20, 22, 26, .12);
+  background: transparent;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  transition: background .18s ease, color .18s ease;
+}
+
+.rail > :last-child { border-right: 0; }
+
+.rail__arrow { width: 52px; color: var(--ink-4); cursor: pointer; }
+
+.rail__arrow:hover { background: var(--surface); color: var(--ink); }
+
+.rail__arrow[disabled] { color: rgba(20, 22, 26, .2); cursor: default; }
+
+.rail__arrow[disabled]:hover { background: transparent; color: rgba(20, 22, 26, .2); }
+
+.rail__page { cursor: pointer; }
+
+.rail__page:hover { background: var(--surface); }
+
+/* The current cell keeps its fill on hover — the design's own hover would
+   have washed a white label onto a pale grey ground. */
+.rail__page--on,
+.rail__page--on:hover { background: var(--ink); color: #FFFFFF; font-weight: 800; }
+
+.rail__gap { color: var(--ink-2); cursor: default; }
+
+
+/* ==========================================================================
+   09. The sourcing panel
+   ========================================================================== */
+
+.vsource {
+  position: relative;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.vsource__wordmark {
+  position: absolute;
+  right: -26px;
+  bottom: -66px;
+  font-family: var(--display);
+  font-size: 200px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.vsource__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  gap: 48px;
+  align-items: start;
+  padding: 46px 46px 0;
+}
+
+.vsource__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.vsource__h {
+  margin-top: 18px;
+  font-size: clamp(28px, 2.8vw, 46px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1.04;
+}
+
+/* The honest failure case is part of the promise. */
+.vsource__sub { margin-top: 14px; font-size: 16px; line-height: 1.65; color: rgba(255, 255, 255, .68); }
+
+.vfound__list { list-style: none; }
+
+.vfound { margin-top: 26px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, .14); }
+
+.vfound__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .42);
+}
+
+.vfound__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 -10px;
+  padding: 13px 10px;
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 12px;
+  transition: background .18s ease;
+}
+
+.vfound__row:first-of-type { margin-top: 6px; border-top: 0; }
+
+.vfound__row:hover { background: rgba(255, 255, 255, .05); }
+
+.vfound__car { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.vfound__note { display: block; margin-top: 4px; font-size: 13px; color: rgba(255, 255, 255, .56); }
+
+.vfound__days {
+  flex: none;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.vbrief__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+.vfield { display: block; }
+
+.vfield--row { margin-top: 18px; }
+
+.vfield__lbl {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.vfield__in {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  color: #FFFFFF;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.vfield__in::placeholder { color: rgba(255, 255, 255, .38); }
+
+.vfield__in:hover { border-color: rgba(255, 255, 255, .4); }
+
+.vfield__in:focus { border-color: var(--accent); background: rgba(255, 255, 255, .1); }
+
+.vfield__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.vsoon { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.soonchip {
+  padding: 11px 18px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .84);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.soonchip:hover { border-color: #FFFFFF; background: rgba(255, 255, 255, .08); color: #FFFFFF; }
+
+.soonchip--on { border-color: var(--accent); background: var(--accent); color: var(--ink); font-weight: 700; }
+
+.soonchip--on:hover { border-color: var(--accent); background: var(--accent-hi); color: var(--ink); }
+
+.soonchip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.vbrief__error {
+  margin-top: 16px;
+  padding: 13px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.vbrief__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px 16px 16px 28px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, transform .18s ease;
+}
+
+.vbrief__cta:hover { background: var(--accent-hi); transform: translateY(-2px); }
+
+.vbrief__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.vbrief__note { margin-top: 14px; font-size: 13px; color: rgba(255, 255, 255, .5); }
+
+.vfoot {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 38px;
+  background: rgba(255, 255, 255, .14);
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.vfoot__cell { padding: 24px 26px 26px; background: var(--ink); }
+
+.vfoot__num { font-size: 24px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.vfoot__num--accent { color: var(--accent); }
+
+.vfoot__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+
+/* ==========================================================================
+   10. The light variant — v4
+   ==========================================================================
+
+   Same conversion as Listings v2, applied to this page's blocks and following
+   the same token table from the handoff:
+
+     panel   #14161A          ->  #FFFFFF + 1px rgba(20, 22, 26, .22)
+     text    #FFFFFF          ->  var(--ink)
+     body    rgba(255…,.68)      ->  var(--ink-3)
+     labels  rgba(255…,.42–.5)   ->  var(--ink-2)
+     field   rgba(255…,.06–.08)  ->  var(--surface)
+     chips   rgba(255…,.22)      ->  rgba(20, 22, 26, .16)
+     hairline rgba(255…,.14)     ->  var(--line)
+     stroke  rgba(255…,.07–.09)  ->  rgba(20, 22, 26, .07)
+
+   The accent survives only where it carries meaning — the match counter, the
+   live dots, the active cell's top border, the SHOW MATCHES tile and the arrow
+   circles. The large accent fills become ink.
+
+   The cell colours are the trap the handoff calls out: on this page they come
+   from a class, not from the markup, so a theme switch that only touches the
+   template leaves the whole bar white on white. Here they come from these
+   rules, which is the same fix stated in CSS.
+   ========================================================================== */
+
+.listing--light .vfind,
+.listing--light .vsource {
+  border: 1px solid rgba(20, 22, 26, .22);
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.listing--light .vfind__wordmark,
+.listing--light .vsource__wordmark { -webkit-text-stroke-color: rgba(20, 22, 26, .07); }
+
+.listing--light .vfind__live,
+.listing--light .vsource__live,
+.listing--light .nchip,
+.listing--light .soonchip { border-color: rgba(20, 22, 26, .16); }
+
+.listing--light .nchip,
+.listing--light .soonchip { color: var(--ink); }
+
+.listing--light .nchip:hover,
+.listing--light .soonchip:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+.listing--light .nchip--on,
+.listing--light .nchip--on:hover,
+.listing--light .soonchip--on,
+.listing--light .soonchip--on:hover { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+/* -- labels and body copy ----------------------------------------------- */
+.listing--light .vfig__lbl,
+.listing--light .vread__lbl,
+.listing--light .vnarrow__lbl,
+.listing--light .vclear,
+.listing--light .vfound__lbl,
+.listing--light .vfield__lbl,
+.listing--light .vbrief__note,
+.listing--light .vfoot__lbl,
+.listing--light .vfound__note { color: var(--ink-2); }
+
+.listing--light .vclear:hover { color: var(--ink); }
+
+.listing--light .vsource__sub { color: var(--ink-3); }
+
+.listing--light .vfig__sep { background: rgba(20, 22, 26, .16); }
+
+.listing--light .vfound,
+.listing--light .vnarrow { border-top-color: var(--line); }
+
+.listing--light .vfound__row { border-top-color: rgba(20, 22, 26, .09); }
+
+.listing--light .vfound__row:hover { background: var(--surface); }
+
+.listing--light .vfound__days { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+
+/* -- the query field ----------------------------------------------------- */
+.listing--light .vquery__in {
+  border-color: rgba(20, 22, 26, .2);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.listing--light .vquery__in::placeholder { color: var(--ink-2); }
+
+.listing--light .vquery__in:hover { border-color: rgba(20, 22, 26, .4); }
+
+.listing--light .vquery__glass { color: var(--ink-2); }
+
+/* -- the filter bar ------------------------------------------------------ */
+.listing--light .vbar { background: var(--line); border-top-color: var(--line); }
+
+.listing--light .vcell { background: #FFFFFF; }
+
+.listing--light .vcell:hover { background: var(--surface); }
+
+.listing--light .vcell__lbl,
+.listing--light .vcell__val { color: var(--ink-2); }
+
+.listing--light .vcell--on .vcell__lbl { color: var(--accent); }
+
+.listing--light .vcell--on .vcell__val { color: var(--ink); }
+
+.listing--light .vcell__chev { color: var(--ink-2); }
+
+.listing--light .vcell__pick option { background: #FFFFFF; color: var(--ink); }
+
+/* -- the brief ----------------------------------------------------------- */
+.listing--light .vfield__in {
+  border-color: rgba(20, 22, 26, .18);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.listing--light .vfield__in::placeholder { color: var(--ink-2); }
+
+.listing--light .vfield__in:hover { border-color: rgba(20, 22, 26, .4); }
+
+.listing--light .vfield__in:focus { border-color: var(--accent); background: #FFFFFF; }
+
+.listing--light .vbrief__error { color: var(--ink); }
+
+.listing--light .vfoot { background: var(--line); border-top-color: var(--line); }
+
+.listing--light .vfoot__cell { background: #FFFFFF; }
+
+.listing--light .vfoot__num { color: var(--ink); }
+
+.listing--light .vfoot__num--accent { color: var(--accent); }
+
+/* -- the two primary buttons invert: ink fill, white label, accent circle -- */
+.listing--light .vquery__go,
+.listing--light .vbrief__cta {
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.listing--light .vquery__go:hover,
+.listing--light .vbrief__cta:hover { background: #23272D; }
+
+.listing--light .vquery__arrow,
+.listing--light .vbrief__arrow { background: var(--accent); color: var(--ink); }
+
+
+/* ==========================================================================
+   11. The spec-sheet card — v4
+   ==========================================================================
+
+   The fourth card treatment, and the one that hides nothing: four facts in a
+   table, and the published fault is one of them. It sits with the mileage and
+   the power rather than in a badge — that is the whole argument of this card.
+   ========================================================================== */
+
+.sgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+
+.scard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: transform .22s ease, box-shadow .22s ease;
+}
+
+.scard:hover { transform: translateY(-6px); box-shadow: 0 28px 54px -30px rgba(20, 22, 26, .44); }
+
+/* One lead card, marked by its edge rather than by a fill. */
+.scard--lead { border-color: var(--ink); box-shadow: 0 26px 52px -34px rgba(20, 22, 26, .44); }
+
+.scard__shot { position: relative; aspect-ratio: 16 / 9; background: var(--image-bed); }
+
+.scard__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.scard__where {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.scard__tag {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+/* The car's place in the list, drawn as an outline over the photograph. */
+.scard__no {
+  position: absolute;
+  right: 13px;
+  bottom: 13px;
+  font-family: var(--display);
+  font-size: 40px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, .6);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.scard__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 20px 22px 16px;
+}
+
+.scard__title { min-width: 0; }
+
+.scard__make {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.scard__model { margin-top: 8px; font-size: 21px; font-weight: 800; letter-spacing: -.026em; text-wrap: pretty; }
+
+/* The price column never shrinks, so a long model name wraps instead of
+   crushing the figure. */
+.scard__money { flex: none; text-align: right; }
+
+.scard__price { font-size: clamp(19px, 1.5vw, 24px); font-weight: 800; letter-spacing: -.03em; white-space: nowrap; }
+
+.scard__mo { margin-top: 5px; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+
+.scard__facts { display: flex; flex-direction: column; flex: 1 1 auto; }
+
+/* minmax(0,96px), never auto: with auto and a nowrap value the label track
+   wins and a long fault line is clipped instead of wrapping. */
+.scard__row {
+  display: grid;
+  grid-template-columns: minmax(0, 96px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: baseline;
+  padding: 11px 22px;
+  border-top: 1px solid rgba(20, 22, 26, .09);
+  background: #FFFFFF;
+}
+
+.scard__row:nth-of-type(even) { background: #FCFCFB; }
+
+.scard__key {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.scard__val {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.016em;
+  text-wrap: pretty;
+}
+
+/* The fault row is the loud one: the label goes to ink and the value to 800,
+   because it is the fact the buyer came to check. */
+.scard__row--fault .scard__key { color: var(--ink); }
+
+.scard__row--fault .scard__val { font-weight: 800; }
+
+.scard__dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+.scard__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding: 16px 22px;
+  border-top: 1px solid rgba(20, 22, 26, .09);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 700;
+  transition: background .2s ease, color .2s ease;
+}
+
+.scard--lead .scard__cta { background: var(--ink); color: #FFFFFF; }
+
+.scard__cta:hover { background: var(--ink); color: #FFFFFF; }
+
+.scard__ctac {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   12. Responsive
+   ========================================================================== */
+
+/* Six cells hold "Any drivetrain" and its chevron down to about 1400; below
+   that the bar folds rather than clipping its own values. */
+@media (max-width: 1400px) {
+  .vbar { grid-template-columns: repeat(3, 1fr); }
+  .vtile { grid-column: 1 / -1; flex-direction: row; align-items: center; justify-content: space-between; padding: 20px 46px; }
+}
+
+@media (max-width: 1180px) {
+  .vgrid,
+  .sgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vsource__grid { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 38px 34px 0; }
+  .vfind { padding: 38px 34px 0; }
+  .vbar { margin-left: -34px; margin-right: -34px; }
+  .vtile { padding: 20px 34px; }
+  .vfind__wordmark { font-size: 240px; }
+  .vfoot { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1024px) {
+  .vbar { grid-template-columns: repeat(2, 1fr); }
+  .vfind__figs { width: 100%; justify-content: flex-start; }
+  .vfig { text-align: left; }
+}
+
+@media (max-width: 780px) {
+  .vfind { padding: 30px 22px 0; border-radius: 24px; }
+  .vbar { margin: 26px -22px 0; grid-template-columns: minmax(0, 1fr); }
+  .vtile { padding: 18px 22px; }
+  .vfind__wordmark { font-size: 150px; }
+
+  /* The inset button has nowhere to sit once the field is this narrow. */
+  .vquery__in { height: 60px; padding: 0 18px 0 48px; font-size: 16px; }
+  .vquery__glass { left: 18px; top: 20px; }
+  .vquery__go {
+    position: static;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 52px;
+    margin-top: 10px;
+    padding: 0 10px 0 24px;
+  }
+
+  .vgrid,
+  .sgrid { grid-template-columns: minmax(0, 1fr); }
+
+  .vpager { gap: 18px; }
+  .vpager__left { width: 100%; }
+
+  /* The rail keeps its shape and scrolls rather than wrapping into a stack. */
+  .rail { overflow-x: auto; }
+
+  .vsource { border-radius: 24px; }
+  .vsource__grid { padding: 30px 22px 0; }
+  .vsource__wordmark { font-size: 110px; bottom: -34px; }
+  .vbrief__grid { grid-template-columns: minmax(0, 1fr); }
+  .vfoot__cell { padding: 20px 22px 22px; }
+}
+
+@media (max-width: 560px) {
+  .vfind__figs { gap: 18px; }
+  .vfoot { grid-template-columns: minmax(0, 1fr); }
+  .vsort { gap: 14px; }
+  .vsort__select { height: 44px; font-size: 14.5px; }
+  .vpager__left { gap: 10px; }
+}
+
+
+/* ==========================================================================
+   The card opens the car
+
+   One anchor per card, stretched over the tile — see the note in listing.css.
+   ========================================================================== */
+
+.vcard,
+.scard { position: relative; }
+
+.vcard__cta::after,
+.scard__cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}

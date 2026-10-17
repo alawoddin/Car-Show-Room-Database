@@ -1,0 +1,1934 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Listing Single v5
+   Only what this page adds. The light header, the page-header block and the
+   shared buttons, chips and dots are the inner-page template and live in
+   style.css.
+
+   Two rails. The left one keeps the reader oriented — contents, key figures,
+   the inspection score; the right one keeps the price and the seller one
+   glance away. Both travel the whole length of the page, which is what makes
+   this the layout for a listing somebody reads end to end.
+
+   THE STICKY RULE has two halves and both are required:
+     * the grid is align-items: start, so each rail is its own height rather
+       than stretched to the centre column;
+     * each rail is position: sticky; top: 96px.
+   Stretch either rail to the row and it has no travel left and never pins.
+   96px, not 0 — the site header is not fixed, so the only thing above a
+   pinned rail is air, and the same 96px is the scroll-margin every section
+   the contents rail points at carries.
+
+   Sections are separated by bare 40px spacers, no hairlines.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The two-rail frame
+   02. Left rail — contents, key figures, score
+   03. Right rail — price, seller, tiles
+   04. Section heads
+   05. 01 Gallery
+   06. 02 Inspection (dark)
+   07. 03 Specification
+   08. 04 Seller notes
+   09. 05 Equipment
+   10. 06 Finance (light, built as a table)
+   11. 07 Where it is
+   12. 08 Reviews and questions
+   13. Responsive
+   14. Touch
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The two-rail frame
+   ========================================================================== */
+
+.pen {
+  display: grid;
+  grid-template-columns: minmax(0, 290px) minmax(0, 1fr) minmax(0, 340px);
+  gap: 24px;
+  align-items: start;
+}
+
+.pen__rail {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pgap { height: 40px; }
+
+/* Every section the contents rail points at has to clear the pinned rails
+   when it lands, which is the same 96px they pin at. */
+.psec { scroll-margin-top: 96px; }
+
+.pbox {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.pbox__head {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   02. Left rail — contents, key figures, score
+   ========================================================================== */
+
+.ptoc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 20px;
+  border-top: 1px solid rgba(20, 22, 26, .09);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+/* The first row opens the list, so it has no rule above it. */
+.ptoc--first { border-top: 0; }
+
+.ptoc:hover { background: var(--surface); color: var(--ink); }
+
+.ptoc__label { display: inline-flex; align-items: center; gap: 11px; }
+
+.ptoc__n {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--ink-4);
+}
+
+.ptoc__hint {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-4);
+}
+
+/* Where the reader actually is. The prototype hard-codes this on the first
+   row; here it follows the scroll, so the rail is worth reading. */
+.ptoc--on { font-weight: 700; }
+.ptoc--on .ptoc__n { color: var(--accent); }
+
+/* -- key figures --------------------------------------------------------- */
+
+.pfig {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 20px;
+  border-top: 1px solid rgba(20, 22, 26, .09);
+  background: #FFFFFF;
+}
+
+.pfig--first { border-top: 0; }
+
+/* The zebra is barely there on purpose: enough to follow a row across, not
+   enough to read as a table. */
+.pfig--alt { background: #FCFCFB; }
+
+.pfig__lbl {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pfig__val { font-size: 14px; font-weight: 800; letter-spacing: -.02em; text-align: right; }
+
+.pvin {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 20px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+}
+
+.pvin__no {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .03em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pvin__link {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  text-decoration: underline;
+}
+
+/* -- the score tiles ----------------------------------------------------- */
+
+.pscore {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.pscore__cell { padding: 16px 18px; background: #FFFFFF; }
+
+.pscore__n { font-size: 20px; font-weight: 800; letter-spacing: -.028em; }
+
+.pscore__n--accent { color: var(--accent); }
+
+.pscore__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   03. Right rail — price, seller, tiles
+   ========================================================================== */
+
+.pbuy {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.pbuy__ghost {
+  position: absolute;
+  right: -14px;
+  bottom: -40px;
+  font-family: var(--display);
+  font-size: 120px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.1px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pbuy__status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+.pbuy__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.pbuy__viewing {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.pbuy__body { position: relative; padding: 22px; }
+
+.pbuy__price { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+
+.pbuy__now {
+  font-size: clamp(26px, 2vw, 34px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.pbuy__was {
+  font-size: 13px;
+  color: rgba(255, 255, 255, .5);
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.pbuy__under {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 11px;
+}
+
+.pbuy__book {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.pbuy__mo { font-size: 12.5px; color: rgba(255, 255, 255, .6); }
+
+.pbuy__cta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding: 14px 14px 14px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: filter .18s ease, transform .18s ease;
+}
+
+.pbuy__cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.pbuy__pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+
+.pbuy__alt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  background: none;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.pbuy__alt:hover { border-color: #FFFFFF; background: rgba(255, 255, 255, .06); color: #FFFFFF; }
+
+.pbuy__alt--on { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+.pbuy__alt--on .pbuy__heart { fill: currentColor; }
+
+.pbuy__promise {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, .14);
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.pbuy__pcell { padding: 13px 10px 14px; background: var(--ink); text-align: center; }
+
+.pbuy__pnum { font-size: 14px; font-weight: 800; letter-spacing: -.024em; }
+
+.pbuy__pnum--accent { color: var(--accent); }
+
+.pbuy__plbl {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+/* -- sold by ------------------------------------------------------------- */
+
+.psold__head { padding: 14px 20px; font-size: 9px; }
+
+.psold__body { padding: 18px 20px 20px; }
+
+.psold__who { display: flex; align-items: center; gap: 12px; }
+
+.psold__av {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.psold__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.psold__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+.psold__badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.psold__rate { display: flex; align-items: center; gap: 6px; margin-top: 5px; }
+
+.psold__stars { display: flex; gap: 2px; color: var(--accent); }
+
+.psold__score { font-size: 12px; font-weight: 700; }
+
+.psold__reviews {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.psold__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  margin-top: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .1);
+}
+
+.psold__stat { padding: 11px 13px; background: var(--surface); }
+
+.psold__num { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.psold__num--accent { color: var(--accent); }
+
+.psold__slbl {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.psold__where { margin-top: 14px; font-size: 13px; line-height: 1.55; color: var(--ink-3); }
+
+.psold__cta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 12px 12px 18px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* -- the two tiles ------------------------------------------------------- */
+
+.ptiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.ptile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  background: #FFFFFF;
+}
+
+.ptile__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.ptile__val { font-size: 12.5px; font-weight: 700; letter-spacing: -.016em; }
+
+.ptile__lbl {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   04. Section heads
+   ========================================================================== */
+
+.phead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.phead--mid { margin: 34px 0 20px; }
+
+.phead__eyebrow {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.phead__h2 {
+  margin: 11px 0 0;
+  font-size: clamp(24px, 2.1vw, 34px);
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+.phead__note {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   05. 01 Gallery
+   ========================================================================== */
+
+.pgal {
+  position: relative;
+  aspect-ratio: 2 / 1;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.pgal__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.pgal__chip {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+
+.pgal__label,
+.pgal__count {
+  position: absolute;
+  bottom: 18px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+}
+
+.pgal__label { left: 18px; }
+.pgal__count { right: 18px; }
+
+.pgal__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 12px 26px -14px rgba(20, 22, 26, .6);
+  transition: background .18s ease;
+}
+
+.pgal__arrow:hover { background: #FFFFFF; }
+
+.pgal__arrow--prev { left: 16px; }
+.pgal__arrow--next { right: 16px; }
+
+/* Six across, not a column: the hero is 2:1 and the strip has the whole width
+   of the centre column to spend. */
+.pstrip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* The border is the same width and never absent, so choosing a tile moves
+   nothing: only its colour changes. */
+.pthumb {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: 2px solid rgba(20, 22, 26, .14);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+  cursor: pointer;
+}
+
+.pthumb--on { border-color: var(--ink); }
+
+.pthumb__img { width: 100%; height: 100%; object-fit: cover; }
+
+.pthumb__more {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 22, 26, .62);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+
+/* ==========================================================================
+   06. 02 Inspection (dark)
+   ========================================================================== */
+
+.prep {
+  position: relative;
+  padding: 34px 32px 32px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.prep__ghost {
+  position: absolute;
+  right: -20px;
+  bottom: -56px;
+  font-family: var(--display);
+  font-size: 170px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.prep__head,
+.prep__tally,
+.prep__faults { position: relative; }
+
+.prep__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.prep__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.prep__h2 {
+  margin: 16px 0 0;
+  font-size: clamp(24px, 2.2vw, 36px);
+  font-weight: 800;
+  letter-spacing: -.034em;
+  line-height: 1.06;
+  color: #FFFFFF;
+}
+
+.prep__by {
+  margin: 12px 0 0;
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .66);
+}
+
+.prep__pdf {
+  padding: 13px 13px 13px 22px;
+  gap: 11px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ptally {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 26px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .14);
+}
+
+.ptally__cell { padding: 18px 18px 20px; background: var(--ink); }
+
+.ptally__lbl {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .5);
+}
+
+/* Accent when the group came through with nothing against it; the one that
+   lost points says so in white, so the colour is the claim. */
+.ptally__num { margin-top: 10px; font-size: 20px; font-weight: 800; letter-spacing: -.028em; }
+
+.ptally__num--clean { color: var(--accent); }
+
+.prep__faults {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.pfault {
+  display: grid;
+  grid-template-columns: minmax(0, 128px) minmax(0, 1fr);
+  gap: 14px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .06);
+}
+
+.pfault__shot {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 11px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.pfault__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.pfault__body { min-width: 0; }
+
+.pfault__tags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.pfault__bang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.pfault__kind {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.pfault__name {
+  margin-top: 9px;
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  text-wrap: pretty;
+}
+
+.pfault__text {
+  margin: 7px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .66);
+  text-wrap: pretty;
+}
+
+.pfault__cost {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   07. 03 Specification
+   ========================================================================== */
+
+/* Two columns of rows, each with its own rule above — so the sixteen read as
+   one list broken in half, not as two lists. */
+.pspec { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; }
+
+.pspec__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 0;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.pspec__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pspec__val { font-size: 14.5px; font-weight: 700; text-align: right; }
+
+
+/* ==========================================================================
+   08. 04 Seller notes
+
+   Deliberately unlike v4: no dark panel and no vertical timeline. A pull-quote
+   across the measure, three columns of prose under it, a fact row between two
+   rules, and the service record as four cards in a row.
+   ========================================================================== */
+
+.pby { display: flex; align-items: center; gap: 12px; }
+
+.pby__av {
+  position: relative;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.pby__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.pby__name { font-size: 14px; font-weight: 700; letter-spacing: -.018em; }
+
+.pby__when {
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.pquote {
+  margin: 0;
+  max-width: 820px;
+  font-size: clamp(18px, 1.5vw, 23px);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -.024em;
+  text-wrap: pretty;
+}
+
+.pnotes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+  margin-top: 22px;
+}
+
+.pnotes__p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.pfacts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+}
+
+.pfacts__rule {
+  width: 1px;
+  height: 30px;
+  margin: 0 30px;
+  background: rgba(20, 22, 26, .14);
+}
+
+.pfacts__n { font-size: 22px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.pfacts__n--accent { color: var(--accent); }
+
+.pfacts__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pservice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 26px 0 16px;
+}
+
+.pservice__label { display: inline-flex; align-items: center; gap: 10px; }
+
+.pservice__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.pservice__chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .16);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.pservice__link {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  text-decoration: underline;
+}
+
+.pstamps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.pstamp { padding: 20px 20px 22px; background: #FFFFFF; }
+
+/* The record starts here, and the accent rule says so. The negative margin
+   pulls it over the wrapper's own border instead of stacking on it. */
+.pstamp--first { margin-top: -1px; border-top: 2px solid var(--accent); }
+
+.pstamp__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.pstamp__when {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pstamp--first .pstamp__when { color: var(--accent); }
+
+.pstamp__km {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--ink);
+}
+
+.pstamp__event {
+  margin-top: 13px;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  text-wrap: pretty;
+}
+
+.pstamp__note {
+  margin-top: 7px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+
+/* ==========================================================================
+   09. 05 Equipment
+   ========================================================================== */
+
+.pequip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.pequip__card { padding: 22px 22px 24px; background: #FFFFFF; }
+
+.pequip__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pequip__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.pequip__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; color: var(--accent); }
+
+.pequip__list { margin-top: 14px; }
+
+.pequip__item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
+
+.pequip__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink-4);
+}
+
+/* Filled means the option is worth paying for again. */
+.pequip__tick--on { background: var(--accent); color: var(--ink); }
+
+.pequip__tx { font-size: 13.5px; font-weight: 500; line-height: 1.5; text-wrap: pretty; }
+
+.pequip__tx--on { font-weight: 700; }
+
+
+/* ==========================================================================
+   10. 06 Finance (light, built as a table)
+
+   Deliberately unlike v4's dark panel: one bordered grid whose 1px gaps over a
+   tinted ground are the rules. The top row spans both halves — the figure on
+   the left, the two controls on the right — then three cells of totals, then a
+   dark foot across the whole width.
+   ========================================================================== */
+
+.pfin {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.pfin__top {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1px;
+  background: rgba(20, 22, 26, .12);
+}
+
+.pfin__now { padding: 26px 26px 28px; background: #FFFFFF; }
+
+.pfin__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.pfin__figrow {
+  display: flex;
+  align-items: baseline;
+  gap: 11px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.pfin__mo {
+  font-size: clamp(30px, 2.6vw, 44px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+}
+
+.pfin__over { font-size: 14.5px; color: var(--ink-2); }
+
+.pfin__promise {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.pfin__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(196, 131, 47, .18);
+  color: var(--accent);
+}
+
+.pfin__ptx { font-size: 13px; color: var(--ink-3); }
+
+/* The controls sit on the tint, which is why they take the light slider and
+   not the dark one: a white-on-white track on grey shows nothing. */
+.pfin__controls { padding: 26px 26px 28px; background: var(--surface); }
+
+.pfin__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pfin__row--term { margin-top: 20px; }
+
+.pfin__rval { font-size: 16px; font-weight: 800; letter-spacing: -.024em; }
+
+.pfin__slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  margin-top: 11px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .16);
+  outline: none;
+  cursor: pointer;
+}
+
+.pfin__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 2px 6px -1px rgba(20, 22, 26, .4);
+}
+
+.pfin__slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--ink);
+  cursor: pointer;
+}
+
+.pfin__slider:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+.pfin__cell { padding: 22px 26px 24px; background: #FFFFFF; }
+
+.pfin__val { font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+
+.pfin__val--accent { color: var(--accent); }
+
+.pfin__clbl {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pfin__cnote { margin-top: 6px; font-size: 12.5px; color: var(--ink-4); }
+
+.pfin__foot {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px 26px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.pfin__soft { font-size: 14.5px; color: rgba(255, 255, 255, .72); }
+
+.pfin__cta {
+  padding: 13px 13px 13px 22px;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: filter .18s ease;
+}
+
+.pfin__cta:hover { filter: brightness(1.08); }
+
+.pfin__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   11. 07 Where it is
+   ========================================================================== */
+
+.pwhere {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.pmap {
+  position: relative;
+  min-height: 380px;
+  border: 1px solid rgba(20, 22, 26, .1);
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* Leaflet owns this box and nothing else may live in it: the shared
+   initialiser skips any map element that already has children. */
+.pmap__canvas { position: absolute; inset: 0; }
+
+/* The pin, the distance chip and the zoom stack sit over Leaflet's own panes,
+   which stop at 400. */
+.pmap__over { z-index: 500; }
+
+.pdist {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 8px 20px -10px rgba(20, 22, 26, .4);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+.pdist__icon { color: var(--accent); }
+
+/* Leaflet anchors its marker at a point, so the pin grows up and left from
+   that point rather than being centred on it. */
+.ppin-wrap { width: 0; height: 0; }
+
+.ppin {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateX(-50%);
+}
+
+.ppin__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: var(--ink);
+  box-shadow: 0 12px 26px -12px rgba(20, 22, 26, .6);
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #FFFFFF;
+}
+
+.ppin__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.ppin__stalk { width: 2px; height: 14px; background: var(--ink); }
+
+.ppin__dot { width: 9px; height: 9px; margin-top: -2px; border-radius: 50%; background: var(--ink); }
+
+.pshow {
+  flex: 1 1 auto;
+  padding: 24px 26px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+}
+
+.pwhere__col { display: flex; flex-direction: column; gap: 14px; }
+
+.pshow__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.pshow__addr { margin: 13px 0 0; font-size: 15.5px; line-height: 1.7; color: var(--ink-3); }
+
+.pshow__hours { margin-top: 16px; }
+
+.pshow__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+  font-size: 13.5px;
+}
+
+.pshow__day { color: var(--ink-2); }
+
+.pshow__at { font-weight: 700; color: var(--ink); }
+
+.pshow__at--accent { color: var(--accent); }
+
+.pdeliver {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 22px 26px;
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.pdeliver__line { display: flex; align-items: center; gap: 11px; }
+
+.pdeliver__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.pdeliver__tx { font-size: 14px; line-height: 1.5; color: var(--ink-3); }
+
+.pdeliver__tx strong { font-weight: 700; color: var(--ink); }
+
+.pdeliver__cta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+  padding: 13px 13px 13px 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pdirections {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 13px 13px 22px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.pdirections:hover { border-color: var(--ink); background: var(--surface); color: var(--ink); }
+
+
+/* ==========================================================================
+   12. 08 Reviews and questions
+   ========================================================================== */
+
+.prev { display: flex; align-items: baseline; gap: 10px; }
+
+.prev__avg {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.prev__stars { display: flex; gap: 2px; align-self: center; color: var(--accent); }
+
+.prev__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.prcard {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 22px 22px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+}
+
+/* The most helpful review is the one worth reading first. */
+.prcard--top { border-color: var(--ink); }
+
+.prcard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.prcard__who { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+.prcard__av {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.prcard__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.prcard__name { font-size: 13.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.prcard__meta {
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.prcard__stars { display: flex; gap: 2px; color: var(--accent); }
+
+.prcard__off { color: rgba(20, 22, 26, .16); }
+
+.prcard__title {
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.022em;
+  text-wrap: pretty;
+}
+
+.prcard__body {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+/* margin-top:auto is what lines the badges up along the foot of the row. */
+.prcard__foot { margin-top: auto; padding-top: 14px; }
+
+.prcard__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .16);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+/* -- the thread ---------------------------------------------------------- */
+
+.pq__count {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.pq__thread { display: flex; flex-direction: column; }
+
+.pq__row {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 13px;
+  padding: 18px 0;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+}
+
+/* The reply is indented under the question it answers — the thread is one
+   column, so the offset is the only thing carrying the relationship. */
+.pq__row--reply { margin-left: 52px; }
+
+.pq__foot { border-top: 1px solid rgba(20, 22, 26, .12); }
+
+.pq__av {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.pq__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.pq__nameline { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.pq__name { font-size: 14.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.pq__badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .18);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.pq__when {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-4);
+}
+
+.pq__text {
+  margin: 7px 0 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.pq__acts { display: flex; align-items: center; gap: 16px; margin-top: 9px; }
+
+.pq__act {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.pq__act--on { color: var(--accent); }
+
+.pq__act--on .pq__heart { fill: currentColor; }
+
+/* -- the form, last ------------------------------------------------------ */
+
+.pq__card {
+  margin-top: 20px;
+  padding: 24px 26px 26px;
+  border-radius: 20px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.pq__fhead { display: flex; align-items: flex-start; gap: 13px; }
+
+.pq__fav {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .1);
+}
+
+.pq__ftitle { font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.pq__fsub { margin: 5px 0 0; font-size: 13px; line-height: 1.55; color: rgba(255, 255, 255, .6); }
+
+.pq__area,
+.pq__input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-weight: 500;
+  color: #FFFFFF;
+  outline: none;
+  transition: border-color .18s ease;
+}
+
+.pq__area {
+  margin-top: 14px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.pq__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+  max-width: 600px;
+  margin-top: 11px;
+}
+
+.pq__input { padding: 11px 14px; border-radius: 10px; font-size: 13.5px; }
+
+.pq__area:focus,
+.pq__input:focus { border-color: var(--accent); }
+
+.pq__area::placeholder,
+.pq__input::placeholder { color: rgba(255, 255, 255, .38); }
+
+.pq__send-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.pq__note { font-size: 12px; color: rgba(255, 255, 255, .5); }
+
+/* Inert until there is a question and a name to attach to it; the button says
+   so rather than accepting the click and failing. */
+.pq__send {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 12px 12px 20px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .4);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: default;
+  transition: background .2s ease, color .2s ease;
+}
+
+.pq__send--live { background: var(--accent); color: var(--ink); cursor: pointer; }
+
+.pq__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .4);
+  transition: background .2s ease, color .2s ease;
+}
+
+.pq__send--live .pq__disc { background: var(--ink); color: var(--accent); }
+
+
+/* ==========================================================================
+   13. Responsive
+
+   The README is explicit: below about 1,400px the centre column gets too
+   narrow and one rail has to go. The left one goes first — it is orientation,
+   and the reader can scroll; the right one carries the price, so it survives
+   longer. Below 1,100px both drop under the page and stop being sticky, since
+   a pinned card in a single column is just a card in the way.
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .pen { grid-template-columns: minmax(0, 1fr) minmax(0, 320px); }
+
+  /* The contents rail is the first thing to go: it is the one part of the
+     page a scroll can replace. */
+  .pen__rail--left { display: none; }
+
+  .pstrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1100px) {
+  .pen { grid-template-columns: minmax(0, 1fr); }
+
+  .pen__rail {
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  /* Still gone. The rule above sets display on every rail, and without this
+     the contents list would come back here — unpinned, and wedged between the
+     price and the story, which is the one place it helps nobody. */
+  .pen__rail--left { display: none; }
+
+  /* Reading order in one column: the price first, then the car. */
+  .pen__rail--right { order: -1; }
+
+  .prep { padding: 28px 24px 26px; }
+  .prep__faults { grid-template-columns: minmax(0, 1fr); }
+  .ptally { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .pnotes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pstamps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pstamp--first { margin-top: -1px; }
+
+  .pfin__top { grid-template-columns: minmax(0, 1fr); }
+  .pwhere { grid-template-columns: minmax(0, 1fr); }
+  .prev__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 780px) {
+  .pgap { height: 30px; }
+
+  .pen__rail { grid-template-columns: minmax(0, 1fr); }
+
+  .pgal { aspect-ratio: 16 / 10; }
+  .pgal__arrow { width: 38px; height: 38px; }
+  .pstrip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .prep__ghost { font-size: 140px; }
+  .ptally { grid-template-columns: minmax(0, 1fr); }
+  .pfault { grid-template-columns: minmax(0, 1fr); }
+  .pfault__shot { max-width: 200px; }
+
+  .pspec { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .pnotes { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+
+  /* Four figures across a phone is four columns of two characters; two-up
+     keeps the labels readable, and the rules between them go. */
+  .pfacts { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 24px; }
+  .pfacts__rule { display: none; }
+
+  .pstamps { grid-template-columns: minmax(0, 1fr); }
+  .pstamp--first { margin-top: -1px; }
+
+  .pequip { grid-template-columns: minmax(0, 1fr); }
+  .pfin { grid-template-columns: minmax(0, 1fr); }
+  .pfin__now,
+  .pfin__controls { padding: 22px 20px 24px; }
+  .pfin__cell { padding: 18px 20px 20px; }
+  .pfin__foot { padding: 18px 20px; }
+
+  .pmap { min-height: 320px; }
+  .pshow { padding: 20px 22px; }
+  .pdeliver { padding: 20px 22px; }
+
+  .prev__grid { grid-template-columns: minmax(0, 1fr); }
+
+  .pq__row--reply { margin-left: 22px; }
+  .pq__card { padding: 20px 20px 22px; }
+  .pq__pair { grid-template-columns: minmax(0, 1fr); }
+  .pq__send { width: 100%; justify-content: space-between; }
+}
+
+@media (max-width: 560px) {
+  .phead { gap: 16px; margin-bottom: 18px; }
+  .phead--mid { margin: 28px 0 18px; }
+
+  .pstrip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .pbuy__body { padding: 18px; }
+  .pbuy__status { padding: 11px 18px; }
+  .pbuy__pair { grid-template-columns: minmax(0, 1fr); }
+
+  .prep { padding: 24px 18px 22px; }
+  .prep__ghost { font-size: 120px; }
+
+  .pfacts { grid-template-columns: minmax(0, 1fr); }
+  .psold__body { padding: 16px 18px 18px; }
+}
+
+
+/* ==========================================================================
+   14. Touch
+
+   The mono links and the like buttons are 12 to 13 pixels of text — a fine
+   target for a cursor and an impossible one for a thumb. On a touch screen
+   they keep their type and grow a hit area around it, which costs the layout
+   nothing because the padding is answered by a negative margin.
+   ========================================================================== */
+
+@media (hover: none) {
+  .pq__act { padding: 9px 0; margin: -9px 0; }
+  .pq__acts { margin-top: 0; }
+
+  .pservice__link,
+  .pvin__link { padding: 11px 0; margin: -11px 0; }
+
+  /* A 5px track is a 5px target: the input keeps the track's look and takes
+     the thumb's height. */
+  .pfin__slider { height: 40px; margin-top: -6px; background: none; }
+
+  .pfin__slider::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(20, 22, 26, .16);
+  }
+
+  .pfin__slider::-moz-range-track {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(20, 22, 26, .16);
+  }
+
+  .pfin__slider::-webkit-slider-thumb { margin-top: -7.5px; }
+}

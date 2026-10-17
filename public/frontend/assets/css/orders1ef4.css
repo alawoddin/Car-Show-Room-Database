@@ -1,0 +1,515 @@
+/* ==========================================================================
+   AVAVA — Orders (orders.html)
+   The fifth screen of the user dashboard, on the profile.css sidebar. Read
+   only by design: orders are made in the basket; here they are tracked,
+   returned and asked about. Prefix od-.
+   ========================================================================== */
+
+.odmain { --od-body: #4C5157; --od-rust: #8A4A22; }
+
+.oddiary { display: block; }
+
+.odcard[hidden], .odempty[hidden], .odrow[hidden], .odevents[hidden], .odnote[hidden], .odcars[hidden] { display: none; }
+
+.odk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.odmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+/* -------------------------------------------------------------------------- toolbar */
+
+.odtop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0 0 18px;
+  padding: 15px 22px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.odtop__status { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; margin: 0; }
+
+.odtop__live { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.odtop__sep { width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.odtop__ships { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.odtop__acts { display: inline-flex; align-items: center; gap: 10px; }
+
+.odsearch { position: relative; display: inline-flex; align-items: center; }
+
+.odsearch__glass { position: absolute; left: 14px; display: inline-flex; color: var(--ink-2); pointer-events: none; }
+
+.odsearch__in {
+  width: 190px;
+  height: 44px;
+  padding: 0 15px 0 38px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.odsearch__in::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+.odfilter, .odselect {
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.odselect { width: 100%; }
+
+.odsearch__in:focus-visible, .odfilter:focus-visible, .odselect:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(198, 230, 59, .35); }
+
+/* -------------------------------------------------------------------------- active cards */
+
+.odlist { display: flex; flex-direction: column; gap: 14px; }
+
+.odcard { border: 1px solid rgba(20, 22, 26, .12); border-radius: 22px; overflow: hidden; background: #FFFFFF; }
+
+.odcard--next { border-color: var(--ink); }
+
+.odcard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+}
+
+.odcard__ref { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; margin: 0; }
+
+.odcard__sep { width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.odbadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.odbadge--accent { background: var(--accent); }
+
+.odbadge--late { background: rgba(138, 74, 34, .14); color: var(--od-rust); }
+
+.odbadge--line { border: 1px solid rgba(20, 22, 26, .16); }
+
+.odcard__body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 264px); }
+
+.odcard__main { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 20px 24px 22px; }
+
+.odcard__items { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.odthumb {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  border: 1px solid rgba(20, 22, 26, .1);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #EDEDE9;
+  color: var(--accent);
+}
+
+.odthumb--doc { background: var(--ink); }
+
+.odthumb__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.odcard__what { min-width: 0; }
+
+.odcard__title { display: block; margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.odcard__meta { display: block; margin: 5px 0 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.odtrack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+  list-style: none;
+}
+
+.odstep { display: flex; flex-direction: column; gap: 7px; padding: 12px 14px 13px; background: #FFFFFF; }
+
+.odstep--done { background: var(--ink); }
+
+.odstep__row { display: flex; align-items: center; gap: 7px; }
+
+.odstep__disc {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 50%;
+  background: var(--surface);
+  color: transparent;
+}
+
+.odstep--done .odstep__disc { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+.odstep__n { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .1em; color: var(--ink-2); }
+
+.odstep--done .odstep__n { color: rgba(255, 255, 255, .55); }
+
+.odstep__name { font-size: 13.5px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+
+.odstep--done .odstep__name { color: #FFFFFF; }
+
+.odline {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 12px 0 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+/* the carrier events behind the track, opened by the CTA */
+.odevents { display: grid; gap: 6px; margin: 0; padding: 12px 14px; border: 1px dashed rgba(20, 22, 26, .2); border-radius: 12px; list-style: none; }
+
+.odevents__row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; color: var(--ink-2); }
+
+.odevents__k { min-width: 120px; font-weight: 700; color: var(--ink); }
+
+.odcard__rail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 11px;
+  padding: 20px 24px;
+  border-left: 1px solid rgba(20, 22, 26, .1);
+  background: var(--surface);
+}
+
+.odcard__sum { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -.032em; }
+
+.odcta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 42px;
+  margin-top: 4px;
+  padding: 0 10px 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.odcta:hover { filter: brightness(1.14); }
+
+.odcta__disc, .oddisc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.oddisc { width: 28px; height: 28px; }
+
+.odlink {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.odlink--quiet { font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.odlink:hover { color: #5A5F65; }
+
+.odnote {
+  margin: 0;
+  padding: 12px 24px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+  background: rgba(198, 230, 59, .18);
+}
+
+/* -------------------------------------------------------------------------- empty state */
+
+.odempty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 56px 24px;
+  border: 1px dashed rgba(20, 22, 26, .24);
+  border-radius: 20px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.odempty__t { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.022em; }
+
+.odempty__p { max-width: 420px; margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--od-body); text-wrap: pretty; }
+
+.odgo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 44px;
+  margin-top: 6px;
+  padding: 0 10px 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.odgo:hover { filter: brightness(1.14); }
+
+.odgo--return { font-weight: 700; margin-top: 0; }
+
+.odgo:disabled { opacity: .42; cursor: default; filter: none; }
+
+/* -------------------------------------------------------------------------- the car */
+
+.odcars { display: block; }
+
+.odpast { display: block; }
+
+.odhead { margin-bottom: 18px; }
+
+.odhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.odcar__body { display: grid; grid-template-columns: minmax(0, 208px) minmax(0, 1fr) minmax(0, 264px); }
+
+.odcar__photo { position: relative; align-self: stretch; min-height: 190px; background: #EDEDE9; }
+
+.odcar__img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.odcar__name { display: block; margin: 0; font-size: 18.5px; font-weight: 800; letter-spacing: -.024em; }
+
+.odcar__vin { display: block; margin: 6px 0 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+/* -------------------------------------------------------------------------- history */
+
+.odbox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.odbox__head, .odbox__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  background: var(--surface);
+}
+
+.odbox__head { border-bottom: 1px solid rgba(20, 22, 26, .12); }
+
+.odbox__foot { border-top: 1px solid rgba(20, 22, 26, .12); }
+
+.odbox__note { margin: 0; font-size: 13px; color: var(--ink-2); }
+
+.odrow {
+  display: grid;
+  grid-template-columns: minmax(0, 96px) minmax(0, 148px) minmax(0, 1fr) minmax(0, 110px) minmax(0, 132px) minmax(0, 132px);
+  align-items: center;
+  gap: 16px;
+  padding: 15px 24px;
+  border-bottom: 1px solid rgba(20, 22, 26, .1);
+}
+
+.odrow--last { border-bottom: 0; }
+
+.odrow--more { border-top: 0; }
+
+.odrow__no { margin: 0; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .05em; color: var(--ink); }
+
+.odrow__items { min-width: 0; margin: 0; font-size: 14.5px; font-weight: 600; letter-spacing: -.018em; }
+
+.odrow__amt { margin: 0; font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.odpill {
+  justify-self: start;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.odpill--refunded { background: rgba(138, 74, 34, .14); color: var(--od-rust); }
+
+.odpill--open { background: rgba(198, 230, 59, .38); }
+
+.odrow .odlink { justify-self: end; align-self: center; }
+
+/* -------------------------------------------------------------------------- returns */
+
+.odreturns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 300px);
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.odreturns__rule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.odreturns__t { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -.024em; }
+
+.odreturns__p { max-width: 560px; margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--od-body); text-wrap: pretty; }
+
+.odreturns__act { display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 22px 24px 24px; background: var(--surface); }
+
+.odfield { display: block; }
+
+.odfield__lbl { display: block; margin: 0 0 8px; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.odreturns__note { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .1em; line-height: 1.6; color: var(--ink); }
+
+/* -------------------------------------------------------------------------- three rules */
+
+.odrules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.odrules__cell { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.odrules__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.odrules__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--od-body); text-wrap: pretty; }
+
+/* -------------------------------------------------------------------------- responsive */
+
+@media (max-width: 1180px) {
+  .odcard__body { grid-template-columns: minmax(0, 1fr) minmax(0, 228px); }
+  .odcar__body { grid-template-columns: minmax(0, 176px) minmax(0, 1fr) minmax(0, 228px); }
+  .odrow { grid-template-columns: minmax(0, 80px) minmax(0, 120px) minmax(0, 1fr) minmax(0, 90px) minmax(0, 110px) minmax(0, 110px); gap: 12px; }
+}
+
+@media (max-width: 900px) {
+  .odcard__body { grid-template-columns: 1fr; }
+  .odcard__rail { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 14px 24px; border-left: 0; border-top: 1px solid rgba(20, 22, 26, .1); }
+  .odcta { margin-top: 0; }
+  .odcar__body { grid-template-columns: minmax(0, 176px) minmax(0, 1fr); }
+  .odcar__body .odcard__rail { grid-column: 1 / -1; }
+  .odtrack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .odrow { grid-template-columns: minmax(0, 80px) minmax(0, 1fr) minmax(0, 90px); }
+  .odrow__no { grid-column: 2; }
+  .odrow__items { grid-column: 1 / 3; }
+  .odrow .odpill { grid-column: 1; }
+  .odrow .odlink { grid-column: 3; }
+  .odreturns { grid-template-columns: 1fr; }
+  .odrules { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .odtop { padding: 14px 16px; }
+  .odtop__acts { width: 100%; flex-wrap: wrap; }
+  .odsearch { width: 100%; }
+  .odsearch__in { width: 100%; }
+  .odfilter { flex: 1 1 100%; }
+  .odcard__head, .odcard__main, .odcard__rail, .odbox__head, .odbox__foot, .odrow, .odreturns__rule, .odreturns__act, .odrules__cell { padding-left: 18px; padding-right: 18px; }
+  .odcar__body { grid-template-columns: 1fr; }
+  .odcar__photo { aspect-ratio: 16 / 10; min-height: 0; }
+  .odrow { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+  .odrow__no, .odrow__items, .odrow .odpill, .odrow .odlink { grid-column: auto; }
+  .odrow__items { grid-column: 1 / -1; }
+  .odrow .odlink { justify-self: end; }
+  .odempty { padding: 40px 18px; }
+}
+
+@media (max-width: 430px) {
+  .odtop__status { gap: 8px; }
+  .odtrack { grid-template-columns: 1fr; }
+  .odcard__items { gap: 8px; }
+  .odthumb { width: 52px; height: 52px; }
+  .odevents__k { min-width: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .odcta, .odgo, .odlink, .odsearch__in, .odfilter, .odselect { transition: none; }
+}

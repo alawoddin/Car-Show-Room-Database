@@ -1,0 +1,704 @@
+/* ==========================================================================
+   AVAVA — Add a listing (dealer-add-listing.html)
+   Prefix al. One car, five labelled steps, nothing hidden behind a wizard.
+
+   1. Shared atoms
+   2. Draft bar and the confirmation strip
+   3. The step tracker
+   4. Step 1 — the car
+   5. Step 2 — photographs
+   6. Step 3 — defects
+   7. Step 4 — price
+   8. Step 5 — publish, and what happens next
+   9. Narrow screens
+   ========================================================================== */
+
+/* -----------------------------------------------------------------
+   1. Shared atoms
+   ----------------------------------------------------------------- */
+.almain { --al-rust: #8A4A22; }
+
+.alsec { display: block; min-width: 0; }
+
+.alk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.alk--light { color: rgba(255, 255, 255, .55); }
+
+.almeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.alsep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.alhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.alhead__main { min-width: 0; }
+
+.alhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; text-wrap: pretty; }
+
+.allink {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+}
+
+.allink:hover { color: var(--ink); }
+
+.allink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.allink--rust { font-weight: 700; letter-spacing: .1em; color: var(--al-rust); }
+
+.allink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.alcard { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; background: #FFFFFF; }
+
+.alfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+}
+
+.alfoot__t { min-width: 0; margin: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.aldisc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+/* -----------------------------------------------------------------
+   2. Draft bar and the confirmation strip
+   ----------------------------------------------------------------- */
+.albar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.albar__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; min-width: 0; }
+
+.albar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.albar__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.algo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 10px 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.algo:hover { filter: brightness(1.14); }
+
+.algo:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.aldone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 17px 22px;
+  border: 1px solid var(--accent);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.aldone[hidden] { display: none; }
+
+.aldone--rust { border-color: var(--al-rust); background: rgba(138, 74, 34, .1); }
+
+.aldone__main { display: inline-flex; align-items: center; gap: 13px; min-width: 0; }
+
+.aldone__tile {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.aldone--rust .aldone__tile { background: var(--al-rust); color: #FFFFFF; }
+
+.aldone__t { display: block; font-size: 15.5px; font-weight: 800; letter-spacing: -.022em; }
+
+.aldone__s { display: block; margin-top: 6px; }
+
+.alx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.alx:hover { border-color: var(--ink); }
+
+.alx:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* -----------------------------------------------------------------
+   3. The step tracker
+   ----------------------------------------------------------------- */
+.alsteps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: rgba(20, 22, 26, .12); }
+
+.alstep {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px 18px;
+  border: 0;
+  background: #FFFFFF;
+  font-family: var(--font);
+  text-align: left;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.alstep:hover { background: var(--surface); }
+
+.alstep--now { background: var(--ink); color: #FFFFFF; }
+
+.alstep--now:hover { background: var(--ink); }
+
+.alstep__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.alstep__n--done { background: var(--accent); }
+
+.alstep--now .alstep__n { background: var(--accent); color: var(--ink); }
+
+.alstep__t { font-size: 14.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.alstep__s { font-family: var(--mono); font-size: 8.5px; font-weight: 600; letter-spacing: .1em; color: var(--ink-2); }
+
+.alstep--now .alstep__s { color: rgba(255, 255, 255, .6); }
+
+.alstep:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+/* -----------------------------------------------------------------
+   4. Step 1 — the car
+   ----------------------------------------------------------------- */
+.alvin {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.alvin__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; min-width: 0; }
+
+.alvin__no { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: .06em; color: var(--accent); }
+
+.alvin__match { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: rgba(255, 255, 255, .6); }
+
+.alfields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; padding: 24px 26px; }
+
+.alfield { display: block; min-width: 0; }
+
+.alfield__k { display: block; margin-bottom: 8px; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.alin {
+  box-sizing: border-box;
+  width: 100%;
+  height: 46px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font-family: var(--font);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.alin:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+.alfield__note { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+.altext {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  padding: 13px 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font-family: var(--font);
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.altext:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+/* -----------------------------------------------------------------
+   5. Step 2 — photographs
+   ----------------------------------------------------------------- */
+.alcover { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 22px; padding: 24px 26px; }
+
+.alframe {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line-10);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #EDEDE9;
+}
+
+/* Пустого кадра на странице нет: слот существует там, где есть снимок.
+   Стиль остаётся для того, кто добавит слоты своим загрузчиком. */
+.alframe--empty { border: 1px dashed var(--al-rust); background: rgba(138, 74, 34, .06); }
+
+.alframe__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.alframe__pill {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.alframe__name {
+  padding: 0 10px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--al-rust);
+  text-align: center;
+  text-wrap: pretty;
+}
+
+/* Кадр — поле загрузки: клик открывает выбор файла, перетаскивание
+   кладёт снимок сюда же. Реальную отправку покупатель шаблона вешает на
+   input, у которого уже есть name и id. */
+.aldrop2 { position: relative; cursor: pointer; }
+
+.aldrop2__in { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+
+.alup {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .82);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #FFFFFF;
+}
+
+.aldrop2:hover .alup, .aldrop2:focus-within .alup { background: var(--ink); }
+
+.aldrop2:focus-within { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.aldrop2--over { border-color: var(--accent); }
+
+.alframe__size {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.alcover__say { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+
+.alcover__t { font-size: 14px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.alshots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 0 26px 8px; }
+
+.alshot { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+.alshot__k { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: .09em; color: var(--ink-2); }
+
+.alshot__k--rust { color: var(--al-rust); }
+
+.alband {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 26px;
+}
+
+.alchecks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: rgba(20, 22, 26, .12); }
+
+.alcheck { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: 16px 20px; background: #FFFFFF; }
+
+.aldot {
+  flex: none;
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.aldot--off { background: rgba(138, 74, 34, .14); color: var(--al-rust); }
+
+.alcheck__t { display: block; font-size: 14px; font-weight: 700; letter-spacing: -.02em; }
+
+.alcheck__s { display: block; margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.alcheck__s--rust { color: var(--al-rust); }
+
+/* -----------------------------------------------------------------
+   6. Step 3 — defects
+   ----------------------------------------------------------------- */
+.aldefhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.aldefhead__t { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; }
+
+.aldefhead__t--rust { color: #FFFFFF; }
+
+.aldefrow, .aldefrow--head {
+  display: grid;
+  grid-template-columns: minmax(0, 132px) minmax(0, 1fr) minmax(0, 150px) minmax(0, 116px);
+  gap: 18px;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.aldefrow--head { padding: 12px 24px; background: var(--surface); border-bottom-color: rgba(20, 22, 26, .12); }
+
+.aldefrow[hidden] { display: none; }
+
+.aldefshot { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: #EDEDE9; }
+
+.aldefshot__img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+.aldef__what { min-width: 0; }
+
+.aldef__row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.aldef__t { font-size: 14.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.alchip {
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.alchip--rust { background: rgba(138, 74, 34, .14); color: var(--al-rust); }
+
+.aldef__say { display: block; margin-top: 7px; font-size: 12.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+.aldef__does { min-width: 0; }
+
+.aldef__does-t { display: block; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.aldef__cost { display: block; margin-top: 6px; font-size: 12.5px; color: var(--ink-2); }
+
+.aldef__do { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+
+.aledit {
+  flex: none;
+  height: 32px;
+  padding: 0 13px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.aledit:hover { border-color: var(--ink); }
+
+.aldrop {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .18s ease, color .18s ease;
+}
+
+.aldrop:hover { border-color: var(--al-rust); color: var(--al-rust); }
+
+.aledit:focus-visible, .aldrop:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.aladd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.aladd__t { min-width: 0; margin: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.aladd__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 10px 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.aladd__go:hover { filter: brightness(1.14); }
+
+.aladd__go:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.aldisc--sm { width: 26px; height: 26px; }
+
+/* -----------------------------------------------------------------
+   7. Step 4 — price
+   ----------------------------------------------------------------- */
+.alprice { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 24px 26px 8px; }
+
+.alrules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 8px; background: rgba(20, 22, 26, .12); }
+
+.alrule { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: 16px 20px; background: #FFFFFF; }
+
+.alrule__t { display: block; font-size: 14px; font-weight: 700; letter-spacing: -.02em; }
+
+.alrule__s { display: block; margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.alscale { padding: 22px 26px 24px; }
+
+.alscale__track { position: relative; height: 9px; margin: 34px 0 12px; border-radius: 999px; background: rgba(20, 22, 26, .1); }
+
+.alscale__mark {
+  position: absolute;
+  top: -7px;
+  width: 3px;
+  height: 23px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.alscale__tick { position: absolute; top: -7px; width: 1px; height: 23px; background: rgba(20, 22, 26, .28); }
+
+/* Положение на шкале — доля (цена − минимум) / (максимум − минимум).
+   Считает сборщик, здесь только результат. */
+.alscale--at35-1 { left: 35.1%; }
+.alscale--at45-9 { left: 45.9%; }
+
+.alscale__row { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+.alscale__end { display: flex; flex-direction: column; gap: 5px; }
+
+.alscale__end--mid { align-items: center; }
+
+.alscale__end--last { align-items: flex-end; }
+
+.alscale__n { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.alreading { margin: 18px 0 0; font-size: 14px; line-height: 1.65; color: var(--ink-3); text-wrap: pretty; }
+
+.alchips { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
+
+/* -----------------------------------------------------------------
+   8. Step 5 — publish, and what happens next
+   ----------------------------------------------------------------- */
+.alpub { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: rgba(20, 22, 26, .12); }
+
+.aldesc { padding: 22px 26px 24px; }
+
+.aldesc__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+
+.algrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.alcell { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.alcell__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.alcell__n--accent { color: var(--accent-deep); }
+
+.alcell__note { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+/* -----------------------------------------------------------------
+   9. Narrow screens
+   ----------------------------------------------------------------- */
+@media (max-width: 1240px) {
+  .aldefrow, .aldefrow--head { grid-template-columns: minmax(0, 120px) minmax(0, 1fr) minmax(0, 130px); }
+
+  .aldef__do { grid-column: 1 / -1; justify-content: flex-start; }
+
+  .aldefrow--head .alk:nth-child(4) { display: none; }
+}
+
+@media (max-width: 1100px) {
+  .alsteps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .algrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .alcover { grid-template-columns: minmax(0, 1fr); }
+
+  .alfields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .alchecks, .alrules { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .alshots { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .alpub { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .alsteps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .algrid { grid-template-columns: minmax(0, 1fr); }
+
+  .alfields, .alprice { grid-template-columns: minmax(0, 1fr); }
+
+  .albar, .alvin, .alfields, .alcover, .alshots, .alband, .aldefrow, .aldefrow--head, .aladd,
+  .alprice, .alscale, .aldesc, .alfoot { padding-left: 18px; padding-right: 18px; }
+
+  .albar__ctl { width: 100%; }
+
+  .algo { flex: 1 1 auto; justify-content: center; }
+
+  .aldefrow, .aldefrow--head { grid-template-columns: minmax(0, 100px) minmax(0, 1fr); }
+
+  .aldef__does { grid-column: 2 / -1; }
+}
+
+@media (max-width: 430px) {
+  .alsteps { grid-template-columns: minmax(0, 1fr); }
+
+  .alshots { grid-template-columns: minmax(0, 1fr); }
+
+  .aldefrow, .aldefrow--head { grid-template-columns: minmax(0, 1fr); }
+
+  .aldef__does { grid-column: auto; }
+
+  .aldefshot { width: 180px; max-width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .algo, .alstep, .aledit, .aldrop, .aladd__go, .alx, .alin, .altext { transition: none; }
+
+  .algo:hover, .aladd__go:hover { filter: none; }
+}

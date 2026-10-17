@@ -1,1249 +1,1134 @@
-<!doctype html>
-<html lang="zxx">
+<!DOCTYPE html>
+<html lang="en" data-accent-lock="page" data-accent="winter">
 
-
-<!-- Mirrored from https://cutesolution.com/html/car/ by HTTrack Website Copier/3.x [XR&CO], Sat, 03 Oct 2026 18:50:27 GMT -->
+<!-- Mirrored from https://demo.gridgum.com/avavamotors/car-marketplace/index.html by HTTrack Website Copier/3.x [XR&CO], Tue, 06 Oct 2026 16:43:50 GMT -->
 <head>
-	<!-- Required meta tags -->
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- Title -->
-	<title>Car - Car Repair And Auto Services HTML5 Responsive Website Template</title>
-	<!-- Google Fonts -->
-	<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
-	<!-- Favicon -->
-	<link rel="icon" type="image/png" href="{{ asset('frontend/assets/img/favicon.png') }}">
-	<!-- Bootstrap Min CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
-	<!-- Animate Min CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/animate.min.css') }}">
-	<!-- Bootstrap Icon CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap-icons.css') }}">
-	<!-- Font Awesome Min CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/fontawesome.min.css') }}">
-	<!-- Mean Menu CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/meanmenu.css') }}">
-	<!-- Magnific Popup Min CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/magnific-popup.min.css') }}">
-	<!-- Swiper Min CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/swiper.min.css') }}">
-	<!-- Owl Carousel Min CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/owl.carousel.min.css') }}">
-	<!-- Style CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}">
-	<!-- Responsive CSS -->
-	<link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}">
-</head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+/* The accent travels with the visitor. A home page never takes a colour from
+   anywhere — it wears its own season and publishes it, which is what the
+   data-accent-lock attribute says. Every other page of the template omits
+   that attribute and therefore inherits: first from the URL
+   (?accent=winter|autumn, so a link can be shared), then from the home page
+   the visitor came through. Runs before first paint, or the colour flashes. */
+(function () {
+  var root = document.documentElement;
+  var accent = root.getAttribute('data-accent');
 
+  if (!root.hasAttribute('data-accent-lock')) {
+    try {
+      var asked = new URLSearchParams(window.location.search).get('accent');
+      var seen = window.localStorage.getItem('avava-accent');
+      accent = (asked === 'winter' || asked === 'autumn') ? asked
+             : (seen === 'winter' || seen === 'autumn') ? seen
+             : accent;
+    } catch (e) {}
+  }
+
+  try { window.localStorage.setItem('avava-accent', accent); } catch (e) {}
+  root.setAttribute('data-accent', accent);
+})();
+</script>
+
+<title>AVAVA — Alpine multi-brand car marketplace</title>
+<meta name="description" content="AVAVA is a multi-brand used-car marketplace with seven Alpine showrooms. Every car inspected to 200 points, the report published before you travel, no buyer fees.">
+<meta name="theme-color" content="#14161A">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AVAVA">
+<meta property="og:title" content="AVAVA — Alpine multi-brand car marketplace">
+<meta property="og:description" content="41 all-wheel-drive cars ready this week. 200-point report published before you ask for it. No buyer fees.">
+<meta property="og:image" content="assets/img/og-cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="preload" href="assets/img/hero-winter.webp" as="image" type="image/webp">
+<link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="assets/css/style1ef4.css?v=5d78136b">
+<noscript><style>.preloader { display: none; }</style></noscript>
+</head>
 <body>
 
-	{{-- <!-- Start Preloader Section -->
-	<div id="preloader">
-		<div id="preloader-center">
-			<span class="loader-box"></span>
-		</div>
-	</div>
-	<!-- End Preloader Section --> --}}
-	
-	<!-- Start Navbar Section -->
-	<div class="navbar-area">
-	    <div class="car-responsive-nav">
-	        <div class="container">
-	            <div class="car-responsive-menu">
-	                <div class="logo">
-	                    <a href="index-2.html">
-	                        <img src="{{ asset('frontend/assets/img/logo.png') }}" class="white-logo" alt="logo">
-	                        <img src="{{ asset('frontend/assets/img/logo-black.png') }}" class="black-logo" alt="logo">
-	                    </a>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
-	    <div class="car-nav">
-	        <div class="container">
-	            <nav class="navbar navbar-expand-md navbar-light">
-	                <a class="navbar-brand" href="index-2.html">
-	                    <img src="{{ asset('frontend/assets/img/logo.png') }}" class="white-logo" alt="logo">
-	                    <img src="{{ asset('frontend/assets/img/logo-black.png') }}" class="black-logo" alt="logo">
-	                </a>
-	                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
-	                    <ul class="navbar-nav">
-	                        <li class="nav-item">
-	                            <a href="index-2.html" class="nav-link">Home</a>
-	                        </li>
-	                        <li class="nav-item">
-	                            <a href="about.html" class="nav-link">About Us</a>
-	                        </li>
-	                        <li class="nav-item">
-	                            <a href="#" class="nav-link">Services <i class="fas fa-chevron-down"></i></a>
-	                            <ul class="dropdown-menu">
-	                                <li class="nav-item">
-	                                    <a href="services.html" class="nav-link">Services</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="single-services.html" class="nav-link">Services Details</a>
-	                                </li>
-	                            </ul>
-	                        </li>
-	                        <li class="nav-item">
-	                            <a href="gallery.html" class="nav-link">Gallery</a>
-	                        </li>
-	                        <li class="nav-item">
-	                            <a href="#" class="nav-link">Pages <i class="fas fa-chevron-down"></i></a>
-	                            <ul class="dropdown-menu">
-	                                <li class="nav-item">
-	                                    <a href="about.html" class="nav-link">About Us</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="team.html" class="nav-link">Team</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="pricing.html" class="nav-link">Pricing</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="faq.html" class="nav-link">FAQ</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="error-404.html" class="nav-link">404 Error</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="coming-soon.html" class="nav-link">Coming Soon</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="terms-condition.html" class="nav-link">Terms & Conditions</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="privacy-policy.html" class="nav-link">Privacy Policy</a>
-	                                </li>
-	                            </ul>
-	                        </li>
-	                        <li class="nav-item">
-	                            <a href="#" class="nav-link">Blog <i class="fas fa-chevron-down"></i></a>
-	                            <ul class="dropdown-menu">
-	                                <li class="nav-item">
-	                                    <a href="blog.html" class="nav-link">Blog</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="blog-2.html" class="nav-link">Blog Right Sidebar</a>
-	                                </li>
-	                                <li class="nav-item">
-	                                    <a href="single-blog.html" class="nav-link">Blog Details</a>
-	                                </li>
-	                            </ul>
-	                        </li>
-	                        <li class="nav-item">
-	                            <a href="contact.html" class="nav-link">Contact</a>
-	                        </li>
-	                    </ul>
-	                    <div class="other-option">
-	                        <a class="default-btn-one" href="#0">Get In Touch <span></span></a>
-	                    </div>
-	                </div>
-	            </nav>
-	        </div>
-	    </div>
-	</div>
-	<!-- End Navbar Section -->
-	
-	<!-- Start Slider Section -->
-    <header class="slider slider-prlx">
-        <div class="swiper-container parallax-slider">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="bg-img valign" data-background="{{ asset('frontend/assets/img/slider-1.jpg') }}" data-overlay-dark="5">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-8 offset-lg-2 col-md-12">
-                                    <div class="caption">
-										<ul class="social-icon-list">
-											<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-											<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-											<li><a href="#"><i class="fab fa-instagram"></i></a></li>
-											<li><a href="#"><i class="fab fa-youtube"></i></a></li>
-										</ul>
-                                        <h1>Auto Maintenance & Repair Service</h1>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, magna aliqua. ipsum is simply dummy text of the printing.</p>
-										<div class="banner-btn home-slider-btn">
-											<a href="about.html" class="default-btn-one">Our Service <span></span></a>
-											<a class="default-btn" href="contact.html">Contact Us <span></span></a>
-										</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="bg-img valign" data-background="{{ asset('frontend/assets/img/slider-2.jpg') }}" data-overlay-dark="5">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-8 offset-lg-2 col-md-12">
-                                    <div class="caption">
-										<ul class="social-icon-list">
-											<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-											<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-											<li><a href="#"><i class="fab fa-instagram"></i></a></li>
-											<li><a href="#"><i class="fab fa-youtube"></i></a></li>
-										</ul>
-                                        <h1>Auto Maintenance & Repair Service</h1>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, magna aliqua. ipsum is simply dummy text of the printing.</p>
-										<div class="banner-btn home-slider-btn">
-											<a href="about.html" class="default-btn-one">Discover More <span></span></a>
-											<a class="default-btn" href="contact.html">Contact Us <span></span></a>
-										</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="bg-img valign" data-background="{{ asset('frontend/assets/img/slider-3.jpg') }}" data-overlay-dark="5">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-8 offset-lg-2 col-md-12">
-                                    <div class="caption">
-										<ul class="social-icon-list">
-											<li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-											<li><a href="#"><i class="fab fa-twitter"></i></a></li>
-											<li><a href="#"><i class="fab fa-instagram"></i></a></li>
-											<li><a href="#"><i class="fab fa-youtube"></i></a></li>
-										</ul>
-                                        <h1>Auto Maintenance & Repair Service</h1>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, magna aliqua. ipsum is simply dummy text of the printing.</p>
-										<div class="banner-btn home-slider-btn">
-											<a href="about.html" class="default-btn-one">Discover More <span></span></a>
-											<a class="default-btn" href="contact.html">Contact Us <span></span></a>
-										</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- slider setting -->
-            <div class="control-text">
-                <div class="swiper-button-prev swiper-nav-ctrl prev-ctrl cursor-pointer">
-                    <span class="arrow prv"></span>
-                </div>
-                <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
-                    <span class="arrow nxt"></span>
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
-    </header>
-    <!-- End Slider Section -->
-	
-	<!-- Start About Section -->
-	<section class="about-section section-padding">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6 col-md-12">
-					<div class="about-content">
-						<h6 class="sub-title">About Our Company</h6> 
-						<h2>What We Promise To You</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua enim</p>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="about-list-info">
-									<p><i class="fa fa-clone"></i> 100% Transparency</p>
-									<p><i class="fa fa-clone"></i> Lifetime Warranty</p>
-									<p><i class="fa fa-clone"></i> Genuine Spare Parts</p>
-									<p><i class="fa fa-clone"></i> Qualityful & Trusted Services</p>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="about-list-info">
-									<p><i class="fa fa-clone"></i> Safety Guidelines</p>
-									<p><i class="fa fa-clone"></i> Quality Assurance Team</p>
-									<p><i class="fa fa-clone"></i> 24/7 Emergency Services</p>
-									<p><i class="fa fa-clone"></i> Verified Professionals</p>
-								</div>
-							</div>
-						</div>
-						<div class="about-btn-box"> 
-							<a class="default-btn" href="about.html">Learn More<span></span></a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-12">
-					<div class="about-image">
-						<img src="{{ asset('frontend/assets/img/about.jpg') }}" alt="About Images">
-						<div class="sub-content">
-							<img src="{{ asset('frontend/assets/img/about-sub.jpg') }}" alt="About Images">
-							<div class="content-info">
-								<h3>20+</h3>
-								<span>Years of Experience</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End About Section -->
-	
-	<!-- Start Services Section -->
-	<section class="services-section bg-grey pt-100 pb-70">
-		<div class="container">
-			<div class="row">
-                <div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">What We Provide</h6>
-						<h2>Our Services</h2>
-					</div>
-                </div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-services-item">
-						<div class="services-img">
-							<img src="{{ asset('frontend/assets/img/services/services-1.jpg') }}" alt="services images">
-						</div>
-						<h3>Oil Change</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
-						<a href="#0" class="default-btn">Book Now <span></span></a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-services-item">
-						<div class="services-img">
-							<img src="{{ asset('frontend/assets/img/services/services-2.jpg') }}" alt="services images">
-						</div>
-						<h3>Brake Repair</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
-						<a href="#0" class="default-btn">Book Now <span></span></a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-services-item">
-						<div class="services-img">
-							<img src="{{ asset('frontend/assets/img/services/services-3.jpg') }}" alt="services images">
-						</div>
-						<h3>Engine Repair</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
-						<a href="#0" class="default-btn">Book Now <span></span></a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-services-item">
-						<div class="services-img">
-							<img src="{{asset('frontend/assets/img/services/services-4.jpg')}}" alt="services images">
-						</div>
-						<h3>A/C Repairs</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
-						<a href="#0" class="default-btn">Book Now <span></span></a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-services-item">
-						<div class="services-img">
-							<img src="{{ asset('frontend/assets/img/services/services-5.jpg') }}" alt="services images">
-						</div>
-						<h3>Battery Repair</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
-						<a href="#0" class="default-btn">Book Now <span></span></a>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-services-item">
-						<div class="services-img">
-							<img src="{{ asset('frontend/assets/img/services/services-6.jpg') }}" alt="services images">
-						</div>
-						<h3>Suspension Repair</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt dolore</p>
-						<a href="#0" class="default-btn">Book Now <span></span></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Services Section -->
+<!-- ============================================================ Preloader -->
+<!-- The wordmark is drawn as an outline and fills with the page's accent as
+     the assets arrive: lime on the winter pages, larch on the autumn ones,
+     because the fill takes the accent custom property. Removed on load, and
+     hidden entirely when JavaScript is off (see the noscript rule above). -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader__inner">
+    <svg class="preloader__logo" viewBox="0 0 203 51" width="203" height="51" focusable="false">
+      <defs>
+        <g id="pl-mark">
+          <path d="M1.91199 40.24C1.91199 39.5573 2.02932 38.88 2.26399 38.208C2.50932 37.5253 2.86132 36.9173 3.31999 36.384C3.77866 35.8507 4.34399 35.4187 5.01599 35.088C5.68799 34.7467 6.45066 34.576 7.30399 34.576C8.31732 34.576 9.18132 34.8053 9.89599 35.264C10.6213 35.7227 11.1547 36.32 11.496 37.056L10.616 37.6C10.4347 37.2267 10.2107 36.912 9.94399 36.656C9.68799 36.4 9.41066 36.192 9.11199 36.032C8.81332 35.872 8.50399 35.76 8.18399 35.696C7.86399 35.6213 7.54932 35.584 7.23999 35.584C6.55732 35.584 5.95466 35.7227 5.43199 36C4.90932 36.2773 4.46666 36.64 4.10399 37.088C3.75199 37.536 3.48532 38.0427 3.30399 38.608C3.12266 39.1627 3.03199 39.728 3.03199 40.304C3.03199 40.9333 3.13866 41.536 3.35199 42.112C3.57599 42.688 3.87466 43.2 4.24799 43.648C4.63199 44.0853 5.07999 44.4373 5.59199 44.704C6.11466 44.96 6.67999 45.088 7.28799 45.088C7.60799 45.088 7.93332 45.0507 8.26399 44.976C8.60532 44.8907 8.93066 44.7627 9.23999 44.592C9.55999 44.4107 9.85332 44.192 10.12 43.936C10.3867 43.6693 10.6107 43.3493 10.792 42.976L11.72 43.456C11.5387 43.8827 11.2827 44.2613 10.952 44.592C10.6213 44.912 10.2533 45.184 9.84799 45.408C9.44266 45.632 9.01066 45.8027 8.55199 45.92C8.10399 46.0373 7.66132 46.096 7.22399 46.096C6.44532 46.096 5.73066 45.9253 5.07999 45.584C4.42932 45.2427 3.86932 44.8 3.39999 44.256C2.93066 43.7013 2.56266 43.0773 2.29599 42.384C2.03999 41.68 1.91199 40.9653 1.91199 40.24ZM20.3565 34.64H21.3005L26.0205 46H24.8365L23.3645 42.448H18.2605L16.8045 46H15.6045L20.3565 34.64ZM23.1085 41.568L20.8205 35.952L18.5005 41.568H23.1085ZM31.009 46V34.64H35.809C36.2997 34.64 36.7477 34.7467 37.153 34.96C37.569 35.1627 37.9263 35.4347 38.225 35.776C38.5237 36.1067 38.753 36.4853 38.913 36.912C39.0837 37.3387 39.169 37.7707 39.169 38.208C39.169 38.624 39.105 39.024 38.977 39.408C38.8597 39.7813 38.689 40.1227 38.465 40.432C38.2517 40.7307 37.9903 40.9867 37.681 41.2C37.3717 41.4027 37.025 41.5413 36.641 41.616L39.425 46H38.161L35.489 41.808H32.129V46H31.009ZM32.129 40.816H35.841C36.1717 40.816 36.4703 40.7467 36.737 40.608C37.0143 40.4587 37.249 40.2613 37.441 40.016C37.633 39.7707 37.7823 39.4933 37.889 39.184C37.9957 38.8747 38.049 38.5493 38.049 38.208C38.049 37.8667 37.985 37.5413 37.857 37.232C37.7397 36.912 37.5743 36.6347 37.361 36.4C37.1583 36.1653 36.913 35.9787 36.625 35.84C36.3477 35.7013 36.0543 35.632 35.745 35.632H32.129V40.816ZM62.3242 46V36.672L58.1802 43.888H57.5242L53.3802 36.672V46H52.2602V34.64H53.4122L57.8442 42.416L62.3082 34.64H63.4442V46H62.3242ZM73.1715 34.64H74.1155L78.8355 46H77.6515L76.1795 42.448H71.0755L69.6195 46H68.4195L73.1715 34.64ZM75.9235 41.568L73.6355 35.952L71.3155 41.568H75.9235ZM83.824 46V34.64H88.624C89.1147 34.64 89.5627 34.7467 89.968 34.96C90.384 35.1627 90.7413 35.4347 91.04 35.776C91.3387 36.1067 91.568 36.4853 91.728 36.912C91.8987 37.3387 91.984 37.7707 91.984 38.208C91.984 38.624 91.92 39.024 91.792 39.408C91.6747 39.7813 91.504 40.1227 91.28 40.432C91.0667 40.7307 90.8053 40.9867 90.496 41.2C90.1867 41.4027 89.84 41.5413 89.456 41.616L92.24 46H90.976L88.304 41.808H84.944V46H83.824ZM84.944 40.816H88.656C88.9867 40.816 89.2853 40.7467 89.552 40.608C89.8293 40.4587 90.064 40.2613 90.256 40.016C90.448 39.7707 90.5973 39.4933 90.704 39.184C90.8107 38.8747 90.864 38.5493 90.864 38.208C90.864 37.8667 90.8 37.5413 90.672 37.232C90.5547 36.912 90.3893 36.6347 90.176 36.4C89.9733 36.1653 89.728 35.9787 89.44 35.84C89.1627 35.7013 88.8693 35.632 88.56 35.632H84.944V40.816ZM97.6371 46V34.656H98.7571V41.248L105.013 34.64H106.245L101.605 39.632L106.485 46H105.253L100.901 40.288L98.7571 42.512V46H97.6371ZM118.91 45.008V46H111.278V34.64H118.766V35.632H112.398V39.728H117.95V40.672H112.398V45.008H118.91ZM132.452 35.632H128.404V46H127.284V35.632H123.236V34.64H132.452V35.632ZM137.514 46V34.64H142.218C142.709 34.64 143.157 34.7467 143.562 34.96C143.978 35.1627 144.335 35.4347 144.634 35.776C144.933 36.1067 145.167 36.4853 145.338 36.912C145.509 37.3387 145.594 37.7707 145.594 38.208C145.594 38.6773 145.514 39.1307 145.354 39.568C145.194 39.9947 144.97 40.3733 144.682 40.704C144.394 41.0347 144.047 41.3013 143.642 41.504C143.247 41.7067 142.805 41.808 142.314 41.808H138.634V46H137.514ZM138.634 40.816H142.266C142.597 40.816 142.895 40.7467 143.162 40.608C143.439 40.4587 143.674 40.2667 143.866 40.032C144.058 39.7867 144.207 39.5093 144.314 39.2C144.421 38.88 144.474 38.5493 144.474 38.208C144.474 37.856 144.41 37.5253 144.282 37.216C144.165 36.896 143.999 36.6187 143.786 36.384C143.583 36.1493 143.338 35.968 143.05 35.84C142.773 35.7013 142.479 35.632 142.17 35.632H138.634V40.816ZM150.827 46V34.64H151.947V45.008H158.507V46H150.827ZM167.035 34.64H167.979L172.699 46H171.515L170.043 42.448H164.939L163.483 46H162.283L167.035 34.64ZM169.787 41.568L167.499 35.952L165.179 41.568H169.787ZM176.514 40.24C176.514 39.5573 176.631 38.88 176.866 38.208C177.111 37.5253 177.463 36.9173 177.922 36.384C178.381 35.8507 178.946 35.4187 179.618 35.088C180.29 34.7467 181.053 34.576 181.906 34.576C182.919 34.576 183.783 34.8053 184.498 35.264C185.223 35.7227 185.757 36.32 186.098 37.056L185.218 37.6C185.037 37.2267 184.813 36.912 184.546 36.656C184.29 36.4 184.013 36.192 183.714 36.032C183.415 35.872 183.106 35.76 182.786 35.696C182.466 35.6213 182.151 35.584 181.842 35.584C181.159 35.584 180.557 35.7227 180.034 36C179.511 36.2773 179.069 36.64 178.706 37.088C178.354 37.536 178.087 38.0427 177.906 38.608C177.725 39.1627 177.634 39.728 177.634 40.304C177.634 40.9333 177.741 41.536 177.954 42.112C178.178 42.688 178.477 43.2 178.85 43.648C179.234 44.0853 179.682 44.4373 180.194 44.704C180.717 44.96 181.282 45.088 181.89 45.088C182.21 45.088 182.535 45.0507 182.866 44.976C183.207 44.8907 183.533 44.7627 183.842 44.592C184.162 44.4107 184.455 44.192 184.722 43.936C184.989 43.6693 185.213 43.3493 185.394 42.976L186.322 43.456C186.141 43.8827 185.885 44.2613 185.554 44.592C185.223 44.912 184.855 45.184 184.45 45.408C184.045 45.632 183.613 45.8027 183.154 45.92C182.706 46.0373 182.263 46.096 181.826 46.096C181.047 46.096 180.333 45.9253 179.682 45.584C179.031 45.2427 178.471 44.8 178.002 44.256C177.533 43.7013 177.165 43.0773 176.898 42.384C176.642 41.68 176.514 40.9653 176.514 40.24ZM199.227 45.008V46H191.595V34.64H199.083V35.632H192.715V39.728H198.267V40.672H192.715V45.008H199.227Z"></path>
+          <path d="M-9.76771e-06 29L17.48 0.999998H32.16L49.6 29H36.28L33.88 24.64H15.84L13.32 29H-9.76771e-06ZM21.16 15.36L19.8 17.76H30.08L28.76 15.36L25.44 8.56H24.64L21.16 15.36ZM55.0687 29L37.6287 0.999998H51.5087L62.2287 19.96L73.3487 0.999998H87.2287L69.7487 29H55.0687ZM75.2594 29L92.7394 0.999998H107.419L124.859 29H111.539L109.139 24.64H91.0994L88.5794 29H75.2594ZM96.4194 15.36L95.0594 17.76H105.339L104.019 15.36L100.699 8.56H99.8994L96.4194 15.36ZM130.328 29L112.888 0.999998H126.768L137.488 19.96L148.608 0.999998H162.488L145.008 29H130.328ZM150.519 29L167.999 0.999998H182.679L200.119 29H186.799L184.399 24.64H166.359L163.839 29H150.519ZM171.679 15.36L170.319 17.76H180.599L179.279 15.36L175.959 8.56H175.159L171.679 15.36Z"></path>
+        </g>
+        <clipPath id="pl-clip">
+          <rect id="pl-rect" x="0" y="51" width="203" height="51"></rect>
+        </clipPath>
+      </defs>
+      <use class="preloader__outline" href="#pl-mark"></use>
+      <g clip-path="url(#pl-clip)"><use class="preloader__fill" href="#pl-mark"></use></g>
+    </svg>
+    <p class="preloader__pct"><span id="preloader-pct">0</span>%</p>
+  </div>
+</div>
 
-	<!-- Start Hire Section -->
-	<section class="hire-area section-padding">
-		<div class="container">
-			<div class="hire-content">
-				<a href="https://www.youtube.com/watch?v=o3SgaluvTkk" class="iq-video popup-video mfp-iframe video-btn"> <i class="fa fa-play-circle"></i></a>
-				<h5>For a free call now Schedule An Appointment</h5>
-				<h2>24/7 Maintenance & Repairs Services</h2>
-				<h3>CALL US: <a href="tel:503777505" class="call-button"> (505) 707-11035</a></h3>
-			</div>
-		</div>
-	</section>
-	<!-- End Hire Section -->
-	
-	<!-- Start Pricing Section -->
-	<section class="price-section pt-100 pb-70">
-		<div class="container">
-			<div class="row">
-                <div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Popular Package</h6>
-						<h2>Service Packages</h2>
-					</div>
-                </div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-pricing-content">
-						<div class="pricing-top-bg">
-							<div class="price-title">
-								<h3>Basic Plan</h3>
-							</div>
-							<div class="price-amount">
-								<h2>$170 <span class="price-period">- Starting From</span></h2>
-							</div>
-						</div>
-						<div class="price-features">
-							<ul>
-								<li>Oil & Filter Change</li>
-								<li>15 Point Check</li>
-								<li>Check Suspension</li>
-								<li>Check Brake Lines & Hoses</li>
-								<li>Brake Fluid Change</li>
-								<li>Brake Component Clean</li>
-								<li>Top up Coolant</li>
-							</ul>
-						</div>
-						<div class="price-btn">
-							<a href="#" class="price-btn-one">Get Started</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-pricing-content">
-						<div class="pricing-top-bg">
-							<div class="price-title">
-								<h3>Standard Plan</h3>
-							</div>
-							<div class="price-amount">
-								<h2>$250 <span class="price-period">- Starting From</span></h2>
-							</div>
-						</div>
-						<div class="price-features">
-							<ul>
-								<li>Oil & Filter Change</li>
-								<li>Computer & Systems Health Check</li>
-								<li>25 Point Check</li>
-								<li>Essential Fluid Top Ups</li>
-								<li>Road Test & Report</li>
-								<li>Lubricate Door Hinges</li>
-								<li>Component Adjustments</li>
-							</ul>
-						</div>
-						<div class="price-btn">
-							<a href="#" class="price-btn-one">Get Started</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single-pricing-content">
-						<div class="pricing-top-bg">
-							<div class="price-title">
-								<h3>Premium Plan</h3>
-							</div>
-							<div class="price-amount">
-								<h2>$350 <span class="price-period">- Starting From</span></h2>
-							</div>
-						</div>
-						<div class="price-features">
-							<ul>
-								<li>Oil & Filter Change</li>
-								<li>Vacuum Footwells</li>
-								<li>Road Test & Report</li>
-								<li>Lubricate Door Hinges</li>
-								<li>Adjust Brakes As Necessary</li>
-								<li>Replace Brake Fluid (Flush)</li>
-								<li>Washer, Coolant, Power steering</li>
-							</ul>
-						</div>
-						<div class="price-btn">
-							<a href="#" class="price-btn-one">Get Started</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Pricing Section -->
-	
-	<!-- Start Gallery Section -->
-    <section class="portfolio-area bg-grey pt-100 pb-70">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Featured Works</h6>
-						<h2>Our Gallery</h2>
-					</div>
-                </div>
-                <!-- Gallery-Item -->
-                <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-1.jpg') }}">
-						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-1.jpg') }}" alt="image">
-						<div class="portfolio-overlay-info">
-							<i class="fa fa-images"></i>
-						</div>
-					</a>
-                </div>
-                <!-- Gallery-Item -->
-                <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-2.jpg') }}">
-						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-2.jpg') }}" alt="image">
-						<div class="portfolio-overlay-info">
-							<i class="fa fa-images"></i>
-						</div>
-					</a>
-                </div>
-                <!-- Gallery-Item -->
-                <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-3.jpg') }}">
-						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-3.jpg') }}" alt="image">
-						<div class="portfolio-overlay-info">
-							<i class="fa fa-images"></i>
-						</div>
-					</a>
-                </div>
-                <!-- Gallery-Item -->
-                <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-4.jpg') }}">
-						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-4.jpg') }}" alt="image">
-						<div class="portfolio-overlay-info">
-							<i class="fa fa-images"></i>
-						</div>
-					</a>
-                </div>
-                <!-- Gallery-Item -->
-                <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-5.jpg') }}">
-						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-5.jpg') }}" alt="image">
-						<div class="portfolio-overlay-info">
-							<i class="fa fa-images"></i>
-						</div>
-					</a>
-                </div>
-                <!-- Gallery-Item -->
-                <div class="col-lg-4 col-md-6">
-					<a class="popup-img single-portfolio-item" href="{{ asset('frontend/assets/img/portfolio/portfolio-6.jpg') }}">
-						<img src="{{ asset('frontend/assets/img/portfolio/portfolio-6.jpg') }}" alt="image">
-						<div class="portfolio-overlay-info">
-							<i class="fa fa-images"></i>
-						</div>
-					</a>
-                </div>
-            </div>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="hdr">
+
+  <div class="hdr__utility">
+    <ul class="util">
+      <li class="util__item">
+        <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 5.5h4l1.6 4-2 1.4a12 12 0 0 0 5 5l1.4-2 4 1.6v4a1.5 1.5 0 0 1-1.6 1.5C9.4 20.4 3.6 14.6 3 5.1a1.5 1.5 0 0 1 1.5-1.6z"></path></svg>
+        <a class="util__link" href="tel:+498942108800">+49&nbsp;89&nbsp;4210&nbsp;8800</a>
+      </li>
+      <li class="util__sep" aria-hidden="true"></li>
+      <li class="util__item">
+        <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
+        MUNICH &middot; 7 SHOWROOMS
+      </li>
+      <li class="util__sep" aria-hidden="true"></li>
+      <li class="util__item"><span class="dot dot--accent" aria-hidden="true"></span>MON&ndash;SAT 09:00&ndash;19:00</li>
+    </ul>
+
+    <div class="hdr__utility-right">
+      <ul class="social social--bare">
+        <li><a href="#" aria-label="AVAVA on Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
+        <li><a href="#" aria-label="AVAVA on Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13 10h3l.5-3H13V5.5c0-.8.3-1.5 1.5-1.5H17V1.4C16.5 1.3 15.4 1 14.2 1 11.7 1 10 2.5 10 5v2H7v3h3v9h3z"></path></svg></a></li>
+        <li><a href="#" aria-label="AVAVA on YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"></path></svg></a></li>
+        <li><a href="#" aria-label="AVAVA on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.4-1.6.8-2.5 1a4 4 0 0 0-6.8 3.6A11.3 11.3 0 0 1 3.9 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.7-.5v.1a4 4 0 0 0 3.2 3.9c-.6.1-1.1.2-1.7.1a4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18.6a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1z"></path></svg></a></li>
+      </ul>
+      <span class="util__sep" aria-hidden="true"></span>
+      <span class="cur" role="group" aria-label="Currency"><button class="cur__btn" type="button" data-cur="USD" aria-pressed="false">US$</button><span class="cur__sep" aria-hidden="true">&middot;</span><button class="cur__btn cur__btn--on" type="button" data-cur="EUR" aria-pressed="true">EUR</button></span>
+    </div>
+  </div>
+
+  <div class="hdr__bar">
+    <a class="hdr__logo" href="index.html"><img src="assets/img/logo-avava-white.svg" width="196" height="42" alt="AVAVA"></a>
+
+    <nav class="nav" id="nav" aria-label="Main">
+      <ul class="nav__list">
+        <li class="nav__item">
+          <a class="nav__link" href="index.html">Home <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Home submenu"></button>
+          <ul class="dd">
+            <li><a class="drow" href="index.html">Home <span class="drow__tag">CURRENT</span></a></li>
+            <li><a class="drow" href="home-v2.html">Home v2</a></li>
+            <li><a class="drow" href="home-v3.html">Home v3</a></li>
+            <li><a class="drow" href="home-v4.html">Home v4</a></li>
+          </ul>
+        </li>
+
+        <li class="nav__item">
+          <a class="nav__link" href="#">Pages <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Pages submenu"></button>
+          <ul class="dd">
+            <li><a class="drow" href="about.html">About Us</a></li>
+            <li><a class="drow" href="service.html">Service</a></li>
+            <li><a class="drow" href="pricing.html">Pricing</a></li>
+            <li><a class="drow" href="compare.html">Compare</a></li>
+            <li><a class="drow" href="faq.html">FAQ</a></li>
+            <li><a class="drow" href="contact.html">Contact Us</a></li>
+            <li><a class="drow" href="terms.html">Terms &amp; Conditions</a></li>
+            <li><a class="drow" href="404.html">Error 404</a></li>
+          </ul>
+        </li>
+
+        <li class="nav__item">
+          <a class="nav__link" href="#">Listings <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Listings submenu"></button>
+          <ul class="dd dd--wide">
+            <li class="sub">
+              <a class="drow" href="#">Listing Styles <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
+              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Listing Styles submenu"></button>
+              <ul class="flyout">
+                <li><a class="drow" href="listing-v1.html">Listing v1</a></li>
+                <li><a class="drow" href="listing-v2.html">Listing v2</a></li>
+                <li><a class="drow" href="listing-v3.html">Listing v3</a></li>
+                <li><a class="drow" href="listing-v4.html">Listing v4</a></li>
+                <li><a class="drow" href="listing-v5.html">Listing v5</a></li>
+                <li><a class="drow" href="listing-v6.html">Listing v6</a></li>
+              </ul>
+            </li>
+            <li class="sub">
+              <a class="drow" href="#">Listing Map <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
+              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Listing Map submenu"></button>
+              <ul class="flyout">
+                <li><a class="drow" href="listing-map-v1.html">Listing Map v1</a></li>
+                <li><a class="drow" href="listing-map-v2.html">Listing Map v2</a></li>
+                <li><a class="drow" href="listing-map-v3.html">Listing Map v3</a></li>
+                <li><a class="drow" href="listing-map-v4.html">Listing Map v4</a></li>
+              </ul>
+            </li>
+            <li class="sub">
+              <a class="drow" href="#">Listing Single <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
+              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Listing Single submenu"></button>
+              <ul class="flyout">
+                <li><a class="drow" href="listing-single-v1.html">Listing Single v1</a></li>
+                <li><a class="drow" href="listing-single-v2.html">Listing Single v2</a></li>
+                <li><a class="drow" href="listing-single-v3.html">Listing Single v3</a></li>
+                <li><a class="drow" href="listing-single-v4.html">Listing Single v4</a></li>
+                <li><a class="drow" href="listing-single-v5.html">Listing Single v5</a></li>
+                <li><a class="drow" href="#">Listing Single v6</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav__item">
+          <a class="nav__link" href="#">Shop <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Shop submenu"></button>
+          <ul class="dd">
+            <li><a class="drow" href="shop.html">Shop</a></li>
+            <li><a class="drow" href="shop-v2.html">Shop v2</a></li>
+            <li><a class="drow" href="shop-v3.html">Shop v3</a></li>
+            <li><a class="drow" href="shop-single-v1.html">Shop single v1</a></li><li><a class="drow" href="shop-single-v2.html">Shop single v2</a></li><li><a class="drow" href="shop-single-v3.html">Shop single v3</a></li>
+            <li><a class="drow" href="cart.html">Cart</a></li>
+            <li><a class="drow" href="checkout.html">Checkout</a></li>
+          </ul>
+        </li>
+
+        <li class="nav__item">
+          <a class="nav__link" href="#">Blog <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
+          <ul class="dd">
+            <li><a class="drow" href="blog.html">Blog list</a></li>
+            <li><a class="drow" href="blog-single.html">Blog single</a></li>
+          </ul>
+        </li>
+
+        <li class="nav__item">
+          <a class="nav__link" href="#">Explore <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Explore submenu"></button>
+          <ul class="dd dd--wide">
+            <li class="sub">
+              <a class="drow" href="#">User Dashboard <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
+              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show User Dashboard submenu"></button>
+              <ul class="flyout">
+                <li><a class="drow" href="profile.html">Profile</a></li>
+                <li><a class="drow" href="saved-cars.html">Saved cars</a></li>
+                <li><a class="drow" href="bookings.html">Bookings</a></li>
+                <li><a class="drow" href="orders.html">Orders</a></li>
+                <li><a class="drow" href="my-listings.html">My listings</a></li>
+                <li><a class="drow" href="sell-my-car.html">Sell my car</a></li>
+                <li><a class="drow" href="messages.html">Messages</a></li>
+                <li><a class="drow" href="settings.html">Settings</a></li>
+              </ul>
+            </li>
+            <li class="sub">
+              <a class="drow" href="#">Dealer Dashboard <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
+              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Dealer Dashboard submenu"></button>
+              <ul class="flyout">
+                <li><a class="drow" href="dealer-dashboard.html">Dashboard</a></li>
+                <li><a class="drow" href="dealer-listings.html">My Listings</a></li>
+                <li><a class="drow" href="dealer-add-listing.html">Add Listing</a></li>
+                <li><a class="drow" href="dealer-enquiries.html">Enquiries</a></li>
+                <li><a class="drow" href="dealer-bookings.html">Bookings</a></li>
+                <li><a class="drow" href="dealer-orders.html">Orders</a></li>
+                <li><a class="drow" href="dealer-analytics.html">Analytics</a></li>
+                <li><a class="drow" href="dealer-reviews.html">Reviews</a></li>
+                <li><a class="drow" href="dealer-team.html">Team</a></li>
+                <li><a class="drow" href="dealer-payouts.html">Payouts</a></li>
+                <li><a class="drow" href="dealer-invoices.html">Invoices</a></li>
+                <li><a class="drow" href="dealer-profile.html">Dealer Profile</a></li>
+                <li><a class="drow" href="dealer-settings.html">Settings</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="hdr__actions">
+      <button class="iconbtn" type="button" aria-label="Search the inventory"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.6-4.6"></path></svg></button>
+      <button class="iconbtn" type="button" id="account-btn" aria-label="Sign in to your account"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.6"></circle><path d="M5 20c1.1-3.2 3.8-4.8 7-4.8s5.9 1.6 7 4.8"></path></svg></button>
+      <a class="btn btn--add" href="sell-my-car.html" aria-label="Add Listing"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"></path></svg><span class="btn__label">Add Listing</span></a>
+      <a class="cartbtn" id="cart-btn" href="cart.html" hidden aria-label="Cart"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8h12l-1 12H7z"></path><path d="M9.5 8V6a2.5 2.5 0 015 0v2"></path></svg><span class="cartbtn__n" id="cart-n">0</span></a>
+      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open the menu"><span class="burger__bar"></span><span class="burger__bar"></span><span class="burger__bar"></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================================================ 1. Hero -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <img class="hero__photo" src="assets/img/hero-winter.webp" width="1794" height="876" alt="" fetchpriority="high">
+    <div class="hero__scrim" aria-hidden="true"></div>
+
+    <div class="hero__inner">
+      <div class="hero__body">
+
+        <div class="hero__copy">
+          <div class="hero__chips">
+            <span class="chip chip--accent">WINTER COLLECTION 2026</span>
+            <span class="chip chip--glass"><span class="dot dot--accent" aria-hidden="true"></span>41 CARS READY THIS WEEK</span>
+          </div>
+
+          <h1 class="hero__title" id="hero-title">Snow is not<br>a reason to<br><span class="hero__title-out">stay in.</span></h1>
+
+          <p class="hero__lead">Every car in the winter collection leaves on winter tyres,<br>with the 200-point report published before you ask for it.</p>
+
+          <div class="hero__stats">
+            <div class="hstat"><div class="hstat__num">41</div><div class="hstat__lbl">ALL-WHEEL DRIVE</div></div>
+            <span class="hstat__sep" aria-hidden="true"></span>
+            <div class="hstat"><div class="hstat__num">48h</div><div class="hstat__lbl">TO YOUR DOOR</div></div>
+            <span class="hstat__sep" aria-hidden="true"></span>
+            <div class="hstat"><div class="hstat__num hstat__num--glow">0%</div><div class="hstat__lbl">BUYER FEES</div></div>
+          </div>
+
+          <div class="hero__cta">
+            <a class="btn btn--white btn--hero" href="#">See the winter collection<span class="btn__arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+            <a class="btn btn--glass btn--hero" href="#">Book a winter test drive</a>
+          </div>
         </div>
-    </section>
-    <!-- End Gallery Section -->
-	
-	<!-- Start Counter Section -->
-	<section class="counter-area section-padding">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6 counter-item">
-					<div class="single-counter">
-						<div class="counter-contents">
-							<h2>
-								<span class="counter-number">20</span>
-								<span>+</span>
-							</h2>
-							<h3 class="counter-heading">Years of Experience</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 counter-item">
-					<div class="single-counter">
-						<div class="counter-contents">
-							<h2>
-								<span class="counter-number">3500</span>
-								<span>+</span>
-							</h2>
-							<h3 class="counter-heading">Car Repair</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 counter-item">
-					<div class="single-counter">
-						<div class="counter-contents">
-							<h2>
-								<span class="counter-number">15</span>
-								<span>+</span>
-							</h2>
-							<h3 class="counter-heading">Technician</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6 counter-item">
-					<div class="single-counter">
-						<div class="counter-contents">
-							<h2>
-								<span class="counter-number">3000</span>
-								<span>+</span>
-							</h2>
-							<h3 class="counter-heading">Happy Client</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Counter Section -->
-	
-	<!-- Start Overview Section -->
-	<section class="overview-section section-padding">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6">
-					<div class="overview-image">
-						<img src="assets/img/choose-1.jpg" alt="image">
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="overview-content">
-						<h6 class="sub-title">Why Choose Us?</h6>
-						<h2>We Offer Car Repair On All Makes And Models Of Vehicles</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						<ul class="features-list">
-							<li> <span>Safety Guidelines</span></li>
-							<li> <span>Quality Repairs</span></li>
-							<li> <span>Customer Experience</span></li>
-							<li> <span>Lifetime Warranty</span></li>
-							<li> <span>Car Frame Repair</span></li>
-							<li> <span>Scanning Correction</span></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Overview Section -->
-	
-	<!-- Start Overview Section -->
-	<section class="overview-section pt-50 pb-100">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6">
-					<div class="overview-content">
-						<h6 class="sub-title">WHY TRUST US?</h6>
-						<h2>The Best Auto Repair And Maintenance Services</h2>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-						<div class="skills">
-							<div class="skill-item">
-								<h6>Quality Repairs <em>100%</em></h6>
-								<div class="skill-progress">
-									<div class="progres" data-value="100%"></div>
-								</div>
-							</div>
-							<div class="skill-item">
-								<h6>Lifetime Warranty <em>100%</em></h6>
-								<div class="skill-progress">
-									<div class="progres" data-value="100%"></div>
-								</div>
-							</div>
-							<div class="skill-item">
-								<h6>Quality Assurance Team <em>100%</em></h6>
-								<div class="skill-progress">
-									<div class="progres" data-value="100%"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="overview-image-2">
-						<img src="{{ asset('frontend/assets/img/choose-2.jpg') }}" alt="image">
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Overview Section -->
-	
-	<!-- Start Testimonial Section -->
-	<section class="testimonial-section bg-grey section-padding">
-		<div class="container">
-			<div class="row">
-                <div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Testimonial</h6>
-						<h2>Our Client Say</h2>
-					</div>
-                </div>
-				<div class="col-lg-8 offset-lg-2 col-md-12">
-					<div class="testimonial-slider owl-carousel owl-theme">
-						<!-- testimonials item -->
-						<div class="single-testimonial">
-							<div class="rating-box">
-								<ul>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-								</ul>
-							</div>
-							<div class="testimonial-content">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-							</div>
-							<div class="avatar">
-								<img src="{{ asset('frontend/assets/img/client/testimonial-1.jpg') }}" alt="testimonial images">
-							</div>
-							<div class="testimonial-bio">
-								<div class="bio-info">
-									<h3>Saabir al-Obeid</h3>
-									<span>Co-founder, Studio</span>
-								</div>
-							</div>
-						</div>
-						<!-- testimonials item -->
-						<div class="single-testimonial">
-							<div class="rating-box">
-								<ul>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-								</ul>
-							</div>
-							<div class="testimonial-content">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-							</div>
-							<div class="avatar">
-								<img src="{{ asset('frontend/assets/img/client/testimonial-2.jpg') }}" alt="testimonial images">
-							</div>
-							<div class="testimonial-bio">
-								<div class="bio-info">
-									<h3>Zahra Burnett</h3>
-									<span>CTO, Apple</span>
-								</div>
-							</div>
-						</div>
-						<!-- testimonials item -->
-						<div class="single-testimonial">
-							<div class="rating-box">
-								<ul>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-									<li><i class="fa fa-star"></i></li>
-								</ul>
-							</div>
-							<div class="testimonial-content">
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-							</div>
-							<div class="avatar">
-								<img src="{{ asset('frontend/assets/img/client/testimonial-3.jpg') }}" alt="testimonial images">
-							</div>
-							<div class="testimonial-bio">
-								<div class="bio-info">
-									<h3>Stevie Wills</h3>
-									<span>CAO, Microsoft</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Testimonial Section -->
-	
-	<!-- Start Team Section -->
-	<section class="team-area section-padding">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Team Member</h6>
-						<h2>Expert Team</h2>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="single-team-box">
-						<div class="team-image">
-							<img src="{{ asset('frontend/assets/img/team/team-1.jpg') }}" alt="team">
-							<div class="team-social-icon">
-								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
-								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
-								<a href="#" class="social-color-3"><i class="fab fa-linkedin"></i></a>
-							</div>
-						</div>
-						<div class="team-info">
-							<h3>Mike Morgan</h3>
-							<span>Owner</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="single-team-box">
-						<div class="team-image">
-							<img src="{{ asset('frontend/assets/img/team/team-2.jpg') }}" alt="team">
-							<div class="team-social-icon">
-								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
-								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
-								<a href="#" class="social-color-3"><i class="fab fa-linkedin"></i></a>
-							</div>
-						</div>
-						<div class="team-info">
-							<h3>Kevin Haley</h3>
-							<span>Technician</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="single-team-box">
-						<div class="team-image">
-							<img src="{{ asset('frontend/assets/img/team/team-3.jpg') }}" alt="team">
-							<div class="team-social-icon">
-								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
-								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
-								<a href="#" class="social-color-3"><i class="fab fa-linkedin"></i></a>
-							</div>
-						</div>
-						<div class="team-info">
-							<h3>Alishia Fulton</h3>
-							<span>Technician</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="single-team-box">
-						<div class="team-image">
-							<img src="{{ asset('frontend/assets/img/team/team-4.jpg') }}" alt="team">
-							<div class="team-social-icon">
-								<a href="#" class="social-color-1"><i class="fab fa-facebook-f"></i></a>
-								<a href="#" class="social-color-2"><i class="fab fa-twitter"></i></a>
-								<a href="#" class="social-color-3"><i class="fab fa-linkedin"></i></a>
-							</div>
-						</div>
-						<div class="team-info">
-							<h3>Lucas Martinez</h3>
-							<span>Technician</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Team Section -->
-	
-	<!-- Start Faq Section -->
-	<section class="faq-section home-faq pt-50 pb-100">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-12">
-					<div class="faq-img">
-						<img src="{{ asset('frontend/assets/img/faq.png') }}" alt="images">
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Questions</h6>
-						<h2>Short Faqs</h2>
-					</div>
-					<div class="faq-accordion first-faq-box">
-						<ul class="accordion">
-							<li class="accordion-item">
-								<a class="accordion-title active" href="javascript:void(0)"> <i class="fa fa-plus"></i> Which levels of damage can you repair?</a>
-								<p class="accordion-content show">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat officia deserunt</p>
-							</li>
-							<li class="accordion-item">
-								<a class="accordion-title" href="javascript:void(0)"> <i class="fa fa-plus"></i> How long will the repair process take?</a>
-								<p class="accordion-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat officia deserunt mollit anim laborum</p>
-							</li>
-							<li class="accordion-item">
-								<a class="accordion-title" href="javascript:void(0)"> <i class="fa fa-plus"></i> What should I do immediately after a collision?</a>
-								<p class="accordion-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat officia deserunt mollit anim laborum</p>
-							</li>
-							<li class="accordion-item">
-								<a class="accordion-title" href="javascript:void(0)"> <i class="fa fa-plus"></i> Can I choose my collision repair shop?</a>
-								<p class="accordion-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat officia deserunt mollit anim laborum</p>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Faq Section -->
-	
-	<!-- Start Blog Section -->
-	<section class="blog-section bg-grey pt-100 pb-80">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Blog & News</h6>
-						<h2>Recent Blog</h2>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="blog-item">
-						<div class="blog-image">
-							<a href="single-blog.html">
-								<img src="{{ asset('frontend/assets/img/blog/blog-1.jpg') }}" alt="image">
-							</a>
-						</div>
-						<div class="single-blog-item">
-							<ul class="blog-list">
-								<li>
-									<a href="#"><i class="bi bi-person-circle"></i> Author</a>
-								</li>
-								<li>
-									<a href="#"><i class="bi bi-calendar-check"></i> 17 June 2024</a>
-								</li>
-							</ul>
-							<div class="blog-content">
-								<h3>
-                                    <a href="single-blog.html">
-										Diagnosing Starting & Charging System Issues Step-By-Step Guide
-                                    </a>
-                                </h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt</p>
-								<div class="blog-btn">
-									<a href="single-blog.html" class="read-more"><i class="bi bi-arrow-right-short"></i> Read More</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="blog-item">
-						<div class="blog-image">
-							<a href="single-blog.html">
-								<img src="{{ asset('frontend/assets/img/blog/blog-2.jpg') }}" alt="image">
-							</a>
-						</div>
-						<div class="single-blog-item">
-							<ul class="blog-list">
-								<li>
-									<a href="#"><i class="bi bi-person-circle"></i> Author</a>
-								</li>
-								<li>
-									<a href="#"><i class="bi bi-calendar-check"></i> 20 June 2024</a>
-								</li>
-							</ul>
-							<div class="blog-content">
-								<h3>
-									<a href="single-blog.html">
-                                       4 Tips to Keep Your Car’s AC Working All Summer Long
-                                    </a>
-								</h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt</p>
-								<div class="blog-btn">
-									<a href="single-blog.html" class="read-more"><i class="bi bi-arrow-right-short"></i> Read More</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="blog-item">
-						<div class="blog-image">
-							<a href="single-blog.html">
-								<img src="{{ asset('frontend/assets/img/blog/blog-3.jpg') }}" alt="image">
-							</a>
-						</div>
-						<div class="single-blog-item">
-							<ul class="blog-list">
-								<li>
-									<a href="#"><i class="bi bi-person-circle"></i> Author</a>
-								</li>
-								<li>
-									<a href="#"><i class="bi bi-calendar-check"></i> 25 June 2024</a>
-								</li>
-							</ul>
-							<div class="blog-content">
-								<h3>
-                                    <a href="single-blog.html">
-                                        How Often Should You Have Your Brake System Inspected?
-                                    </a>
-                                </h3>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, eiusmod tempor incididunt</p>
-								<div class="blog-btn">
-									<a href="single-blog.html" class="read-more"><i class="bi bi-arrow-right-short"></i> Read More</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="more-button-box"> 
-						<a class="default-btn" href="#0">View More Blog <span></span></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End Blog Section -->
-	
-	<!-- Start Contact Section -->
-	<div class="contact-section section-padding">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Contact Us</h6>
-						<h2>Get In Touch</h2>
-					</div>
-				</div>
-				<div class="col-lg-10 offset-lg-1">
-					<div class="contact-form">
-						<p class="form-message"></p>
-						<form id="contact-form" class="main-form" action="https://cutesolution.com/html/car/phpmail.php" method="POST">
-							<div class="row">
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<input type="text" name="name" id="name" class="form-control" required placeholder="Your Name">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<input type="email" name="email" id="email" class="form-control" required placeholder="Your Email">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<input type="text" name="phone" id="phone" required class="form-control" placeholder="Your Phone">
-									</div>
-								</div>
-								<div class="col-lg-6 col-md-6">
-									<div class="form-group">
-										<input type="text" name="subject" id="subject" class="form-control" required placeholder="Your Subject">
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12">
-									<div class="form-group">
-										<textarea name="message" class="form-control" id="message" cols="30" rows="6" required placeholder="Your Message"></textarea>
-									</div>
-								</div>
-								<div class="col-lg-12 col-md-12">
-									<div class="contact-btn">
-										<button type="submit" class="default-btn submit-btn">Send Message <span></span></button>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Contact Section -->
-	
-	<!-- Start Partner Logo Section -->
-	<div class="partner-area bg-grey">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="section-title">
-						<h6 class="sub-title">Trusted By Over 1200</h6>
-						<h2>Our Clients</h2>
-					</div>
-				</div>
-			</div>
-			<div id="partner-carousel" class="partner-carousel owl-carousel owl-theme owl-loaded">
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-1.png') }}" alt="partner-image">
-					</a>
-				</div>
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-2.png') }}" alt="partner-image">
-					</a>
-				</div>
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-3.png') }}" alt="partner-image">
-					</a>
-				</div>
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-4.png') }}" alt="partner-image">
-					</a>
-				</div>
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-5.png') }}" alt="partner-image">
-					</a>
-				</div>
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-6.png') }}" alt="partner-image">
-					</a>
-				</div>
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-7.png') }}" alt="partner-image">
-					</a>
-				</div>
-				<div class="partner-slide-item">
-					<a href="#0">
-						<img src="{{ asset('frontend/assets/img/partner/client-8.png') }}" alt="partner-image">
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Partner Logo Section -->
-	
-	<!-- Start Footer & Subscribe Section -->
-	<section class="footer-subscribe-wrapper">
-		<!-- Start Subscribe Section -->
-		<div class="subscribe-area">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-6 col-md-6">
-						<div class="subscribe-content">
-							<h2>Sign Up Our Newsletter</h2>
-							<p>We Offer An Informative Monthly Technology Newsletter - Check It Out.</p>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6">
-						<form class="newsletter-form">
-							<input type="email" class="input-newsletter" placeholder="Enter Your Email" name="EMAIL" required autocomplete="off">
-							<button type="submit">Subscribe Now</button>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Subscribe Section -->
-		<!-- Start Footer Section -->
-		<div class="footer-area ptb-100">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="single-footer-widget">
-							<a class="footer-logo" href="#">
-								<img src="{{ asset('frontend/assets/img/logo.png') }}" class="white-logo" alt="logo">
-							</a>
-							<p>Lorem ipsum dolor amet, consectetur adipiscing, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut</p>
-							<ul class="footer-social">
-								<li>
-									<a href="#"> <i class="fab fa-facebook-f"></i></a>
-								</li>
-								<li>
-									<a href="#"> <i class="fab fa-twitter"></i></a>
-								</li>
-								<li>
-									<a href="#"> <i class="fab fa-youtube"></i></a>
-								</li>
-								<li>
-									<a href="#"> <i class="fab fa-linkedin"></i></a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-6 col-sm-6">
-						<div class="single-footer-widget">
-							<div class="footer-heading">
-								<h3>Our Services</h3>
-							</div>
-							<ul class="footer-quick-links">
-								<li><a href="#">Oil Change</a></li>
-								<li><a href="#">Brake Repair</a></li>
-								<li><a href="#">Engine Repair</a></li>
-								<li><a href="#">Battery Repair</a></li>
-								<li><a href="#">AC Repairs</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-2 col-md-6 col-sm-6">
-						<div class="single-footer-widget">
-							<div class="footer-heading">
-								<h3>Useful Links</h3>
-							</div>
-							<ul class="footer-quick-links">
-								<li><a href="about.html">About Us</a></li>
-								<li><a href="gallery.html">Gallery</a></li>
-								<li><a href="contact.html">Contact Us</a></li>
-								<li><a href="privacy-policy.html">Privacy Policy</a></li>
-								<li><a href="terms-condition.html">Terms & Conditions</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-6 col-sm-6">
-						<div class="single-footer-widget">
-							<div class="footer-heading">
-								<h3>Contact Info</h3>
-							</div>
-							<div class="footer-info-contact"> <i class="fa fa-phone"></i>
-								<h3>Phone</h3>
-								<span><a href="tel:0802235678">080 707 555-321</a></span>
-							</div>
-							<div class="footer-info-contact"> <i class="fa fa-envelope"></i>
-								<h3>Email</h3>
-								<span><a href="mailto:demo@example.com">demo@example.com</a></span>
-							</div>
-							<div class="footer-info-contact"> <i class="fa fa-home"></i>
-								<h3>Address</h3>
-								<span>526  Melrose Street, Water Mill, 11976  New York</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End Footer Section -->
-	</section>
-	<!-- End Footer & Subscribe Section -->
-	
-	<!-- Start Copy Right Section -->
-	<div class="copyright-area">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-6 col-md-6">
-					<p> <i class="far fa-copyright"></i> 2024 Car- All Rights Reserved.</p>
-				</div>
-				<div class="col-lg-6 col-md-6">
-					<ul>
-						<li> <a href="terms-condition.html">Terms & Conditions</a></li>
-						<li> <a href="privacy-policy.html">Privacy Policy</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Copy Right Section -->
-	
-	<!-- Start Go Top Section -->
-	<div class="go-top">
-		<i class="fas fa-chevron-up"></i>
-		<i class="fas fa-chevron-up"></i>
-	</div>
-	<!-- End Go Top Section -->
-	
-	<!-- jQuery Min JS -->
-	<script src="{{ asset('frontend/assets/js/jquery.min.js') }}"></script>
-	<!-- Popper Min JS -->
-	<script src="{{ asset('frontend/assets/js/popper.min.js') }}"></script>
-	<!-- Bootstrap Min JS -->
-	<script src="{{ asset('frontend/assets/js/bootstrap.bundle.min.js') }}"></script>
-	<!-- Mean Menu JS -->
-	<script src="{{ asset('frontend/assets/js/jquery.meanmenu.js') }}"></script>
-	<!-- Appear Min JS -->
-	<script src="{{ asset('frontend/assets/js/jquery.appear.min.js') }}"></script>
-	<!-- CounterUp Min JS -->
-	<script src="{{ asset('frontend/assets/js/jquery.waypoints.min.js') }}"></script>
-	<script src="{{ asset('frontend/assets/js/jquery.counterup.min.js') }}"></script>
-	<!-- Magnific Popup Min JS -->
-	<script src="{{ asset('frontend/assets/js/jquery.magnific-popup.min.js') }}"></script>
-	<!-- Owl Carousel Min JS -->
-	<script src="{{ asset('frontend/assets/js/owl.carousel.min.js') }}"></script>
-	<!-- Swiper Min JS -->
-	<script src="{{ asset('frontend/assets/js/swiper.min.js') }}"></script>
-	<!-- WOW Min JS -->
-	<script src="{{ asset('frontend/assets/js/wow.min.js') }}"></script>
-	<!-- Ajax Mail JS -->
-	<script src="{{ asset('frontend/assets/js/ajax.mail.js') }}"></script>
-	<!-- Main JS -->
-	<script src="{{ asset('frontend/assets/js/main.js') }}"></script>
-	
+
+        <aside class="livecard" aria-label="Live inventory">
+          <div class="livecard__head">
+            <span class="livecard__ghost" aria-hidden="true">41</span>
+            <p class="livecard__live"><span class="dot dot--accent dot--8" aria-hidden="true"></span>WINTER COLLECTION &middot; LIVE</p>
+            <p class="livecard__count"><span class="livecard__num">41</span><span class="livecard__sub">all-wheel-drive cars,<br>ready this week</span></p>
+          </div>
+
+          <div class="livecard__body">
+            <div class="livecard__row">
+              <span class="livecard__ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"></circle><path d="M12 3.6v16.8M3.6 12h16.8M6 6l12 12M18 6L6 18"></path></svg></span>
+              <div><div class="livecard__title">Winter tyres in the price</div><div class="livecard__note">Measured and dated &mdash; never an upsell at handover.</div></div>
+            </div>
+            <div class="livecard__row livecard__row--last">
+              <span class="livecard__ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>
+              <div><div class="livecard__title">200-point report published</div><div class="livecard__note">Read every finding before you travel to see it.</div></div>
+            </div>
+
+            <div class="livecard__foot">
+              <div>
+                <div class="livecard__from">FROM</div>
+                <div class="livecard__price">&euro;96,400</div>
+              </div>
+              <a class="btn btn--ink btn--browse" href="#">Browse 41<span class="btn__arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="hero__searchwrap">
+        <form class="search" action="#" method="get">
+          <div class="search__quick">
+            <span class="search__quicklbl">QUICK PICKS</span>
+            <button class="qp qp--on" type="button" aria-pressed="true">Winter ready</button>
+            <button class="qp" type="button" aria-pressed="false">Under &euro;150k</button>
+            <button class="qp" type="button" aria-pressed="false">Electric</button>
+            <button class="qp" type="button" aria-pressed="false">Delivered in 48h</button>
+            <span class="search__fresh"><span class="dot dot--accent" aria-hidden="true"></span>UPDATED 12 MIN AGO</span>
+          </div>
+
+          <div class="search__row">
+            <p class="bsel">
+              <label class="bsel__lbl" for="f-make">MAKE</label>
+              <select class="bsel__sel" id="f-make" name="make"><option>All makes</option><option>Land Rover</option><option>Porsche</option><option>Mercedes-AMG</option><option>BMW</option><option>Audi</option></select>
+              <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
+            </p>
+            <p class="bsel">
+              <label class="bsel__lbl" for="f-body">BODY STYLE</label>
+              <select class="bsel__sel" id="f-body" name="body"><option>All styles</option><option>Sport SUV</option><option>Coupe</option><option>Cabriolet</option><option>Estate</option></select>
+              <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
+            </p>
+            <p class="bsel">
+              <label class="bsel__lbl" for="f-drive">DRIVETRAIN</label>
+              <select class="bsel__sel" id="f-drive" name="drivetrain"><option>All-wheel drive</option><option>Any drivetrain</option><option>Rear-wheel drive</option></select>
+              <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
+            </p>
+            <p class="bsel">
+              <label class="bsel__lbl" for="f-price">PRICE UP TO</label>
+              <select class="bsel__sel" id="f-price" name="price"><option>Any price</option><option>&euro;150,000</option><option>&euro;200,000</option><option>&euro;300,000</option></select>
+              <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
+            </p>
+            <p class="bsel">
+              <label class="bsel__lbl" for="f-loc">LOCATION</label>
+              <select class="bsel__sel" id="f-loc" name="location"><option>All locations</option><option>Munich</option><option>Z&uuml;rich</option><option>Vienna</option><option>Geneva</option></select>
+              <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
+            </p>
+            <div class="search__go">
+              <button class="btn btn--ink btn--show" type="submit">Show 41 cars<span class="btn__arrow btn__arrow--36" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= 2. Why AVAVA -->
+  <section class="sec sec--why" aria-labelledby="why-title">
+    <div class="sechead sechead--center">
+      <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>WHY AVAVA</p>
+      <h2 class="h2 h2--60" id="why-title">Built around the driver</h2>
+      <p class="sechead__sub">Four commitments that make buying with AVAVA different from any other dealership.</p>
+    </div>
+
+    <div class="why__grid">
+      <article class="wcard">
+        <span class="wcard__badge wcard__badge--circle" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#14161A" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l7 9-7 9-7-9z"></path></svg></span>
+        <h3 class="wcard__title">Curated collection</h3>
+        <p class="wcard__text">Only the top 3% of the vehicles we inspect ever reach our showroom floor &mdash; no filler, no compromises.</p>
+      </article>
+
+      <article class="wcard wcard--ink">
+        <span class="wcard__badge wcard__badge--diamond" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14161A" stroke-width="1.8" stroke-linejoin="round"><path d="M4 4h8l8 8-8 8-8-8z"></path><circle cx="8" cy="8" r="1.6" fill="#14161A" stroke="none"></circle></svg></span>
+        <h3 class="wcard__title">Transparent pricing</h3>
+        <p class="wcard__text">One honest price with the full service history and finance terms shown up front. What you see is what you pay.</p>
+      </article>
+
+      <article class="wcard">
+        <span class="wcard__badge wcard__badge--ring" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#14161A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11M7 10l5 5 5-5M5 20h14"></path></svg></span>
+        <h3 class="wcard__title">White-glove delivery</h3>
+        <p class="wcard__text">Delivered to your door across 7 locations &mdash; detailed, and fully fuelled or charged on arrival.</p>
+      </article>
+
+      <article class="wcard">
+        <span class="wcard__badge wcard__badge--square" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"></path></svg></span>
+        <h3 class="wcard__title">Certified inspection</h3>
+        <p class="wcard__text">Every car passes a documented 200-point check, backed by a 12-month warranty.</p>
+      </article>
+    </div>
+
+    <div class="numbers">
+      <div class="numbers__cell"><div class="numbers__num">142</div><div class="numbers__lbl">VEHICLES IN STOCK</div></div>
+      <div class="numbers__cell"><div class="numbers__num">7</div><div class="numbers__lbl">SHOWROOMS</div></div>
+      <div class="numbers__cell"><div class="numbers__num">4.9<span class="numbers__accent">/5</span></div><div class="numbers__lbl">2,400+ REVIEWS</div></div>
+      <div class="numbers__cell"><div class="numbers__num">15</div><div class="numbers__lbl">YEARS OF TRUST</div></div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ================================================ 3. Featured listings -->
+  <section class="sec" aria-labelledby="feat-title">
+    <div class="sechead sechead--split">
+      <div>
+        <p class="eyebrow eyebrow--soft"><span class="dot dot--accent dot--8" aria-hidden="true"></span>FEATURED LISTINGS</p>
+        <h2 class="h2 h2--fluid h2--nowrap" id="feat-title">Featured Listings</h2>
+      </div>
+      <a class="btn btn--ink btn--pill" href="#">View all 1,840<span class="btn__arrow btn__arrow--34" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+    </div>
+
+    <div class="feat" id="featured">
+      <a class="fcard fcard--tall" href="#">
+        <img class="fcard__img" src="assets/img/listing-porsche-911.webp" width="1200" height="750" alt="Porsche 911 Carrera GTS in Munich">
+        <span class="fcard__flag">PICK OF THE WEEK</span>
+        <span class="fcard__meta"><span class="fcard__name">Porsche 911 Carrera GTS</span><span class="fcard__spec">&euro;164,900 &middot; 12,000 mi &middot; Munich</span></span>
+      </a>
+      <button class="fcard" type="button">
+        <img class="fcard__img" src="assets/img/listing-amg-gt.webp" width="1600" height="900" alt="Mercedes-AMG GT 63 Coupé in Zürich">
+        <span class="fcard__meta"><span class="fcard__name">AMG GT 63 Coup&eacute;</span><span class="fcard__spec">&euro;178,000 &middot; Z&uuml;rich</span></span>
+      </button>
+      <button class="fcard" type="button">
+        <img class="fcard__img" src="assets/img/listing-etron-gt.webp" width="1600" height="900" alt="Audi RS e-tron GT in Frankfurt">
+        <span class="fcard__meta"><span class="fcard__name">RS e-tron GT</span><span class="fcard__spec">&euro;147,000 &middot; Frankfurt</span></span>
+      </button>
+      <button class="fcard" type="button">
+        <img class="fcard__img" src="assets/img/listing-range-rover.webp" width="1600" height="900" alt="Range Rover Sport in Salzburg">
+        <span class="fcard__meta"><span class="fcard__name">Range Rover Sport</span><span class="fcard__spec">&euro;96,400 &middot; Salzburg</span></span>
+      </button>
+      <button class="fcard" type="button">
+        <img class="fcard__img" src="assets/img/listing-continental-gt.webp" width="1600" height="900" alt="Bentley Continental GT in Geneva">
+        <span class="fcard__meta"><span class="fcard__name">Continental GT</span><span class="fcard__spec">&euro;265,000 &middot; Geneva</span></span>
+      </button>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ==================================================== 4. How it works -->
+  <section class="sec" aria-labelledby="how-title">
+    <div class="sechead sechead--split sechead--wide">
+      <div>
+        <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>HOW IT WORKS</p>
+        <h2 class="h2 h2--fluid h2--nowrap" id="how-title">Twelve days, stop at any of them.</h2>
+      </div>
+      <div class="minifacts">
+        <div class="minifact"><div class="minifact__num">12</div><div class="minifact__lbl">DAYS, TYPICAL</div></div>
+        <span class="minifact__sep" aria-hidden="true"></span>
+        <div class="minifact"><div class="minifact__num">0</div><div class="minifact__lbl">CALLS REQUIRED</div></div>
+        <span class="minifact__sep" aria-hidden="true"></span>
+        <div class="minifact"><div class="minifact__num minifact__num--accent">7</div><div class="minifact__lbl">DAYS TO RETURN</div></div>
+      </div>
+    </div>
+
+    <div class="steps" id="steps">
+      <span class="steps__track" aria-hidden="true"></span>
+      <span class="steps__fill" aria-hidden="true"></span>
+
+      <ol class="steps__grid">
+        <li class="step step--on">
+          <button class="step__day" type="button" aria-pressed="true">DAY 1<span class="visually-hidden"> — Find it</span></button>
+          <span class="step__node" aria-hidden="true"></span>
+          <div class="step__body">
+            <p class="step__kicker"><span>FILTER</span><span class="step__rule"></span></p>
+            <h3 class="step__title">Find it</h3>
+            <p class="step__text">Filter 1,840 cars from 380 verified dealers. Every listing shows the real price &mdash; no enquiry required to see it.</p>
+            <span class="step__tag"><span class="dot dot--accent dot--6" aria-hidden="true"></span>2 MIN</span>
+          </div>
+        </li>
+        <li class="step">
+          <button class="step__day" type="button" aria-pressed="false">DAY 2<span class="visually-hidden"> — Read the report</span></button>
+          <span class="step__node" aria-hidden="true"></span>
+          <div class="step__body">
+            <p class="step__kicker"><span>INSPECT</span><span class="step__rule"></span></p>
+            <h3 class="step__title">Read the report</h3>
+            <p class="step__text">The full 200-point inspection lands in your inbox before a salesperson calls, including what we chose to leave alone.</p>
+            <span class="step__tag"><span class="dot dot--grey dot--6" aria-hidden="true"></span>SAME DAY</span>
+          </div>
+        </li>
+        <li class="step">
+          <button class="step__day" type="button" aria-pressed="false">DAY 5<span class="visually-hidden"> — Take it out</span></button>
+          <span class="step__node" aria-hidden="true"></span>
+          <div class="step__body">
+            <p class="step__kicker"><span>DRIVE</span><span class="step__rule"></span></p>
+            <h3 class="step__title">Take it out</h3>
+            <p class="step__text">Book a viewing at any of seven showrooms, or have the car brought to your door for the drive.</p>
+            <span class="step__tag"><span class="dot dot--grey dot--6" aria-hidden="true"></span>48 H</span>
+          </div>
+        </li>
+        <li class="step">
+          <button class="step__day" type="button" aria-pressed="false">DAY 12<span class="visually-hidden"> — Drive it home</span></button>
+          <span class="step__node" aria-hidden="true"></span>
+          <div class="step__body">
+            <p class="step__kicker"><span>KEYS</span><span class="step__rule"></span></p>
+            <h3 class="step__title">Drive it home</h3>
+            <p class="step__text">Seven days or 300 km to change your mind. Trade-in settled the same day, paperwork handled by us.</p>
+            <span class="step__tag"><span class="dot dot--grey dot--6" aria-hidden="true"></span>7-DAY RETURN</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="secfoot">
+      <p class="secfoot__text">Nothing here is binding until the twelfth day &mdash; and after it, you still have a week to bring the car back.</p>
+      <a class="btn btn--ink btn--pill" href="#">Start at day one<span class="btn__arrow btn__arrow--34" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ========================================================== 5. Finance -->
+  <section class="sec" id="finance" aria-labelledby="fin-title">
+    <div class="sechead sechead--split sechead--fin">
+      <div>
+        <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>FINANCE</p>
+        <h2 class="h2 h2--fin h2--nowrap" id="fin-title">Three ways to pay for it.</h2>
+        <p class="sechead__lead">A &euro;164,900 car. Same rate on all three &mdash; the only thing that changes is how long you carry it, and what that costs you.</p>
+      </div>
+      <div class="minifacts">
+        <div class="minifact"><div class="minifact__num minifact__num--30" id="apr-fact">3.9%</div><div class="minifact__lbl">APR, FIXED</div></div>
+        <span class="minifact__sep minifact__sep--38" aria-hidden="true"></span>
+        <div class="minifact"><div class="minifact__num minifact__num--30">&euro;0</div><div class="minifact__lbl">ARRANGEMENT FEE</div></div>
+        <span class="minifact__sep minifact__sep--38" aria-hidden="true"></span>
+        <div class="minifact"><div class="minifact__num minifact__num--30 minifact__num--accent">0%</div><div class="minifact__lbl">EARLY SETTLEMENT</div></div>
+      </div>
+    </div>
+
+    <div class="depbar">
+      <div class="depbar__row">
+        <div class="depbar__value">
+          <div class="depbar__lbl">DEPOSIT</div>
+          <div class="depbar__amount" id="dep-out">&euro;30,000</div>
+        </div>
+        <div class="depbar__slider">
+          <label class="visually-hidden" for="dep">Deposit</label>
+          <input class="range" id="dep" type="range" min="0" max="80000" step="1000" value="30000">
+          <div class="depbar__scale"><span>&euro;0</span><span>&euro;80,000</span></div>
+        </div>
+        <div class="depbar__shortcuts">
+          <span class="depbar__or">OR USE</span>
+          <button class="dep-btn dep-btn--trade" id="dep-trade" type="button" aria-pressed="false">My trade-in &middot; &euro;61,400</button>
+          <button class="dep-btn" id="dep-zero" type="button" aria-pressed="false">Nothing down</button>
+        </div>
+      </div>
+
+      <div class="depbar__row">
+        <div class="depbar__value">
+          <div class="depbar__lbl">INTEREST RATE</div>
+          <div class="depbar__amount" id="apr-out">3.9%</div>
+        </div>
+        <div class="depbar__slider">
+          <label class="visually-hidden" for="apr">Annual interest rate</label>
+          <input class="range" id="apr" type="range" min="0.9" max="9.9" step="0.1" value="3.9">
+          <div class="depbar__scale"><span>0.9%</span><span>9.9%</span></div>
+        </div>
+        <div class="depbar__shortcuts">
+          <span class="depbar__or">OR PICK</span>
+          <button class="dep-btn dep-btn--trade" id="apr-standard" type="button" aria-pressed="true" data-apr="3.9">Standard &middot; 3.9%</button>
+          <button class="dep-btn" id="apr-partner" type="button" aria-pressed="false" data-apr="2.4">Partner &middot; 2.4%</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="plans" id="plans">
+      <div class="plan" data-term="36">
+        <span class="plan__flag">MOST CHOSEN</span>
+        <div class="plan__head"><span class="plan__term">36 MONTHS</span><span class="plan__who">PAY IT OFF FAST</span></div>
+        <p class="plan__price"><span class="plan__monthly">&euro;0</span><span class="plan__per">/ mo</span></p>
+        <p class="plan__tradeoff">&nbsp;</p>
+        <div class="plan__interest">
+          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">&euro;0</span></div>
+          <div class="plan__bar"><span class="plan__barfill"></span></div>
+        </div>
+        <div class="plan__foot">
+          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">&euro;0</span></div>
+          <button class="plan__cta" type="button" aria-pressed="false" data-pick="36">Choose 36 months</button>
+        </div>
+      </div>
+
+      <div class="plan plan--popular plan--picked" data-term="60">
+        <span class="plan__flag">MOST CHOSEN</span>
+        <div class="plan__head"><span class="plan__term">60 MONTHS</span><span class="plan__who">THE BALANCE</span></div>
+        <p class="plan__price"><span class="plan__monthly">&euro;0</span><span class="plan__per">/ mo</span></p>
+        <p class="plan__tradeoff">&nbsp;</p>
+        <div class="plan__interest">
+          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">&euro;0</span></div>
+          <div class="plan__bar"><span class="plan__barfill"></span></div>
+        </div>
+        <div class="plan__foot">
+          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">&euro;0</span></div>
+          <button class="plan__cta" type="button" aria-pressed="true" data-pick="60">Choose 60 months</button>
+        </div>
+      </div>
+
+      <div class="plan" data-term="72">
+        <span class="plan__flag">MOST CHOSEN</span>
+        <div class="plan__head"><span class="plan__term">72 MONTHS</span><span class="plan__who">LOWEST MONTHLY</span></div>
+        <p class="plan__price"><span class="plan__monthly">&euro;0</span><span class="plan__per">/ mo</span></p>
+        <p class="plan__tradeoff">&nbsp;</p>
+        <div class="plan__interest">
+          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">&euro;0</span></div>
+          <div class="plan__bar"><span class="plan__barfill"></span></div>
+        </div>
+        <div class="plan__foot">
+          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">&euro;0</span></div>
+          <button class="plan__cta" type="button" aria-pressed="false" data-pick="72">Choose 72 months</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="secfoot secfoot--fin">
+      <div class="finnotes">
+        <span class="finnote"><span class="finnote__tick" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Settle early and the interest simply stops</span>
+        <span class="finnote"><span class="finnote__tick" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>A soft check that leaves no mark</span>
+      </div>
+      <a class="textlink" href="#">See the full agreement<span class="textlink__arrow" aria-hidden="true">&rarr;</span></a>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ========================================================== 6. Trade in -->
+  <section class="sec" id="trade-in" aria-labelledby="trade-title">
+    <div class="sechead sechead--trade">
+      <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>TRADE-IN &middot; INSTANT OFFER</p>
+      <h2 class="h2 h2--60 h2--tight" id="trade-title">Your car is worth more than you think</h2>
+    </div>
+
+    <div class="trade">
+      <div class="trade__panel">
+        <div class="trade__quote">
+          <p class="trade__lbl">ESTIMATED OFFER RANGE</p>
+          <p class="trade__range"><span id="trade-low">&euro;0</span><span class="trade__dash"> &ndash; </span><span id="trade-high">&euro;0</span></p>
+          <p class="trade__desc" id="trade-desc">2019 Mercedes-AMG GT Roadster &middot; 48,000 mi</p>
+        </div>
+        <img class="trade__car" src="assets/img/trade-car.webp" width="1200" height="325" alt="">
+        <a class="btn btn--ink btn--accept" href="#">Accept offer<span class="btn__arrow btn__arrow--32" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+      </div>
+
+      <div class="trade__form">
+        <div class="trade__fields">
+          <p class="field"><label class="field__lbl" for="t-make">MAKE</label><input class="field__in" id="t-make" type="text" value="Mercedes-AMG"></p>
+          <p class="field"><label class="field__lbl" for="t-model">MODEL</label><input class="field__in" id="t-model" type="text" value="GT Roadster"></p>
+          <p class="field"><label class="field__lbl" for="t-year">YEAR</label><input class="field__in" id="t-year" type="text" inputmode="numeric" value="2019"></p>
+          <p class="field"><label class="field__lbl" for="t-mileage">MILEAGE</label><input class="field__in" id="t-mileage" type="text" inputmode="numeric" value="48,000 mi"></p>
+        </div>
+
+        <div class="gaugebox">
+          <div class="gauge" id="gauge">
+            <div class="gauge__hole"><div class="gauge__num" id="cond-num">2/4</div><div class="gauge__lbl">CONDITION</div></div>
+          </div>
+          <div class="gaugebox__control">
+            <div class="gaugebox__title"><span id="cond-label">Good</span> condition</div>
+            <label class="visually-hidden" for="t-cond">Condition</label>
+            <input class="range range--cond" id="t-cond" type="range" min="1" max="4" step="1" value="2">
+            <div class="gaugebox__scale"><span>Fair</span><span>Good</span><span>Great</span><span>Excel.</span></div>
+          </div>
+        </div>
+
+        <div class="drivers">
+          <p class="drivers__lbl">VALUE DRIVERS</p>
+          <div class="driver">
+            <div class="driver__head"><span>Model demand</span><span class="driver__val">High</span></div>
+            <div class="driver__bar"><span class="driver__fill driver__fill--accent driver__fill--86"></span></div>
+          </div>
+          <div class="driver">
+            <div class="driver__head"><span>Mileage</span><span class="driver__val" id="mileage-band">Average</span></div>
+            <div class="driver__bar"><span class="driver__fill" id="mileage-bar"></span></div>
+          </div>
+          <div class="driver driver--last">
+            <div class="driver__head"><span>Condition</span><span class="driver__val" id="cond-word">Good</span></div>
+            <div class="driver__bar"><span class="driver__fill" id="cond-bar"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ===================================================== 7. Testimonials -->
+  <section class="sec sec--flush" aria-labelledby="rev-title">
+    <div class="sechead sechead--center sechead--pad">
+      <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>TESTIMONIALS</p>
+      <h2 class="h2 h2--60" id="rev-title">Rated 4.9 by real owners</h2>
+      <p class="stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+      <p class="revcount">2,431 VERIFIED REVIEWS</p>
+    </div>
+
+    <div class="marquee" id="reviews">
+      <div class="marquee__track">
+        <figure class="rev">
+          <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="rev__quote"><p>&ldquo;On my driveway in four days, spotless and charged. Unreal service.&rdquo;</p></blockquote>
+          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-daniel.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Daniel R.</span><span class="rev__car">Cayenne Coupe &middot; Z&uuml;rich</span></span></figcaption>
+        </figure>
+        <figure class="rev rev--ink">
+          <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="rev__quote"><p>&ldquo;The most transparent purchase I&rsquo;ve ever made. No surprises at all.&rdquo;</p></blockquote>
+          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-sofia.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Sofia M.</span><span class="rev__car">Taycan Turbo GT &middot; Munich</span></span></figcaption>
+        </figure>
+        <figure class="rev">
+          <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="rev__quote"><p>&ldquo;Trade-in beat every other offer I got. Finance took ten minutes.&rdquo;</p></blockquote>
+          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-aisha.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Aisha K.</span><span class="rev__car">Macan Electric &middot; Geneva</span></span></figcaption>
+        </figure>
+        <figure class="rev">
+          <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="rev__quote"><p>&ldquo;They walked me through every feature. Customer for life.&rdquo;</p></blockquote>
+          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-marco.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Marco L.</span><span class="rev__car">Panamera GTS &middot; Milan</span></span></figcaption>
+        </figure>
+        <figure class="rev rev--ink">
+          <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="rev__quote"><p>&ldquo;White-glove delivery is exactly that. Handled all the paperwork.&rdquo;</p></blockquote>
+          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-james.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">James P.</span><span class="rev__car">911 Carrera &middot; Vienna</span></span></figcaption>
+        </figure>
+        <figure class="rev">
+          <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <blockquote class="rev__quote"><p>&ldquo;No pressure at the showroom &mdash; just great people who love cars.&rdquo;</p></blockquote>
+          <figcaption class="rev__by"><img class="rev__av" src="assets/img/avatar-nina.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Nina H.</span><span class="rev__car">718 Cayman &middot; Salzburg</span></span></figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ======================================================== 8. Locations -->
+  <section class="sec" aria-labelledby="loc-title">
+    <div class="sechead sechead--split sechead--loc">
+      <div>
+        <p class="eyebrow eyebrow--soft"><span class="dot dot--accent dot--8" aria-hidden="true"></span>SHOWROOMS</p>
+        <h2 class="h2 h2--fluid" id="loc-title">Seven doors, open now.</h2>
+      </div>
+      <p class="sechead__aside">Every car can be moved to whichever one is closest to you, usually within two days.</p>
+    </div>
+
+    <div class="mapbox">
+      <!-- Leaflet + OpenStreetMap: no API key, no billing account. The pins
+           are read from data-showrooms below and drawn in CSS. The tile
+           attribution is required by the OpenStreetMap licence — keep it. -->
+      <div class="mapbox__canvas" id="showroom-map" data-showrooms='[
+        {"city":"Munich","country":"Germany","lat":48.1372,"lng":11.5756,"address":"Maximilianstra&szlig;e 14 &middot; 80539","label":"Flagship"},
+        {"city":"Z&uuml;rich","country":"Switzerland","lat":47.3769,"lng":8.5417,"address":"Bahnhofstrasse 62 &middot; 8001","label":"Showroom"},
+        {"city":"Vienna","country":"Austria","lat":48.2082,"lng":16.3738,"address":"K&auml;rntner Ring 8 &middot; 1010","label":"Showroom"},
+        {"city":"Geneva","country":"Switzerland","lat":46.2044,"lng":6.1432,"address":"Rue du Rh&ocirc;ne 41 &middot; 1204","label":"Showroom"},
+        {"city":"Salzburg","country":"Austria","lat":47.8095,"lng":13.0550,"address":"Getreidegasse 22 &middot; 5020","label":"Showroom"},
+        {"city":"Milan","country":"Italy","lat":45.4642,"lng":9.1900,"address":"Via Montenapoleone 21 &middot; 20121","label":"Showroom"},
+        {"city":"Frankfurt","country":"Germany","lat":50.1109,"lng":8.6821,"address":"Goethestra&szlig;e 24 &middot; 60313","label":"Showroom"}
+      ]'></div>
+      <span class="mapbox__flag"><span class="dot dot--accent dot--8" aria-hidden="true"></span>7 SHOWROOMS &middot; 4 COUNTRIES</span>
+    </div>
+
+    <div class="shops" role="group" aria-label="Choose a showroom on the map">
+      <button class="shop shop--ink" type="button" aria-pressed="true" data-showroom="0">
+        <span class="shop__top"><span class="shop__city">Munich</span><span class="shop__flag">FLAGSHIP</span></span>
+        <span class="shop__addr">Maximilianstra&szlig;e 14<br>80539 M&uuml;nchen</span>
+        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;19</span><span>412 CARS</span></span>
+      </button>
+      <button class="shop" type="button" aria-pressed="false" data-showroom="1">
+        <span class="shop__top"><span class="shop__city">Z&uuml;rich</span></span>
+        <span class="shop__addr">Bahnhofstrasse 62<br>8001 Z&uuml;rich</span>
+        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;18</span><span>286 CARS</span></span>
+      </button>
+      <button class="shop" type="button" aria-pressed="false" data-showroom="2">
+        <span class="shop__top"><span class="shop__city">Vienna</span></span>
+        <span class="shop__addr">K&auml;rntner Ring 8<br>1010 Wien</span>
+        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;18:30</span><span>232 CARS</span></span>
+      </button>
+      <button class="shop" type="button" aria-pressed="false" data-showroom="3">
+        <span class="shop__top"><span class="shop__city">Geneva</span></span>
+        <span class="shop__addr">Rue du Rh&ocirc;ne 41<br>1204 Gen&egrave;ve</span>
+        <span class="shop__foot"><span>MON&ndash;FRI 09&ndash;18</span><span>198 CARS</span></span>
+      </button>
+      <button class="shop" type="button" aria-pressed="false" data-showroom="4">
+        <span class="shop__top"><span class="shop__city">Salzburg</span></span>
+        <span class="shop__addr">Getreidegasse 22<br>5020 Salzburg</span>
+        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;18</span><span>164 CARS</span></span>
+      </button>
+      <button class="shop" type="button" aria-pressed="false" data-showroom="5">
+        <span class="shop__top"><span class="shop__city">Milan</span></span>
+        <span class="shop__addr">Via Montenapoleone 21<br>20121 Milano</span>
+        <span class="shop__foot"><span>MON&ndash;SAT 09:30&ndash;19</span><span>145 CARS</span></span>
+      </button>
+      <button class="shop" type="button" aria-pressed="false" data-showroom="6">
+        <span class="shop__top"><span class="shop__city">Frankfurt</span></span>
+        <span class="shop__addr">Goethestra&szlig;e 24<br>60313 Frankfurt</span>
+        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;19</span><span>178 CARS</span></span>
+      </button>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============================================================== 9. CTA -->
+  <section class="sec" aria-labelledby="cta-title">
+    <div class="ctapanel">
+      <span class="ctapanel__wordmark" aria-hidden="true">AVAVA</span>
+      <img class="ctapanel__car" src="assets/img/cta-car.webp" width="1341" height="384" alt="">
+      <span class="ctapanel__scrim" aria-hidden="true"></span>
+
+      <div class="ctapanel__inner">
+        <div class="ctapanel__chips">
+          <span class="chip chip--outline"><span class="dot dot--accent pulse" aria-hidden="true"></span>4 SLOTS LEFT TODAY</span>
+          <span class="ctapanel__free">FREE &middot; NO OBLIGATION</span>
+        </div>
+
+        <h2 class="h2 h2--cta h2--nowrap" id="cta-title">Drive it before you decide</h2>
+        <p class="ctapanel__lead">Forty minutes on your own roads. We hold the car and confirm in minutes.</p>
+
+        <div class="slots" id="slots">
+          <button class="slot slot--on" type="button" aria-pressed="true"><span class="slot__city">Munich</span><span class="slot__time">16:30</span></button>
+          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Z&uuml;rich</span><span class="slot__time">17:15</span></button>
+          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Vienna</span><span class="slot__time">18:00</span></button>
+          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Milan</span><span class="slot__time">Tmw 09:30</span></button>
+        </div>
+
+        <div class="ctapanel__actions">
+          <button class="btn btn--accent btn--book" type="button" id="book-cta">Book 16:30 in Munich<span class="btn__arrow btn__arrow--34 btn__arrow--ink" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></button>
+          <a class="ctapanel__alt" href="#">Or have it brought to you</a>
+        </div>
+
+        <div class="ctapanel__stats">
+          <div class="cstat"><div class="cstat__num">1,240</div><div class="cstat__lbl">DRIVES THIS MONTH</div></div>
+          <span class="cstat__sep" aria-hidden="true"></span>
+          <div class="cstat"><div class="cstat__num">40 min</div><div class="cstat__lbl">TYPICAL ROUTE</div></div>
+          <span class="cstat__sep" aria-hidden="true"></span>
+          <div class="cstat"><div class="cstat__num cstat__num--accent">0</div><div class="cstat__lbl">SALES CALLS AFTER</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ======================================================= 10. Our brands -->
+  <section class="sec sec--brands" aria-labelledby="brands-title">
+    <div class="sechead sechead--center sechead--brands">
+      <p class="eyebrow eyebrow--soft"><span class="dot dot--accent dot--8" aria-hidden="true"></span>OUR BRANDS</p>
+      <h2 class="h2 h2--brands" id="brands-title">Multi-brand, by design</h2>
+      <p class="sechead__sub">We are tied to no manufacturer, which is why we can tell you when the other one is the better car.</p>
+    </div>
+
+    <ul class="brands">
+      <li class="brand"><img class="brand__mark" src="assets/img/brands/alpine-motors.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Alpine Motors</span></li>
+      <li class="brand"><img class="brand__mark" src="assets/img/brands/baumann-sportwagen.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Baumann Sportwagen</span></li>
+      <li class="brand"><img class="brand__mark" src="assets/img/brands/elbe-prestige.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Elbe Prestige</span></li>
+      <li class="brand"><img class="brand__mark" src="assets/img/brands/nord-prestige.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Nord Prestige</span></li>
+      <li class="brand"><img class="brand__mark" src="assets/img/brands/rheinland-motors.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Rheinland Motors</span></li>
+      <li class="brand"><img class="brand__mark" src="assets/img/brands/sterling-automobile.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Sterling Automobile</span></li>
+      <li class="brand"><img class="brand__mark" src="assets/img/brands/volt-trading.svg" width="512" height="512" alt="" loading="lazy"><span class="brand__name">Volt Trading</span></li>
+    </ul>
+  </section>
+
+</main>
+
+<!-- ============================================================ 11. Footer -->
+<footer class="foot">
+
+  <div class="ticker">
+    <span class="ticker__open"><span class="dot dot--ink dot--8 pulse" aria-hidden="true"></span>OPEN NOW</span>
+    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Munich</span><span class="ticker__time">UNTIL 19:00</span></span>
+    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Z&uuml;rich</span><span class="ticker__time">UNTIL 18:30</span></span>
+    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Vienna</span><span class="ticker__time">UNTIL 18:00</span></span>
+    <span class="ticker__shop"><span class="dot dot--faint" aria-hidden="true"></span><span class="ticker__city">Milan</span><span class="ticker__time">OPENS 09:00</span></span>
+    <a class="ticker__phone" href="tel:+498942108800">+49&nbsp;89&nbsp;4210&nbsp;8800<span class="ticker__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+  </div>
+
+  <div class="footstats">
+    <div class="footstat"><div class="footstat__num">1,840</div><div class="footstat__lbl">CARS LISTED TODAY</div></div>
+    <div class="footstat"><div class="footstat__num">380</div><div class="footstat__lbl">VERIFIED DEALERS</div></div>
+    <div class="footstat"><div class="footstat__num">4h 12m</div><div class="footstat__lbl">AVERAGE REPLY</div></div>
+    <div class="footstat"><div class="footstat__num footstat__num--accent">0%</div><div class="footstat__lbl">COMMISSION ON THE SALE</div></div>
+  </div>
+
+  <div class="footmain">
+    <div class="footgrid">
+      <div class="footbrand">
+        <img src="assets/img/logo-avava-white.svg" width="168" height="36" alt="AVAVA">
+        <p class="footbrand__text">Saturday mornings: new arrivals and price drops on the cars you saved. Nothing else, ever.</p>
+        <form class="subscribe" action="#" method="post">
+          <label class="visually-hidden" for="sub-email">Your email</label>
+          <input class="subscribe__in" id="sub-email" type="email" name="email" placeholder="Your email" required>
+          <button class="subscribe__btn" type="submit">Subscribe</button>
+        </form>
+        <ul class="social">
+          <li><a href="#" aria-label="AVAVA on Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
+          <li><a href="#" aria-label="AVAVA on Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v3h2v8h3v-8h3l1-3h-4V7a1 1 0 0 1 1-1h2z"></path></svg></a></li>
+          <li><a href="#" aria-label="AVAVA on X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 4l7.5 9L4.5 20h2l6-6.6 5 6.6H21l-8-10 7-8h-2l-6 6.4L7.5 4z"></path></svg></a></li>
+        </ul>
+      </div>
+
+      <nav class="footcol" aria-label="Marketplace">
+        <h2 class="footcol__title">MARKETPLACE</h2>
+        <ul class="footcol__list">
+          <li><a class="footlink" href="#">All listings</a></li>
+          <li><a class="footlink" href="#">Map search</a></li>
+          <li><a class="footlink" href="#">Compare</a></li>
+          <li><a class="footlink" href="#">Sell your car</a></li>
+          <li><a class="footlink" href="#finance">Finance</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footcol" aria-label="Company">
+        <h2 class="footcol__title">COMPANY</h2>
+        <ul class="footcol__list">
+          <li><a class="footlink" href="#">About</a></li>
+          <li><a class="footlink" href="#">Showrooms</a></li>
+          <li><a class="footlink" href="#">Careers</a></li>
+          <li><a class="footlink" href="#">Press</a></li>
+          <li><a class="footlink" href="#">Dealer plans</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footcol" aria-label="Support">
+        <h2 class="footcol__title">SUPPORT</h2>
+        <ul class="footcol__list">
+          <li><a class="footlink" href="#">Contact</a></li>
+          <li><a class="footlink" href="#">FAQ</a></li>
+          <li><a class="footlink" href="#">Service booking</a></li>
+          <li><a class="footlink" href="#">Terms</a></li>
+          <li><a class="footlink" href="#">Privacy</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wordmarkbox">
+    <span class="wordmark" aria-hidden="true">AVAVA</span>
+  </div>
+
+  <div class="footbottom">
+    <div class="footbottom__inner">
+      <span>&copy; 2026 MECONATA</span>
+      <span>EVERY CAR INSPECTED BEFORE IT IS LISTED</span>
+    </div>
+  </div>
+</footer>
+
+
+
+<!-- ========================================================== Auth dialogs -->
+<!-- The provider buttons deliberately carry no Google / Facebook / Apple
+     logo — only a neutral monogram. Reproduced third-party marks in a sign-in
+     form are exactly what the AVAVA Motors trademark rejection was about. -->
+<dialog class="modal modal--auth" id="auth-login" aria-labelledby="auth-login-title">
+  <div class="auth">
+    <div class="auth__aside">
+      <p class="auth__eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>MEMBER ACCESS</p>
+      <p class="auth__pitch">Every car you save, every viewing you book and every trade-in offer &mdash; kept in one place.</p>
+      <ul class="auth__list">
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Saved cars across all seven showrooms</li>
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Test drives you can move or cancel yourself</li>
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Trade-in offers held for fourteen days</li>
+      </ul>
+      <div class="auth__proof">
+        <div><div class="auth__proof-num">41</div><div class="auth__proof-lbl">CARS THIS WEEK</div></div>
+        <span class="auth__proof-sep" aria-hidden="true"></span>
+        <div><div class="auth__proof-num">4.9</div><div class="auth__proof-lbl">OWNER RATING</div></div>
+      </div>
+      <span class="auth__wordmark" aria-hidden="true">AVAVA</span>
+    </div>
+
+    <form class="auth__form" id="login-form" action="#" method="post" novalidate>
+      <button class="auth__close" type="button" data-auth-close aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      <p class="auth__kicker">WELCOME BACK</p>
+      <h2 class="auth__title" id="auth-login-title">Sign in to AVAVA</h2>
+      <p class="auth__sub">Carry on with a provider, or use the address you booked with.</p>
+
+      <div class="auth__social">
+        <button class="provider" type="button" data-provider="Google"><span class="provider__mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg></span><span class="provider__name">Google</span></button>
+        <button class="provider" type="button" data-provider="Facebook"><span class="provider__mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#1877F2" d="M24 12a12 12 0 1 0-13.88 11.85v-8.38H7.08V12h3.04V9.36c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87V12h3.32l-.53 3.47h-2.79v8.38A12 12 0 0 0 24 12z"></path><path fill="#FFFFFF" d="M16.67 15.47 17.2 12h-3.32V9.75c0-.95.46-1.87 1.95-1.87h1.51V4.93s-1.37-.24-2.68-.24c-2.74 0-4.53 1.67-4.53 4.67V12H7.08v3.47h3.04v8.38a12.1 12.1 0 0 0 3.76 0v-8.38z"></path></svg></span><span class="provider__name">Facebook</span></button>
+        <button class="provider" type="button" data-provider="Apple"><span class="provider__mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="#14161A" aria-hidden="true" focusable="false"><path d="M17.05 12.54c-.03-2.68 2.19-3.97 2.29-4.03-1.25-1.83-3.19-2.08-3.88-2.11-1.65-.17-3.22.97-4.06.97-.84 0-2.13-.95-3.5-.92-1.8.03-3.46 1.05-4.39 2.66-1.87 3.25-.48 8.06 1.34 10.7.89 1.29 1.95 2.74 3.35 2.69 1.34-.05 1.85-.87 3.47-.87 1.62 0 2.08.87 3.5.84 1.45-.02 2.36-1.31 3.24-2.61 1.02-1.5 1.44-2.95 1.47-3.02-.03-.01-2.82-1.08-2.85-4.3z"></path><path d="M14.5 4.6c.74-.9 1.24-2.15 1.1-3.4-1.07.04-2.36.71-3.12 1.61-.68.79-1.28 2.06-1.12 3.28 1.19.09 2.41-.6 3.14-1.49z"></path></svg></span><span class="provider__name">Apple</span></button>
+      </div>
+
+      <p class="auth__or"><span>OR WITH EMAIL</span></p>
+
+      <p class="field">
+        <label class="field__lbl" for="login-email">EMAIL</label>
+        <input class="field__in" id="login-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+      </p>
+
+      <p class="field field--pw">
+        <label class="field__lbl" for="login-pw">PASSWORD</label>
+        <input class="field__in" id="login-pw" name="password" type="password" autocomplete="current-password" placeholder="At least 8 characters" minlength="8" required>
+        <button class="field__peek" type="button" data-peek="login-pw" aria-label="Show password" aria-pressed="false">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3.1"></circle></svg>
+        </button>
+      </p>
+
+      <div class="auth__row">
+        <label class="check"><input class="check__box" type="checkbox" name="remember" checked><span class="check__mark" aria-hidden="true"></span>Keep me signed in</label>
+        <a class="auth__link" href="#">Forgot password?</a>
+      </div>
+
+      <p class="auth__error" id="login-error" role="alert" hidden>Check the address and the password, then try again.</p>
+
+      <button class="auth__submit" type="submit">Sign in<span class="btn__arrow btn__arrow--34 btn__arrow--ink" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></button>
+
+      <p class="auth__swap">New to AVAVA? <button class="auth__swap-btn" type="button" data-auth-to="auth-register">Create an account</button></p>
+    </form>
+  </div>
+</dialog>
+
+<dialog class="modal modal--auth" id="auth-register" aria-labelledby="auth-register-title">
+  <div class="auth">
+    <div class="auth__aside">
+      <p class="auth__eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>MEMBER ACCESS</p>
+      <p class="auth__pitch">Every car you save, every viewing you book and every trade-in offer &mdash; kept in one place.</p>
+      <ul class="auth__list">
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Saved cars across all seven showrooms</li>
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Test drives you can move or cancel yourself</li>
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Trade-in offers held for fourteen days</li>
+      </ul>
+      <div class="auth__proof">
+        <div><div class="auth__proof-num">41</div><div class="auth__proof-lbl">CARS THIS WEEK</div></div>
+        <span class="auth__proof-sep" aria-hidden="true"></span>
+        <div><div class="auth__proof-num">4.9</div><div class="auth__proof-lbl">OWNER RATING</div></div>
+      </div>
+      <span class="auth__wordmark" aria-hidden="true">AVAVA</span>
+    </div>
+
+    <form class="auth__form" id="register-form" action="#" method="post" novalidate>
+      <button class="auth__close" type="button" data-auth-close aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+      <p class="auth__kicker">CREATE YOUR ACCOUNT</p>
+      <h2 class="auth__title" id="auth-register-title">Join AVAVA</h2>
+      <p class="auth__sub">Two minutes, and the collection remembers you on every device.</p>
+
+      <div class="auth__social">
+        <button class="provider" type="button" data-provider="Google"><span class="provider__mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg></span><span class="provider__name">Google</span></button>
+        <button class="provider" type="button" data-provider="Facebook"><span class="provider__mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="#1877F2" d="M24 12a12 12 0 1 0-13.88 11.85v-8.38H7.08V12h3.04V9.36c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.95.92-1.95 1.87V12h3.32l-.53 3.47h-2.79v8.38A12 12 0 0 0 24 12z"></path><path fill="#FFFFFF" d="M16.67 15.47 17.2 12h-3.32V9.75c0-.95.46-1.87 1.95-1.87h1.51V4.93s-1.37-.24-2.68-.24c-2.74 0-4.53 1.67-4.53 4.67V12H7.08v3.47h3.04v8.38a12.1 12.1 0 0 0 3.76 0v-8.38z"></path></svg></span><span class="provider__name">Facebook</span></button>
+        <button class="provider" type="button" data-provider="Apple"><span class="provider__mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="#14161A" aria-hidden="true" focusable="false"><path d="M17.05 12.54c-.03-2.68 2.19-3.97 2.29-4.03-1.25-1.83-3.19-2.08-3.88-2.11-1.65-.17-3.22.97-4.06.97-.84 0-2.13-.95-3.5-.92-1.8.03-3.46 1.05-4.39 2.66-1.87 3.25-.48 8.06 1.34 10.7.89 1.29 1.95 2.74 3.35 2.69 1.34-.05 1.85-.87 3.47-.87 1.62 0 2.08.87 3.5.84 1.45-.02 2.36-1.31 3.24-2.61 1.02-1.5 1.44-2.95 1.47-3.02-.03-.01-2.82-1.08-2.85-4.3z"></path><path d="M14.5 4.6c.74-.9 1.24-2.15 1.1-3.4-1.07.04-2.36.71-3.12 1.61-.68.79-1.28 2.06-1.12 3.28 1.19.09 2.41-.6 3.14-1.49z"></path></svg></span><span class="provider__name">Apple</span></button>
+      </div>
+
+      <p class="auth__or"><span>OR WITH EMAIL</span></p>
+
+      <div class="auth__pair">
+        <p class="field">
+          <label class="field__lbl" for="reg-first">FIRST NAME</label>
+          <input class="field__in" id="reg-first" name="first" type="text" autocomplete="given-name" placeholder="Lena" required>
+        </p>
+        <p class="field">
+          <label class="field__lbl" for="reg-last">LAST NAME</label>
+          <input class="field__in" id="reg-last" name="last" type="text" autocomplete="family-name" placeholder="Brandt" required>
+        </p>
+      </div>
+
+      <p class="field">
+        <label class="field__lbl" for="reg-email">EMAIL</label>
+        <input class="field__in" id="reg-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+      </p>
+
+      <p class="field field--pw">
+        <label class="field__lbl" for="reg-pw">PASSWORD</label>
+        <input class="field__in" id="reg-pw" name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" minlength="8" required>
+        <button class="field__peek" type="button" data-peek="reg-pw" aria-label="Show password" aria-pressed="false">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3.1"></circle></svg>
+        </button>
+        <span class="meter" aria-hidden="true"><span class="meter__fill" id="pw-meter"></span></span>
+        <span class="meter__lbl" id="pw-label">Use eight characters or more</span>
+      </p>
+
+      <div class="auth__row auth__row--terms">
+        <label class="check"><input class="check__box" type="checkbox" name="terms" required><span class="check__mark" aria-hidden="true"></span>I agree to the <a class="auth__link" href="#">Terms</a> and the <a class="auth__link" href="#">Privacy Policy</a></label>
+      </div>
+
+      <p class="auth__error" id="register-error" role="alert" hidden>Fill in every field and accept the terms to continue.</p>
+
+      <button class="auth__submit" type="submit">Create account<span class="btn__arrow btn__arrow--34 btn__arrow--ink" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></button>
+
+      <p class="auth__swap">Already have an account? <button class="auth__swap-btn" type="button" data-auth-to="auth-login">Sign in</button></p>
+    </form>
+  </div>
+</dialog>
+
+<dialog class="modal" id="auth-done" aria-labelledby="auth-done-title">
+  <form class="modal__box modal__box--success" method="dialog">
+    <span class="modal__tick" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>
+    <h2 class="modal__title" id="auth-done-title">You are signed in</h2>
+    <p class="modal__text" id="auth-done-text">Welcome back. Your saved cars, bookings and trade-in offers are waiting in your profile.</p>
+    <div class="modal__actions modal__actions--single">
+      <button class="modal__btn modal__btn--ok" type="submit" value="done">Continue</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ======================================================= Booking dialogs -->
+<dialog class="modal" id="book-confirm" aria-labelledby="book-confirm-title">
+  <form class="modal__box" method="dialog">
+    <p class="modal__eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>CONFIRM YOUR TEST DRIVE</p>
+    <h2 class="modal__title" id="book-confirm-title">Book the car for <span id="confirm-time">16:30</span> in <span id="confirm-city">Munich</span>?</h2>
+    <p class="modal__text">Forty minutes on your own roads. We hold the car until you arrive &mdash; free, with no obligation, and no sales calls afterwards.</p>
+    <dl class="modal__facts">
+      <div class="modal__fact"><dt>SHOWROOM</dt><dd id="confirm-city-2">Munich</dd></div>
+      <div class="modal__fact"><dt>SLOT</dt><dd id="confirm-time-2">16:30</dd></div>
+      <div class="modal__fact"><dt>DURATION</dt><dd>40 min</dd></div>
+    </dl>
+    <div class="modal__actions">
+      <button class="modal__btn modal__btn--ghost" type="submit" value="cancel">Cancel</button>
+      <button class="modal__btn modal__btn--ok" type="submit" value="confirm">OK, book it</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="modal" id="book-success" aria-labelledby="book-success-title">
+  <form class="modal__box modal__box--success" method="dialog">
+    <span class="modal__tick" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>
+    <h2 class="modal__title" id="book-success-title">Your test drive is booked</h2>
+    <p class="modal__text">We are holding the car for <strong id="success-slot">16:30 in Munich</strong>. The confirmation is on its way to your inbox with the address, the route and what to bring with you.</p>
+    <dl class="modal__facts">
+      <div class="modal__fact"><dt>REFERENCE</dt><dd id="success-ref">AV-000000</dd></div>
+      <div class="modal__fact"><dt>ON ARRIVAL</dt><dd>Ask for the AVAVA desk</dd></div>
+      <div class="modal__fact"><dt>BRING</dt><dd>Your driving licence</dd></div>
+    </dl>
+    <div class="modal__actions modal__actions--single">
+      <button class="modal__btn modal__btn--ok" type="submit" value="done">Done</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="assets/vendor/leaflet/leaflet.js"></script>
+<script src="assets/js/main1ef4.js?v=5d78136b"></script>
 </body>
 
-
-<!-- Mirrored from https://cutesolution.com/html/car/ by HTTrack Website Copier/3.x [XR&CO], Sat, 03 Oct 2026 18:51:17 GMT -->
+<!-- Mirrored from https://demo.gridgum.com/avavamotors/car-marketplace/index.html by HTTrack Website Copier/3.x [XR&CO], Tue, 06 Oct 2026 16:45:40 GMT -->
 </html>

@@ -1,0 +1,523 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Settings
+   Only what this page adds. The light header, the page-header block and the
+   shared dots, pulse and rule are the inner-page template and live in
+   style.css; the dark dashboard sidebar is the profile page's and lives in
+   profile.css, which this page loads too.
+
+   The second screen of the user dashboard: how you sign in, what we send
+   you, where you are signed in, how the site reads to you. Profile edits
+   facts about the person; Settings edits the account's behaviour.
+
+   Accent marks: the verified pill, the switch knobs when on, the 4 OF 6 ON
+   dot, the current-device tile glyph and THIS DEVICE pill, focus rings, the
+   Save arrow disc. Rust appears once, on SIGN OUT EVERYWHERE.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Card and bands
+   02. Fields and switches
+   03. Sign-in & security
+   04. What we send you
+   05. Where you are signed in
+   06. Language, money, units
+   07. Responsive
+   08. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Card and bands
+   ========================================================================== */
+
+.uscard {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.uscard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.uscard__group { display: inline-flex; align-items: center; gap: 11px; }
+
+.usk {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.uscard__meta {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.uspill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 10px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.uscard__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.uscard__foot--acts { padding: 16px 24px; }
+
+.usnote { display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: var(--ink-2); }
+
+.usnote svg { flex: 0 0 auto; }
+
+.usacts { display: inline-flex; align-items: center; gap: 10px; }
+
+.usdiscard {
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.usdiscard:hover { border-color: var(--ink); }
+
+.ussave {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  padding: 0 10px 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.ussave:hover { filter: brightness(1.14); }
+
+.ussave__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.usdiscard:focus-visible,
+.ussave:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.usdiscard[disabled],
+.ussave[disabled] { opacity: .45; cursor: default; }
+
+.ussave[disabled]:hover { filter: none; }
+
+.usbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.usbtn:hover { border-color: var(--ink); }
+
+.usbtn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.usbtn--lg { height: 44px; padding: 0 18px; }
+
+.usout {
+  display: block;
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.usrust {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: #8A4A22;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.usrust:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   02. Fields and switches
+
+   The switch is a real control: a button with role="switch" whose state
+   the script keeps in aria-checked, drawn as the design's track and knob.
+   ========================================================================== */
+
+.usfields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding: 24px;
+}
+
+.usfield { display: block; min-width: 0; }
+
+.usfield__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 25px;
+  margin-bottom: 8px;
+}
+
+.uslabel {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.usverified {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(198, 230, 59, .3);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.usin {
+  display: block;
+  width: 100%;
+  height: 48px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.usin:focus-visible { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(198, 230, 59, .3); }
+
+.usfield__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
+
+/* Change belongs to the field, so it is a field's shape, not a pill. */
+.uschange {
+  height: 48px;
+  padding: 0 18px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.uschange:hover { border-color: var(--ink); }
+
+.uschange:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ushelp { display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+.usrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 22px;
+  padding: 18px 24px;
+}
+
+.usrow--line { border-top: 1px solid var(--line-10); }
+
+.usrow + .usrow { border-top: 1px solid var(--line-10); }
+
+.usrow__main { min-width: 0; }
+
+.usrow__k { display: block; font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.usrow__t { display: block; margin-top: 6px; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+
+.usrow__chips { display: flex; gap: 7px; margin-top: 10px; }
+
+.uschip {
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.usswitch {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 26px;
+  padding: 3px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .14);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.usswitch__knob {
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: transform .18s ease, background .18s ease;
+}
+
+.usswitch[aria-checked="true"] { background: var(--ink); }
+
+.usswitch[aria-checked="true"] .usswitch__knob { background: var(--accent); transform: translateX(20px); }
+
+.usswitch:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   05. Where you are signed in
+   ========================================================================== */
+
+.usdev {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 24px;
+}
+
+.usdev + .usdev { border-top: 1px solid var(--line-10); }
+
+.usdev__tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.usdev--on .usdev__tile { background: var(--ink); color: var(--accent); }
+
+.usdev__main { min-width: 0; }
+
+.usdev__row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.usdev__k { font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.usthis {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(198, 230, 59, .3);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.usdev__meta {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.usdev__cur {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   06. Language, money, units
+   ========================================================================== */
+
+.ushead { margin-bottom: 18px; }
+
+.ushead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.uslocale {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.uscell { display: block; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.uscell .uslabel { display: block; margin-bottom: 8px; }
+
+.usselect {
+  display: block;
+  width: 100%;
+  height: 48px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.usselect:focus-visible { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(198, 230, 59, .3); }
+
+.uscell__t { display: block; margin-top: 10px; font-size: 12.5px; line-height: 1.55; color: var(--ink-2); }
+
+.uslocale__note {
+  margin: 12px 0 0;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   07. Responsive
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .usfields { grid-template-columns: minmax(0, 1fr); }
+
+  .uslocale { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .uscard__head, .uscard__foot { flex-direction: column; align-items: flex-start; }
+
+  .usacts { width: 100%; justify-content: flex-end; }
+
+  .usrow { grid-template-columns: minmax(0, 1fr); }
+
+  .usrow__end { justify-self: start; }
+
+  .usdev { grid-template-columns: 38px minmax(0, 1fr); }
+
+  .usdev__end { grid-column: 1 / -1; justify-self: start; }
+}
+
+@media (max-width: 430px) {
+  .usfields { padding: 20px 18px; }
+
+  .usrow, .usdev, .uscard__head, .uscard__foot { padding-left: 18px; padding-right: 18px; }
+
+  .uscell { padding: 18px 18px 20px; }
+
+  .usfield__row { grid-template-columns: minmax(0, 1fr); }
+}
+
+
+/* ==========================================================================
+   08. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .ussave:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .usswitch, .usswitch__knob { transition: none; }
+
+  .uspill .pulse { animation: none; }
+}

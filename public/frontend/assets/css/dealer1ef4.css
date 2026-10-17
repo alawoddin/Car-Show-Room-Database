@@ -1,0 +1,543 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Dealer dashboard (dealer-dashboard.html)
+   Only what this page adds. The light header, the page-header block, the
+   shared dots and rule are the inner-page template in style.css; the ink
+   rail is the dashboard chrome in profile.css.
+
+   The dealer's morning screen: what needs doing today and where the money
+   is. Every block ends in an action, and the one chart leads to a button.
+   Accent marks: the urgent icon tiles, the €0 invoice, the 90+ bar, the
+   next appointment's dot, the 86% figure and every CTA disc. Rust is not
+   used — nothing on this page is destructive. Prefix dd-.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Labels and section heads
+   02. Today strip
+   03. Waiting on you
+   04. Buttons and links
+   05. Money
+   06. Stock and the age chart
+   07. The diary
+   08. Enquiries
+   09. How buyers see you
+   10. Responsive
+   11. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Labels and section heads
+   ========================================================================== */
+
+.ddmain { --dd-body: #4C5157; }
+
+.ddsec { display: block; }
+
+.ddk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.ddmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.ddhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.ddhead__main { min-width: 0; }
+
+.ddhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.ddhead__aside { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+
+/* ==========================================================================
+   02. Today strip
+   ========================================================================== */
+
+.ddtoday {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.ddtoday__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.ddtoday__sep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.ddtoday__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+/* When the line wraps, the dot leads the first line instead of floating between two. */
+.ddtoday__live .dot { align-self: flex-start; margin-top: 3px; }
+
+
+/* ==========================================================================
+   03. Waiting on you
+   ========================================================================== */
+
+.ddbox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.ddbox--ink { border-color: var(--ink); }
+
+.ddtodo {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.ddtodo--last { border-bottom: 0; }
+
+.ddtile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.ddtile--urgent { background: var(--accent); }
+
+.ddtodo__main { min-width: 0; }
+
+.ddtodo__t { margin: 0; font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.ddtodo__p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+.ddtodo--done .ddtodo__t { color: var(--ink-2); }
+
+/* The row's done state: the button becomes a tag, the tile loses its accent. */
+.dddone {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding: 6px 11px;
+  border-radius: 7px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   04. Buttons and links
+   ========================================================================== */
+
+.ddgo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  flex: none;
+  height: 42px;
+  padding: 0 10px 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.ddgo:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+/* The two ink pills in the queue carry a hairline, as the design draws them. */
+.ddtodo .ddgo { border: 1px solid var(--ink); }
+
+.ddgo:disabled { opacity: .42; cursor: default; filter: none; }
+
+.ddgo__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.ddgo--big { gap: 10px; height: 44px; padding: 0 10px 0 20px; font-size: 13.5px; }
+
+.ddgo--big .ddgo__disc { width: 28px; height: 28px; }
+
+.ddgo--small { height: 40px; padding: 0 16px; }
+
+.ddout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  height: 42px;
+  padding: 0 18px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.ddout:hover { border-color: var(--ink); color: var(--ink); }
+
+.ddout--small { height: 40px; padding: 0 16px; }
+
+.ddlink {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  transition: color .18s ease;
+}
+
+.ddlink:hover { color: var(--ink); }
+
+.ddlink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.ddgo:focus-visible,
+.ddout:focus-visible,
+.ddlink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   05. Money
+   ========================================================================== */
+
+.ddmoney {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.ddcell { display: flex; flex-direction: column; gap: 9px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.ddcell__n { font-size: 28px; font-weight: 800; line-height: 1; letter-spacing: -.034em; color: var(--ink); }
+
+.ddcell__n--accent { color: var(--accent-deep); }
+
+.ddcell__p { font-size: 13px; line-height: 1.55; color: var(--dd-body); text-wrap: pretty; }
+
+.ddstrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 14px 0 0;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.ddstrip__t { font-size: 13px; color: var(--ink-2); }
+
+
+/* ==========================================================================
+   06. Stock and the age chart
+   ========================================================================== */
+
+.ddstock { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
+
+.ddstock__left { display: flex; flex-direction: column; gap: 1px; background: var(--line); border-right: 1px solid var(--line); }
+
+.ddrow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 18px 22px; background: #FFFFFF; }
+
+.ddrow__k { font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.ddrow__n { font-size: 20px; font-weight: 800; letter-spacing: -.03em; }
+
+.ddturn { display: flex; flex-direction: column; gap: 7px; padding: 18px 22px 20px; background: #FFFFFF; }
+
+.ddturn__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; }
+
+.ddturn__p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+.ddchart { min-width: 0; padding: 20px 24px 22px; }
+
+.ddchart__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 12px; margin-bottom: 16px; }
+
+/* Four bars, the tallest 118px; the heights are the page's own counts and
+   the generator refuses to build if these numbers drift from the data. */
+.ddbars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; align-items: end; height: 176px; }
+
+.ddbar { display: flex; flex-direction: column; align-items: center; gap: 9px; min-width: 0; }
+
+.ddbar__n { font-size: 15px; font-weight: 800; letter-spacing: -.026em; color: var(--ink); }
+
+.ddbar__n--accent { color: var(--accent-deep); }
+
+.ddbar__b { display: block; width: 100%; border-radius: 8px 8px 0 0; background: var(--ink); }
+
+.ddbar__b--0 { height: 118px; }
+
+.ddbar__b--1 { height: 92px; }
+
+.ddbar__b--2 { height: 46px; }
+
+.ddbar__b--3 { height: 20px; }
+
+.ddbar__b--accent { background: var(--accent); }
+
+.ddbar__k { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .09em; color: var(--ink-2); }
+
+.ddbar__k--on { color: var(--ink); }
+
+.ddchart__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.ddchart__p { min-width: 0; margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--dd-body); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   07. The diary
+   ========================================================================== */
+
+.dddiary__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ddapt {
+  display: grid;
+  grid-template-columns: minmax(0, 92px) auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.ddapt--last { border-bottom: 0; }
+
+.ddapt__time { font-family: var(--mono); font-size: 15px; font-weight: 700; letter-spacing: .02em; color: var(--ink-2); }
+
+.ddapt--next .ddapt__time { color: var(--ink); }
+
+.ddapt__dot { display: inline-block; flex: none; width: 8px; height: 8px; border-radius: 50%; background: rgba(20, 22, 26, .2); }
+
+.ddapt--next .ddapt__dot { background: var(--accent); }
+
+.ddapt__main { min-width: 0; }
+
+.ddapt__row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin: 0; }
+
+.ddapt__t { font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+
+.ddkind {
+  display: inline-flex;
+  padding: 4px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.ddapt__where { margin: 5px 0 0; }
+
+.dddiary__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 15px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+
+/* ==========================================================================
+   08. Enquiries
+   ========================================================================== */
+
+.ddenq {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.ddenq--last { border-bottom: 0; }
+
+.ddenq__ava {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.ddenq__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.ddenq__main { min-width: 0; }
+
+.ddenq__who { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 0; }
+
+.ddenq__name { font-size: 15.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.ddenq__line { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--dd-body); text-wrap: pretty; }
+
+.ddenq__acts { display: inline-flex; align-items: center; gap: 10px; }
+
+
+/* ==========================================================================
+   09. How buyers see you
+   ========================================================================== */
+
+.ddpublic {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.ddpcell { display: flex; flex-direction: column; gap: 8px; padding: 20px 24px 22px; background: #FFFFFF; }
+
+.ddpcell--act { flex-direction: row; align-items: center; padding: 20px 24px; }
+
+.ddpcell__n { font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+
+.ddpcell__n--accent { color: var(--accent-deep); }
+
+.ddpcell__p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); }
+
+
+/* ==========================================================================
+   10. Responsive
+   The rail folds above the content at 1100px (profile.css); the cells and
+   the rows fold here, the widest first.
+   ========================================================================== */
+
+@media (max-width: 1180px) {
+  .ddstock { grid-template-columns: minmax(0, 240px) minmax(0, 1fr); }
+
+  .ddpublic { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .ddpcell--act { grid-column: 1 / -1; }
+}
+
+@media (max-width: 900px) {
+  .ddmoney { grid-template-columns: minmax(0, 1fr); }
+
+  .ddstock { grid-template-columns: minmax(0, 1fr); }
+
+  .ddstock__left { border-right: 0; border-bottom: 1px solid var(--line); }
+
+  .ddtodo, .ddenq { grid-template-columns: auto minmax(0, 1fr); }
+
+  .ddtodo .ddgo, .ddtodo .ddout, .ddtodo .dddone, .ddenq__acts { grid-column: 2; justify-self: start; }
+
+  .ddapt { grid-template-columns: minmax(0, 64px) auto minmax(0, 1fr); row-gap: 5px; }
+
+  .ddapt__who { grid-column: 3; }
+}
+
+@media (max-width: 640px) {
+  .ddtoday, .ddstrip, .dddiary__head, .dddiary__foot { padding: 14px 18px; }
+
+  .ddtodo, .ddenq, .ddapt, .ddcell, .ddpcell, .ddrow, .ddturn, .ddchart { padding-left: 18px; padding-right: 18px; }
+
+  .ddpublic { grid-template-columns: minmax(0, 1fr); }
+
+  .ddenq { grid-template-columns: minmax(0, 1fr); }
+
+  .ddenq__ava { display: none; }
+
+  .ddenq__acts { grid-column: 1; flex-wrap: wrap; }
+
+  .ddbars { gap: 10px; }
+
+  .ddtoday__sep { display: none; }
+}
+
+@media (max-width: 430px) {
+  .ddtoday__main { gap: 8px; }
+
+  .ddbars { gap: 8px; }
+
+  .ddapt { grid-template-columns: minmax(0, 52px) auto minmax(0, 1fr); gap: 5px 10px; }
+
+  .ddchart__foot .ddgo, .ddtodo .ddgo, .ddtodo .ddout { white-space: normal; height: auto; min-height: 42px; padding-top: 8px; padding-bottom: 8px; }
+}
+
+
+/* ==========================================================================
+   11. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .ddgo:hover { filter: none; }
+
+  .ddout:hover { border-color: rgba(20, 22, 26, .18); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ddgo, .ddout, .ddlink { transition: none; }
+
+  .ddtoday .pulse { animation: none; }
+}

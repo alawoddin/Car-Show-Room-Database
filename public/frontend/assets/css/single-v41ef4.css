@@ -1,0 +1,2209 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Listing Single v4
+   Only what this page adds. The light header, the page-header block and the
+   shared buttons, chips and dots are the inner-page template and live in
+   style.css.
+
+   The wide canvas. v1 to v3 keep a narrow content column beside a rail the
+   whole way down; v4 uses the rail for the gallery row only and then gives
+   every section the full width — which is what the inspection tally, the
+   two-up seller grid and the three-up reviews actually need.
+
+   Sections are separated by bare spacers, no hairlines: 20px between the
+   gallery and the figures band, 40px everywhere after.
+
+   THE GALLERY ROW is the page's signature and its one real trap. Three
+   columns have to end level, and only one arrangement does it:
+     * the row is align-items: stretch, so the tallest item sets the height;
+     * the hero takes height: 100% and NO aspect-ratio — a ratio plus a
+       stretched (definite) height is ignored, and a ratio on a stretched flex
+       child computes to width zero;
+     * the thumbnail grid takes fr rows and height: 100%, and its buttons carry
+       no ratio of their own, or the column ends short of the hero.
+   In the prototype that leaves the buy panel as the only item with an
+   intrinsic height, so hiding it collapses the row to nothing. The min-height
+   below is the floor that stops the photograph following the panel down.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Section rhythm and heads
+   02. The gallery row
+   03. The buy panel (dark)
+   04. Key figures
+   05. Inspection (dark)
+   06. The seller's words and the service timeline
+   07. Equipment
+   08. Finance (dark)
+   09. The seller (dark)
+   10. Reviews
+   11. Questions
+   12. Similar nearby
+   13. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Section rhythm and heads
+   ========================================================================== */
+
+.wgap { height: 40px; }
+
+/* The first step is shorter: the gallery row already ends on a photograph. */
+.wgap--first { height: 20px; }
+
+/* Every section the page links to has to clear the header when it lands. */
+.wsec { scroll-margin-top: 96px; }
+
+.wsechead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.wsechead__eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.wsechead__h2 {
+  margin: 12px 0 0;
+  font-size: clamp(26px, 2.5vw, 42px);
+  font-weight: 800;
+  letter-spacing: -.032em;
+}
+
+.wsechead__aside {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+
+/* ==========================================================================
+   02. The gallery row
+   ========================================================================== */
+
+.wgal {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.75fr) 360px;
+  gap: 14px;
+  align-items: stretch;
+  min-height: 560px;
+}
+
+.wgal__thumbs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+  height: 100%;
+}
+
+/* The border is the same width whether or not the tile is chosen, so choosing
+   one moves nothing. */
+.wthumb {
+  position: relative;
+  padding: 0;
+  border: 2px solid rgba(20, 22, 26, .14);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+  cursor: pointer;
+}
+
+.wthumb--on { border-color: var(--ink); }
+
+.wthumb__img { width: 100%; height: 100%; object-fit: cover; }
+
+.wthumb__more {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 22, 26, .62);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.wgal__hero {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* Out of the flow, or the photograph's own ratio would set the row height and
+   the whole arrangement above would be undone. */
+.wgal__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.wgal__chip {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+
+.wgal__label,
+.wgal__count {
+  position: absolute;
+  bottom: 20px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+}
+
+.wgal__label { left: 20px; }
+.wgal__count { right: 20px; }
+
+.wgal__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 12px 26px -14px rgba(20, 22, 26, .6);
+  transition: background .18s ease;
+}
+
+.wgal__arrow:hover { background: #FFFFFF; }
+
+.wgal__arrow--prev { left: 18px; }
+.wgal__arrow--next { right: 18px; }
+
+
+/* ==========================================================================
+   03. The buy panel (dark)
+   ========================================================================== */
+
+/* align-self: start keeps the panel its own height instead of stretching to
+   the row — which is also why it is not sticky here: its grid area is exactly
+   its own height, so there is nowhere to travel. */
+.wpanel {
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wpanel__card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.wpanel__ghost {
+  position: absolute;
+  right: -14px;
+  bottom: -40px;
+  font-family: var(--display);
+  font-size: 120px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.1px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wpanel__status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+.wpanel__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.wpanel__viewing {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.wpanel__body { position: relative; padding: 24px 22px 22px; }
+
+.wpanel__price { display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap; }
+
+.wpanel__now {
+  font-size: clamp(30px, 2.4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -.038em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.wpanel__was {
+  font-size: 14px;
+  color: rgba(255, 255, 255, .5);
+  text-decoration: line-through;
+  white-space: nowrap;
+}
+
+.wpanel__under {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.wpanel__book {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.wpanel__mo { font-size: 13px; color: rgba(255, 255, 255, .62); }
+
+/* The one piece of market evidence on the page, so the knob is placed from the
+   real position of this price among the cars it competes with. */
+.wpanel__band {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.wpanel__bandhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wpanel__bandlbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.wpanel__third {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--accent);
+}
+
+.wpanel__track {
+  position: relative;
+  display: block;
+  margin-top: 14px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(196, 131, 47, .55) 0%, rgba(255, 255, 255, .18) 55%, rgba(255, 255, 255, .18) 100%);
+}
+
+/* 22% is where this price actually falls between the cheapest and the dearest
+   of the ten cars it competes with. The generator recomputes it from the
+   catalogue and fails the build if this number goes stale. */
+.wpanel__knob {
+  position: absolute;
+  left: 22%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .35);
+}
+
+.wpanel__ends {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 9px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wpanel__ends em { font-style: normal; color: rgba(255, 255, 255, .7); }
+
+.wpanel__cta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 22px;
+  padding: 15px 15px 15px 24px;
+  font-size: 15.5px;
+  font-weight: 700;
+  transition: filter .18s ease, transform .18s ease;
+}
+
+.wpanel__cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.wpanel__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 9px;
+}
+
+.wpanel__alt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 999px;
+  background: none;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.wpanel__alt:hover { border-color: #FFFFFF; background: rgba(255, 255, 255, .06); color: #FFFFFF; }
+
+.wpanel__alt--on { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+.wpanel__alt--on .wpanel__heart { fill: currentColor; }
+
+.wpanel__promise {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255, 255, 255, .14);
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.wpanel__pcell { padding: 14px 12px 15px; background: var(--ink); text-align: center; }
+
+.wpanel__pnum { font-size: 15px; font-weight: 800; letter-spacing: -.024em; }
+
+.wpanel__pnum--accent { color: var(--accent); }
+
+.wpanel__plbl {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+/* -- under the card ------------------------------------------------------ */
+
+.wpanel__seller {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 18px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+}
+
+.wpanel__av {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.wpanel__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.wpanel__who { min-width: 0; }
+
+.wpanel__name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+.wpanel__badge {
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.wpanel__meta {
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.wpanel__tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.wtile {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 15px 16px;
+  background: #FFFFFF;
+}
+
+.wtile__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.wtile__val { font-size: 13px; font-weight: 700; letter-spacing: -.016em; }
+
+.wtile__lbl {
+  margin-top: 3px;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   04. Key figures
+   ========================================================================== */
+
+/* Seven cells in one band. The last track is wider because seventeen mono
+   characters of chassis number truncate at an equal share. */
+.wkey {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr)) minmax(0, 1.7fr);
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.wkey__cell { padding: 20px 20px 22px; background: #FFFFFF; }
+
+/* The first cell is the year, and it is tinted so the band starts on the
+   accent rather than in the middle of a row of grey labels. */
+.wkey__cell--first { background: rgba(196, 131, 47, .14); }
+
+.wkey__lbl {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.wkey__val {
+  margin-top: 9px;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.024em;
+}
+
+.wkey__val--vin {
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: -.024em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   05. Inspection (dark)
+   ========================================================================== */
+
+.wrep {
+  position: relative;
+  padding: 40px 38px 38px;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.wrep__ghost {
+  position: absolute;
+  right: -34px;
+  bottom: -76px;
+  font-family: var(--display);
+  font-size: 210px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.3px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wrep__head,
+.wrep__tally,
+.wrep__faults { position: relative; }
+
+.wrep__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.wrep__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.wrep__h2 {
+  margin: 18px 0 0;
+  font-size: clamp(28px, 2.8vw, 46px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1.04;
+  color: #FFFFFF;
+}
+
+.wrep__by { margin: 10px 0 0; font-size: 16px; color: rgba(255, 255, 255, .68); }
+
+.wrep__pdf {
+  padding: 14px 14px 14px 22px;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.wtally {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 32px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .14);
+}
+
+.wtally__cell { padding: 22px 22px 24px; background: var(--ink); }
+
+.wtally__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .5);
+}
+
+/* Accent when the group came through with nothing against it; the one that
+   lost points says so in white. The colour is the claim, so it is derived
+   from the score rather than written down. */
+.wtally__num {
+  margin-top: 11px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+}
+
+.wtally__num--clean { color: var(--accent); }
+
+.wtally__note {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, .6);
+  text-wrap: pretty;
+}
+
+.wrep__faults {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.wfault {
+  display: flex;
+  gap: 18px;
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .06);
+}
+
+.wfault__shot {
+  flex: none;
+  width: 148px;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.wfault__img { width: 100%; height: 100%; object-fit: cover; }
+
+.wfault__body { min-width: 0; }
+
+.wfault__tags { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.wfault__bang {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.wfault__kind {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.wfault__name {
+  margin-top: 10px;
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  text-wrap: pretty;
+}
+
+.wfault__text {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .66);
+  text-wrap: pretty;
+}
+
+.wfault__cost {
+  margin-top: 11px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   06. The seller's words and the service timeline
+
+   The only section on the page with no head of its own: the panel opens on
+   the name of whoever wrote it, which is the heading it needs.
+
+   The two panels are one row of a stretched grid, so each has to be a flex
+   column that pushes its last part down — the figures on the left and the
+   card's foot on the right — or one ends short of the other.
+   ========================================================================== */
+
+.wwords {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: stretch;
+}
+
+.wquote {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 38px 38px 34px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.wquote__ghost {
+  position: absolute;
+  right: -26px;
+  bottom: -64px;
+  font-family: var(--display);
+  font-size: 190px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wquote__by,
+.wquote__q,
+.wquote__p,
+.wquote__figs { position: relative; }
+
+.wquote__by { display: flex; align-items: center; gap: 13px; }
+
+.wquote__av {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .1);
+}
+
+.wquote__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.wquote__name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.018em;
+}
+
+.wquote__badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.wquote__when {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+/* The claim, set large; the paragraphs under it are the support. */
+.wquote__q {
+  margin: 26px 0 0;
+  font-size: clamp(19px, 1.6vw, 24px);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -.022em;
+  text-wrap: pretty;
+}
+
+.wquote__p {
+  margin: 12px 0 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, .68);
+  text-wrap: pretty;
+}
+
+/* The first paragraph steps further away from the quotation than the second
+   does from it, because the quotation is a different voice. */
+.wquote__p--first { margin-top: 18px; }
+
+/* Pinned to the bottom so the panel ends level with the timeline beside it,
+   whatever the paragraphs do. */
+.wquote__figs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.wquote__rule {
+  grid-column: 1 / -1;
+  height: 1px;
+  margin-bottom: 22px;
+  background: rgba(255, 255, 255, .14);
+}
+
+.wquote__num { font-size: 24px; font-weight: 800; letter-spacing: -.032em; line-height: 1; }
+
+.wquote__num--accent { color: var(--accent); }
+
+.wquote__flbl {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wtl {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+.wtl__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 26px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+}
+
+.wtl__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.wtl__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .16);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+/* flex: 1 1 auto is what stretches the card to the height of the panel beside
+   it; without it the two columns end at different depths. */
+.wtl__list { position: relative; flex: 1 1 auto; padding: 8px 26px 22px; }
+
+/* One line behind all four dots, not a segment per row: the insets stop it
+   short of the first and last dot instead of a last-child rule. */
+.wtl__rail {
+  position: absolute;
+  left: 38px;
+  top: 24px;
+  bottom: 34px;
+  width: 1.5px;
+  background: rgba(20, 22, 26, .12);
+}
+
+/* The mileage column is what makes a service record checkable rather than
+   decorative, so it gets its own track. */
+.wtl__row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 0;
+}
+
+.wtl__row:last-of-type { padding-bottom: 4px; }
+
+/* The 4px white halo is what masks the rail running behind the dot. */
+.wtl__dot {
+  position: relative;
+  z-index: 1;
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 4px #FFFFFF, 0 0 0 5.5px rgba(20, 22, 26, .22);
+}
+
+.wtl__dot--first { background: var(--accent); box-shadow: 0 0 0 4px #FFFFFF, 0 0 0 5.5px var(--accent); }
+
+.wtl__title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+
+.wtl__event { font-size: 16px; font-weight: 700; letter-spacing: -.02em; }
+
+/* The date is the accent on every row, including the three the dot leaves
+   white: the month is what the eye scans down the column. */
+.wtl__when {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.wtl__note {
+  margin-top: 6px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.wtl__km {
+  padding-top: 3px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.wtl__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 26px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+}
+
+.wtl__foottx { font-size: 13.5px; color: var(--ink-3); }
+
+.wtl__link {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-decoration: underline;
+}
+
+
+/* ==========================================================================
+   07. Equipment
+   ========================================================================== */
+
+.wequip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.wequip__card { padding: 26px 26px 28px; background: #FFFFFF; }
+
+.wequip__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wequip__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.wequip__n { font-size: 16px; font-weight: 800; letter-spacing: -.024em; color: var(--accent); }
+
+.wequip__list { margin-top: 16px; }
+
+.wequip__item { display: flex; align-items: flex-start; gap: 11px; padding: 9px 0; }
+
+.wequip__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink-4);
+}
+
+/* Filled means the option is worth paying for again — the strip under the
+   cards says so, which is the only reason the two weights differ. */
+.wequip__tick--on { background: var(--accent); color: var(--ink); }
+
+.wequip__tx { font-size: 14px; font-weight: 500; line-height: 1.5; text-wrap: pretty; }
+
+.wequip__tx--on { font-weight: 700; }
+
+.wequip__strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.wequip__note {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.wequip__link {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+
+/* ==========================================================================
+   08. Finance (dark)
+   ========================================================================== */
+
+.wfin {
+  position: relative;
+  padding: 44px 44px 46px;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.wfin__ghost {
+  position: absolute;
+  right: -20px;
+  bottom: -62px;
+  font-family: var(--display);
+  font-size: 190px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* A true half-and-half: the sentence on the left and the two controls on the
+   right are read together, so neither column may dominate. */
+.wfin__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+
+.wfin__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.wfin__figrow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.wfin__mo {
+  font-size: clamp(34px, 3vw, 48px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.wfin__sub { font-size: 16px; color: rgba(255, 255, 255, .62); }
+
+.wfin__p {
+  margin: 14px 0 0;
+  max-width: 460px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, .66);
+  text-wrap: pretty;
+}
+
+.wfin__band {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 26px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .14);
+}
+
+.wfin__cell { padding: 16px 18px; background: var(--ink); }
+
+.wfin__val { font-size: 18px; font-weight: 800; letter-spacing: -.026em; }
+
+.wfin__val--accent { color: var(--accent); }
+
+.wfin__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wfin__inset {
+  padding: 28px 30px 30px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .06);
+}
+
+.wfin__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wfin__row--term { margin-top: 22px; }
+
+.wfin__rlbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.wfin__rval { font-size: 16px; font-weight: 800; letter-spacing: -.024em; }
+
+/* The template's light range styling is invisible here: its track is
+   rgba(20,22,26,.16) on a #14161A panel and its thumb is ink with a white
+   ring, so both controls read as hollow circles floating in nothing. On dark,
+   the track goes white-alpha and the thumb goes accent with an ink rim. */
+.wfin__slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .2);
+  outline: none;
+  cursor: pointer;
+}
+
+.wfin__slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .3), 0 2px 6px -1px rgba(20, 22, 26, .4);
+}
+
+.wfin__slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .3);
+}
+
+.wfin__slider:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+.wfin__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 26px;
+  padding: 15px 15px 15px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: filter .18s ease;
+}
+
+.wfin__cta:hover { filter: brightness(1.08); }
+
+
+/* ==========================================================================
+   09. The seller (dark)
+   ========================================================================== */
+
+.wsell {
+  position: relative;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.wsell__ghost {
+  position: absolute;
+  right: -30px;
+  bottom: -72px;
+  font-family: var(--display);
+  font-size: 220px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .08);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.wsell__split {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+}
+
+.wsell__left {
+  padding: 40px 40px 38px;
+  border-right: 1px solid rgba(255, 255, 255, .14);
+}
+
+.wsell__eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wsell__who { display: flex; align-items: center; gap: 16px; margin-top: 22px; }
+
+.wsell__av {
+  flex: none;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .1);
+}
+
+.wsell__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.wsell__name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+}
+
+.wsell__badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.wsell__rate { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+
+.wsell__stars { display: flex; gap: 2px; color: var(--accent); }
+
+.wsell__score { font-size: 13.5px; font-weight: 700; }
+
+.wsell__count {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wsell__p {
+  margin: 26px 0 0;
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, .7);
+  text-wrap: pretty;
+}
+
+.wsell__figs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 30px;
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.wsell__num { font-size: 28px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.wsell__num--accent { color: var(--accent); }
+
+.wsell__flbl {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wsell__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 30px;
+  padding: 15px 15px 15px 26px;
+  font-size: 15.5px;
+  font-weight: 700;
+  transition: filter .18s ease, transform .18s ease;
+}
+
+.wsell__cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+
+.wsell__right { display: flex; flex-direction: column; }
+
+.wsell__rhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 22px 40px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+.wsell__rlbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wsell__rlink {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+/* The 1px gap over the lighter ground is the hairline, so every cell has to
+   stay opaque or the rule bleeds across the whole tile. */
+.wsell__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  flex: 1 1 auto;
+  background: rgba(255, 255, 255, .14);
+}
+
+.wocar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+  transition: background .2s ease;
+}
+
+.wocar:hover { background: rgba(255, 255, 255, .05); color: #FFFFFF; }
+
+.wocar__shot {
+  flex: none;
+  width: 104px;
+  aspect-ratio: 16 / 11;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.wocar__img { width: 100%; height: 100%; object-fit: cover; }
+
+.wocar__body { flex: 1 1 auto; min-width: 0; }
+
+.wocar__meta {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.wocar__name {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.022em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.wocar__price {
+  margin-top: 8px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.026em;
+  color: var(--accent);
+}
+
+.wocar__arrow {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 50%;
+}
+
+
+/* ==========================================================================
+   10. Reviews
+   ========================================================================== */
+
+.wrev__score { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+.wrev__group { display: flex; align-items: baseline; gap: 10px; }
+
+.wrev__avg {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -.038em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.wrev__stars { display: flex; gap: 2px; align-self: center; color: var(--accent); }
+
+.wrev__hist { display: flex; align-items: center; gap: 14px; }
+
+.wrev__col { text-align: center; }
+
+.wrev__clbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.wrev__track {
+  display: block;
+  width: 34px;
+  height: 4px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .1);
+  overflow: hidden;
+}
+
+/* Each bar is that rating's share of the commonest one, so the five-star bar
+   is always full and the rest are read against it. The generator recomputes
+   the five widths from the counts and fails the build if they drift. */
+.wrev__fill { display: block; height: 100%; background: rgba(20, 22, 26, .28); }
+
+.wrev__fill--top { background: var(--accent); }
+
+.wrev__fill--r5 { width: 100%; }
+.wrev__fill--r4 { width: 27%; }
+.wrev__fill--r3 { width: 8%; }
+.wrev__fill--r2 { width: 3%; }
+.wrev__fill--r1 { width: 1%; }
+
+.wrev__cnum {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  color: var(--ink-4);
+}
+
+.wrev__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.wrcard {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 26px 26px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+}
+
+/* The most helpful review is the one worth reading first, so it is the only
+   card that lifts off the page. */
+.wrcard--top {
+  border-color: var(--ink);
+  box-shadow: 0 22px 44px -34px rgba(20, 22, 26, .44);
+}
+
+.wrcard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wrcard__who { display: flex; align-items: center; gap: 11px; min-width: 0; }
+
+.wrcard__av {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.wrcard__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.wrcard__name { font-size: 14.5px; font-weight: 700; letter-spacing: -.018em; }
+
+.wrcard__meta {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.wrcard__stars { display: flex; gap: 2px; color: var(--accent); }
+
+.wrcard__off { color: rgba(20, 22, 26, .16); }
+
+.wrcard__title {
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.022em;
+  text-wrap: pretty;
+}
+
+.wrcard__body {
+  margin: 9px 0 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+/* margin-top:auto is what lines the badges up along the foot of the row,
+   whatever length the three reviews run to. */
+.wrcard__foot { margin-top: auto; padding-top: 16px; }
+
+.wrcard__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .16);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   11. Questions
+   ========================================================================== */
+
+.wq__count {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.wq__thread { display: flex; flex-direction: column; }
+
+.wq__row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+}
+
+/* The reply is indented under the question it answers — the thread is one
+   column, so the offset is the only thing carrying the relationship. */
+.wq__row--reply { margin-left: 56px; }
+
+.wq__foot { border-top: 1px solid rgba(20, 22, 26, .12); }
+
+.wq__av {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.wq__avimg { width: 100%; height: 100%; object-fit: cover; }
+
+.wq__nameline { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.wq__name { font-size: 15px; font-weight: 700; letter-spacing: -.018em; }
+
+.wq__badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(196, 131, 47, .18);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.wq__when {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-4);
+}
+
+.wq__text {
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.wq__acts { display: flex; align-items: center; gap: 18px; margin-top: 10px; }
+
+.wq__act {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.wq__act--on { color: var(--accent); }
+
+.wq__act--on .wq__heart { fill: currentColor; }
+
+.wq__form { margin-top: 24px; }
+
+.wq__card {
+  padding: 28px 30px 30px;
+  border-radius: 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.wq__fhead { display: flex; align-items: flex-start; gap: 14px; }
+
+.wq__fav {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .1);
+}
+
+.wq__ftitle { font-size: 16px; font-weight: 700; letter-spacing: -.018em; }
+
+.wq__fsub { margin: 5px 0 0; font-size: 13.5px; line-height: 1.55; color: rgba(255, 255, 255, .6); }
+
+.wq__area,
+.wq__input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-weight: 500;
+  color: #FFFFFF;
+  outline: none;
+  transition: border-color .18s ease;
+}
+
+.wq__area {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 13px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.wq__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 640px;
+  margin-top: 12px;
+}
+
+.wq__input { padding: 12px 15px; border-radius: 11px; font-size: 14px; }
+
+.wq__area:focus,
+.wq__input:focus { border-color: var(--accent); }
+
+.wq__area::placeholder,
+.wq__input::placeholder { color: rgba(255, 255, 255, .38); }
+
+/* Inert until there is a question and a name to attach to it; the button says
+   so rather than accepting the click and failing. */
+.wq__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-width: 260px;
+  margin-top: 16px;
+  padding: 13px 13px 13px 22px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .12);
+  color: rgba(255, 255, 255, .4);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: default;
+  transition: background .2s ease, color .2s ease;
+}
+
+.wq__send--live { background: var(--accent); color: var(--ink); cursor: pointer; }
+
+.wq__disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .4);
+  transition: background .2s ease, color .2s ease;
+}
+
+.wq__send--live .wq__disc { background: var(--ink); color: var(--accent); }
+
+.wq__note { margin-top: 14px; font-size: 12.5px; color: rgba(255, 255, 255, .5); }
+
+
+/* ==========================================================================
+   12. Similar nearby
+   ========================================================================== */
+
+.wsim__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px 14px 24px;
+  font-size: 14.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.wsim__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.wsimcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.wsimcard:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+  color: var(--ink);
+}
+
+.wsimcard__frame { position: relative; aspect-ratio: 16 / 10; background: var(--image-bed); }
+
+.wsimcard__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.wsimcard__badge {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+
+.wsimcard__badge--dealer { background: var(--accent); }
+
+.wsimcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 9px;
+  padding: 16px 18px 18px;
+}
+
+.wsimcard__make {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.wsimcard__spec {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.wsimcard__model {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.wsimcard__price { font-size: 18px; font-weight: 800; letter-spacing: -.028em; }
+
+.wsimcard__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.wsimcard__where { font-size: 12.5px; color: var(--ink-3); }
+
+.wsimcard__trust {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.wsimcard__trust--cert { color: var(--accent); }
+
+
+/* ==========================================================================
+   13. Responsive
+
+   Two things drive the breakpoints. The gallery row is three columns wide and
+   has to become one long before the rest does, because a 360px buy panel and
+   a photograph cannot share 900px. And the four-up and three-up card grids
+   halve once, then go to one — never straight from four to one, which would
+   leave a column of enormous cards.
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .wgal { grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr) 320px; min-height: 500px; }
+  .wsimcard__model { font-size: 15px; }
+}
+
+@media (max-width: 1240px) {
+  .wkey { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .wkey__cell--first { background: rgba(196, 131, 47, .14); }
+  .wequip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wsim__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wrev__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wsell__figs { gap: 20px 24px; }
+}
+
+@media (max-width: 1100px) {
+  /* The panel drops under the photograph rather than squeezing it. */
+  .wgal {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr);
+    min-height: 0;
+  }
+
+  .wgal__hero { aspect-ratio: 16 / 10; height: auto; }
+  .wpanel { grid-column: 1 / -1; }
+  .wpanel__tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .wrep { padding: 34px 28px 30px; }
+  .wrep__faults { grid-template-columns: minmax(0, 1fr); }
+  .wtally { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .wwords { grid-template-columns: minmax(0, 1fr); }
+  .wfin { padding: 34px 28px 34px; }
+  .wfin__grid { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .wsell__split { grid-template-columns: minmax(0, 1fr); }
+  .wsell__left { border-right: 0; border-bottom: 1px solid rgba(255, 255, 255, .14); }
+  .wsell__rhead { padding: 20px 28px 18px; }
+}
+
+@media (max-width: 780px) {
+  .wgap { height: 30px; }
+
+  .wgal { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+
+  /* In one column the photograph has to come first — it is what the visitor
+     came for, and source order would otherwise put six thumbnails above it. */
+  .wgal__hero { order: -1; }
+
+  /* Below this the six tiles read as a strip under the photograph, not as a
+     column beside it. */
+  .wgal__thumbs { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, 1fr); }
+  .wthumb { aspect-ratio: 4 / 3; }
+  .wgal__arrow { width: 40px; height: 40px; }
+
+  .wkey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wkey__cell { padding: 16px 16px 18px; }
+  .wkey__val { font-size: 17px; }
+
+  .wequip { grid-template-columns: minmax(0, 1fr); }
+  .wequip__strip { padding: 14px 18px; }
+
+  .wrep__faults { gap: 12px; }
+  .wfault { flex-direction: column; gap: 14px; }
+  .wfault__shot { width: 100%; }
+
+  .wquote { padding: 26px 22px 24px; }
+  .wtl { padding: 24px 22px 22px; }
+  .wtl__row { grid-template-columns: 26px minmax(0, 1fr); }
+  .wtl__km { grid-column: 2; text-align: left; padding: 0 0 18px; }
+  .wtl__body { padding-bottom: 6px; }
+
+  .wfin__inset { padding: 22px 20px 24px; }
+
+  .wsell__left { padding: 30px 24px 28px; }
+  .wsell__figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wsell__grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
+  .wocar { padding: 18px 24px; }
+
+  .wrev__grid { grid-template-columns: minmax(0, 1fr); }
+  .wrev__score { gap: 14px; }
+
+  .wq__row--reply { margin-left: 22px; }
+  .wq__card { padding: 22px 20px 24px; }
+  .wq__pair { grid-template-columns: minmax(0, 1fr); }
+  .wq__send { min-width: 0; width: 100%; }
+
+  .wsim__grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .wsechead { gap: 16px; margin-bottom: 20px; }
+  .wgal__thumbs { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
+
+  .wpanel__tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wpanel__body { padding: 20px 18px 18px; }
+  .wpanel__status { padding: 11px 18px; }
+  .wpanel__pair { grid-template-columns: minmax(0, 1fr); }
+  .wpanel__ends { font-size: 8px; }
+
+  .wrep { padding: 26px 20px 24px; }
+  .wrep__ghost { font-size: 170px; }
+  .wtally { grid-template-columns: minmax(0, 1fr); }
+  .wtally__cell { padding: 18px 18px 20px; }
+
+  .wquote__figs { gap: 20px; padding-top: 22px; }
+  .wfin { padding: 26px 20px 28px; }
+  .wfin__band { grid-template-columns: minmax(0, 1fr); }
+  .wfin__cta { padding: 13px 13px 13px 20px; font-size: 14px; }
+
+  .wsell__ghost { font-size: 170px; }
+  .wsell__who { gap: 12px; }
+  .wsell__av { width: 52px; height: 52px; }
+  .wsell__name { font-size: 20px; }
+  .wsell__figs { gap: 18px 20px; }
+  .wsell__num { font-size: 24px; }
+  .wsell__rhead { padding: 18px 24px 16px; }
+  .wocar { gap: 12px; padding: 16px 20px; }
+  .wocar__shot { width: 84px; }
+
+  .wrcard { padding: 20px 20px 22px; }
+  .wsim__all { padding: 12px 12px 12px 20px; font-size: 13.5px; }
+}
+
+
+/* ==========================================================================
+   14. Touch
+
+   The mono links and the like buttons are 13 to 14 pixels of text — a fine
+   target for a cursor and an impossible one for a thumb. On a touch screen
+   they keep their type and grow a hit area around it, which costs the layout
+   nothing because the padding is negative on the outside.
+   ========================================================================== */
+
+@media (hover: none) {
+  .wq__act { padding: 9px 0; margin: -9px 0; }
+  .wq__acts { margin-top: 1px; }
+
+  .wtl__link,
+  .wequip__link,
+  .wsell__rlink { padding: 11px 0; margin: -11px 0; }
+
+  /* A 5px track is a 5px target: the input keeps the track's look and takes
+     the thumb's height, the same fix the other single pages use. */
+  .wfin__slider { height: 40px; margin-top: -5px; background: none; }
+
+  .wfin__slider::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .2);
+  }
+
+  .wfin__slider::-moz-range-track {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .2);
+  }
+
+  .wfin__slider::-webkit-slider-thumb { margin-top: -6.5px; }
+}

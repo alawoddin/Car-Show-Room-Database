@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Rheinland Motors">
+  <rect width="512" height="512" fill="#1D4A4E"/>
+  <path d="M96 384c40-34 80-34 120 0s80 34 120 0 60-24 80-8" fill="none" stroke="#63B7B0" stroke-width="30" stroke-linecap="round"/>
+  <text x="256" y="222" fill="#F1EEE7" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="222" text-anchor="middle" dominant-baseline="central" letter-spacing="-8">R</text>
+</svg>

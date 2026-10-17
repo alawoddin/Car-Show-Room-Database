@@ -1,0 +1,1335 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Shop v2
+   Only what this page adds. The light header, the page-header block and the
+   shared buttons, chips and dots are the inner-page template and live in
+   style.css.
+
+   The filter-rail shop. Same catalogue and the same fitment-first premise as
+   Shop v1, but the finder, the shelves and the filters all move into a sticky
+   rail, and the results column can be read two ways.
+
+   THE STICKY RULE has two halves and both are required: the frame is
+   align-items: start, so the rail is its own height rather than stretched to
+   the results column, and the rail is position: sticky; top: 96px. Stretch it
+   and it has no travel left and never pins.
+
+   THE TWO VIEWS are one result set rendered twice. They are different display
+   types — the grid is a grid and the list is a flex column — so hiding one is
+   display:none and showing it has to restore the right value, not a shared
+   "block".
+
+   Catalogue data is #71757B at 10px, never #9BA0A6 at 8-9px. The prototype
+   fixed that on the SKUs and then reintroduced it on three list fields: the
+   category, the review count and the struck-through price, all at 2.4-2.6:1.
+   The lightest grey is for row notes and dashes only; anything a buyer reads
+   to make a decision takes the darker one.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The frame
+   02. Rail — your car
+   03. Rail — category
+   04. Rail — price
+   05. Rail — checkbox lists
+   06. Rail — reset
+   07. Results head and the view toggle
+   08. Grid view
+   09. List view
+   10. Fitting band
+   11. Pagination
+   12. Responsive
+   13. Touch
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The frame
+   ========================================================================== */
+
+.xshop {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+
+.xrail {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.xcard {
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+}
+
+.xcard__head {
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.xcard__body { padding: 14px 20px 16px; }
+
+
+/* ==========================================================================
+   02. Rail — your car
+   ========================================================================== */
+
+.xcar {
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.xcar__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, .14);
+}
+
+.xcar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.xcar__change {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.xcar__change:hover { color: var(--accent-hi); }
+
+.xcar__body { padding: 18px 20px 20px; }
+
+.xcar__name { font-size: 17px; font-weight: 800; letter-spacing: -.024em; }
+
+.xcar__spec {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.xcar__fits {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: 13px;
+  color: rgba(255, 255, 255, .72);
+}
+
+.xcar__tick {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.xcar__n { font-weight: 700; color: #FFFFFF; }
+
+/* Two cars in the garage, so the second is one click away rather than behind
+   the CHANGE link — the whole page reads differently under each. */
+/* The make chooser. It replaced a pair of chips, one per saved car, which
+   read as a shop that knows about exactly two cars — where what a parts shop
+   asks first is the make. The count rides on each option so the size of a
+   choice is visible before it is made. */
+.xcar__pick { display: grid; gap: 7px; margin-bottom: 15px; }
+
+.xcar__lbl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .55);
+}
+
+.xcar__field { position: relative; display: block; }
+
+.xcar__select {
+  width: 100%;
+  height: 42px;
+  padding: 0 38px 0 14px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  background: none;
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.xcar__select:hover { border-color: rgba(255, 255, 255, .5); }
+
+.xcar__select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* The list itself is drawn by the operating system, which paints it on the
+   page background rather than on this dark card — so the options are told
+   what they sit on. */
+.xcar__select option { background: var(--bg); color: var(--ink); }
+
+.xcar__chev {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  display: block;
+  margin-top: -6px;
+  color: rgba(255, 255, 255, .6);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   03. Rail — category
+   ========================================================================== */
+
+/* Both states carry a 2px left border — the active one in accent, the rest
+   transparent — so choosing a shelf moves nothing sideways. */
+.xcat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 20px;
+  border-top: 1px solid rgba(20, 22, 26, .09);
+  border-left: 2px solid transparent;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  font-family: inherit;
+  border-right: 0;
+  border-bottom: 0;
+  width: 100%;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.xcat--first { border-top: 0; }
+
+.xcat:hover { background: var(--surface); color: var(--ink); }
+
+.xcat:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+/* Same rule as the shelf wall: a department that has run out keeps its row
+   and says nought, rather than disappearing out of the rail. */
+.xcat[disabled] { color: var(--ink-4); cursor: not-allowed; }
+
+.xcat[disabled]:hover { background: none; color: var(--ink-4); }
+
+.xcat[disabled] .xcat__n { color: var(--ink-4); }
+
+.xcat--on { border-left-color: var(--accent); background: var(--surface); font-weight: 700; }
+
+.xcat__n { font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--ink-2); }
+
+
+/* ==========================================================================
+   04. Rail — price
+
+   A real pair of range inputs stacked on one track: the prototype draws two
+   decorative spans, which cannot be dragged, tabbed to or read out. The track
+   underneath is a three-stop gradient whose accent segment is the selection.
+   ========================================================================== */
+
+.xprice { padding: 20px; border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; }
+
+.xprice__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.xprice__value { margin-top: 12px; font-size: 15px; font-weight: 800; letter-spacing: -.022em; }
+
+.xprice__track {
+  position: relative;
+  height: 22px;
+  margin-top: 8px;
+}
+
+.xprice__rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .14);
+}
+
+.xprice__span {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+/* Both inputs share the track, so the upper one has to let clicks through
+   everywhere except on its own knob. */
+.xprice__in {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  pointer-events: none;
+  outline: none;
+}
+
+.xprice__in::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(20, 22, 26, .28);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.xprice__in::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(20, 22, 26, .28);
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.xprice__in:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--ink); }
+.xprice__in:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px var(--ink); }
+
+.xprice__ends {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 9px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   05. Rail — checkbox lists
+   ========================================================================== */
+
+.xcheck {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+/* The real input is behind the drawn box rather than absent, so the row can be
+   tabbed to, toggled with a space and read out as a checkbox. */
+.xcheck__in {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.xcheck__box {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(20, 22, 26, .28);
+  border-radius: 6px;
+  background: none;
+  color: var(--ink);
+}
+
+.xcheck__box svg { opacity: 0; }
+
+.xcheck__in:checked + .xcheck__box {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.xcheck__in:checked + .xcheck__box svg { opacity: 1; }
+
+.xcheck__in:focus-visible + .xcheck__box { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.xcheck__label { flex: 1 1 auto; font-size: 13.5px; font-weight: 500; }
+
+.xcheck__in:checked ~ .xcheck__label { font-weight: 600; }
+
+.xcheck__n { font-family: var(--mono); font-size: 9px; font-weight: 600; color: var(--ink-2); }
+
+.xcard__all {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+
+/* ==========================================================================
+   06. Rail — reset
+   ========================================================================== */
+
+.xreset {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+.xreset__n {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.xreset__link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.xreset__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   07. Results head and the view toggle
+   ========================================================================== */
+
+.xhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+}
+
+.xhead__count { display: flex; align-items: baseline; gap: 11px; flex-wrap: wrap; }
+
+.xhead__big { font-size: 22px; font-weight: 800; letter-spacing: -.028em; }
+
+.xhead__sub { font-size: 14px; color: var(--ink-2); }
+
+.xhead__tools { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.xsort { position: relative; display: inline-flex; }
+
+.xsort__select {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 42px;
+  padding: 0 38px 0 16px;
+  border: 1px solid rgba(20, 22, 26, .2);
+  border-radius: 999px;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+}
+
+.xsort__select:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.xsort__chev {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.xtoggle {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.xtoggle__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 42px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.xtoggle__btn + .xtoggle__btn { border-left: 1px solid rgba(20, 22, 26, .12); }
+
+.xtoggle__btn:hover { background: var(--surface); }
+
+.xtoggle__btn:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+.xtoggle__btn--on { background: var(--ink); color: #FFFFFF; }
+
+.xtoggle__btn--on:hover { background: var(--ink); }
+
+
+/* ==========================================================================
+   08. Grid view
+   ========================================================================== */
+
+.xgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 22px;
+  scroll-margin-top: 96px;
+}
+
+.xgrid[hidden] { display: none; }
+
+.xg {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.xg--lead { border-color: var(--ink); }
+
+.xg:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+}
+
+.xg:focus-within { border-color: var(--ink); }
+
+/* Both children are absolutely positioned, so the ratio is the only thing
+   giving the frame a height. */
+.xg__frame { position: relative; aspect-ratio: 4 / 3; background: var(--image-bed); }
+
+.xg__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.xph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: rgba(20, 22, 26, .3);
+}
+
+.xph__size {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(20, 22, 26, .3);
+}
+
+.xph__lbl {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(20, 22, 26, .42);
+}
+
+.xfits {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.xsave {
+  position: absolute;
+  right: 11px;
+  top: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.xsave:hover { background: #FFFFFF; }
+
+.xsave:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.xsave--on { background: var(--accent); }
+
+.xsave--on .xheart { fill: currentColor; }
+
+.xg__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 8px;
+  padding: 15px 17px 17px;
+}
+
+.xg__meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+
+.xg__brand {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.xg__sku {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+}
+
+.xg__name {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.xg__stock { display: flex; align-items: center; gap: 8px; }
+
+.xdot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+.xdot--out { background: var(--ink-4); }
+
+.xg__slabel {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+/* margin-top: auto is what lines the prices up across a row of cards whose
+   names run to different lengths. */
+.xg__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 13px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.xg__price { font-size: 18px; font-weight: 800; letter-spacing: -.028em; white-space: nowrap; }
+
+.xadd {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 9px 9px 15px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.xadd:hover { background: #23262C; }
+
+.xadd:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.xadd[disabled] { background: rgba(20, 22, 26, .28); cursor: not-allowed; }
+
+.xadd--in { background: var(--accent); color: var(--ink); }
+
+.xadd__plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.xadd--in .xadd__plus { background: var(--ink); color: var(--accent); }
+
+.xadd[disabled] .xadd__plus { background: rgba(255, 255, 255, .3); }
+
+
+/* ==========================================================================
+   09. List view
+   ========================================================================== */
+
+.xlist { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
+
+.xlist[hidden] { display: none; }
+
+/* Three zones, and the photo track is a fixed column that stretches to the
+   row rather than carrying a ratio of its own — a ratio here would fight the
+   row height the middle zone sets. */
+.xl {
+  display: grid;
+  grid-template-columns: minmax(0, 190px) minmax(0, 1fr) minmax(0, 210px);
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.xl--lead { border-color: var(--ink); box-shadow: 0 20px 40px -32px rgba(20, 22, 26, .44); }
+
+.xl:hover {
+  transform: translateY(-3px);
+  border-color: var(--ink);
+  box-shadow: 0 20px 40px -26px rgba(20, 22, 26, .42);
+}
+
+.xl:focus-within { border-color: var(--ink); }
+
+.xl__frame {
+  position: relative;
+  align-self: stretch;
+  min-height: 132px;
+  background: var(--image-bed);
+}
+
+.xl__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.xl__fits {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(100% - 20px);
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.xl__fitname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.xl__mid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+  padding: 18px 22px;
+  min-width: 0;
+}
+
+.xl__meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.xl__brand {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.xl__sep { width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
+
+.xl__sep--faint { background: rgba(20, 22, 26, .2); }
+
+/* The category is data a buyer reads, so it takes the darker grey at 10px —
+   not the lightest one, which is what shipped. */
+.xl__cat {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+}
+
+.xl__rate { display: inline-flex; align-items: center; gap: 5px; color: var(--accent); }
+
+.xl__stars { font-size: 11.5px; font-weight: 700; color: var(--ink); }
+
+.xl__reviews { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink-2); }
+
+.xl__name {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.024em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.xl__chips { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.xchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .09em;
+}
+
+.xchip--stock { background: rgba(196, 131, 47, .14); font-weight: 700; }
+
+.xchip--out { background: rgba(20, 22, 26, .08); font-weight: 700; }
+
+.xchip--fit {
+  border: 1px solid rgba(20, 22, 26, .16);
+  background: none;
+  color: var(--ink-3);
+}
+
+.xchip__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+.xchip__dot--out { background: var(--ink-4); }
+
+.xl__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 22px;
+  background: var(--surface);
+  border-left: 1px solid rgba(20, 22, 26, .1);
+}
+
+/* A price the buyer compares against is data, not a note — the darker grey. */
+.xl__was { font-size: 12.5px; color: var(--ink-2); text-decoration: line-through; }
+
+.xl__price { font-size: 22px; font-weight: 800; letter-spacing: -.03em; white-space: nowrap; }
+
+.xl__acts { display: flex; align-items: center; gap: 8px; }
+
+.xlsave {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.xlsave:hover { border-color: var(--ink); }
+
+.xlsave:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.xlsave--on { border-color: var(--accent); background: var(--accent); }
+
+.xlsave--on .xheart { fill: currentColor; }
+
+.xladd {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px 10px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.xladd:hover { filter: brightness(1.15); }
+
+.xladd:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.xladd[disabled] { background: rgba(20, 22, 26, .28); cursor: not-allowed; filter: none; }
+
+.xladd--in { background: var(--accent); color: var(--ink); }
+
+.xladd__plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.xladd--in .xladd__plus { background: var(--ink); color: var(--accent); }
+
+.xladd[disabled] .xladd__plus { background: rgba(255, 255, 255, .3); }
+
+/* Nothing matched. Shared by both views, so it lives outside them. */
+.xempty {
+  margin-top: 22px;
+  padding: 48px 30px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.xempty__title { font-size: 17px; font-weight: 700; letter-spacing: -.022em; }
+
+.xempty__note { margin: 8px 0 0; font-size: 14px; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   10. Fitting band
+   ========================================================================== */
+
+.xfit {
+  position: relative;
+  margin-top: 24px;
+  padding: 28px 30px 30px;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.xfit__ghost {
+  position: absolute;
+  right: -16px;
+  bottom: -46px;
+  font-family: var(--display);
+  font-size: 140px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(20, 22, 26, .18);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.xfit__head,
+.xfit__stats { position: relative; }
+
+.xfit__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.xfit__text { max-width: 480px; }
+
+.xfit__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 13px;
+  border: 1px solid rgba(20, 22, 26, .28);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.xfit__h2 {
+  margin: 14px 0 0;
+  font-size: clamp(21px, 1.9vw, 30px);
+  font-weight: 800;
+  letter-spacing: -.034em;
+  line-height: 1.08;
+}
+
+.xfit__p { margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: rgba(20, 22, 26, .76); }
+
+.xfit__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 14px 14px 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.xfit__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 24px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .18);
+}
+
+.xfit__cell { padding: 16px 18px 18px; background: var(--accent); }
+
+.xfit__num { font-size: 18px; font-weight: 800; letter-spacing: -.028em; }
+
+/* Ink on accent needs more weight than ink on white at the same size. */
+.xfit__lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(20, 22, 26, .78);
+}
+
+
+/* ==========================================================================
+   11. Pagination
+
+   This variant pages rather than appends, so there is no show-more button and
+   the arrows are real: prev is disabled on the first page and next on the last.
+   ========================================================================== */
+
+.xpage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+  padding: 22px 26px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 20px;
+}
+
+.xpage__left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+.xpage__shown { display: flex; align-items: baseline; gap: 9px; }
+
+.xpage__big { font-size: 24px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.xpage__of { font-size: 14px; color: var(--ink-2); }
+
+.xpage__track {
+  display: block;
+  width: 170px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .12);
+  overflow: hidden;
+}
+
+.xpage__fill { display: block; height: 100%; min-width: 12px; border-radius: 999px; background: var(--accent); }
+
+/* Twelve of the eighty-seven this car has in stock. The generator recomputes
+   it and fails the build if the bar and the caption disagree. */
+.xpage__fill--seen { width: 33.3%; }
+
+.xpage__rule { display: block; width: 1px; height: 32px; background: rgba(20, 22, 26, .14); }
+
+.xpage__left-n { font-size: 24px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--accent); }
+
+.xpage__left-lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.xpage__rail {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.xpage__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 42px;
+  border: 0;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.xpage__arrow:first-child { border-left: 0; background: none; }
+
+.xpage__arrow:hover { background: rgba(20, 22, 26, .1); }
+
+.xpage__arrow:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+.xpage__arrow[disabled] { background: none; color: var(--ink-4); cursor: default; }
+
+.xpage__n {
+  min-width: 46px;
+  height: 42px;
+  padding: 0 6px;
+  border: 0;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  background: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.xpage__n:hover { background: var(--surface); }
+
+.xpage__n:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+.xpage__n--on { background: var(--ink); color: #FFFFFF; font-weight: 800; }
+
+.xpage__n--on:hover { background: var(--ink); }
+
+/* Nine pages will not always fit, and a bare skipped integer reads as a typo. */
+.xpage__gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  color: var(--ink-4);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   12. Responsive
+
+   The rail is the whole idea of this layout, so it survives longest: it goes
+   from a column beside the results to a band above them, and only then to a
+   stack. The list view collapses its right panel under the middle zone before
+   the photo track goes.
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .xshop { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 20px; }
+  .xgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1240px) {
+  .xl { grid-template-columns: minmax(0, 160px) minmax(0, 1fr) minmax(0, 190px); }
+  .xl__mid { padding: 16px 18px; }
+  .xl__right { padding: 16px 18px; }
+}
+
+@media (max-width: 1100px) {
+  /* The rail stops being a rail: it lies above the results as a two-up band,
+     and nothing is sticky, because a pinned card in one column is a card in
+     the way. */
+  .xshop { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+
+  .xrail {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .xgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .xl { grid-template-columns: minmax(0, 170px) minmax(0, 1fr); }
+
+  /* The right panel drops under the middle zone and lays itself out across
+     the row rather than up a narrow column. */
+  .xl__right {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    border-left: 0;
+    border-top: 1px solid rgba(20, 22, 26, .1);
+  }
+}
+
+@media (max-width: 780px) {
+  .xrail { grid-template-columns: minmax(0, 1fr); }
+
+  .xhead { gap: 14px; padding-bottom: 14px; }
+  .xhead__big { font-size: 20px; }
+
+  .xfit { padding: 24px 20px 24px; }
+  .xfit__ghost { font-size: 110px; }
+  .xfit__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .xl { grid-template-columns: minmax(0, 1fr); }
+  .xl__frame { min-height: 0; aspect-ratio: 16 / 9; }
+
+  .xpage { padding: 18px 18px; gap: 14px; }
+  .xpage__left { gap: 14px; }
+  .xpage__track { width: 120px; }
+}
+
+@media (max-width: 560px) {
+  .xgrid { grid-template-columns: minmax(0, 1fr); }
+
+  .xfit { padding: 20px 16px 20px; }
+  .xfit__ghost { font-size: 90px; }
+  .xfit__stats { grid-template-columns: minmax(0, 1fr); }
+  .xfit__cta { width: 100%; justify-content: space-between; }
+
+  .xl__right { flex-wrap: wrap; justify-content: space-between; }
+
+  /* The track has nothing left to say at this width; the two figures beside
+     it carry the same information in words. */
+  .xpage__track,
+  .xpage__rule { display: none; }
+
+  .xpage__rail { width: 100%; justify-content: center; }
+  .xpage__n { min-width: 36px; padding: 0 4px; }
+  .xpage__gap { min-width: 24px; }
+  .xpage__arrow { width: 36px; }
+}
+
+
+/* ==========================================================================
+   13. Touch
+   ========================================================================== */
+
+@media (hover: none) {
+  .xcar__change,
+  .xcard__all,
+  .xreset__link { padding: 11px 0; margin: -11px 0; }
+
+  /* A hover lift on a touch screen is a state nobody can leave. */
+  .xg:hover { transform: none; box-shadow: none; }
+  .xl:hover { transform: none; }
+
+  /* A 22px strip is a thumb's worth of nothing; the knobs get a taller grab
+     area without the track changing height. */
+  .xprice__track { height: 34px; }
+  .xprice__in { height: 34px; }
+}

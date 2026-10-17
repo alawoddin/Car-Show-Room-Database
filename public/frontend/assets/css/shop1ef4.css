@@ -1,0 +1,1188 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Shop v1
+   Only what this page adds. The light header, the page-header block and the
+   shared buttons, chips and dots are the inner-page template and live in
+   style.css.
+
+   The parts shop. Its one structural idea is fitment first: the page opens by
+   asking which car you own, and every product card afterwards is marked as
+   fitting that car or is not marked at all. That is why the finder is the
+   first thing on the page and why the badge is wired rather than drawn — an
+   unwired badge is a decoration, and a wrong one sells somebody a part that
+   does not fit.
+
+   THE HAIRLINE IS THE GAP. In the categories, brands, delivery and fitting
+   grids the cells carry no borders at all: the container carries a tinted
+   background and overflow: hidden, the cells are painted opaque, and the 1px
+   grid gap lets the ground show through. Rebuilding those seams as per-cell
+   borders doubles them and collides with the container's own ring — and the
+   two are deliberately different alphas: .12 for the gap, .14 for the ring.
+
+   Sections are separated by bare 40px spacers, except between the filter bar
+   and the grid, where 24px keeps them reading as one unit.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Rhythm and section heads
+   02. Fitment finder (dark)
+   03. Categories
+   04. Filter bar
+   05. Product grid
+   06. Fitting at the workshop (accent)
+   07. Suppliers
+   08. Delivery and returns
+   09. Pagination
+   10. Responsive
+   11. Touch
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Rhythm and section heads
+   ========================================================================== */
+
+.kgap { height: 40px; }
+
+/* The filter bar and the grid it filters are one unit, so the step between
+   them is shorter than the step between blocks. */
+.kgap--tight { height: 24px; }
+
+.ksec { scroll-margin-top: 96px; }
+
+.khead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.khead__eyebrow {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.khead__h2 {
+  margin: 12px 0 0;
+  font-size: clamp(26px, 2.4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -.032em;
+}
+
+.khead__link {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.khead__note {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   02. Fitment finder (dark)
+   ========================================================================== */
+
+.kfind {
+  position: relative;
+  padding: 36px 36px 34px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.kfind__ghost {
+  position: absolute;
+  right: -22px;
+  bottom: -58px;
+  font-family: var(--display);
+  font-size: 180px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Everything after the watermark is positioned so it paints above it. Remove
+   this and 180px of outlined letters land on top of the copy. */
+.kfind__head,
+.kfind__selects,
+.kfind__garage { position: relative; }
+
+.kfind__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 26px;
+  flex-wrap: wrap;
+}
+
+.kfind__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.kfind__h2 {
+  margin: 16px 0 0;
+  font-size: clamp(24px, 2.2vw, 36px);
+  font-weight: 800;
+  letter-spacing: -.034em;
+  color: #FFFFFF;
+}
+
+.kfind__lede {
+  margin: 11px 0 0;
+  max-width: 520px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, .66);
+}
+
+.kfind__lede strong { font-weight: 700; color: #FFFFFF; }
+
+.kfind__vin {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .6);
+  text-decoration: underline;
+}
+
+.kfind__vin:hover { color: #FFFFFF; }
+
+/* Four questions and the answer button on one row. The fifth track is auto so
+   the button is its own width rather than a quarter of the row. */
+.kfind__selects {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  gap: 16px;
+  align-items: end;
+  margin-top: 26px;
+}
+
+.kfield { display: block; min-width: 0; }
+
+.kfield__label {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.kfield__wrap { position: relative; display: block; }
+
+.kfield__select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 50px;
+  padding: 0 40px 0 16px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-overflow: ellipsis;
+  outline: none;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.kfield__select:hover { border-color: rgba(255, 255, 255, .42); }
+
+/* The prototype has no focus state anywhere on this page. A keyboard user has
+   to be able to see where they are, so every control on this page gets one. */
+.kfield__select:focus-visible { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.kfield__select option { color: var(--ink); }
+
+.kfield__chev {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, .6);
+  pointer-events: none;
+}
+
+.kfind__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 50px;
+  padding: 0 14px 0 24px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: filter .18s ease;
+}
+
+.kfind__go:hover { filter: brightness(1.08); }
+
+.kfind__garage {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.kfind__glabel {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.kcar {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: none;
+  color: rgba(255, 255, 255, .84);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.kcar:hover { border-color: rgba(255, 255, 255, .5); color: #FFFFFF; }
+
+/* The chosen car is what every badge on the page is measured against, so it
+   is the one thing in this panel painted solid. */
+.kcar--on {
+  border-color: #FFFFFF;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.kcar__year {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .5);
+}
+
+.kcar--on .kcar__year { color: var(--ink-2); }
+
+.kfind__add {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.kfind__add:hover { color: var(--accent-hi); }
+
+
+/* ==========================================================================
+   03. Categories
+   ========================================================================== */
+
+.kcats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.kcat {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px 24px 26px;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: background .18s ease;
+}
+
+.kcat:hover { background: var(--surface); color: var(--ink); }
+
+.kcat:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+/* An empty shelf stays on the wall. Dropping it would leave the buyer
+   wondering where suspension went — but it reads as bare rather than
+   accepting a click that lands on nothing. */
+.kcat--empty { color: var(--ink-4); }
+
+.kcat--empty .kcat__icon { opacity: .45; }
+
+.kpill[disabled] { border-color: rgba(20, 22, 26, .1); color: var(--ink-4); cursor: not-allowed; }
+
+.kpill[disabled] .kpill__n { color: var(--ink-4); }
+
+.kcat__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* The first shelf carries the accent so the row starts on colour rather than
+   on eight identical grey squares. */
+.kcat__icon--first { background: var(--accent); }
+
+.kcat__name { font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.kcat__count {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+
+/* ==========================================================================
+   04. Filter bar
+   ========================================================================== */
+
+/* 22px, not 999px: the row wraps at narrow widths and a pill silhouette would
+   clip its own second line — the same lesson as the map control bar. */
+.kbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 16px 22px;
+  border-radius: 22px;
+  background: var(--surface);
+}
+
+.kbar__left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.kbar__right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.kpill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(20, 22, 26, .06);
+  transition: transform .18s ease, background .18s ease, color .18s ease;
+}
+
+.kpill:hover { transform: translateY(-2px); }
+
+.kpill:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.kpill--on {
+  background: var(--ink);
+  color: #FFFFFF;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.kpill__n {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.kpill--on .kpill__n { color: rgba(255, 255, 255, .55); }
+
+.kbar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.ksort { position: relative; display: inline-flex; }
+
+.ksort__select {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 42px;
+  padding: 0 38px 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+}
+
+.ksort__select:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ksort__chev {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   05. Product grid
+   ========================================================================== */
+
+.kgrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.kcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  overflow: hidden;
+  background: #FFFFFF;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+/* The first card is the grid's accent: it wears at rest the border the others
+   only take on hover. */
+.kcard--lead { border-color: var(--ink); }
+
+.kcard:hover {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+}
+
+.kcard:focus-within { border-color: var(--ink); }
+
+/* The frame has no in-flow content — both children are absolutely positioned —
+   so the ratio is the only thing giving it a height. Take it away and the card
+   silently loses its photograph. */
+.kcard__frame { position: relative; aspect-ratio: 4 / 3; background: var(--image-bed); }
+
+.kcard__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Until a part has its own photograph the frame shows its shelf instead of a
+   broken image or a grey rectangle: the same icon the category tile uses,
+   drawn large on the image bed. The card keeps its exact geometry either way,
+   so dropping real photography in changes nothing but the picture. */
+.kcard__ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: rgba(20, 22, 26, .3);
+}
+
+.kcard__phsize {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(20, 22, 26, .3);
+}
+
+.kcard__phlbl {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(20, 22, 26, .42);
+}
+
+.kcard__fits {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: calc(100% - 60px);
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+/* The car's name is the buyer's, not ours, so it can be any length — the chip
+   has to give way rather than run off the photograph. */
+.kcard__fitname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.kcard__save {
+  position: absolute;
+  right: 11px;
+  top: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.kcard__save:hover { background: #FFFFFF; }
+
+.kcard__save:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.kcard__save--on { background: var(--accent); color: var(--ink); }
+
+.kcard__save--on .kcard__heart { fill: currentColor; }
+
+.kcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 9px;
+  padding: 16px 18px 18px;
+}
+
+.kcard__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.kcard__brand {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+/* The part number is what a buyer cross-references before ordering, so it is
+   read at 10px in the label grey rather than whispered at 8px in the lightest
+   one. It is data, not a footnote. */
+.kcard__sku {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--ink-2);
+}
+
+.kcard__name {
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.kcard__stock { display: flex; align-items: center; gap: 8px; }
+
+.kcard__dot { flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+/* Twenty-six of the hundred and sixty-eight are off the shelf, and the
+   prototype has no way to say so — the dot goes grey and the button stops
+   pretending it can be pressed. */
+.kcard__dot--out { background: var(--ink-4); }
+
+.kcard__slabel {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+/* margin-top: auto is what lines the prices up across a row of cards whose
+   names run to different lengths. It only works because the card is a flex
+   column and the body is flex: 1 1 auto — all three or none. */
+.kcard__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20, 22, 26, .1);
+}
+
+.kcard__price { font-size: 19px; font-weight: 800; letter-spacing: -.028em; white-space: nowrap; }
+
+.kcard__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 10px 10px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.kcard__add:hover { background: #23262C; }
+
+.kcard__add:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.kcard__add[disabled] { background: rgba(20, 22, 26, .28); cursor: not-allowed; }
+
+.kcard__add--in { background: var(--accent); color: var(--ink); }
+
+.kcard__plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.kcard__add--in .kcard__plus { background: var(--ink); color: var(--accent); }
+
+.kcard__add[disabled] .kcard__plus { background: rgba(255, 255, 255, .3); color: var(--ink); }
+
+/* Nothing matched the filter. Better than an empty grid that looks broken. */
+.kempty {
+  grid-column: 1 / -1;
+  padding: 48px 30px;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.kempty__title { font-size: 17px; font-weight: 700; letter-spacing: -.022em; }
+
+.kempty__note { margin: 8px 0 0; font-size: 14px; color: var(--ink-3); }
+
+
+/* ==========================================================================
+   06. Fitting at the workshop (accent)
+   ========================================================================== */
+
+.kfit {
+  position: relative;
+  padding: 36px 36px 34px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.kfit__ghost {
+  position: absolute;
+  right: -20px;
+  bottom: -56px;
+  font-family: var(--display);
+  font-size: 170px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(20, 22, 26, .18);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.kfit__head,
+.kfit__stats { position: relative; }
+
+.kfit__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.kfit__text { max-width: 560px; }
+
+.kfit__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(20, 22, 26, .28);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.kfit__h2 {
+  margin: 16px 0 0;
+  font-size: clamp(24px, 2.3vw, 38px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1.05;
+}
+
+.kfit__p { margin: 12px 0 0; font-size: 16px; line-height: 1.6; color: rgba(20, 22, 26, .76); }
+
+.kfit__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 15px 15px 26px;
+  font-size: 15.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .18s ease;
+}
+
+.kfit__stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 28px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .18);
+}
+
+.kfit__cell { padding: 18px 20px 20px; background: var(--accent); }
+
+.kfit__num { font-size: 20px; font-weight: 800; letter-spacing: -.028em; }
+
+/* Ink on accent needs more weight than ink on white at the same size: these
+   shipped at 8px and .62 alpha, which is 3.09:1, and were raised. */
+.kfit__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(20, 22, 26, .78);
+}
+
+
+/* ==========================================================================
+   07. Suppliers
+   ========================================================================== */
+
+.kbrands {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.kbrand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 26px 16px;
+  background: #FFFFFF;
+  transition: background .18s ease;
+}
+
+.kbrand:hover { background: var(--surface); }
+
+/* A wordmark set in mono is the fallback until the supplier logos are
+   licensed; a real logo would be a trademark question, not a design one. */
+.kbrand__mark {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+
+/* ==========================================================================
+   08. Delivery and returns
+   ========================================================================== */
+
+.kship {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .12);
+}
+
+.kship__cell {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 28px 28px 30px;
+  background: #FFFFFF;
+}
+
+.kship__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.kship__icon--accent { background: var(--accent); }
+
+.kship__num { font-size: 24px; font-weight: 800; letter-spacing: -.032em; line-height: 1; }
+
+.kship__lbl {
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.kship__p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   09. Pagination
+   ========================================================================== */
+
+.kpage {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 24px 30px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 22px;
+}
+
+.kpage__left { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+
+.kpage__right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+/* baseline, not centre: a 26px figure and 14px text seated on one line. */
+.kpage__shown { display: flex; align-items: baseline; gap: 9px; }
+
+.kpage__big { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+
+.kpage__of { font-size: 14px; color: var(--ink-2); }
+
+.kpage__track {
+  display: block;
+  width: 200px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, .12);
+  overflow: hidden;
+}
+
+/* Eight of a hundred and sixty-eight is under five per cent, which at 200px is
+   a nine-pixel sliver that reads as an empty bar rather than a small one. The
+   minimum keeps it legible as a bar; the width still tells the truth. */
+.kpage__fill {
+  display: block;
+  height: 100%;
+  min-width: 14px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+/* Eight of a hundred and sixty-eight. The generator recomputes this from the
+   page size and the catalogue and fails the build if the two disagree — a
+   progress bar that argues with the caption beside it is worse than none. */
+.kpage__fill--seen { width: 18.2%; }
+
+.kpage__rule { display: block; width: 1px; height: 36px; background: rgba(20, 22, 26, .14); }
+
+.kpage__left-n { font-size: 26px; font-weight: 800; letter-spacing: -.03em; line-height: 1; color: var(--accent); }
+
+.kpage__left-lbl {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.kpage__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 14px 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.kpage__rail {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* The seam is a left border on every button after the first, and the rounded
+   caps come from the rail's overflow — not from any radius on the buttons. */
+.kpage__n {
+  min-width: 46px;
+  height: 42px;
+  padding: 0 6px;
+  border: 0;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  background: none;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.kpage__n:first-child { border-left: 0; }
+
+.kpage__n:hover { background: var(--surface); }
+
+.kpage__n:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+.kpage__n--on { background: var(--ink); color: #FFFFFF; font-weight: 800; }
+
+.kpage__n--on:hover { background: var(--ink); }
+
+/* Twenty-one pages will not fit on one rail, and a bare skipped integer reads
+   as a typo — so the gap says it is a gap. */
+.kpage__gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  color: var(--ink-4);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.kpage__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 42px;
+  border: 0;
+  border-left: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.kpage__next:hover { background: rgba(20, 22, 26, .1); }
+
+.kpage__next:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+
+
+/* ==========================================================================
+   10. Responsive
+
+   The handoff says "no responsive breakpoints — desktop target, 1656px", and
+   names the four grids that need one: the 4-up product grid, the 6-up
+   supplier row, the five-track finder and the 3-up delivery strip. They are
+   all here.
+
+   The product grid steps 4 → 3 → 2 → 1 rather than 4 → 1: a card is a
+   photograph with a price under it, and one enormous card per row is a worse
+   answer than two ordinary ones.
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .kgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1240px) {
+  .kcats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kbrands { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  /* Two questions to a row, and the answer under all four. */
+  .kfind__selects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kfind__go { grid-column: 1 / -1; justify-content: space-between; }
+}
+
+@media (max-width: 1100px) {
+  .kgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kfind { padding: 30px 26px 28px; }
+  .kfit { padding: 30px 26px 28px; }
+  .kfit__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 780px) {
+  .kgap { height: 30px; }
+  .kgap--tight { height: 18px; }
+
+  .khead { gap: 16px; margin-bottom: 18px; }
+
+  .kfind__ghost { font-size: 140px; }
+  .kcats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kcat { padding: 20px 20px 22px; }
+
+  .kbar { padding: 14px 16px; gap: 14px; }
+
+  /* The pills scroll sideways rather than stacking into a five-line block:
+     the bar is a control strip, not a list. */
+  .kbar__left {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .kbar__left::-webkit-scrollbar { display: none; }
+
+  .kpill { flex: none; }
+
+  .kbrands { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kbrand { padding: 20px 12px; }
+
+  .kship { grid-template-columns: minmax(0, 1fr); }
+  .kship__cell { padding: 22px 22px 24px; }
+
+  .kfit__ghost { font-size: 140px; }
+  .kpage { padding: 20px 20px; gap: 16px; }
+  .kpage__left { gap: 16px; }
+  .kpage__track { width: 140px; }
+}
+
+@media (max-width: 560px) {
+  .kfind { padding: 24px 18px 22px; }
+  .kfind__ghost { font-size: 110px; }
+  .kfind__selects { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .kfind__garage { gap: 10px; }
+
+  .kcats { grid-template-columns: minmax(0, 1fr); }
+  .kgrid { grid-template-columns: minmax(0, 1fr); }
+
+  .kfit { padding: 24px 18px 22px; }
+  .kfit__ghost { font-size: 110px; }
+  .kfit__stats { grid-template-columns: minmax(0, 1fr); }
+  .kfit__cta { width: 100%; justify-content: space-between; }
+
+  .kbrands { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* The track has nothing left to say at this width; the two figures beside
+     it carry the same information in words. */
+  .kpage__track,
+  .kpage__rule { display: none; }
+
+  .kpage__more { width: 100%; justify-content: space-between; }
+
+  /* Six controls at 46px do not fit 320px once the row's own padding is taken
+     off, so the rail narrows rather than pushing the page sideways. */
+  .kpage__rail { width: 100%; justify-content: center; }
+  .kpage__n { min-width: 38px; padding: 0 4px; }
+  .kpage__gap { min-width: 26px; }
+  .kpage__next { width: 38px; }
+}
+
+
+/* ==========================================================================
+   11. Touch
+
+   The mono links are 9 to 10 pixels of text — a fine target for a cursor and
+   an impossible one for a thumb. On a touch screen they keep their type and
+   grow a hit area around it, which costs the layout nothing because the
+   padding is answered by a negative margin.
+   ========================================================================== */
+
+@media (hover: none) {
+  .khead__link,
+  .kfind__vin,
+  .kfind__add { padding: 11px 0; margin: -11px 0; }
+
+  /* Hover lift on a touch screen is a state nobody can leave. */
+  .kpill:hover { transform: none; }
+  .kcard:hover { transform: none; box-shadow: none; }
+}

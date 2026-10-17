@@ -1,0 +1,801 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Contact page
+   Only what this page adds. The light header, the page-header block, the
+   divider rhythm, the section head, the dark-panel figures and the modal are
+   the inner-page template and live in style.css.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The contact panel
+   02. Topic chips
+   03. Fields
+   04. Guarantees and submit
+   05. Direct-line strip
+   06. Showrooms — head
+   07. The map, its legend and the nearest-to-you card
+   08. The showroom list
+   09. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The contact panel
+   ========================================================================== */
+
+/* The whole block is one <form>, so the browser's own submit and the Enter
+   key both reach the same handler. */
+.talk {
+  position: relative;
+  padding-bottom: 0;
+  border-radius: 30px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.talk__wordmark {
+  position: absolute;
+  right: -26px;
+  top: -46px;
+  font-family: var(--display);
+  font-size: 215px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .09);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.talk__head {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 48px 46px 0;
+}
+
+.talk__lead { max-width: 640px; }
+
+.talk__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.talk__h {
+  margin-top: 18px;
+  font-size: clamp(30px, 3vw, 48px);
+  font-weight: 800;
+  letter-spacing: -.036em;
+  line-height: 1.04;
+}
+
+.talk__sub { margin-top: 14px; font-size: 16.5px; line-height: 1.6; color: rgba(255, 255, 255, .7); }
+
+.talk__figs { display: flex; align-items: baseline; gap: 28px; padding-top: 8px; }
+
+.talk__lbl {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+
+/* ==========================================================================
+   02. Topic chips
+   ========================================================================== */
+
+.talk__topics { position: relative; padding: 32px 46px 0; }
+
+.ctopics { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.ctopic {
+  padding: 11px 18px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .84);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.ctopic:hover { border-color: rgba(255, 255, 255, .5); }
+
+.ctopic--on {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.ctopic:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+
+/* ==========================================================================
+   03. Fields
+   ========================================================================== */
+
+.talk__grid { position: relative; display: grid; gap: 22px; }
+
+.talk__grid--3 { grid-template-columns: repeat(3, 1fr); padding: 28px 46px 0; }
+.talk__grid--2 { grid-template-columns: 1fr 1fr; padding: 22px 46px 0; }
+
+.talk__msg { position: relative; display: block; padding: 22px 46px 0; }
+
+.tfield { display: block; }
+
+.tfield__lbl {
+  display: block;
+  margin-bottom: 9px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.tfield__in {
+  width: 100%;
+  height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+
+.tfield__in::placeholder { color: rgba(255, 255, 255, .38); }
+
+.tfield__in:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Marked only after a failed submit, never while the visitor is still typing. */
+.tfield__in[aria-invalid="true"] { border-color: var(--accent); }
+
+.tfield__in--select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 42px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* The list is drawn by the OS, so the dark ground has to be stated here. */
+.tfield__in--select option { background: var(--ink); color: #FFFFFF; }
+
+.tfield__in--area { height: auto; padding: 15px 16px; line-height: 1.6; resize: vertical; }
+
+.tfield__pick { position: relative; display: block; }
+
+.tfield__chev {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: rgba(255, 255, 255, .6);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   04. Guarantees and submit
+   ========================================================================== */
+
+.talk__error {
+  position: relative;
+  margin: 18px 46px 0;
+  padding: 13px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: 14px;
+  color: #FFFFFF;
+}
+
+.talk__send {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 26px 46px 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.cpledges { display: flex; flex-wrap: wrap; gap: 20px; }
+
+.cpledge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, .78);
+}
+
+.cpledge__tick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.talk__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 16px 16px 30px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.talk__cta:hover { background: var(--accent-hi); }
+
+.talk__cta:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 3px; }
+
+.talk__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   05. Direct-line strip
+   ========================================================================== */
+
+/* The 1px gap over a hairline background is the divider between the cells. */
+.dlines {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(255, 255, 255, .14);
+}
+
+.dline {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px;
+  background: var(--ink);
+  color: #FFFFFF;
+  transition: background .2s ease;
+}
+
+.dline:has(.dline__val:hover) { background: #1B1E23; }
+
+.dline__lbl,
+.dline__note {
+  display: block;
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.dline__lbl { font-size: 9.5px; font-weight: 700; }
+
+/* The link is the number, but it reaches over the whole cell so the label
+   and the note are clickable too. */
+.dline__val {
+  display: block;
+  margin-top: 9px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: #FFFFFF;
+}
+
+.dline__val::after { content: ""; position: absolute; inset: 0; }
+
+.dline__val:hover { color: var(--accent); }
+
+.dline__val:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+.dline__note { margin-top: 5px; font-size: 9px; letter-spacing: .11em; }
+
+.dline__go {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  border-radius: 50%;
+  color: #FFFFFF;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.dline:has(.dline__val:hover) .dline__go { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+
+
+/* ==========================================================================
+   06. Showrooms — head
+   ========================================================================== */
+
+.sechead--doors { align-items: flex-end; gap: 40px; margin-bottom: 34px; }
+.sechead--doors .h2 { margin-top: 14px; }
+
+.h2--doors { font-size: clamp(30px, 3vw, 54px); letter-spacing: -.032em; white-space: nowrap; }
+
+.sechead__lead--doors { max-width: 600px; margin-top: 16px; font-size: 17px; }
+
+
+/* ==========================================================================
+   07. The map, its legend and the nearest-to-you card
+   ========================================================================== */
+
+.doors {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: stretch;
+}
+
+.doors__map {
+  position: relative;
+  min-height: 660px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.doors__canvas { position: absolute; inset: 0; }
+
+/* The overlays sit above the tiles and the pins but below Leaflet's own
+   controls, which live at 800. */
+.doors__legend {
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  z-index: 700;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.doors__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+.doors__key--off { color: var(--ink-2); }
+
+.doors__keysep { width: 1px; height: 12px; background: rgba(20, 22, 26, .18); }
+
+.dot--off { background: rgba(20, 22, 26, .3); }
+
+.nearby {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  z-index: 700;
+  padding: 20px 24px;
+  border-radius: 20px;
+  background: rgba(20, 22, 26, .9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #FFFFFF;
+}
+
+.nearby__row { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+
+.nearby__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.nearby__title { margin-top: 9px; font-size: 21px; font-weight: 800; letter-spacing: -.026em; }
+
+.nearby__note { margin-top: 7px; font-size: 14px; color: rgba(255, 255, 255, .62); }
+
+.nearby__acts { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.nearby__call {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 13px 13px 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background .2s ease;
+}
+
+.nearby__call:hover { background: var(--accent-hi); color: var(--ink); }
+
+.nearby__ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.nearby__dir {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 20px;
+  border: 1px solid rgba(255, 255, 255, .26);
+  border-radius: 999px;
+  color: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease;
+}
+
+.nearby__dir:hover { background: #FFFFFF; color: var(--ink); }
+
+/* How far through the working day we are. */
+.nearby__bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+}
+
+.nearby__time {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.nearby__track {
+  flex: 1 1 auto;
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .16);
+}
+
+.nearby__fill {
+  display: block;
+  width: var(--through, 0%);
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+/* Map pins are drawn in CSS so they carry the page's own accent. */
+.mpin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .94);
+  color: var(--ink);
+  box-shadow: 0 12px 26px -12px rgba(20, 22, 26, .6);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+
+.mpin__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+.mpin__dot--off { background: rgba(20, 22, 26, .3); }
+
+.mpin--on { padding: 10px 15px; background: var(--ink); color: #FFFFFF; font-size: 11.5px; }
+
+.mpin__till {
+  padding-left: 8px;
+  margin-left: 4px;
+  border-left: 1px solid rgba(255, 255, 255, .24);
+  color: var(--accent);
+}
+
+/* Leaflet centres a divIcon on its box; these pins read better anchored on
+   their own middle, so the wrapper carries no size of its own. */
+.mpin-wrap { width: auto !important; height: auto !important; margin: 0 !important; }
+
+.mpin-wrap > .mpin { transform: translate(-50%, -50%); }
+
+
+/* ==========================================================================
+   08. The showroom list
+   ========================================================================== */
+
+.doors__list { display: flex; flex-direction: column; gap: 10px; }
+
+.shrows { display: flex; flex-direction: column; gap: 10px; }
+
+.shrow {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  padding: 13px 16px;
+  border: 1px solid var(--line-10);
+  border-radius: 18px;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.shrow:hover { transform: translateY(-3px); box-shadow: 0 18px 34px -22px rgba(20, 22, 26, .45); }
+
+.shrow:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.shrow--on { padding: 14px 16px; border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+/* Awaiting seven showroom photographs — until they arrive the tile carries
+   the city's initial rather than a stand-in picture. */
+.shrow__shot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.shrow__mono {
+  font-family: var(--display);
+  font-size: 30px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(20, 22, 26, .45);
+}
+
+.shrow__main { min-width: 0; }
+
+.shrow__top { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+
+.shrow__city { font-size: 18px; font-weight: 700; letter-spacing: -.022em; }
+
+.shrow__badge {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.shrow__state {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--accent);
+}
+
+.shrow__state--off { color: var(--ink-4); }
+
+.shrow__addr {
+  display: block;
+  margin-top: 6px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shrow--on .shrow__addr { color: rgba(255, 255, 255, .66); }
+
+.shrow__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.shrow--on .shrow__meta { color: rgba(255, 255, 255, .44); }
+
+.shrow__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
+
+.shrow__call { display: flex; align-items: center; gap: 12px; }
+
+.shrow__tel { font-size: 14px; font-weight: 700; letter-spacing: -.016em; white-space: nowrap; }
+
+.shrow__ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.shrow__ico--on { background: var(--accent); color: var(--ink); }
+
+.deliver {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: auto;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.deliver__text { font-size: 14.5px; color: var(--ink-3); }
+
+.deliver__go {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.deliver__go:hover { color: var(--accent); }
+
+
+/* ==========================================================================
+   09. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .h2--doors { white-space: normal; }
+}
+
+@media (max-width: 1180px) {
+  .doors { grid-template-columns: minmax(0, 1fr); }
+  .doors__map { min-height: 460px; }
+  .talk__head,
+  .talk__topics { padding-left: 34px; padding-right: 34px; }
+  .talk__grid--3,
+  .talk__grid--2,
+  .talk__msg { padding-left: 34px; padding-right: 34px; }
+  .talk__error,
+  .talk__send { margin-left: 34px; margin-right: 34px; }
+  .talk__wordmark { font-size: 170px; top: -34px; }
+}
+
+@media (max-width: 1024px) {
+  .talk__grid--3 { grid-template-columns: 1fr 1fr; }
+  .talk__grid--3 .tfield:last-child { grid-column: 1 / -1; }
+  .dlines { grid-template-columns: 1fr 1fr; }
+  .dline:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 780px) {
+  .talk { border-radius: 24px; }
+  .talk__head { padding: 30px 22px 0; gap: 24px; }
+  .talk__figs { padding-top: 0; }
+  .talk__topics { padding: 26px 22px 0; }
+  .talk__grid--3,
+  .talk__grid--2 { grid-template-columns: minmax(0, 1fr); padding: 22px 22px 0; }
+  .talk__grid--3 .tfield:last-child { grid-column: auto; }
+  .talk__msg { padding: 20px 22px 0; }
+  .talk__error,
+  .talk__send { margin-left: 22px; margin-right: 22px; }
+  .talk__send { gap: 18px; }
+  .talk__cta { width: 100%; justify-content: space-between; }
+  .talk__wordmark { font-size: 120px; top: -24px; right: -14px; }
+
+  .dlines { grid-template-columns: minmax(0, 1fr); }
+  .dline:last-child { grid-column: auto; }
+  .dline { padding: 20px 22px; }
+
+  /* The overlay card grows on a narrow screen — the map has to stay taller
+     than the card plus a band of pins, or the map becomes dead weight. */
+  .doors__map { min-height: 560px; border-radius: 22px; }
+  .doors__legend { left: 14px; top: 14px; gap: 10px; padding: 9px 13px; }
+  .nearby { left: 12px; right: 12px; bottom: 26px; padding: 16px 18px; }
+
+  /* Leaflet's attribution sits flush to the bottom and its zoom group to the
+     top-right; both would cut across the card's corners at this width. */
+  .doors__canvas .leaflet-control-attribution { font-size: 9.5px; }
+  .doors__canvas .leaflet-top { top: 4px; }
+  .doors__canvas .leaflet-right { right: 4px; }
+  .nearby__title { font-size: 18px; }
+  .nearby__acts { width: 100%; }
+  .nearby__call { flex: 1 1 auto; justify-content: space-between; }
+
+  .shrow { grid-template-columns: 52px 1fr; gap: 12px; padding: 12px 14px; }
+  .shrow--on { padding: 13px 14px; }
+  .shrow__shot { width: 52px; }
+  .shrow__mono { font-size: 24px; }
+  .shrow__call { grid-column: 2; margin-top: 8px; }
+  .deliver { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
+@media (max-width: 560px) {
+  .cpledges { gap: 12px; }
+  .cpledge { font-size: 13px; }
+  .shrow__city { font-size: 16px; }
+  .shrow__tel { font-size: 13px; }
+  .nearby__dir { flex: 1 1 auto; justify-content: center; }
+}

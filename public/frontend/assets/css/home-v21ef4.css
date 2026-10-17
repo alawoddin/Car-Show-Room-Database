@@ -1,0 +1,524 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Home v2
+   Hero-only stylesheet. Sections 2–11 are identical to v1 and come from
+   style.css; this file carries the two pieces that differ: the search panel
+   in the hero and the candour band that replaces v1's search bar.
+
+   Note the radius language: the panel and the band are 8–10px, against the
+   20–30px of the rest of the page. That is deliberate — the panel reads as
+   an instrument, not a soft card. The controls are px-based on purpose too,
+   so they stay tappable whatever the hero scales to.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Search panel — shell, head, foot
+   02. Search panel — body-style pills
+   03. Search panel — dark selects
+   04. Search panel — price slider
+   05. Search panel — included row and submit
+   06. Candour band
+   07. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Search panel — shell, head, foot
+   ========================================================================== */
+
+.dot--9 { width: 9px; height: 9px; }
+
+.findpanel {
+  flex: 0 0 430px;
+  max-width: 430px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .86);
+  color: #FFFFFF;
+  box-shadow: 0 36px 76px -26px rgba(20, 22, 26, .7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.findpanel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+
+.findpanel__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.findpanel__stamp {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: rgba(255, 255, 255, .45);
+}
+
+.findpanel__body { padding: 20px; }
+
+.findpanel__title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.findpanel__h {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.026em;
+  color: #FFFFFF;
+}
+
+.findpanel__adv {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, .6);
+  text-decoration: underline;
+}
+
+.findpanel__adv:hover { color: #FFFFFF; }
+
+.findpanel__foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 13px 20px;
+  border-top: 1px solid rgba(255, 255, 255, .12);
+}
+
+.findpanel__popular {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .4);
+}
+
+.findpanel__link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.findpanel__link:hover { color: var(--accent); }
+
+
+/* ==========================================================================
+   02. Search panel — body-style pills
+   ========================================================================== */
+
+.bodypills {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.bodypill {
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 255, 255, .8);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.bodypill:hover { border-color: #FFFFFF; color: #FFFFFF; }
+
+.bodypill--on {
+  border-color: #FFFFFF;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   03. Search panel — dark selects
+   ========================================================================== */
+
+.findpanel__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.hsel { position: relative; }
+
+.hsel__lbl {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.hsel__sel {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 44px;
+  padding: 0 36px 0 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .06);
+  color: #FFFFFF;
+  font-family: var(--font);
+  font-size: 14.5px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.hsel__sel:focus-visible { border-color: var(--accent); }
+
+/* Native menus are painted by the OS — force them to the panel's palette. */
+.hsel__sel option { background: var(--ink); color: #FFFFFF; }
+
+.hsel__chev {
+  position: absolute;
+  right: 13px;
+  bottom: 15px;
+  color: rgba(255, 255, 255, .6);
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   04. Search panel — price slider
+   ========================================================================== */
+
+.pricebar { margin-top: 20px; }
+
+.pricebar__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pricebar__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.pricebar__val { font-size: 17px; font-weight: 800; letter-spacing: -.024em; }
+
+/* --p is the filled share of the track; main.js keeps it in step with the
+   value, and 44% is where the default $200,000 sits. */
+.range--find {
+  margin-top: 12px;
+  background: linear-gradient(90deg, var(--accent) 0 var(--p, 44%), rgba(255, 255, 255, .2) var(--p, 44%) 100%);
+}
+
+.range--find::-webkit-slider-thumb { border-color: var(--ink); background: var(--accent); }
+.range--find::-moz-range-thumb { border-color: var(--ink); background: var(--accent); }
+
+.pricebar__ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(255, 255, 255, .4);
+}
+
+
+/* ==========================================================================
+   05. Search panel — included row and submit
+   ========================================================================== */
+
+.included {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.included__ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.included__text {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, .88);
+  cursor: pointer;
+}
+
+/* The switch is a real checkbox — the pill is its skin. */
+.included__box {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.included__switch {
+  position: relative;
+  flex: none;
+  width: 38px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .22);
+  transition: background .2s ease;
+  cursor: pointer;
+}
+
+.included__switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.included__box:checked + .included__switch { background: var(--accent); }
+.included__box:checked + .included__switch::after { background: var(--ink); transform: translateX(16px); }
+.included__box:focus-visible + .included__switch { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.findpanel__go {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: 16px;
+  padding: 15px 15px 15px 22px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.findpanel__go:hover { background: var(--accent-hi); }
+
+.findpanel__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+
+/* ==========================================================================
+   06. Candour band
+   ========================================================================== */
+
+.candourwrap {
+  position: relative;
+  z-index: 30;
+  flex: none;
+  padding: 0 var(--gutter) calc(var(--u) * 1.6);
+}
+
+.candour {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.candour__card {
+  padding: 22px 26px 24px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.candour__flags { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.candour__pass {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.candour__which {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.candour__h {
+  margin-top: 14px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -.026em;
+  color: var(--ink);
+}
+
+.faults {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* The accent edge is the point of the whole band: the flaw is volunteered,
+   not buried. */
+.fault {
+  padding: 14px 16px;
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.fault__title { font-size: 14px; font-weight: 700; color: var(--ink); }
+
+.fault__text {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.candour__price {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-radius: 10px;
+  background: rgba(20, 22, 26, .88);
+  color: #FFFFFF;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.candour__model {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .5);
+}
+
+.candour__amount {
+  margin-top: 12px;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -.034em;
+}
+
+.candour__spec {
+  margin-top: 5px;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, .6);
+}
+
+.candour__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 13px 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.candour__cta:hover { background: var(--accent-hi); color: var(--ink); }
+
+
+/* ==========================================================================
+   07. Responsive
+   ========================================================================== */
+
+@media (max-width: 1280px) {
+  .findpanel { flex-basis: 380px; max-width: 380px; }
+}
+
+@media (max-width: 1024px) {
+  /* The hero stacks here (style.css), so the panel takes the full width. */
+  .findpanel { flex: 0 1 auto; max-width: none; }
+  .candourwrap { padding: 0 var(--gutter); }
+  .candour { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 780px) {
+  .findpanel__body { padding: 18px; }
+  .findpanel__head,
+  .findpanel__foot { padding: 12px 18px; }
+  .findpanel__h { font-size: 20px; }
+  .faults { grid-template-columns: minmax(0, 1fr); }
+  .candour__card { padding: 20px 20px 22px; }
+  .candour__price { padding: 20px; }
+  .candour__amount { font-size: 28px; }
+}
+
+@media (max-width: 430px) {
+  .findpanel__grid { grid-template-columns: minmax(0, 1fr); }
+  .bodypill { padding: 8px 13px; font-size: 12.5px; }
+}

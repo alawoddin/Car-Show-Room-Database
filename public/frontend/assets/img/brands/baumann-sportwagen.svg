@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Baumann Sportwagen">
+  <rect width="512" height="512" fill="#5A2230"/>
+  <path d="M256 74l150 44v130c0 106-72 158-150 190-78-32-150-84-150-190V118z" fill="none" stroke="#D9A441" stroke-width="26"/>
+  <text x="256" y="256" fill="#F1EEE7" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="210" text-anchor="middle" dominant-baseline="central" letter-spacing="-8">B</text>
+</svg>

@@ -1,0 +1,786 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Dealer invoices (dealer-invoices.html)
+   Only what this page adds. The light header, the page-header block and
+   the shared dots and rule are the inner-page template in style.css; the
+   ink rail is the dashboard chrome in profile.css.
+
+   Every document with a number, both directions in one list, with the real
+   document behind each row and the VAT summary underneath. Accent marks:
+   the issued-by-you arrow tile, the balance-due and nothing-to-pay pills,
+   the €0 owed figure, Send reminders and the document number in the panel
+   header. Rust for overdue, refunds due and ISSUE A CREDIT NOTE.
+   Prefix iv-.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Labels and section heads
+   02. Status bar and search
+   03. The document preview
+   04. Tabs, bulk bar and the list
+   05. Pager and the empty state
+   06. Cells, the VAT table and the rules
+   07. Responsive
+   08. Touch and reduced motion
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Labels and section heads
+   ========================================================================== */
+
+.ivmain { --iv-rust: #8A4A22; }
+
+.ivsec { display: block; }
+
+.ivk { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; color: var(--ink-2); }
+
+.ivk--light { color: #FFFFFF; }
+
+/* Штамп документа набран на полразмера крупнее списка. */
+.ivdoc__stamp .ivk { font-size: 10px; }
+
+.ivk--right { text-align: right; }
+
+.ivk--center { text-align: center; }
+
+.ivmeta { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.ivhead { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.ivhead__main { min-width: 0; }
+
+.ivhead__h { margin: 11px 0 0; font-size: clamp(22px, 2vw, 30px); font-weight: 800; letter-spacing: -.03em; }
+
+.ivhead__aside { margin: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.ivsep { display: inline-block; width: 1px; height: 13px; background: rgba(20, 22, 26, .18); }
+
+.ivlink {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+  text-decoration: underline;
+  transition: color .18s ease;
+}
+
+.ivlink:hover { color: var(--ink); }
+
+.ivlink--ink { font-weight: 700; letter-spacing: .1em; color: var(--ink); }
+
+.ivlink--rust, .ivlink--ink { letter-spacing: .1em; }
+
+.ivlink--rust { font-weight: 700; color: var(--iv-rust); }
+
+.ivlink--rust:hover { color: var(--iv-rust); }
+
+.ivlink:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ivx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 50%;
+  background: transparent;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.ivx:hover { border-color: #FFFFFF; }
+
+.ivx:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+
+/* ==========================================================================
+   02. Status bar and search
+   ========================================================================== */
+
+.ivbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.ivbar__main { display: inline-flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+
+.ivbar__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.ivbar__live .dot { align-self: flex-start; margin-top: 3px; }
+
+.ivbar__ctl { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.ivsearch { position: relative; display: inline-flex; align-items: center; }
+
+.ivsearch__icon { position: absolute; left: 14px; display: inline-flex; color: var(--ink-2); pointer-events: none; }
+
+.ivsearch__in {
+  width: 250px;
+  height: 44px;
+  padding: 0 15px 0 38px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.ivsearch__in::placeholder { color: var(--ink-2); font-weight: 500; }
+
+.ivsearch__in:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+.ivselect {
+  height: 44px;
+  padding: 0 34px 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 12px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.ivselect:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent); }
+
+
+/* ==========================================================================
+   03. The document preview
+   ========================================================================== */
+
+.ivdoc { background: #FFFFFF; border: 1px solid var(--ink); border-radius: 22px; overflow: hidden; }
+
+.ivdoc[hidden] { display: none; }
+
+.ivdoc__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 15px 24px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.ivdoc__headmain { display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.ivdoc__headno { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--accent); }
+
+.ivdoc__headacts { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.ivdoc__body { padding: 34px 40px 30px; }
+
+.ivdoc__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+
+.ivdoc__seller { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+
+.ivdoc__name { font-size: 22px; font-weight: 800; letter-spacing: -.03em; }
+
+/* На бумаге всё, кроме служебных подписей, набрано текстовым шрифтом —
+   моноширинный здесь остаётся только у номеров и ключей. */
+.ivdoc__seller .ivmeta, .ivcol .ivmeta, .ivdoc__body .ivline__d > .ivmeta {
+  font-family: var(--font); font-size: 13px; font-weight: 400; letter-spacing: normal; color: var(--ink-3);
+}
+
+.ivdoc__body .ivline__d > .ivmeta { font-family: var(--mono); font-size: 9.5px; font-weight: 600; letter-spacing: .11em; color: var(--ink-2); }
+
+.ivdoc__stamp { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; text-align: right; }
+
+.ivdoc__no { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: .05em; color: var(--ink); }
+
+.ivdoc__cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 26px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.ivcol { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+
+.ivcol__t { font-size: 15px; font-weight: 800; letter-spacing: -.022em; }
+
+.ivcol__t--no { font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: .05em; }
+
+.ivtable { margin-top: 22px; }
+
+.ivline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 120px) minmax(0, 120px) minmax(0, 120px);
+  align-items: start;
+  gap: 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.ivline--head { padding: 0 0 10px; border-bottom: 1px solid var(--line); }
+
+.ivline--dep { border-bottom: 0; }
+
+.ivline__d { display: flex; flex-direction: column; gap: 6px; min-width: 0; font-size: 13.5px; color: var(--ink-3); }
+
+.ivline__t { font-size: 15px; font-weight: 700; letter-spacing: -.02em; color: var(--ink); }
+
+.ivline__note { font-size: 12.5px; line-height: 1.55; color: var(--ink-3); text-wrap: pretty; }
+
+.ivline__n { font-family: var(--mono); font-size: 14px; font-weight: 700; text-align: right; color: var(--ink); }
+
+.ivline__n--bold { font-family: var(--font); font-size: 16px; font-weight: 800; letter-spacing: -.024em; color: var(--ink); }
+
+.ivline--dep .ivline__d { font-size: 14.5px; font-weight: 600; color: var(--ink-3); }
+
+.ivline--dep .ivline__n:last-child { font-family: var(--font); font-size: 15px; font-weight: 800; letter-spacing: -.024em; color: var(--ink); }
+
+.ivdoc__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-top: 22px; }
+
+.ivdoc__pay { flex: 1 1 320px; margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+
+.ivtotal { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; text-align: right; }
+
+.ivtotal__n { font-size: 30px; font-weight: 800; letter-spacing: -.034em; }
+
+.ivdoc__band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 26px -40px -30px;
+  padding: 15px 40px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ivdoc__band-t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.ivdoc__band-acts { display: inline-flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+
+/* ==========================================================================
+   04. Tabs, bulk bar and the list
+   ========================================================================== */
+
+.ivtabs { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 14px; }
+
+.ivtab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  background: #FFFFFF;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.ivtab:hover { border-color: var(--ink); }
+
+.ivtab--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.ivtab__n {
+  display: inline-block;
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--ink-2);
+}
+
+.ivtab--on .ivtab__n { background: rgba(255, 255, 255, .16); color: #FFFFFF; }
+
+.ivtab:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ivbox { border: 1px solid rgba(20, 22, 26, .14); border-radius: 22px; overflow: hidden; }
+
+.ivbulk {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 13px 22px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.ivbulk__t { min-width: 0; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .13em; }
+
+.ivbulk__acts { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.ivbulk__go {
+  height: 38px;
+  padding: 0 15px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: filter .18s ease;
+}
+
+.ivbulk__go:hover { filter: brightness(1.08); }
+
+.ivbulk__btn {
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color .18s ease;
+}
+
+.ivbulk__btn:hover { border-color: #FFFFFF; }
+
+.ivbulk__go:disabled, .ivbulk__btn:disabled { opacity: .4; cursor: default; filter: none; }
+
+.ivbulk__go:focus-visible, .ivbulk__btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.ivth {
+  display: grid;
+  grid-template-columns: minmax(0, 42px) minmax(0, 168px) minmax(0, 1fr) minmax(0, 150px) minmax(0, 142px) minmax(0, 150px);
+  gap: 16px;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ivth[hidden] { display: none; }
+
+.ivrows { display: block; }
+
+.ivrow {
+  display: grid;
+  grid-template-columns: minmax(0, 42px) minmax(0, 168px) minmax(0, 1fr) minmax(0, 150px) minmax(0, 142px) minmax(0, 150px);
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--line-10);
+  /* The stripe is always there, transparent, so a row never shifts when the
+     news turns bad; only the two rust rows paint it. */
+  border-left: 3px solid transparent;
+  background: #FFFFFF;
+}
+
+.ivrow--bad { border-left-color: var(--iv-rust); }
+
+.ivrow[hidden] { display: none; }
+
+.ivrow--last { border-bottom: 0; }
+
+.ivway { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+.ivtile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.ivtile--out { background: var(--ink); color: var(--accent); }
+
+.ivpick { display: inline-flex; cursor: pointer; }
+
+.ivtick {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(20, 22, 26, .24);
+  border-radius: 6px;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.ivtick svg { visibility: hidden; }
+
+.ivcheck:checked + .ivtick { border-color: var(--accent); background: var(--accent); }
+
+.ivcheck:checked + .ivtick svg { visibility: visible; }
+
+.ivcheck:focus-visible + .ivtick { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ivno { min-width: 0; }
+
+.ivno__t { display: block; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--ink); }
+
+.ivno .ivmeta { display: block; margin-top: 5px; }
+
+.ivwhat { min-width: 0; }
+
+.ivwhat__t { display: block; font-size: 14.5px; font-weight: 700; letter-spacing: -.02em; text-wrap: pretty; }
+
+.ivwhat__row { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-top: 7px; }
+
+.ivchip {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--ink);
+}
+
+.ivsum { min-width: 0; text-align: right; }
+
+.ivsum__n { display: block; font-size: 16px; font-weight: 800; letter-spacing: -.026em; }
+
+.ivsum .ivmeta { display: block; margin-top: 5px; }
+
+.ivstatecell { min-width: 0; }
+
+.ivstate {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  color: var(--ink);
+}
+
+.ivstate--accent { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+
+/* В тёмной шапке документа тот же чип читается наоборот. */
+.ivdoc__head .ivstate { background: rgba(255, 255, 255, .14); color: #FFFFFF; }
+
+.ivstate--rust { background: rgba(138, 74, 34, .14); color: var(--iv-rust); }
+
+.ivstate--plain { background: var(--surface); }
+
+.ivrow--bad .ivstatecell__p { color: var(--iv-rust); }
+
+.ivstatecell__p {
+  display: block;
+  margin-top: 7px;
+  font-family: var(--font);
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.ivdo { display: flex; flex-direction: column; gap: 8px; }
+
+.ivact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: filter .18s ease, border-color .18s ease;
+}
+
+.ivact--ink { border: 1px solid var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.ivact--ink:hover { filter: brightness(1.14); color: #FFFFFF; }
+
+.ivact--out { border: 1px solid rgba(20, 22, 26, .18); background: transparent; color: var(--ink); }
+
+.ivact--out:hover { border-color: var(--ink); color: var(--ink); }
+
+/* Единственная заливка акцентом на странице — «скачать документ». */
+.ivact--go { border: 0; background: var(--accent); color: var(--ink); font-weight: 700; }
+
+.ivact--go:hover { filter: brightness(1.06); color: var(--ink); }
+
+.ivact--go:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+
+.ivact--light { border: 1px solid rgba(255, 255, 255, .28); background: transparent; color: #FFFFFF; }
+
+.ivact--light:hover { border-color: #FFFFFF; color: #FFFFFF; }
+
+.ivact:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.ivact--light:focus-visible { outline-color: #FFFFFF; }
+
+.ivdo__row { display: flex; align-items: center; justify-content: center; gap: 9px; }
+
+.ivdo__sep { display: inline-block; width: 1px; height: 11px; background: rgba(20, 22, 26, .2); }
+
+
+/* ==========================================================================
+   05. Pager and the empty state
+   ========================================================================== */
+
+.ivpager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 16px 22px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ivpager__seen { display: inline-flex; align-items: baseline; gap: 9px; }
+
+.ivpager__num { font-size: 20px; font-weight: 800; letter-spacing: -.03em; }
+
+.ivpager__of { font-size: 14px; color: var(--ink-2); }
+
+.ivempty { padding: 34px 24px 36px; text-align: center; }
+
+.ivempty[hidden] { display: none; }
+
+.ivempty__t { margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -.024em; }
+
+.ivempty__p { max-width: 520px; margin: 8px auto 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   06. Cells, the VAT table and the rules
+   ========================================================================== */
+
+.ivcells {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.ivcell { display: flex; flex-direction: column; gap: 9px; padding: 20px 22px 22px; background: #FFFFFF; }
+
+.ivcell__n { font-size: 24px; font-weight: 800; letter-spacing: -.032em; color: var(--ink); }
+
+.ivcell__n--rust { color: var(--iv-rust); }
+
+.ivcell__n--accent { color: var(--accent-deep); }
+
+.ivcell__p { font-size: 12.5px; line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+
+.ivstrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 14px 0 0;
+  padding: 15px 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.ivstrip__t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.ivvat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 150px) minmax(0, 150px);
+  align-items: center;
+  gap: 18px;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--line-10);
+}
+
+.ivvat--head { padding: 13px 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
+
+.ivvat--total { border-bottom: 0; border-top: 1.5px solid var(--ink); padding: 18px 24px 20px; }
+
+.ivvat__main { min-width: 0; }
+
+.ivvat__t { display: block; font-size: 14.5px; font-weight: 700; letter-spacing: -.02em; }
+
+.ivvat--total .ivvat__t { font-size: 15.5px; font-weight: 800; letter-spacing: -.022em; }
+
+.ivvat__main .ivmeta { display: block; margin-top: 5px; }
+
+/* Цифры возврата набраны текстовым шрифтом: сумма к уплате читается
+   как деньги, а не как строка выгрузки. */
+.ivvat__n { font-size: 15px; font-weight: 700; letter-spacing: -.022em; text-align: right; color: var(--ink); }
+
+.ivvat__n--vat { font-weight: 800; letter-spacing: -.024em; }
+
+.ivvat__big { font-size: 26px; font-weight: 800; letter-spacing: -.032em; text-align: right; }
+
+.ivfoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 16px 24px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ivfoot__t { min-width: 0; font-size: 13px; color: var(--ink-2); text-wrap: pretty; }
+
+.ivrules {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid rgba(20, 22, 26, .14);
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.ivrule { display: flex; flex-direction: column; gap: 11px; padding: 22px 24px 24px; background: #FFFFFF; }
+
+.ivrule__t { margin: 0; font-size: 16px; font-weight: 700; letter-spacing: -.022em; }
+
+.ivrule__p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+
+/* ==========================================================================
+   07. Responsive
+   ========================================================================== */
+
+@media (max-width: 1440px) {
+  .ivth { display: none; }
+
+  .ivrow { grid-template-columns: minmax(0, 42px) minmax(0, 1fr) minmax(0, 150px); gap: 12px 14px; }
+
+  .ivwhat, .ivstatecell, .ivdo { grid-column: 2 / -1; }
+
+  .ivsum { grid-column: 3; grid-row: 1; }
+
+  .ivdo { flex-direction: row; align-items: center; justify-content: flex-start; gap: 16px; }
+}
+
+@media (max-width: 1100px) {
+  .ivcells { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .ivdoc__cols { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+
+  .ivline { grid-template-columns: minmax(0, 1fr) minmax(0, 100px) minmax(0, 100px) minmax(0, 110px); gap: 12px; }
+}
+
+@media (max-width: 900px) {
+  .ivrules { grid-template-columns: minmax(0, 1fr); }
+
+  .ivvat { grid-template-columns: minmax(0, 1fr) minmax(0, 110px) minmax(0, 110px); gap: 12px; }
+}
+
+@media (max-width: 700px) {
+  .ivsep { display: none; }
+}
+
+@media (max-width: 640px) {
+  .ivbar, .ivbulk, .ivrow, .ivpager, .ivstrip, .ivvat, .ivfoot { padding-left: 18px; padding-right: 18px; }
+
+  .ivbar__ctl { width: 100%; }
+
+  .ivsearch { flex: 1 1 auto; }
+
+  .ivsearch__in { width: 100%; }
+
+  .ivcells { grid-template-columns: minmax(0, 1fr); }
+
+  .ivcell, .ivrule { padding-left: 18px; padding-right: 18px; }
+
+  .ivdoc__body { padding: 24px 18px 22px; }
+
+  .ivdoc__band { margin: 22px -18px -22px; padding: 15px 18px; }
+
+  .ivline { grid-template-columns: minmax(0, 1fr) minmax(0, 90px); }
+
+  .ivline--head .ivk:nth-child(2), .ivline--head .ivk:nth-child(3) { display: none; }
+
+  .ivline .ivline__n:not(:last-child) { display: none; }
+
+  .ivtotal__n { font-size: 24px; }
+}
+
+@media (max-width: 430px) {
+  .ivrow { grid-template-columns: minmax(0, 34px) minmax(0, 1fr); }
+
+  .ivsum { grid-column: 2; grid-row: auto; text-align: left; }
+
+  .ivdo { flex-wrap: wrap; gap: 10px 16px; }
+
+  .ivvat { grid-template-columns: minmax(0, 1fr) minmax(0, 96px); }
+
+  .ivvat--head .ivk:nth-child(2) { display: none; }
+}
+
+
+/* ==========================================================================
+   08. Touch and reduced motion
+   ========================================================================== */
+
+@media (hover: none) {
+  .ivact--ink:hover, .ivbulk__go:hover { filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ivtab, .ivtick, .ivact, .ivlink, .ivbulk__go, .ivbulk__btn, .ivselect, .ivsearch__in, .ivx { transition: none; }
+
+  .ivbar .pulse { animation: none; }
+}

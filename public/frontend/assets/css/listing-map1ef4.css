@@ -1,0 +1,1660 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Listing Map v1
+   Only what this page adds. The light header, the page-header block and the
+   divider rhythm are the inner-page template and live in style.css.
+
+   The first page built for the marketplace rather than the dealer group: the
+   same nineteen cars, but some are listed by AVAVA's showrooms and some by
+   their owners, so every card says who is selling it and what that means for
+   the inspection.
+
+   Two spatial models over the same data, and one implementation. v1 is a
+   sticky map on the left with the matching results on the right, switchable
+   between wide rows and a two-up grid, paged. v2 gives the whole width to the
+   map and docks the results over its left edge as a rail that scrolls inside
+   itself, so the page behind it never grows. The map is a real one — Leaflet
+   over OpenStreetMap, the same vendored copy the contact and about pages use
+   — so the pins sit at real coordinates instead of hand-placed percentages,
+   and "Search this area" has an area to search.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. The control bar
+   02. The split view
+   03. The map and what floats on it
+   04. The pins
+   05. The wide row
+   06. The grid card
+   07. Pagination
+   08. The map-first stage (v2, v3)
+   09. The floating panel (v2, v3)
+   10. The panel card (v2)
+   11. The wide panel (v3)
+   12. Responsive
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. The control bar
+   ========================================================================== */
+
+/* 26px, not 999px: at narrow widths the row wraps to two lines and a pill
+   silhouette would clip its own contents. */
+/* Первая секция страницы без шапки: полоса фильтров не должна упираться
+   в край окна. */
+/* ---------------------------------------------------------------------
+   Карта на всю высоту окна (listing-map-v4)
+
+   Страница не прокручивается совсем: полоса фильтров и карта стоят на
+   месте, а список карточек прокручивается внутри своей колонки. Селекторы
+   двойные (.sec.sec--bare), потому что базовый .sec в style.css задаёт
+   padding сокращённой записью и иначе перекрывает эти правила.
+   --------------------------------------------------------------------- */
+.mapfit { overflow: hidden; }
+
+.sec.sec--bare { padding-top: 20px; }
+
+.mapapp { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+.mapapp .sec.sec--fit {
+  flex: 1 1 auto;
+  display: flex;
+  min-height: 0;
+  padding-top: 16px;
+  padding-bottom: 20px;
+}
+
+.mapapp .split { flex: 1 1 auto; align-items: stretch; min-height: 0; }
+
+.mapapp .mapcol { position: static; height: 100%; }
+
+.mapapp .mapstage { height: 100%; min-height: 0; }
+
+.mapapp .rescol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+}
+
+@media (max-width: 1100px) {
+  /* Ниже этого места две колонки не помещаются в высоту: страница снова
+     обычная, с прокруткой. */
+  .mapfit { overflow: visible; }
+
+  .mapapp { height: auto; overflow: visible; }
+
+  .mapapp .sec.sec--fit { display: block; }
+
+  .mapapp .mapstage { height: 62vh; min-height: 420px; }
+
+  .mapapp .rescol { overflow: visible; }
+}
+
+.cbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  border-radius: 26px;
+  background: var(--surface);
+}
+
+/* На странице без шапки логотип живёт в полосе фильтров: он стоит первым
+   в группе пилюль, и до «All» от него 20px — 13 своих плюс 7 общего шага. */
+.cbar__pills .cbar__logo { flex: none; display: inline-flex; align-items: center; margin-right: 13px; }
+
+.cbar__pills .cbar__logo img { display: block; width: auto; height: 30px; }
+
+.cbar__logo:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 6px; }
+
+.cbar__pills { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+
+.cpill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(20, 22, 26, .06);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, color .18s ease;
+}
+
+.cpill:hover { transform: translateY(-2px); }
+
+.cpill--on { background: var(--ink); color: #FFFFFF; font-weight: 700; box-shadow: none; }
+
+.cpill:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* The count is grey rather than the palette's lightest ink: on a white pill
+   at 10px, #9BA0A6 stops being a number and becomes a smudge. */
+.cpill__n { font-family: var(--mono); font-size: 10px; font-weight: 600; color: var(--ink-2); }
+
+.cpill--on .cpill__n { font-size: 9px; color: rgba(255, 255, 255, .55); }
+
+/* An option that would empty the results says so before it is pressed. */
+.cpill--none { opacity: .5; }
+
+.cbar__right { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.vtog { display: flex; align-items: stretch; border-radius: 999px; overflow: hidden; background: #FFFFFF; }
+
+.vtog__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.vtog__btn--on { background: var(--ink); color: #FFFFFF; }
+
+.cbar__count {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.csel { position: relative; display: block; }
+
+.csel__in {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 44px;
+  padding: 0 38px 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFFFFF;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.csel__in:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.csel__chev {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.cprice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 18px 0 16px;
+  border-radius: 999px;
+  background: #FFFFFF;
+}
+
+.cprice__lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.cprice__val { font-size: 15px; font-weight: 800; letter-spacing: -.02em; white-space: nowrap; }
+
+/* The visible track is ours and the real range input lies over it at zero
+   opacity — a <span> here would be inline, and an inline box has no height,
+   no margin and no width for the slider to measure itself against. */
+.cprice__track {
+  display: block;
+  position: relative;
+  width: 120px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) 0 var(--fill, 100%), rgba(20, 22, 26, .14) var(--fill, 100%) 100%);
+}
+
+.cprice__in {
+  position: absolute;
+  left: 0;
+  top: -12px;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.cprice__knob {
+  position: absolute;
+  left: var(--fill, 100%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(20, 22, 26, .24);
+  pointer-events: none;
+}
+
+.cprice__in:focus-visible ~ .cprice__knob { box-shadow: 0 0 0 2px var(--ink); }
+
+
+/* ==========================================================================
+   02. The split view
+   ========================================================================== */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* align-items: start is what lets the map be sticky — a stretched grid item is
+   already as tall as the row and has nothing to stick within. */
+.mapcol {
+  position: sticky;
+  top: 24px;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+.mapstage { position: relative; height: calc(100vh - 120px); min-height: 620px; }
+
+.mapstage__canvas { position: absolute; inset: 0; }
+
+
+/* ==========================================================================
+   03. The map and what floats on it
+   ========================================================================== */
+
+/* Everything on this layer sits above Leaflet's own panes, which stop at 800. */
+.mplate,
+.msearch,
+.mzoom { position: absolute; z-index: 900; }
+
+.mplate {
+  left: 20px;
+  top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 14px 30px -18px rgba(20, 22, 26, .5);
+}
+
+.mplate__pair { display: inline-flex; align-items: baseline; gap: 7px; }
+
+.mplate__n { font-size: 19px; font-weight: 800; letter-spacing: -.028em; }
+
+.mplate__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.mplate__sep { width: 1px; height: 20px; background: rgba(20, 22, 26, .16); }
+
+.msearch {
+  left: 20px;
+  bottom: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -16px rgba(20, 22, 26, .6);
+  transition: background .18s ease;
+}
+
+.msearch:hover { background: #23272D; }
+
+/* Once the results are cut to what the map shows, the button becomes the way
+   back out. */
+.msearch--on { background: var(--accent); color: var(--ink); }
+
+.msearch--on:hover { background: var(--accent-hi); }
+
+.mzoom {
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .14);
+  box-shadow: 0 14px 30px -18px rgba(20, 22, 26, .5);
+}
+
+.mzoom__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: rgba(255, 255, 255, .96);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease;
+}
+
+.mzoom__btn:hover { background: #FFFFFF; }
+
+
+/* ==========================================================================
+   04. The pins
+   ========================================================================== */
+
+/* A label above a stalk, drawn in HTML inside Leaflet's divIcon so it carries
+   the page's own accent and its live count. */
+/* Leaflet drives the wrapper's own transform to place it, so the pin cannot
+   carry one of its own. The wrapper is a zero-size point at the coordinate and
+   the pin hangs off it: centred on the point, sitting above it, with the stalk
+   ending exactly where the city is. */
+.mpin-wrap { background: none; border: 0; overflow: visible; }
+
+.mpin {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.mpin__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 12px 26px -12px rgba(20, 22, 26, .6);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  transition: transform .18s ease, background .18s ease, color .18s ease;
+}
+
+.mpin:hover .mpin__label { transform: translateY(-3px); }
+
+.mpin__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+.mpin__badge {
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 9.5px;
+}
+
+.mpin__stalk { width: 1px; height: 10px; background: rgba(20, 22, 26, .4); }
+
+/* The chosen door, and the one under the cursor over in the results column. */
+.mpin--on .mpin__label { background: var(--ink); color: #FFFFFF; font-size: 11px; padding: 9px 14px; }
+
+.mpin--on .mpin__badge { background: var(--accent); color: var(--ink); }
+
+/* The chosen door breathes, like the live counters elsewhere. The global
+   reduced-motion rule stops it for anyone who asked for that. */
+.mpin--on .mpin__dot { animation: pulse 2.4s ease-out infinite; }
+
+.mpin--on .mpin__stalk { height: 14px; background: var(--ink); }
+
+.mpin--lit .mpin__label { transform: translateY(-3px); background: #FFFFFF; box-shadow: 0 16px 30px -10px rgba(20, 22, 26, .7); }
+
+.mpin--lit .mpin__badge { background: var(--accent); color: var(--ink); }
+
+/* A door with nothing in it after the filters says so rather than lying. */
+.mpin--empty .mpin__label { opacity: .45; }
+
+
+/* ==========================================================================
+   05. The wide row
+   ========================================================================== */
+
+.mlist { display: flex; flex-direction: column; gap: 14px; }
+
+/* Both views stay in the DOM and one is hidden. A display of its own beats
+   the browser's [hidden] rule, so the hidden one has to be told twice. */
+.mlist[hidden],
+.mgrid[hidden] { display: none; }
+
+.mrow {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.mrow:hover,
+.mrow--on {
+  transform: translateY(-4px);
+  border-color: var(--ink);
+  box-shadow: 0 22px 44px -28px rgba(20, 22, 26, .42);
+}
+
+.mrow--lead { border-color: var(--ink); box-shadow: 0 24px 48px -32px rgba(20, 22, 26, .44); }
+
+/* A fixed basis, not a ratio: an aspect-ratio photo with align-self: stretch
+   has an indefinite height to resolve against and computes to width 0. */
+.mrow__shot { position: relative; flex: 0 0 208px; align-self: stretch; min-height: 117px; background: var(--image-bed); }
+
+.mrow__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.mrow__seller,
+.mcard__seller {
+  position: absolute;
+  border-radius: 999px;
+  background: var(--accent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.mrow__seller { left: 10px; top: 10px; padding: 5px 10px; }
+
+.mrow__seller--private,
+.mcard__seller--private { background: rgba(255, 255, 255, .94); color: var(--ink); }
+
+.mrow__body { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; padding: 16px 18px 16px 16px; }
+
+.mrow__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+
+.mrow__title { min-width: 0; }
+
+.mrow__make,
+.mcard__make {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.mrow__model { margin-top: 6px; font-size: 18px; font-weight: 800; letter-spacing: -.024em; text-wrap: pretty; }
+
+.mrow__money { flex: none; text-align: right; }
+
+.mrow__price { font-size: 20px; font-weight: 800; letter-spacing: -.03em; white-space: nowrap; }
+
+.mrow__mo { margin-top: 3px; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; }
+
+.mrow__chips { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+.mchip {
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+/* flex-wrap is load-bearing: in the narrow column the trust label clips
+   against the city without it. */
+.mrow__foot,
+.mcard__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 10px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.mrow__foot { margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(20, 22, 26, .1); }
+
+.mrow__where,
+.mcard__where {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.mrow__pin,
+.mcard__pin { display: inline-flex; flex: none; color: var(--accent); }
+
+/* The trust state is a safety claim, so it reads at the same weight whichever
+   way it falls — only the colour says which. */
+.mrow__trust,
+.mcard__trust {
+  font-family: var(--mono);
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--accent);
+}
+
+.mrow__trust { font-size: 9px; }
+
+.mrow__trust--said,
+.mcard__trust--said { color: var(--ink-2); }
+
+
+/* ==========================================================================
+   06. The grid card
+   ========================================================================== */
+
+.mgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+
+.mcard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  overflow: hidden;
+  background: #FFFFFF;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.mcard:hover,
+.mcard--on {
+  transform: translateY(-5px);
+  border-color: var(--ink);
+  box-shadow: 0 24px 46px -28px rgba(20, 22, 26, .42);
+}
+
+.mcard__shot { position: relative; aspect-ratio: 4 / 3; background: var(--image-bed); }
+
+.mcard__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.mcard__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(20, 22, 26, .4) 0%, rgba(20, 22, 26, 0) 34%, rgba(20, 22, 26, .9) 100%);
+  pointer-events: none;
+}
+
+.mcard__seller { left: 12px; top: 12px; padding: 5px 11px; }
+
+.mcard__over { position: absolute; left: 14px; right: 14px; bottom: 14px; }
+
+.mcard__over .mcard__make { color: rgba(255, 255, 255, .72); }
+
+.mcard__model { margin-top: 5px; font-size: 18px; font-weight: 800; letter-spacing: -.026em; color: #FFFFFF; text-wrap: pretty; }
+
+.mcard__prices { display: flex; align-items: baseline; gap: 9px; margin-top: 8px; flex-wrap: wrap; }
+
+.mcard__price { font-size: 20px; font-weight: 800; letter-spacing: -.03em; color: var(--accent); white-space: nowrap; }
+
+.mcard__mo { font-size: 11.5px; color: rgba(255, 255, 255, .66); white-space: nowrap; }
+
+.mcard__body { display: flex; flex-direction: column; flex: 1 1 auto; gap: 11px; padding: 15px 17px 17px; }
+
+.mcard__specs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .1);
+}
+
+.mcard__cell { padding: 9px 10px; background: #FFFFFF; text-align: center; }
+
+.mcard__sval { font-size: 13.5px; font-weight: 800; letter-spacing: -.02em; text-wrap: pretty; }
+
+.mcard__slabel {
+  margin-top: 4px;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.mcard__foot { margin-top: auto; }
+
+.mcard__where { gap: 7px; }
+
+.mcard__trust { font-size: 10px; }
+
+.mempty {
+  padding: 22px 26px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+
+
+/* ==========================================================================
+   07. Pagination
+   ========================================================================== */
+
+/* No "show more" here by decision: with a sticky map the page does not grow,
+   so the results column repaginates in place. */
+.mpager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+  padding: 24px 30px;
+  border: 1px solid rgba(20, 22, 26, .22);
+  border-radius: 22px;
+  background: #FFFFFF;
+}
+
+.mpager__left { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+
+.mpager__seen { display: flex; align-items: baseline; gap: 9px; }
+
+.mpager__num { font-size: 28px; font-weight: 800; letter-spacing: -.032em; line-height: 1; }
+
+.mpager__num--accent { color: var(--accent); }
+
+.mpager__of { font-size: 15px; color: var(--ink-2); }
+
+.mpager__track {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  height: 5px;
+  margin-top: 12px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(20, 22, 26, .14);
+}
+
+.mpager__fill { display: block; width: var(--seen, 0%); height: 100%; border-radius: 999px; background: var(--accent); }
+
+.mpager__sep { width: 1px; height: 44px; background: rgba(20, 22, 26, .14); }
+
+.mpager__lbl {
+  margin-top: 7px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.mpager__pages { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+
+.mpager__plabel {
+  padding-right: 6px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.mpager__list { display: inline-flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+
+.mpage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.mpage:hover { border-color: var(--ink); }
+
+.mpage--on,
+.mpage--on:hover { border-color: var(--ink); background: var(--ink); color: #FFFFFF; font-weight: 800; }
+
+.mpage--gap { border: 0; cursor: default; color: var(--ink-2); }
+
+.mpage--gap:hover { border: 0; }
+
+.mpager__next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.mpager__next:hover { background: var(--ink); color: #FFFFFF; }
+
+.mpager__next[disabled] { opacity: .35; cursor: default; }
+
+.mpager__next[disabled]:hover { background: var(--surface); color: var(--ink); }
+
+
+/* ==========================================================================
+   08. The map-first stage (v2)
+   ========================================================================== */
+
+/* One block, and the map is all of it. The height is fixed rather than
+   viewport-derived: the panel is anchored to both edges of this box, so a
+   stage that changed height under a toolbar would resize the rail with it. */
+.mstage {
+  position: relative;
+  height: 760px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--image-bed);
+}
+
+/* The furniture moves for this layout: the panel owns the left edge, so both
+   controls go to the right and the zoom stack climbs to the top. */
+/* The wide panel needs a taller stage once it lies along the bottom edge —
+   see the 1400px rule below. The class is on the stage rather than read off
+   the panel with :has(), which the CSS validator will not take. */
+.mstage .mzoom { top: 22px; right: 22px; bottom: auto; }
+
+.mstage .msearch { right: 22px; bottom: 22px; left: auto; }
+
+
+/* ==========================================================================
+   09. The floating panel (v2)
+   ========================================================================== */
+
+/* Anchored to top and bottom, not given a height: that is what makes it a
+   full-height rail whose middle scrolls while the head and foot stay put. */
+.mpanel {
+  position: absolute;
+  z-index: 900;
+  left: 22px;
+  top: 22px;
+  bottom: 22px;
+  width: 372px;
+  max-width: calc(100% - 44px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 26px 54px -24px rgba(20, 22, 26, .6);
+}
+
+.mpanel__head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.mpanel__seen { display: inline-flex; align-items: baseline; gap: 9px; }
+
+.mpanel__n {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.mpanel__of { font-size: 13.5px; color: rgba(255, 255, 255, .62); }
+
+.mpanel__reset {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: rgba(255, 255, 255, .6);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+
+.mpanel__reset:hover { color: #FFFFFF; }
+
+.mpanel__filters {
+  flex: none;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(20, 22, 26, .12);
+}
+
+/* Four equal pills, so the segment reads as one control and not as four
+   buttons that happen to sit together. */
+.mpanel__seg { display: flex; align-items: center; gap: 7px; }
+
+.mseg {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(20, 22, 26, .16);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color .18s ease, background .18s ease, color .18s ease;
+}
+
+.mseg:hover { border-color: var(--ink); }
+
+.mseg--on {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #FFFFFF;
+  font-weight: 700;
+}
+
+.mpanel__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.msel { position: relative; display: block; }
+
+.msel__in {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 40px;
+  padding: 0 32px 0 13px;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 11px;
+  background: var(--surface);
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.msel__chev {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.mceil {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.mceil__lbl {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+
+/* The same lesson the sidebar tracks taught: a span is inline until told
+   otherwise, and an inline box drops the height and the width the range
+   inside it measures itself against. */
+.mceil__track {
+  display: block;
+  position: relative;
+  flex: 1 1 auto;
+  height: 5px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent) 0 var(--fill, 100%), rgba(20, 22, 26, .14) var(--fill, 100%));
+}
+
+.mceil__in {
+  position: absolute;
+  left: 0;
+  top: -8px;
+  width: 100%;
+  height: 21px;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.mceil__knob {
+  position: absolute;
+  left: var(--fill, 100%);
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid #FFFFFF;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px rgba(20, 22, 26, .24);
+  pointer-events: none;
+}
+
+/* min-height: 0 is load-bearing: without it this flex child refuses to shrink
+   below its content and the panel grows instead of scrolling. */
+.mpanel__list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 18px;
+}
+
+.mpanel__empty {
+  margin: 0;
+  padding: 6px 2px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.mpanel__foot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-top: 1px solid rgba(20, 22, 26, .12);
+  background: var(--surface);
+}
+
+.mpanel__more {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.mpanel__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 11px 11px 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: background .18s ease;
+}
+
+.mpanel__all:hover { background: #23272D; }
+
+.mpanel__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   10. The panel card (v2)
+   ========================================================================== */
+
+/* flex: none is the other load-bearing line. Without it ten cards compress to
+   fit the rail, scrollHeight equals clientHeight, and the list looks
+   scrollable while being nothing of the kind. */
+.pcard {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #FFFFFF;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.pcard:hover,
+.pcard--on {
+  transform: translateY(-2px);
+  border-color: var(--ink);
+  box-shadow: 0 14px 28px -20px rgba(20, 22, 26, .4);
+}
+
+.pcard__shot {
+  position: relative;
+  flex: none;
+  width: 132px;
+  aspect-ratio: 16 / 9;
+  background: var(--image-bed);
+}
+
+.pcard__img { width: 100%; height: 100%; object-fit: cover; }
+
+.pcard__badge {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.pcard__badge--private {
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.pcard__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 5px;
+  padding: 10px 12px;
+}
+
+.pcard__make {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pcard__model {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  text-wrap: pretty;
+}
+
+/* margin-top: auto is what keeps the price on the bottom edge whether the
+   model name took one line or two. */
+.pcard__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.pcard__price {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.026em;
+  white-space: nowrap;
+}
+
+/* Accent only when AVAVA inspected the car: the colour is the claim. */
+.pcard__place {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.pcard__place--sure { color: var(--accent); }
+
+
+/* ==========================================================================
+   11. The wide panel (v3)
+   ========================================================================== */
+
+/* v2 widened: 892px instead of 372, so the results stop being a preview strip
+   and become a surface you can browse — two views and a batch at a time.
+   The map pays for it: at this width the panel covers about three fifths of
+   the stage, and the handoff says so plainly. The doors stay readable because
+   the viewport is inset by the panel's own width, the same as on v2. */
+.mpanel--wide { width: 892px; }
+
+/* The slider is the half that gives; the toggle never shrinks. */
+.mceil--wide { gap: 16px; }
+
+.mceil--wide .mceil__half {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.vpair {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .18);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.vpair__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 38px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.vpair__btn + .vpair__btn { border-left: 1px solid rgba(20, 22, 26, .12); }
+
+.vpair__btn:hover { background: var(--surface); }
+
+.vpair__btn--on,
+.vpair__btn--on:hover { background: var(--ink); color: #FFFFFF; }
+
+/* Two renderings of one list, and only one of them is in the flow at a time.
+   A display of its own beats the browser's [hidden] rule, so the hidden one
+   has to be told twice — the same trap as the v1 grid. */
+.mviews__list { display: flex; flex-direction: column; gap: 12px; }
+
+.mviews__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-content: start;
+}
+
+.mviews__list[hidden],
+.mviews__grid[hidden] { display: none; }
+
+/* -- the wide row ------------------------------------------------------- */
+
+.prow {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #FFFFFF;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.prow:hover,
+.prow--on {
+  transform: translateY(-2px);
+  border-color: var(--ink);
+  box-shadow: 0 14px 28px -20px rgba(20, 22, 26, .4);
+}
+
+.prow__shot {
+  position: relative;
+  flex: none;
+  width: 192px;
+  aspect-ratio: 16 / 9;
+  background: var(--image-bed);
+}
+
+.prow__img { width: 100%; height: 100%; object-fit: cover; }
+
+.prow__badge {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.prow__badge--private {
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.prow__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 7px;
+  padding: 14px 16px;
+}
+
+.prow__make {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.prow__model {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  line-height: 1.3;
+  text-wrap: pretty;
+}
+
+.prow__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.prow__price {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+  white-space: nowrap;
+}
+
+.prow__place {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.prow__place--sure { color: var(--accent); }
+
+/* -- the two-up tile ---------------------------------------------------- */
+
+.pgrid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(20, 22, 26, .12);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #FFFFFF;
+  text-align: left;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.pgrid:hover,
+.pgrid--on {
+  transform: translateY(-3px);
+  border-color: var(--ink);
+  box-shadow: 0 16px 32px -22px rgba(20, 22, 26, .42);
+}
+
+.pgrid__shot { position: relative; aspect-ratio: 16 / 9; background: var(--image-bed); }
+
+.pgrid__img { width: 100%; height: 100%; object-fit: cover; }
+
+.pgrid__badge {
+  position: absolute;
+  left: 9px;
+  top: 9px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .09em;
+}
+
+.pgrid__badge--private {
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.pgrid__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  gap: 6px;
+  padding: 13px 14px 14px;
+}
+
+.pgrid__make {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-2);
+}
+
+.pgrid__model {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.022em;
+  line-height: 1.28;
+  text-wrap: pretty;
+}
+
+.pgrid__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.pgrid__price {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.028em;
+  white-space: nowrap;
+}
+
+.pgrid__place {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--ink-2);
+}
+
+.pgrid__place--sure { color: var(--accent); }
+
+/* -- the next batch ----------------------------------------------------- */
+
+/* Inside the scroll area, at the end of the list: it is reached by scrolling,
+   not by leaving the panel. In the grid it spans both columns. */
+.vmore {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 4px;
+  padding: 15px;
+  border: 1px dashed rgba(20, 22, 26, .28);
+  border-radius: 14px;
+  background: none;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.vmore:hover { background: var(--surface); border-color: var(--ink); }
+
+.vmore__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+
+/* ==========================================================================
+   12. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .split { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .mrow__shot { flex-basis: 170px; }
+}
+
+/* Below this the two columns stop being two columns. The map does not become
+   one of them — it becomes a panel above the results that can be folded away,
+   because a map squeezed into a phone column is a picture, not a map. */
+@media (max-width: 1100px) {
+  .split { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .mapcol { position: static; }
+  .mapstage { height: 460px; min-height: 0; }
+  .mgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* The map-first stage keeps its map — it is the page — but the rail stops
+   being a rail. Below 780 it lies along the bottom edge as a sheet, which is
+   the shape a thumb can reach and the shape the handoff asks for. */
+@media (max-width: 1100px) {
+  .mstage { height: 680px; }
+}
+
+/* The wide panel hits its own max-width around here and stops leaving any map
+   to look at, so it goes to the bottom edge while the narrow one is still a
+   rail. */
+@media (max-width: 1400px) {
+  .mpanel--wide {
+    left: 22px;
+    right: 22px;
+    top: auto;
+    bottom: 22px;
+    width: auto;
+    max-height: 72%;
+  }
+
+  .mstage--wide { height: 900px; }
+}
+
+@media (max-width: 780px) {
+  /* The stage grows rather than the sheet shrinking: head, filters and foot
+     cost the same 275px on a phone as on a desktop, so a sheet sized as a
+     fraction of a 620px stage leaves the list nothing to scroll. */
+  .mstage { height: 740px; border-radius: 22px; }
+  .mstage .mzoom { top: 14px; right: 14px; }
+  .mstage .msearch { left: 14px; top: 14px; right: auto; bottom: auto; padding: 11px 16px; font-size: 13.5px; }
+
+  .mpanel {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 12px;
+    width: auto;
+    max-width: none;
+    max-height: 72%;
+  }
+
+  .cbar { gap: 16px; padding: 14px 16px; border-radius: 22px; }
+  .cbar__right { width: 100%; justify-content: space-between; }
+  .cprice { flex: 1 1 auto; justify-content: space-between; }
+  .cprice__track { flex: 1 1 90px; width: auto; }
+
+  .mapcol { border-radius: 22px; }
+  .mapstage { height: 360px; }
+  .mplate { left: 14px; top: 14px; padding: 10px 14px; gap: 10px; }
+  .msearch { left: 14px; bottom: 14px; padding: 11px 16px; font-size: 13.5px; }
+  .mzoom { right: 14px; bottom: 14px; }
+
+  .mgrid { grid-template-columns: minmax(0, 1fr); }
+
+  /* The photograph goes above the text rather than beside it. */
+  .mrow { flex-direction: column; }
+  .mrow__shot { flex: none; width: 100%; aspect-ratio: 16 / 9; min-height: 0; }
+  .mrow__body { padding: 16px 18px 18px; }
+
+  .mpager { padding: 20px 22px; gap: 20px; }
+  .mpager__left { width: 100%; }
+}
+
+@media (max-width: 780px) {
+  .mviews__grid { grid-template-columns: minmax(0, 1fr); }
+
+  /* The price row and the view toggle stop sharing a line. */
+  .mceil--wide { flex-wrap: wrap; }
+  .mceil--wide .mceil__half { flex-basis: 100%; }
+
+  /* That wrap costs the filter block another 50px, and the row card here is
+     half as tall again as the narrow panel's. Written with both classes so it
+     outranks the plain .mstage heights further down rather than depending on
+     which rule the cascade reaches last. */
+  .mstage.mstage--wide { height: 820px; }
+  .mpanel--wide { max-height: 78%; }
+
+  /* 192px of photograph beside a 300px sheet leaves the model name a column
+     three words wide, and the card grows a line for every one of them. */
+  .prow__shot { width: 150px; }
+}
+
+@media (max-width: 560px) {
+  /* Four pills across a phone leaves "Certified" 60px to sit in. The type
+     comes down rather than the row breaking in two: a second row of pills
+     costs the list a whole card. */
+  .mseg { font-size: 11px; }
+  .mstage { height: 720px; }
+  .mpanel { left: 10px; right: 10px; bottom: 10px; max-height: 76%; }
+  .mpanel__head { padding: 14px 16px; }
+  .mpanel__filters,
+  .mpanel__list,
+  .mpanel__foot { padding-left: 14px; padding-right: 14px; }
+  .mpanel__all { padding: 10px 10px 10px 15px; font-size: 13px; }
+
+  .cbar__logo { width: 100%; margin-right: 0; }
+
+  .cbar__logo img { height: 26px; }
+
+  .cbar__pills { width: 100%; }
+  .cpill { flex: 1 1 auto; justify-content: center; padding: 0 14px; }
+  .mpager__sep { display: none; }
+  .mpager__pages { width: 100%; }
+}
+
+@media (max-width: 380px) {
+  .mstage { height: 700px; }
+  .prow__shot { width: 128px; }
+  .mseg { font-size: 10.5px; }
+  .mpanel__more { font-size: 8.5px; letter-spacing: .08em; }
+  .pcard__shot { width: 104px; }
+}
+
+
+/* ==========================================================================
+   The result opens the car
+
+   These cards carry no call to action, so the model name is the link and it is
+   stretched over the card. The pin and the map keep their own stacking: the
+   anchor only covers its own card.
+   ========================================================================== */
+
+.mcard,
+.pcard,
+.prow { position: relative; }
+
+.mcard__go,
+.pcard__go,
+.prow__go { color: inherit; }
+
+.mcard__go::after,
+.pcard__go::after,
+.prow__go::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.mcard__go:hover,
+.pcard__go:hover,
+.prow__go:hover { color: inherit; }

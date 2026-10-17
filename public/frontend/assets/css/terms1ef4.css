@@ -1,0 +1,746 @@
+@charset "UTF-8";
+
+/* ==========================================================================
+   AVAVA — Terms & Conditions page
+   Only what this page adds. The light header, the page-header block, the
+   divider rhythm and the section head are the inner-page template and live
+   in style.css.
+
+   No accent is set here: the page inherits the colour from the home page the
+   visitor came through.
+
+   TABLE OF CONTENTS
+   -----------------------------------------------------------------------
+   01. Plain-words summary
+   02. The document layout
+   03. Contents panel
+   04. The document card
+   05. Clauses
+   06. Company details
+   07. Version history
+   08. Responsive
+   09. Print
+   ========================================================================== */
+
+
+/* ==========================================================================
+   01. Plain-words summary
+   ========================================================================== */
+
+.promises {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 26px;
+  align-items: stretch;
+}
+
+.pledge14 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px 38px 38px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.pledge14:hover { color: #FFFFFF; }
+
+.pledge14__wordmark {
+  position: absolute;
+  right: -16px;
+  bottom: -52px;
+  font-family: var(--display);
+  font-size: 170px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1.2px rgba(255, 255, 255, .1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pledge14__body { position: relative; }
+
+.pledge14__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+.pledge14__fig {
+  display: block;
+  margin-top: 26px;
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: -.042em;
+  line-height: .95;
+  color: var(--accent);
+}
+
+.pledge14__line {
+  display: block;
+  margin-top: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.024em;
+}
+
+.pledge14__text {
+  display: block;
+  max-width: 440px;
+  margin-top: 16px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, .72);
+}
+
+.pledge14__go,
+.ptile__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .11em;
+}
+
+.pledge14__go { position: relative; margin-top: 32px; color: rgba(255, 255, 255, .6); }
+
+.pledge14:hover .pledge14__go { color: var(--accent); }
+
+/* The 1px gap over a hairline background is the rule between the tiles. */
+.ptiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.ptile {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 26px 26px;
+  background: #FFFFFF;
+  color: var(--ink);
+  transition: background .2s ease;
+}
+
+.ptile:hover { background: var(--surface); color: var(--ink); }
+
+.ptile__fig { font-size: 30px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.ptile__line {
+  display: block;
+  margin-top: 8px;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -.012em;
+  color: var(--ink);
+}
+
+.ptile__text {
+  display: block;
+  margin-top: 12px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+.ptile__go { margin-top: auto; padding-top: 18px; color: var(--ink-2); }
+
+.ptile:hover .ptile__go { color: var(--ink); }
+
+
+/* ==========================================================================
+   02. The document layout
+   ========================================================================== */
+
+.doc {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+
+
+/* ==========================================================================
+   03. Contents panel
+   ========================================================================== */
+
+.toc {
+  position: sticky;
+  top: 24px;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.toc__head { padding: 26px 22px 20px; }
+
+.toc__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-left: 14px;
+  padding: 7px 14px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.toc__count { display: flex; align-items: baseline; gap: 12px; margin: 20px 14px 0; }
+
+.toc__num { font-size: 34px; font-weight: 800; letter-spacing: -.036em; line-height: 1; }
+
+.toc__of {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+.toc__list { padding: 0 8px 8px; margin-top: -2px; }
+
+.toc__group {
+  padding: 10px 14px 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .34);
+}
+
+.toc__row {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: transparent;
+  color: rgba(255, 255, 255, .78);
+  transition: background .18s ease;
+}
+
+.toc__row:hover { background: rgba(255, 255, 255, .06); color: rgba(255, 255, 255, .78); }
+
+/* The reader's place in the document, moved by the observer in module 21. */
+.toc__row--on { background: rgba(255, 255, 255, .08); color: #FFFFFF; }
+
+.toc__no {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: rgba(255, 255, 255, .4);
+}
+
+.toc__row--on .toc__no { color: var(--accent); }
+
+.toc__title { font-size: 14px; font-weight: 500; letter-spacing: -.014em; text-wrap: pretty; }
+
+.toc__row--on .toc__title { font-weight: 700; }
+
+.toc__foot { padding: 20px 22px 24px; border-top: 1px solid rgba(255, 255, 255, .14); }
+
+.toc__ver {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .6);
+}
+
+.toc__note { margin: 12px 14px 0; font-size: 13px; line-height: 1.55; color: rgba(255, 255, 255, .56); }
+
+.toc__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 9px 14px 0;
+  padding: 12px 12px 12px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  transition: background .2s ease, color .2s ease;
+}
+
+.toc__cta--pdf { margin-top: 18px; background: var(--accent); color: var(--ink); font-weight: 700; }
+.toc__cta--pdf:hover { background: var(--accent-hi); color: var(--ink); }
+
+.toc__cta--ask { border: 1px solid rgba(255, 255, 255, .22); color: #FFFFFF; font-weight: 600; }
+.toc__cta--ask:hover { background: rgba(255, 255, 255, .08); color: #FFFFFF; }
+
+.toc__ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent);
+}
+
+.toc__ico--quiet { background: rgba(255, 255, 255, .1); color: #FFFFFF; }
+
+
+/* ==========================================================================
+   04. The document card
+   ========================================================================== */
+
+.docbox { border: 1px solid var(--line); border-radius: 26px; overflow: hidden; }
+
+.docbox__head,
+.docbox__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: var(--surface);
+}
+
+.docbox__head {
+  padding: 18px 36px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: var(--ink-2);
+}
+
+.docbox__foot { padding: 26px 36px; border-top: 1px solid var(--line); }
+
+.docbox__note { font-size: 14.5px; color: var(--ink-3); }
+.docbox__note strong { font-weight: 700; color: var(--ink); }
+
+.docbox__end {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 36px;
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.band__name { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .14em; }
+
+.band__span {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .42);
+}
+
+
+/* ==========================================================================
+   05. Clauses
+   ========================================================================== */
+
+/* The sticky contents panel would otherwise sit over the heading a jump link
+   lands on. */
+.clause { padding: 30px 36px 32px; background: #FFFFFF; scroll-margin-top: 24px; }
+
+.clause--alt { background: #FCFCFB; }
+
+.clause + .clause { border-top: 1px solid var(--line-10); }
+
+.clause__head { display: grid; grid-template-columns: 52px 1fr auto; gap: 22px; align-items: baseline; }
+
+.clause__no {
+  font-family: var(--display);
+  font-size: 36px;
+  line-height: .8;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(20, 22, 26, .24);
+}
+
+.clause__title { font-size: 24px; font-weight: 800; letter-spacing: -.028em; }
+
+.clause__link {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink-4);
+  text-decoration: underline;
+}
+
+.clause__link:hover { color: var(--accent); }
+
+/* Indented past the number column so the reading measure starts at the title. */
+.clause__body { margin-top: 16px; margin-left: 74px; }
+
+/* One accent line per clause, then the full text — the two-tier reading model
+   is the design; the short line is not an optional summary. */
+.short {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.short__tag {
+  flex: none;
+  padding-top: 2px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .11em;
+  color: var(--ink);
+}
+
+/* 1.75 is what makes a legal page readable — do not tighten it. */
+.clause__text {
+  max-width: 800px;
+  margin-top: 15px;
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+
+
+/* ==========================================================================
+   06. Company details
+   ========================================================================== */
+
+.cpanel { border-radius: 30px; overflow: hidden; background: var(--ink); color: #FFFFFF; }
+
+.cpanel__strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 22px 40px;
+  background: var(--accent);
+  color: var(--ink);
+}
+
+.cpanel__lbl,
+.cpanel__ver {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+
+.cpanel__lbl { display: inline-flex; align-items: center; gap: 11px; }
+
+.cpanel__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, .14);
+}
+
+.creg { padding: 34px 32px 36px; background: var(--ink); }
+
+.creg__lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: rgba(255, 255, 255, .42);
+}
+
+.creg__rows { margin-top: 20px; }
+
+.creg__row { padding: 15px 0; }
+
+.creg__row + .creg__row { border-top: 1px solid rgba(255, 255, 255, .12); }
+
+.creg__val { font-size: 17px; font-weight: 700; letter-spacing: -.02em; color: #FFFFFF; }
+
+.creg__val--mail { color: var(--accent); }
+
+.creg__note { margin-top: 5px; font-size: 13px; color: rgba(255, 255, 255, .52); }
+
+.cpanel__foot {
+  padding: 22px 40px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255, 255, 255, .44);
+}
+
+
+/* ==========================================================================
+   07. Version history
+   ========================================================================== */
+
+.sechead--history { align-items: flex-end; gap: 40px; margin-bottom: 30px; }
+.sechead--history .h2 { margin-top: 14px; }
+
+.h2--history { font-size: clamp(28px, 2.7vw, 46px); letter-spacing: -.032em; white-space: nowrap; }
+
+.vcards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; align-items: stretch; }
+
+.vcard {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 28px;
+  border: 1px solid var(--line-10);
+  border-radius: 24px;
+  background: #FFFFFF;
+  color: var(--ink);
+}
+
+.vcard--on { border-color: var(--ink); background: var(--ink); color: #FFFFFF; }
+
+.vcard__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+
+.vcard__no { font-size: 30px; font-weight: 800; letter-spacing: -.034em; line-height: 1; }
+
+.vcard--on .vcard__no { color: var(--accent); }
+
+.vcard__badge {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.vcard__old {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  color: var(--ink-4);
+}
+
+.vcard__date {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: var(--ink-2);
+}
+
+.vcard--on .vcard__date { color: rgba(255, 255, 255, .44); }
+
+.vcard__title {
+  margin-top: 16px;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.vcard__text { margin-top: 11px; font-size: 13.5px; line-height: 1.6; color: var(--ink-3); text-wrap: pretty; }
+
+.vcard--on .vcard__text { color: rgba(255, 255, 255, .7); }
+
+.vcard__go {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: 20px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+
+.vcard--on .vcard__go { color: var(--accent); }
+
+.vcard__go:hover { color: var(--accent); }
+
+
+/* ==========================================================================
+   08. Responsive
+   ========================================================================== */
+
+@media (max-width: 1400px) {
+  .h2--history { white-space: normal; }
+}
+
+@media (max-width: 1180px) {
+  .promises { grid-template-columns: minmax(0, 1fr); }
+  .vcards { grid-template-columns: repeat(2, 1fr); }
+
+  /* The contents panel stops being a rail and becomes a jump list above the
+     document — sticky in a single column would cover the text it indexes. */
+  .doc { grid-template-columns: minmax(0, 1fr); }
+  .toc { position: static; }
+  .toc__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 10px; }
+  .toc__group { grid-column: 1 / -1; }
+  .toc__foot { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; align-items: start; }
+  .toc__ver,
+  .toc__note { grid-column: 1 / -1; }
+  .toc__cta--pdf { margin-top: 16px; }
+  .toc__cta--ask { margin-top: 16px; }
+  .clause { scroll-margin-top: 16px; }
+}
+
+@media (max-width: 780px) {
+  .pledge14 { padding: 30px 24px 28px; border-radius: 22px; }
+  .pledge14__fig { font-size: 52px; }
+  .pledge14__line { font-size: 19px; }
+  .pledge14__wordmark { font-size: 130px; bottom: -40px; }
+
+  .ptiles { grid-template-columns: minmax(0, 1fr); border-radius: 22px; }
+  .ptile { padding: 22px 20px; }
+
+  .toc__list { grid-template-columns: minmax(0, 1fr); }
+  .toc__foot { grid-template-columns: minmax(0, 1fr); }
+
+  .docbox { border-radius: 22px; }
+  .docbox__head,
+  .docbox__foot { padding: 16px 20px; }
+  .band { padding: 12px 20px; }
+  .clause { padding: 24px 20px 26px; }
+  .clause__head { grid-template-columns: 38px 1fr auto; gap: 14px; }
+  .clause__no { font-size: 28px; }
+  .clause__title { font-size: 20px; }
+  /* The indent costs more than it buys on a phone. */
+  .clause__body { margin-left: 0; }
+  .clause__text { font-size: 15px; }
+
+  .cpanel { border-radius: 22px; }
+  .cpanel__strip { padding: 16px 20px; gap: 12px; }
+  .cpanel__cols { grid-template-columns: minmax(0, 1fr); }
+  .creg { padding: 24px 20px 26px; }
+  .cpanel__foot { padding: 18px 20px; }
+
+  .vcards { grid-template-columns: minmax(0, 1fr); }
+  .vcard { padding: 24px 22px; }
+}
+
+@media (max-width: 560px) {
+  .short { flex-direction: column; gap: 7px; }
+  .short__tag { padding-top: 0; }
+}
+
+
+/* ==========================================================================
+   09. Print
+   A legal page gets printed. The nav, the contents rail and the footer carry
+   nothing a printed copy needs; the group bands and the SHORT boxes do.
+   ========================================================================== */
+
+@media print {
+  .hdr,
+  .hdr__rule,
+  .toc,
+  .foot,
+  .preloader,
+  .skip-link,
+  .pagehead__wordmark,
+  .pledge14__wordmark { display: none !important; }
+
+  .sec,
+  .pagehead { padding-left: 0; padding-right: 0; }
+
+  .rule { margin: 18pt 0; }
+
+  .doc,
+  .promises,
+  .vcards,
+  .cpanel__cols,
+  .ptiles { display: block; }
+
+  .docbox,
+  .cpanel,
+  .pledge14,
+  .ptiles,
+  .vcard { border-radius: 0; }
+
+  /* Ink panels turn into ruled boxes: a printer should not spend a cartridge
+     on the page's furniture. */
+  .pledge14,
+  .band,
+  .cpanel,
+  .creg,
+  .vcard--on {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border: 1pt solid #000000;
+  }
+
+  .pledge14__fig,
+  .vcard--on .vcard__no,
+  .creg__val--mail { color: #000000 !important; }
+
+  .band { border-width: 0 0 1pt; }
+  .band__span,
+  .creg__note,
+  .vcard--on .vcard__text { color: #333333 !important; }
+
+  .cpanel__strip { background: #FFFFFF !important; border-bottom: 1pt solid #000000; }
+
+  .clause,
+  .clause--alt { background: #FFFFFF !important; break-inside: avoid; }
+
+  .clause__no { -webkit-text-stroke: 0; color: #000000; }
+
+  .short { background: #FFFFFF !important; border: 1pt solid #000000; }
+
+  .clause__text { max-width: none; font-size: 10.5pt; line-height: 1.6; }
+
+  .clause__link,
+  .toc__cta,
+  .ptile__go,
+  .pledge14__go,
+  .vcard__go { display: none; }
+
+  .vcards,
+  .ptiles { break-inside: avoid; }
+}
