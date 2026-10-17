@@ -64,58 +64,29 @@
      
         <li class="menu-label">Info</li>
         <li>
-            <a class="has-arrow" href="javascript:;">
+            <a href="{{ route('all.expense') }}">
                 <div class="parent-icon"><i class='bx bx-receipt'></i>
                 </div>
                 <div class="menu-title">Expense</div>
             </a>
-            <ul>
-                <li> <a href="{{ route('all.expense') }}"><i class='bx bx-radio-circle'></i>All expense</a>
-                </li>
-                {{-- <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
-                </li>
-                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Invoice Status</a>
-                </li> --}}
-               
-            </ul>
         </li>
 
-
-         <li class="menu-label">Reports</li>
+        <li class="menu-label">Reports</li>
         <li>
-            <a class="has-arrow" href="javascript:;">
+            <a href="{{ route('all.reports') }}">
                 <div class="parent-icon"><i class='bx bx-bar-chart-alt-2'></i>
                 </div>
                 <div class="menu-title">Reports</div>
             </a>
-            <ul>
-                <li> <a href="{{ route('all.reports') }}"><i class='bx bx-radio-circle'></i>All Report</a>
-                </li>
-                {{-- <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
-                </li>
-                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Invoice Status</a>
-                </li> --}}
-               
-            </ul>
         </li>
 
-
-         <li class="menu-label">chat</li>
+        <li class="menu-label">Chat</li>
         <li>
-            <a class="has-arrow" href="javascript:;">
+            <a href="{{ route('all.chat') }}">
                 <div class="parent-icon"><i class='bx bx-message-rounded-dots'></i>
                 </div>
                 <div class="menu-title">Live Chat</div>
             </a>
-            <ul>
-                <li> <a href="{{ route('all.chat') }}"><i class='bx bx-radio-circle'></i>All Chat</a>
-                </li>
-                {{-- <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
-                </li>
-                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Invoice Status</a>
-                </li> --}}
-               
-            </ul>
         </li>
 
     </ul>

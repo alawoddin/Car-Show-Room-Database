@@ -144,17 +144,9 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::post('/search/by/year', 'SearchByYear')->name('search.by.year');
         });
 
-        // Route::controller(ChatController::class)->group(function () {
-        //     Route::get('/chat', 'AdminChat')->name('all.chat');
-        //     Route::get('/chat/{id}', 'AdminChatShow')->name('chat.show');
-        //     Route::post('/chat/{id}/send', 'AdminChatSend')->name('chat.send');
-
-        // });
-
         Route::controller(ChatController::class)->group(function () {
             Route::get('/chat/notifications', 'AdminChatNotifications')->name('chat.notifications');
             Route::get('/chat', 'AdminChat')->name('all.chat');
-            // Route::get('/chat/{id}', 'AdminChatShow')->name('chat.show');
             // Load messages inside the same /admin/chat page
             Route::get('/chat/{id}/messages', 'LoadChatMessages')->name('chat.messages');
             // Send a reply to a customer

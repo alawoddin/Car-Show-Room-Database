@@ -14,7 +14,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item">
-                                <a href="javascript:void(0);">Reports</a>
+                                <a href="{{ route('all.reports') }}">Reports</a>
                             </li>
                             <li class="breadcrumb-item active">
                                 Three-Month Report
