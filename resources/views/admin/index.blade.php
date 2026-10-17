@@ -97,7 +97,7 @@
 
         {{-- 1. Total Admin Capital --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-info">
+            <div class="card stat-card stat-admin">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -106,7 +106,7 @@
                                 Total Admin Capital
                             </p>
 
-                            <h4 class="my-1 text-info">
+                            <h4 class="my-1">
                                 ${{ number_format($totalAdminCapital, 2) }}
                             </h4>
                         </div>
@@ -123,7 +123,7 @@
 
         {{-- 2. Total Client Capital --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-success">
+            <div class="card stat-card stat-client">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -132,7 +132,7 @@
                                 Total Client Capital
                             </p>
 
-                            <h4 class="my-1 text-success">
+                            <h4 class="my-1">
                                 ${{ number_format($totalClientCapital, 2) }}
                             </h4>
                         </div>
@@ -149,7 +149,7 @@
 
         {{-- 3. Total Expenses --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-danger">
+            <div class="card stat-card stat-expense">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -158,7 +158,7 @@
                                 Total Expenses
                             </p>
 
-                            <h4 class="my-1 text-danger">
+                            <h4 class="my-1">
                                 ${{ number_format($totalExpense, 2) }}
                             </h4>
                         </div>
@@ -175,7 +175,7 @@
 
         {{-- 4. Remaining Admin Capital --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-warning">
+            <div class="card stat-card stat-balance">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -184,7 +184,7 @@
                                 Remaining Admin Capital
                             </p>
 
-                            <h4 class="my-1 text-warning">
+                            <h4 class="my-1">
                                 ${{ number_format($remainingAdminCapital, 2) }}
                             </h4>
                         </div>
@@ -209,7 +209,7 @@
 
         {{-- 5. Total Vehicles --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-primary">
+            <div class="card stat-card stat-vehicles">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -218,7 +218,7 @@
                                 Total Vehicles
                             </p>
 
-                            <h4 class="my-1 text-primary">
+                            <h4 class="my-1">
                                 {{ number_format($totalVehicles) }}
                             </h4>
                         </div>
@@ -235,7 +235,7 @@
 
         {{-- 6. Total Purchase Value --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-secondary">
+            <div class="card stat-card stat-purchase">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -244,7 +244,7 @@
                                 Total Purchase Value
                             </p>
 
-                            <h4 class="my-1 text-dark">
+                            <h4 class="my-1">
                                 ${{ number_format($totalPurchase, 2) }}
                             </h4>
                         </div>
@@ -261,7 +261,7 @@
 
         {{-- 7. Total Sales --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-success">
+            <div class="card stat-card stat-sales">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -270,7 +270,7 @@
                                 Total Sales
                             </p>
 
-                            <h4 class="my-1 text-success">
+                            <h4 class="my-1">
                                 ${{ number_format($totalSales, 2) }}
                             </h4>
                         </div>
@@ -287,7 +287,7 @@
 
         {{-- 8. Total Profit --}}
         <div class="col">
-            <div class="card radius-10 border-start border-0 border-4 border-danger">
+            <div class="card stat-card stat-profit">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -296,7 +296,7 @@
                                 Total Profit
                             </p>
 
-                            <h4 class="my-1 text-danger">
+                            <h4 class="my-1">
                                 ${{ number_format($totalProfit, 2) }}
                             </h4>
                         </div>

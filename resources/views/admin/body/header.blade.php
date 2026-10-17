@@ -10,13 +10,6 @@
             <div class="top-menu ms-auto">
                 <ul class="navbar-nav align-items-center gap-1">
 
-                    {{-- Dark Mode --}}
-                    <li class="nav-item dark-mode d-none d-sm-flex">
-                        <a class="nav-link dark-mode-icon" href="javascript:;">
-                            <i class='bx bx-moon'></i>
-                        </a>
-                    </li>
-
                     {{-- ================================================= --}}
                     {{-- CHAT NOTIFICATIONS --}}
                     {{-- ================================================= --}}
