@@ -84,7 +84,7 @@
 
         <div class="col-lg-4 responsive-column-half">
 
-            <div class="card card-item dashboard-info-card">
+            <div class="card card-item dashboard-info-card stat-capital">
 
                 <div class="card-body d-flex align-items-center">
 
@@ -158,7 +158,7 @@
 
         <div class="col-lg-4 responsive-column-half">
 
-            <div class="card card-item dashboard-info-card">
+            <div class="card card-item dashboard-info-card stat-purchased">
 
                 <div class="card-body d-flex align-items-center">
 
@@ -228,7 +228,7 @@
 
         <div class="col-lg-4 responsive-column-half">
 
-            <div class="card card-item dashboard-info-card">
+            <div class="card card-item dashboard-info-card stat-shipped">
 
                 <div class="card-body d-flex align-items-center">
 
