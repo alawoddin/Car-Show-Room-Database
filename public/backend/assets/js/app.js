@@ -1,7 +1,9 @@
 $(function() {
 	"use strict";
-	new PerfectScrollbar(".header-message-list"), new PerfectScrollbar(".header-notifications-list"),
 
+	document.querySelectorAll(".header-message-list, .header-notifications-list").forEach(function (element) {
+		new PerfectScrollbar(element);
+	});
 
 	    $(".mobile-search-icon").on("click", function() {
 			$(".search-bar").addClass("full-search-bar")

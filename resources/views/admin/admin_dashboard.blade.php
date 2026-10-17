@@ -95,7 +95,9 @@
  
 
     <script>
-        new PerfectScrollbar(".app-container")
+        if (document.querySelector(".app-container")) {
+            new PerfectScrollbar(".app-container");
+        }
     </script>
 
         

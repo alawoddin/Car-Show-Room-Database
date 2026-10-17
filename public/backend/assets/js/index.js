@@ -1,7 +1,10 @@
 $(function() {
     "use strict";
 
-	
+    if (!document.getElementById("chart1")) {
+        return;
+    }
+
 // chart 1
 
   var ctx = document.getElementById("chart1").getContext('2d');
