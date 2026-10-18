@@ -107,10 +107,10 @@
 
     <div class="hdr__utility-right">
       <ul class="social social--bare">
-        <li><a href="#" aria-label="AVAVA on Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
-        <li><a href="#" aria-label="AVAVA on Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13 10h3l.5-3H13V5.5c0-.8.3-1.5 1.5-1.5H17V1.4C16.5 1.3 15.4 1 14.2 1 11.7 1 10 2.5 10 5v2H7v3h3v9h3z"></path></svg></a></li>
-        <li><a href="#" aria-label="AVAVA on YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"></path></svg></a></li>
-        <li><a href="#" aria-label="AVAVA on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.4-1.6.8-2.5 1a4 4 0 0 0-6.8 3.6A11.3 11.3 0 0 1 3.9 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.7-.5v.1a4 4 0 0 0 3.2 3.9c-.6.1-1.1.2-1.7.1a4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18.6a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1z"></path></svg></a></li>
+        <li><a href="#" aria-label="Showroom on Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
+        <li><a href="#" aria-label="Showroom on Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13 10h3l.5-3H13V5.5c0-.8.3-1.5 1.5-1.5H17V1.4C16.5 1.3 15.4 1 14.2 1 11.7 1 10 2.5 10 5v2H7v3h3v9h3z"></path></svg></a></li>
+        <li><a href="#" aria-label="Showroom on YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"></path></svg></a></li>
+        <li><a href="#" aria-label="Showroom on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.4-1.6.8-2.5 1a4 4 0 0 0-6.8 3.6A11.3 11.3 0 0 1 3.9 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.7-.5v.1a4 4 0 0 0 3.2 3.9c-.6.1-1.1.2-1.7.1a4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18.6a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1z"></path></svg></a></li>
       </ul>
       <span class="util__sep" aria-hidden="true"></span>
       <span class="cur" role="group" aria-label="Currency"><button class="cur__btn" type="button" data-cur="USD" aria-pressed="false">US$</button><span class="cur__sep" aria-hidden="true">&middot;</span><button class="cur__btn cur__btn--on" type="button" data-cur="EUR" aria-pressed="true">EUR</button></span>
@@ -736,32 +736,32 @@
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;On my driveway in four days, spotless and charged. Unreal service.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-daniel.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Daniel R.</span><span class="rev__car">Cayenne Coupe &middot; Z&uuml;rich</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-daniel.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Daniel R.</span><span class="rev__car">Cayenne Coupe &middot; Sharjah</span></span></figcaption>
         </figure>
         <figure class="rev rev--ink">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;The most transparent purchase I&rsquo;ve ever made. No surprises at all.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-sofia.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Sofia M.</span><span class="rev__car">Taycan Turbo GT &middot; Munich</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-sofia.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Sofia M.</span><span class="rev__car">Taycan Turbo GT &middot; Sharjah</span></span></figcaption>
         </figure>
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;Trade-in beat every other offer I got. Finance took ten minutes.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-aisha.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Aisha K.</span><span class="rev__car">Macan Electric &middot; Geneva</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-aisha.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Aisha K.</span><span class="rev__car">Macan Electric &middot; Sharjah</span></span></figcaption>
         </figure>
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;They walked me through every feature. Customer for life.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-marco.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Marco L.</span><span class="rev__car">Panamera GTS &middot; Milan</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-marco.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Marco L.</span><span class="rev__car">Panamera GTS &middot; Sharjah</span></span></figcaption>
         </figure>
         <figure class="rev rev--ink">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;White-glove delivery is exactly that. Handled all the paperwork.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-james.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">James P.</span><span class="rev__car">911 Carrera &middot; Vienna</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-james.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">James P.</span><span class="rev__car">911 Carrera &middot; Sharjah</span></span></figcaption>
         </figure>
         <figure class="rev">
           <div class="rev__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
           <blockquote class="rev__quote"><p>&ldquo;No pressure at the showroom &mdash; just great people who love cars.&rdquo;</p></blockquote>
-          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-nina.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Nina H.</span><span class="rev__car">718 Cayman &middot; Salzburg</span></span></figcaption>
+          <figcaption class="rev__by"><img class="rev__av" src="/frontend/assets/img/avatar-nina.webp" width="144" height="144" alt="" loading="lazy"><span><span class="rev__name">Nina H.</span><span class="rev__car">718 Cayman &middot; Sharjah</span></span></figcaption>
         </figure>
       </div>
     </div>
@@ -888,9 +888,9 @@
           <button class="subscribe__btn" type="submit">Subscribe</button>
         </form>
         <ul class="social">
-          <li><a href="#" aria-label="AVAVA on Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
-          <li><a href="#" aria-label="AVAVA on Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v3h2v8h3v-8h3l1-3h-4V7a1 1 0 0 1 1-1h2z"></path></svg></a></li>
-          <li><a href="#" aria-label="AVAVA on X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 4l7.5 9L4.5 20h2l6-6.6 5 6.6H21l-8-10 7-8h-2l-6 6.4L7.5 4z"></path></svg></a></li>
+          <li><a href="#" aria-label="Showroom on Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
+          <li><a href="#" aria-label="Showroom on Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v3h2v8h3v-8h3l1-3h-4V7a1 1 0 0 1 1-1h2z"></path></svg></a></li>
+          <li><a href="#" aria-label="Showroom on X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 4l7.5 9L4.5 20h2l6-6.6 5 6.6H21l-8-10 7-8h-2l-6 6.4L7.5 4z"></path></svg></a></li>
         </ul>
       </div>
 
@@ -962,13 +962,13 @@
         <span class="auth__proof-sep" aria-hidden="true"></span>
         <div><div class="auth__proof-num">4.9</div><div class="auth__proof-lbl">OWNER RATING</div></div>
       </div>
-      <span class="auth__wordmark" aria-hidden="true">AVAVA</span>
+      <span class="auth__wordmark" aria-hidden="true">SHARJAH</span>
     </div>
 
     <form class="auth__form" id="login-form" action="#" method="post" novalidate>
       <button class="auth__close" type="button" data-auth-close aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
       <p class="auth__kicker">WELCOME BACK</p>
-      <h2 class="auth__title" id="auth-login-title">Sign in to AVAVA</h2>
+      <h2 class="auth__title" id="auth-login-title">Sign in</h2>
       <p class="auth__sub">Carry on with a provider, or use the address you booked with.</p>
 
       <div class="auth__social">
@@ -1001,7 +1001,7 @@
 
       <button class="auth__submit" type="submit">Sign in<span class="btn__arrow btn__arrow--34 btn__arrow--ink" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></button>
 
-      <p class="auth__swap">New to AVAVA? <button class="auth__swap-btn" type="button" data-auth-to="auth-register">Create an account</button></p>
+      <p class="auth__swap">New here? <button class="auth__swap-btn" type="button" data-auth-to="auth-register">Create an account</button></p>
     </form>
   </div>
 </dialog>
@@ -1021,13 +1021,13 @@
         <span class="auth__proof-sep" aria-hidden="true"></span>
         <div><div class="auth__proof-num">4.9</div><div class="auth__proof-lbl">OWNER RATING</div></div>
       </div>
-      <span class="auth__wordmark" aria-hidden="true">AVAVA</span>
+      <span class="auth__wordmark" aria-hidden="true">SHARJAH</span>
     </div>
 
     <form class="auth__form" id="register-form" action="#" method="post" novalidate>
       <button class="auth__close" type="button" data-auth-close aria-label="Close"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
       <p class="auth__kicker">CREATE YOUR ACCOUNT</p>
-      <h2 class="auth__title" id="auth-register-title">Join AVAVA</h2>
+      <h2 class="auth__title" id="auth-register-title">Create an account</h2>
       <p class="auth__sub">Two minutes, and the collection remembers you on every device.</p>
 
       <div class="auth__social">
@@ -1092,10 +1092,10 @@
 <dialog class="modal" id="book-confirm" aria-labelledby="book-confirm-title">
   <form class="modal__box" method="dialog">
     <p class="modal__eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>CONFIRM YOUR TEST DRIVE</p>
-    <h2 class="modal__title" id="book-confirm-title">Book the car for <span id="confirm-time">16:30</span> in <span id="confirm-city">Munich</span>?</h2>
+    <h2 class="modal__title" id="book-confirm-title">Book the car for <span id="confirm-time">16:30</span> in <span id="confirm-city">Sharjah</span>?</h2>
     <p class="modal__text">Forty minutes on your own roads. We hold the car until you arrive &mdash; free, with no obligation, and no sales calls afterwards.</p>
     <dl class="modal__facts">
-      <div class="modal__fact"><dt>SHOWROOM</dt><dd id="confirm-city-2">Munich</dd></div>
+      <div class="modal__fact"><dt>SHOWROOM</dt><dd id="confirm-city-2">Sharjah</dd></div>
       <div class="modal__fact"><dt>SLOT</dt><dd id="confirm-time-2">16:30</dd></div>
       <div class="modal__fact"><dt>DURATION</dt><dd>40 min</dd></div>
     </dl>
@@ -1110,10 +1110,10 @@
   <form class="modal__box modal__box--success" method="dialog">
     <span class="modal__tick" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>
     <h2 class="modal__title" id="book-success-title">Your test drive is booked</h2>
-    <p class="modal__text">We are holding the car for <strong id="success-slot">16:30 in Munich</strong>. The confirmation is on its way to your inbox with the address, the route and what to bring with you.</p>
+    <p class="modal__text">We are holding the car for <strong id="success-slot">16:30 in Sharjah</strong>. The showroom is at Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.</p>
     <dl class="modal__facts">
       <div class="modal__fact"><dt>REFERENCE</dt><dd id="success-ref">AV-000000</dd></div>
-      <div class="modal__fact"><dt>ON ARRIVAL</dt><dd>Ask for the AVAVA desk</dd></div>
+      <div class="modal__fact"><dt>ON ARRIVAL</dt><dd>Ask for Enam Ullah Ahmadi</dd></div>
       <div class="modal__fact"><dt>BRING</dt><dd>Your driving licence</dd></div>
     </dl>
     <div class="modal__actions modal__actions--single">

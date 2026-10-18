@@ -449,7 +449,7 @@
   var successDlg = document.getElementById('book-success');
 
   /* The slot the visitor picked, kept in one place for both dialogs. */
-  var booking = { city: 'Munich', time: '16:30' };
+  var booking = { city: 'Sharjah', time: '16:30' };
 
   function openDialog(dlg) {
     if (typeof dlg.showModal === 'function') {
