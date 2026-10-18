@@ -50,6 +50,7 @@
 <link rel="stylesheet" href="/frontend/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="/frontend/assets/css/style1ef4.css?v=5d78136b">
 <link rel="stylesheet" href="/frontend/assets/css/service1ef4.css?v=5d78136b">
+<style>.brandlogo{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none}.brandlogo__mark{display:grid;place-items:center;width:48px;height:48px;flex:none;border-radius:14px;background:#c6a15b;color:#14161a;font-weight:800;font-size:16px}.brandlogo__line{display:block;font-weight:800;letter-spacing:.04em;text-transform:uppercase;line-height:1.15;font-size:12px}.brandlogo__sub{display:block;margin-top:3px;font-size:11px;opacity:.78}.brandlogo--foot .brandlogo__mark{width:72px;height:72px;border-radius:18px;font-size:24px}.brandlogo--foot .brandlogo__line{font-size:18px;color:#fff}.brandlogo--foot .brandlogo__sub{margin-top:6px;font-size:14px;color:rgba(255,255,255,.72)}.nav__link.is-on{box-shadow:inset 0 -2px 0 #c6a15b}</style>
 <noscript><style>.preloader { display: none; }</style></noscript>
 </head>
 <body>
