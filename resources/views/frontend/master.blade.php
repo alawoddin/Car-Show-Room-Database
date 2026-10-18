@@ -101,16 +101,7 @@
       <li class="util__item"><span class="dot dot--accent" aria-hidden="true"></span>MON&ndash;SAT 09:00&ndash;19:00</li>
     </ul>
 
-    <div class="hdr__utility-right">
-      <ul class="social social--bare">
-        <li><a href="#" aria-label="Showroom on Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
-        <li><a href="#" aria-label="Showroom on Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M13 10h3l.5-3H13V5.5c0-.8.3-1.5 1.5-1.5H17V1.4C16.5 1.3 15.4 1 14.2 1 11.7 1 10 2.5 10 5v2H7v3h3v9h3z"></path></svg></a></li>
-        <li><a href="#" aria-label="Showroom on YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"></path></svg></a></li>
-        <li><a href="#" aria-label="Showroom on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.4-1.6.8-2.5 1a4 4 0 0 0-6.8 3.6A11.3 11.3 0 0 1 3.9 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.7-.5v.1a4 4 0 0 0 3.2 3.9c-.6.1-1.1.2-1.7.1a4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18.6a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1z"></path></svg></a></li>
-      </ul>
-      <span class="util__sep" aria-hidden="true"></span>
-      <span class="cur" role="group" aria-label="Currency"><button class="cur__btn cur__btn--on" type="button" data-cur="AED" aria-pressed="true">AED</button><span class="cur__sep" aria-hidden="true">&middot;</span><button class="cur__btn" type="button" data-cur="USD" aria-pressed="false">US$</button></span>
-    </div>
+   
   </div>
 
   <div class="hdr__bar">
@@ -123,9 +114,7 @@
           <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Home submenu"></button>
           <ul class="dd">
             <li><a class="drow" href="/">Home <span class="drow__tag">CURRENT</span></a></li>
-            <li><a class="drow" href="home-v2.html">Home v2</a></li>
-            <li><a class="drow" href="home-v3.html">Home v3</a></li>
-            <li><a class="drow" href="home-v4.html">Home v4</a></li>
+           
           </ul>
         </li>
 
@@ -139,8 +128,6 @@
             <li><a class="drow" href="compare.html">Compare</a></li>
             <li><a class="drow" href="faq.html">FAQ</a></li>
             <li><a class="drow" href="contact.html">Contact Us</a></li>
-            <li><a class="drow" href="terms.html">Terms &amp; Conditions</a></li>
-            <li><a class="drow" href="404.html">Error 404</a></li>
           </ul>
         </li>
 
