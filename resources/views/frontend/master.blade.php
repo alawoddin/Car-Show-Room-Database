@@ -31,13 +31,13 @@
 })();
 </script>
 
-<title>AVAVA — Alpine multi-brand car marketplace</title>
-<meta name="description" content="AVAVA is a multi-brand used-car marketplace with seven Alpine showrooms. Every car inspected to 200 points, the report published before you travel, no buyer fees.">
+<title>AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi — Sharjah</title>
+<meta name="description" content="AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi. Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.">
 <meta name="theme-color" content="#14161A">
 
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="AVAVA">
-<meta property="og:title" content="AVAVA — Alpine multi-brand car marketplace">
+<meta property="og:site_name" content="AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi">
+<meta property="og:title" content="AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi — Sharjah">
 <meta property="og:description" content="41 all-wheel-drive cars ready this week. 200-point report published before you ask for it. No buyer fees.">
 <meta property="og:image" content="/frontend/assets/img/og-cover.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -56,6 +56,10 @@
   .stock__card img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
   .stock__card:hover img { transform: scale(1.04); }
   .stock__name { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 36px 14px 14px; background: linear-gradient(transparent, rgba(10, 12, 16, .78)); font-size: 15px; font-weight: 700; }
+  .hdr__name, .foot__name { display: block; max-width: 280px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
+  .hdr__name { font-size: 13px; }
+  .foot__name { font-size: 18px; color: #fff; }
+  .wordmark, .ctapanel__wordmark { font-size: clamp(42px, 7vw, 110px) !important; }
   @media (max-width: 980px) { .stock { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .stock { grid-template-columns: 1fr; } .stock__card { height: 240px; } }
 </style>
@@ -94,13 +98,8 @@
   <div class="hdr__utility">
     <ul class="util">
       <li class="util__item">
-        <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 5.5h4l1.6 4-2 1.4a12 12 0 0 0 5 5l1.4-2 4 1.6v4a1.5 1.5 0 0 1-1.6 1.5C9.4 20.4 3.6 14.6 3 5.1a1.5 1.5 0 0 1 1.5-1.6z"></path></svg>
-        <a class="util__link" href="tel:+498942108800">+49&nbsp;89&nbsp;4210&nbsp;8800</a>
-      </li>
-      <li class="util__sep" aria-hidden="true"></li>
-      <li class="util__item">
         <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
-        MUNICH &middot; 7 SHOWROOMS
+        Al Jubail Street 72, Industrial Area-2, Sharjah, UAE
       </li>
       <li class="util__sep" aria-hidden="true"></li>
       <li class="util__item"><span class="dot dot--accent" aria-hidden="true"></span>MON&ndash;SAT 09:00&ndash;19:00</li>
@@ -119,7 +118,7 @@
   </div>
 
   <div class="hdr__bar">
-    <a class="hdr__logo" href="/"><img src="/frontend/assets/img/logo-avava-white.svg" width="196" height="42" alt="AVAVA"></a>
+    <a class="hdr__logo" href="/"><span class="hdr__name">AL Jazeera AL Hamra UESD Cars<br>Enam Ullah Ahmadi</span></a>
 
     <nav class="nav" id="nav" aria-label="Main">
       <ul class="nav__list">
@@ -360,7 +359,7 @@
             </p>
             <p class="bsel">
               <label class="bsel__lbl" for="f-loc">LOCATION</label>
-              <select class="bsel__sel" id="f-loc" name="location"><option>All locations</option><option>Munich</option><option>Z&uuml;rich</option><option>Vienna</option><option>Geneva</option></select>
+              <select class="bsel__sel" id="f-loc" name="location"><option>Sharjah</option></select>
               <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
             </p>
             <div class="search__go">
@@ -375,9 +374,9 @@
   <!-- ======================================================= 2. Why AVAVA -->
   <section class="sec sec--why" aria-labelledby="why-title">
     <div class="sechead sechead--center">
-      <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>WHY AVAVA</p>
+      <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>WHY THIS SHOWROOM</p>
       <h2 class="h2 h2--60" id="why-title">Built around the driver</h2>
-      <p class="sechead__sub">Four commitments that make buying with AVAVA different from any other dealership.</p>
+      <p class="sechead__sub">AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi, on Al Jubail Street in Sharjah.</p>
     </div>
 
     <div class="why__grid">
@@ -396,7 +395,7 @@
       <article class="wcard">
         <span class="wcard__badge wcard__badge--ring" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#14161A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11M7 10l5 5 5-5M5 20h14"></path></svg></span>
         <h3 class="wcard__title">White-glove delivery</h3>
-        <p class="wcard__text">Delivered to your door across 7 locations &mdash; detailed, and fully fuelled or charged on arrival.</p>
+        <p class="wcard__text">Collected from Al Jubail Street 72, Industrial Area-2, Sharjah, or delivered to your door.</p>
       </article>
 
       <article class="wcard">
@@ -408,7 +407,7 @@
 
     <div class="numbers">
       <div class="numbers__cell"><div class="numbers__num">17</div><div class="numbers__lbl">VEHICLES IN STOCK</div></div>
-      <div class="numbers__cell"><div class="numbers__num">7</div><div class="numbers__lbl">SHOWROOMS</div></div>
+      <div class="numbers__cell"><div class="numbers__num">1</div><div class="numbers__lbl">SHARJAH SHOWROOM</div></div>
       <div class="numbers__cell"><div class="numbers__num">4.9<span class="numbers__accent">/5</span></div><div class="numbers__lbl">2,400+ REVIEWS</div></div>
       <div class="numbers__cell"><div class="numbers__num">15</div><div class="numbers__lbl">YEARS OF TRUST</div></div>
     </div>
@@ -528,7 +527,7 @@
           <div class="step__body">
             <p class="step__kicker"><span>DRIVE</span><span class="step__rule"></span></p>
             <h3 class="step__title">Take it out</h3>
-            <p class="step__text">Book a viewing at any of seven showrooms, or have the car brought to your door for the drive.</p>
+            <p class="step__text">Book a viewing at Al Jubail Street 72, Industrial Area-2, Sharjah, or have the car brought to your door for the drive.</p>
             <span class="step__tag"><span class="dot dot--grey dot--6" aria-hidden="true"></span>48 H</span>
           </div>
         </li>
@@ -775,9 +774,9 @@
     <div class="sechead sechead--split sechead--loc">
       <div>
         <p class="eyebrow eyebrow--soft"><span class="dot dot--accent dot--8" aria-hidden="true"></span>SHOWROOMS</p>
-        <h2 class="h2 h2--fluid" id="loc-title">Seven doors, open now.</h2>
+        <h2 class="h2 h2--fluid" id="loc-title">The Sharjah showroom.</h2>
       </div>
-      <p class="sechead__aside">Every car can be moved to whichever one is closest to you, usually within two days.</p>
+      <p class="sechead__aside">AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi. Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.</p>
     </div>
 
     <div class="mapbox">
@@ -785,52 +784,16 @@
            are read from data-showrooms below and drawn in CSS. The tile
            attribution is required by the OpenStreetMap licence — keep it. -->
       <div class="mapbox__canvas" id="showroom-map" data-showrooms='[
-        {"city":"Munich","country":"Germany","lat":48.1372,"lng":11.5756,"address":"Maximilianstra&szlig;e 14 &middot; 80539","label":"Flagship"},
-        {"city":"Z&uuml;rich","country":"Switzerland","lat":47.3769,"lng":8.5417,"address":"Bahnhofstrasse 62 &middot; 8001","label":"Showroom"},
-        {"city":"Vienna","country":"Austria","lat":48.2082,"lng":16.3738,"address":"K&auml;rntner Ring 8 &middot; 1010","label":"Showroom"},
-        {"city":"Geneva","country":"Switzerland","lat":46.2044,"lng":6.1432,"address":"Rue du Rh&ocirc;ne 41 &middot; 1204","label":"Showroom"},
-        {"city":"Salzburg","country":"Austria","lat":47.8095,"lng":13.0550,"address":"Getreidegasse 22 &middot; 5020","label":"Showroom"},
-        {"city":"Milan","country":"Italy","lat":45.4642,"lng":9.1900,"address":"Via Montenapoleone 21 &middot; 20121","label":"Showroom"},
-        {"city":"Frankfurt","country":"Germany","lat":50.1109,"lng":8.6821,"address":"Goethestra&szlig;e 24 &middot; 60313","label":"Showroom"}
+        {"city":"Sharjah","country":"United Arab Emirates","lat":25.3215,"lng":55.4128,"address":"Al Jubail Street 72, Industrial Area-2","label":"Showroom"}
       ]'></div>
-      <span class="mapbox__flag"><span class="dot dot--accent dot--8" aria-hidden="true"></span>7 SHOWROOMS &middot; 4 COUNTRIES</span>
+      <span class="mapbox__flag"><span class="dot dot--accent dot--8" aria-hidden="true"></span>SHARJAH &middot; UNITED ARAB EMIRATES</span>
     </div>
 
-    <div class="shops" role="group" aria-label="Choose a showroom on the map">
+    <div class="shops" role="group" aria-label="Showroom address">
       <button class="shop shop--ink" type="button" aria-pressed="true" data-showroom="0">
-        <span class="shop__top"><span class="shop__city">Munich</span><span class="shop__flag">FLAGSHIP</span></span>
-        <span class="shop__addr">Maximilianstra&szlig;e 14<br>80539 M&uuml;nchen</span>
-        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;19</span><span>412 CARS</span></span>
-      </button>
-      <button class="shop" type="button" aria-pressed="false" data-showroom="1">
-        <span class="shop__top"><span class="shop__city">Z&uuml;rich</span></span>
-        <span class="shop__addr">Bahnhofstrasse 62<br>8001 Z&uuml;rich</span>
-        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;18</span><span>286 CARS</span></span>
-      </button>
-      <button class="shop" type="button" aria-pressed="false" data-showroom="2">
-        <span class="shop__top"><span class="shop__city">Vienna</span></span>
-        <span class="shop__addr">K&auml;rntner Ring 8<br>1010 Wien</span>
-        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;18:30</span><span>232 CARS</span></span>
-      </button>
-      <button class="shop" type="button" aria-pressed="false" data-showroom="3">
-        <span class="shop__top"><span class="shop__city">Geneva</span></span>
-        <span class="shop__addr">Rue du Rh&ocirc;ne 41<br>1204 Gen&egrave;ve</span>
-        <span class="shop__foot"><span>MON&ndash;FRI 09&ndash;18</span><span>198 CARS</span></span>
-      </button>
-      <button class="shop" type="button" aria-pressed="false" data-showroom="4">
-        <span class="shop__top"><span class="shop__city">Salzburg</span></span>
-        <span class="shop__addr">Getreidegasse 22<br>5020 Salzburg</span>
-        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;18</span><span>164 CARS</span></span>
-      </button>
-      <button class="shop" type="button" aria-pressed="false" data-showroom="5">
-        <span class="shop__top"><span class="shop__city">Milan</span></span>
-        <span class="shop__addr">Via Montenapoleone 21<br>20121 Milano</span>
-        <span class="shop__foot"><span>MON&ndash;SAT 09:30&ndash;19</span><span>145 CARS</span></span>
-      </button>
-      <button class="shop" type="button" aria-pressed="false" data-showroom="6">
-        <span class="shop__top"><span class="shop__city">Frankfurt</span></span>
-        <span class="shop__addr">Goethestra&szlig;e 24<br>60313 Frankfurt</span>
-        <span class="shop__foot"><span>MON&ndash;SAT 09&ndash;19</span><span>178 CARS</span></span>
+        <span class="shop__top"><span class="shop__city">Sharjah</span><span class="shop__flag">SHOWROOM</span></span>
+        <span class="shop__addr">Al Jubail Street 72<br>Industrial Area-2, Sharjah<br>United Arab Emirates</span>
+        <span class="shop__foot"><span>AL Jazeera AL Hamra UESD Cars</span><span>Enam Ullah Ahmadi</span></span>
       </button>
     </div>
   </section>
@@ -840,7 +803,7 @@
   <!-- ============================================================== 9. CTA -->
   <section class="sec" aria-labelledby="cta-title">
     <div class="ctapanel">
-      <span class="ctapanel__wordmark" aria-hidden="true">AVAVA</span>
+      <span class="ctapanel__wordmark" aria-hidden="true">SHARJAH</span>
       <img class="ctapanel__car" src="/frontend/assets/img/showroom/lexus-sedan-copper.jpg" width="1200" height="700" alt="Lexus sedan">
       <span class="ctapanel__scrim" aria-hidden="true"></span>
 
@@ -854,14 +817,14 @@
         <p class="ctapanel__lead">Forty minutes on your own roads. We hold the car and confirm in minutes.</p>
 
         <div class="slots" id="slots">
-          <button class="slot slot--on" type="button" aria-pressed="true"><span class="slot__city">Munich</span><span class="slot__time">16:30</span></button>
-          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Z&uuml;rich</span><span class="slot__time">17:15</span></button>
-          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Vienna</span><span class="slot__time">18:00</span></button>
-          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Milan</span><span class="slot__time">Tmw 09:30</span></button>
+          <button class="slot slot--on" type="button" aria-pressed="true"><span class="slot__city">Sharjah</span><span class="slot__time">16:30</span></button>
+          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Sharjah</span><span class="slot__time">17:15</span></button>
+          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Sharjah</span><span class="slot__time">18:00</span></button>
+          <button class="slot" type="button" aria-pressed="false"><span class="slot__city">Sharjah</span><span class="slot__time">Tmw 09:30</span></button>
         </div>
 
         <div class="ctapanel__actions">
-          <button class="btn btn--accent btn--book" type="button" id="book-cta">Book 16:30 in Munich<span class="btn__arrow btn__arrow--34 btn__arrow--ink" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></button>
+          <button class="btn btn--accent btn--book" type="button" id="book-cta">Book 16:30 in Sharjah<span class="btn__arrow btn__arrow--34 btn__arrow--ink" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></button>
           <a class="ctapanel__alt" href="#">Or have it brought to you</a>
         </div>
 
@@ -904,11 +867,7 @@
 
   <div class="ticker">
     <span class="ticker__open"><span class="dot dot--ink dot--8 pulse" aria-hidden="true"></span>OPEN NOW</span>
-    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Munich</span><span class="ticker__time">UNTIL 19:00</span></span>
-    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Z&uuml;rich</span><span class="ticker__time">UNTIL 18:30</span></span>
-    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Vienna</span><span class="ticker__time">UNTIL 18:00</span></span>
-    <span class="ticker__shop"><span class="dot dot--faint" aria-hidden="true"></span><span class="ticker__city">Milan</span><span class="ticker__time">OPENS 09:00</span></span>
-    <a class="ticker__phone" href="tel:+498942108800">+49&nbsp;89&nbsp;4210&nbsp;8800<span class="ticker__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Sharjah</span><span class="ticker__time">AL JUBAIL STREET 72</span></span>
   </div>
 
   <div class="footstats">
@@ -921,8 +880,8 @@
   <div class="footmain">
     <div class="footgrid">
       <div class="footbrand">
-        <img src="/frontend/assets/img/logo-avava-white.svg" width="168" height="36" alt="AVAVA">
-        <p class="footbrand__text">Saturday mornings: new arrivals and price drops on the cars you saved. Nothing else, ever.</p>
+        <p class="foot__name">AL Jazeera AL Hamra UESD Cars<br>Enam Ullah Ahmadi</p>
+        <p class="footbrand__text">Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.</p>
         <form class="subscribe" action="#" method="post">
           <label class="visually-hidden" for="sub-email">Your email</label>
           <input class="subscribe__in" id="sub-email" type="email" name="email" placeholder="Your email" required>
@@ -971,12 +930,12 @@
   </div>
 
   <div class="wordmarkbox">
-    <span class="wordmark" aria-hidden="true">AVAVA</span>
+    <span class="wordmark" aria-hidden="true">SHARJAH</span>
   </div>
 
   <div class="footbottom">
     <div class="footbottom__inner">
-      <span>&copy; 2026 MECONATA</span>
+      <span>&copy; 2026 AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi</span>
       <span>EVERY CAR INSPECTED BEFORE IT IS LISTED</span>
     </div>
   </div>
@@ -994,7 +953,7 @@
       <p class="auth__eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>MEMBER ACCESS</p>
       <p class="auth__pitch">Every car you save, every viewing you book and every trade-in offer &mdash; kept in one place.</p>
       <ul class="auth__list">
-        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Saved cars across all seven showrooms</li>
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Saved cars at the Sharjah showroom</li>
         <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Test drives you can move or cancel yourself</li>
         <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Trade-in offers held for fourteen days</li>
       </ul>
@@ -1053,7 +1012,7 @@
       <p class="auth__eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>MEMBER ACCESS</p>
       <p class="auth__pitch">Every car you save, every viewing you book and every trade-in offer &mdash; kept in one place.</p>
       <ul class="auth__list">
-        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Saved cars across all seven showrooms</li>
+        <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Saved cars at the Sharjah showroom</li>
         <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Test drives you can move or cancel yourself</li>
         <li><span class="auth__tick" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-11"></path></svg></span>Trade-in offers held for fourteen days</li>
       </ul>
