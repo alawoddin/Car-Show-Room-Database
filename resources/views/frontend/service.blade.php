@@ -169,7 +169,7 @@
     <div class="svgrid">
       <article class="svcard svcard--ink">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/repair.webp" width="880" height="605" alt="General automotive repair" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/mercedes-g-wagon.jpg" width="880" height="605" alt="Mercedes-AMG G 63" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">01</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>GENERAL REPAIR</span>
@@ -189,7 +189,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/maintenance.webp" width="880" height="605" alt="Preventative maintenance" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/range-rover-gold.jpg" width="880" height="605" alt="Range Rover" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">02</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>PREVENTATIVE</span>
@@ -209,7 +209,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/brakes.webp" width="880" height="605" alt="Brake repair" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/bmw-7-series.jpg" width="880" height="605" alt="BMW 7 Series" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">03</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>BRAKES</span>
@@ -229,7 +229,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/diagnostic.webp" width="880" height="605" alt="Engine diagnostic" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/lexus-lx-green.jpg" width="880" height="605" alt="Lexus LX" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">04</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>DIAGNOSTIC</span>
@@ -249,7 +249,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/climate.webp" width="880" height="605" alt="Air conditioning and heating" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/nissan-patrol-white.jpg" width="880" height="605" alt="Nissan Patrol" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">05</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>CLIMATE</span>
@@ -269,7 +269,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/cooling.webp" width="880" height="605" alt="Cooling system and radiator" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/toyota-land-cruiser.jpg" width="880" height="605" alt="Toyota Land Cruiser" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">06</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>COOLING</span>
@@ -289,7 +289,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/oil.webp" width="880" height="605" alt="Synthetic oil and filter" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/lexus-sedan-copper.jpg" width="880" height="605" alt="Lexus sedan" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">07</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>OIL SERVICE</span>
@@ -309,7 +309,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/transmission.webp" width="880" height="605" alt="Transmission service" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/lexus-rx-white.jpg" width="880" height="605" alt="Lexus RX" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">08</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>TRANSMISSION</span>
@@ -329,7 +329,7 @@
       </article>
       <article class="svcard">
         <div class="svcard__shot">
-          <img class="svcard__img" src="/frontend/assets/img/services/belts.webp" width="880" height="605" alt="Belts, hoses and fluids" loading="lazy">
+          <img class="svcard__img" src="/frontend/assets/img/showroom/lexus-gx-beige.jpg" width="880" height="605" alt="Lexus GX" loading="lazy">
           <span class="svcard__scrim" aria-hidden="true"></span>
           <span class="svcard__index" aria-hidden="true">09</span>
           <span class="svcard__chip"><span class="dot dot--accent dot--6" aria-hidden="true"></span>WEAR ITEMS</span>
