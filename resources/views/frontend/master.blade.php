@@ -64,6 +64,7 @@
   .brandlogo--foot .brandlogo__line { font-size: 18px; color: #fff; }
   .brandlogo--foot .brandlogo__sub { margin-top: 6px; font-size: 14px; color: rgba(255,255,255,.72); }
   .hero__photo { object-position: 72% center; }
+  .nav__link.is-on { box-shadow: inset 0 -2px 0 #c6a15b; }
   .preloader__brand { margin: 0 auto; max-width: 420px; color: #fff; font-size: 22px; font-weight: 800; line-height: 1.3; }
   .preloader__brand span { display: block; margin-top: 8px; font-size: 15px; font-weight: 600; opacity: .72; }
   .wordmark, .ctapanel__wordmark { font-size: clamp(42px, 7vw, 110px) !important; }
@@ -109,52 +110,11 @@
 
     <nav class="nav" id="nav" aria-label="Main">
       <ul class="nav__list">
-        <li class="nav__item">
-          <a class="nav__link" href="/">Home <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Home submenu"></button>
-          <ul class="dd">
-            <li><a class="drow" href="/">Home <span class="drow__tag">CURRENT</span></a></li>
-           
-          </ul>
-        </li>
-
-        <li class="nav__item">
-          <a class="nav__link" href="#">Pages <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Pages submenu"></button>
-        
-        </li>
-
-    
-
-     
-
-        <li class="nav__item">
-          <a class="nav__link" href="#">About Us <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
-         
-        </li>
-
-          <li class="nav__item">
-          <a class="nav__link" href="#">Service <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
-         
-        </li>
-
-         </li>
-
-          <li class="nav__item">
-          <a class="nav__link" href="#">Pricing <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
-         
-        </li>
-
-        <li class="nav__item">
-          <a class="nav__link" href="#">Contact Us <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
-         
-        </li>
-
-      
+        <li class="nav__item"><a class="nav__link is-on" href="/">Home</a></li>
+        <li class="nav__item"><a class="nav__link" href="/about">About Us</a></li>
+        <li class="nav__item"><a class="nav__link" href="/service">Service</a></li>
+        <li class="nav__item"><a class="nav__link" href="/pricing">Pricing</a></li>
+        <li class="nav__item"><a class="nav__link" href="/contact">Contact Us</a></li>
       </ul>
     </nav>
 

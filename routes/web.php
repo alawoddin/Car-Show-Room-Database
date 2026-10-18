@@ -22,6 +22,11 @@ Route::get('/', function () {
     return view('frontend.master');
 });
 
+Route::view('/about', 'frontend.about')->name('frontend.about');
+Route::view('/service', 'frontend.service')->name('frontend.service');
+Route::view('/pricing', 'frontend.pricing')->name('frontend.pricing');
+Route::view('/contact', 'frontend.contact')->name('frontend.contact');
+
 Route::middleware(['auth', IsUser::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('client.index');
