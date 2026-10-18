@@ -340,7 +340,7 @@
           <div class="search__row">
             <p class="bsel">
               <label class="bsel__lbl" for="f-make">MAKE</label>
-              <select class="bsel__sel" id="f-make" name="make"><option>All makes</option><option>Land Rover</option><option>Porsche</option><option>Mercedes-AMG</option><option>BMW</option><option>Audi</option></select>
+              <select class="bsel__sel" id="f-make" name="make"><option>All makes</option><option>Lexus</option><option>Toyota</option><option>Nissan</option><option>Mercedes-Benz</option><option>BMW</option><option>Land Rover</option><option>Kia</option><option>Hyundai</option></select>
               <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
             </p>
             <p class="bsel">
@@ -407,7 +407,7 @@
     </div>
 
     <div class="numbers">
-      <div class="numbers__cell"><div class="numbers__num">142</div><div class="numbers__lbl">VEHICLES IN STOCK</div></div>
+      <div class="numbers__cell"><div class="numbers__num">17</div><div class="numbers__lbl">VEHICLES IN STOCK</div></div>
       <div class="numbers__cell"><div class="numbers__num">7</div><div class="numbers__lbl">SHOWROOMS</div></div>
       <div class="numbers__cell"><div class="numbers__num">4.9<span class="numbers__accent">/5</span></div><div class="numbers__lbl">2,400+ REVIEWS</div></div>
       <div class="numbers__cell"><div class="numbers__num">15</div><div class="numbers__lbl">YEARS OF TRUST</div></div>
@@ -423,31 +423,59 @@
         <p class="eyebrow eyebrow--soft"><span class="dot dot--accent dot--8" aria-hidden="true"></span>FEATURED LISTINGS</p>
         <h2 class="h2 h2--fluid h2--nowrap" id="feat-title">Featured Listings</h2>
       </div>
-      <a class="btn btn--ink btn--pill" href="#">View all 1,840<span class="btn__arrow btn__arrow--34" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+      <a class="btn btn--ink btn--pill" href="#showroom">View all 17<span class="btn__arrow btn__arrow--34" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
     </div>
 
     <div class="feat" id="featured">
-      <a class="fcard fcard--tall" href="#">
-        <img class="fcard__img" src="/frontend/assets/img/listing-porsche-911.webp" width="1200" height="750" alt="Porsche 911 Carrera GTS in Munich">
+      <a class="fcard fcard--tall" href="#showroom">
+        <img class="fcard__img" src="/frontend/assets/img/showroom/mercedes-g-wagon.jpg" width="1200" height="800" alt="Mercedes-AMG G 63">
         <span class="fcard__flag">PICK OF THE WEEK</span>
-        <span class="fcard__meta"><span class="fcard__name">Porsche 911 Carrera GTS</span><span class="fcard__spec">&euro;164,900 &middot; 12,000 mi &middot; Munich</span></span>
+        <span class="fcard__meta"><span class="fcard__name">Mercedes-AMG G 63</span><span class="fcard__spec">On the floor</span></span>
       </a>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="/frontend/assets/img/listing-amg-gt.webp" width="1600" height="900" alt="Mercedes-AMG GT 63 Coupé in Zürich">
-        <span class="fcard__meta"><span class="fcard__name">AMG GT 63 Coup&eacute;</span><span class="fcard__spec">&euro;178,000 &middot; Z&uuml;rich</span></span>
+        <img class="fcard__img" src="/frontend/assets/img/showroom/lexus-lx-green.jpg" width="1200" height="800" alt="Lexus LX">
+        <span class="fcard__meta"><span class="fcard__name">Lexus LX</span><span class="fcard__spec">On the floor</span></span>
       </button>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="/frontend/assets/img/listing-etron-gt.webp" width="1600" height="900" alt="Audi RS e-tron GT in Frankfurt">
-        <span class="fcard__meta"><span class="fcard__name">RS e-tron GT</span><span class="fcard__spec">&euro;147,000 &middot; Frankfurt</span></span>
+        <img class="fcard__img" src="/frontend/assets/img/showroom/range-rover-gold.jpg" width="1200" height="800" alt="Range Rover">
+        <span class="fcard__meta"><span class="fcard__name">Range Rover</span><span class="fcard__spec">On the floor</span></span>
       </button>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="/frontend/assets/img/listing-range-rover.webp" width="1600" height="900" alt="Range Rover Sport in Salzburg">
-        <span class="fcard__meta"><span class="fcard__name">Range Rover Sport</span><span class="fcard__spec">&euro;96,400 &middot; Salzburg</span></span>
+        <img class="fcard__img" src="/frontend/assets/img/showroom/bmw-7-series.jpg" width="1200" height="800" alt="BMW 7 Series">
+        <span class="fcard__meta"><span class="fcard__name">BMW 7 Series</span><span class="fcard__spec">On the floor</span></span>
       </button>
       <button class="fcard" type="button">
-        <img class="fcard__img" src="/frontend/assets/img/listing-continental-gt.webp" width="1600" height="900" alt="Bentley Continental GT in Geneva">
-        <span class="fcard__meta"><span class="fcard__name">Continental GT</span><span class="fcard__spec">&euro;265,000 &middot; Geneva</span></span>
+        <img class="fcard__img" src="/frontend/assets/img/showroom/nissan-patrol-white.jpg" width="1200" height="800" alt="Nissan Patrol">
+        <span class="fcard__meta"><span class="fcard__name">Nissan Patrol</span><span class="fcard__spec">On the floor</span></span>
       </button>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <section class="sec" id="showroom" aria-labelledby="showroom-title">
+    <div class="sechead">
+      <p class="eyebrow eyebrow--soft"><span class="dot dot--accent dot--8" aria-hidden="true"></span>SHOWROOM</p>
+      <h2 class="h2 h2--fluid" id="showroom-title">Cars on the floor</h2>
+    </div>
+    <div class="stock">
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/lexus-rx-white.jpg" alt="Lexus RX"><span class="stock__name">Lexus RX</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/lexus-lx-green.jpg" alt="Lexus LX"><span class="stock__name">Lexus LX</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/lexus-gx-beige.jpg" alt="Lexus GX"><span class="stock__name">Lexus GX</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/lexus-nx-copper.jpg" alt="Lexus NX"><span class="stock__name">Lexus NX</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/lexus-tx-silver.jpg" alt="Lexus TX"><span class="stock__name">Lexus TX</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/lexus-sedan-copper.jpg" alt="Lexus sedan"><span class="stock__name">Lexus Sedan</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/lexus-front-silver.jpg" alt="Lexus"><span class="stock__name">Lexus</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/toyota-land-cruiser.jpg" alt="Toyota Land Cruiser"><span class="stock__name">Toyota Land Cruiser</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/toyota-camry-white.jpg" alt="Toyota Camry"><span class="stock__name">Toyota Camry</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/toyota-corolla-cross.jpg" alt="Toyota Corolla Cross"><span class="stock__name">Toyota Corolla Cross</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/nissan-patrol-white.jpg" alt="Nissan Patrol"><span class="stock__name">Nissan Patrol</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/nissan-rogue-grey.jpg" alt="Nissan Rogue"><span class="stock__name">Nissan Rogue</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/mercedes-g-wagon.jpg" alt="Mercedes-AMG G 63"><span class="stock__name">Mercedes-AMG G 63</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/bmw-7-series.jpg" alt="BMW 7 Series"><span class="stock__name">BMW 7 Series</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/range-rover-gold.jpg" alt="Range Rover"><span class="stock__name">Range Rover</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/kia-k5-white.jpg" alt="Kia K5"><span class="stock__name">Kia K5</span></a>
+      <a class="stock__card" href="#showroom"><img src="/frontend/assets/img/showroom/hyundai-palisade-black.jpg" alt="Hyundai Palisade"><span class="stock__name">Hyundai Palisade</span></a>
     </div>
   </section>
 
@@ -648,16 +676,16 @@
         <div class="trade__quote">
           <p class="trade__lbl">ESTIMATED OFFER RANGE</p>
           <p class="trade__range"><span id="trade-low">&euro;0</span><span class="trade__dash"> &ndash; </span><span id="trade-high">&euro;0</span></p>
-          <p class="trade__desc" id="trade-desc">2019 Mercedes-AMG GT Roadster &middot; 48,000 mi</p>
+          <p class="trade__desc" id="trade-desc">Kia K5 &middot; on the floor</p>
         </div>
-        <img class="trade__car" src="/frontend/assets/img/trade-car.webp" width="1200" height="325" alt="">
+        <img class="trade__car" src="/frontend/assets/img/showroom/kia-k5-white.jpg" width="1200" height="700" alt="Kia K5">
         <a class="btn btn--ink btn--accept" href="#">Accept offer<span class="btn__arrow btn__arrow--32" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
       </div>
 
       <div class="trade__form">
         <div class="trade__fields">
-          <p class="field"><label class="field__lbl" for="t-make">MAKE</label><input class="field__in" id="t-make" type="text" value="Mercedes-AMG"></p>
-          <p class="field"><label class="field__lbl" for="t-model">MODEL</label><input class="field__in" id="t-model" type="text" value="GT Roadster"></p>
+          <p class="field"><label class="field__lbl" for="t-make">MAKE</label><input class="field__in" id="t-make" type="text" value="Kia"></p>
+          <p class="field"><label class="field__lbl" for="t-model">MODEL</label><input class="field__in" id="t-model" type="text" value="K5"></p>
           <p class="field"><label class="field__lbl" for="t-year">YEAR</label><input class="field__in" id="t-year" type="text" inputmode="numeric" value="2019"></p>
           <p class="field"><label class="field__lbl" for="t-mileage">MILEAGE</label><input class="field__in" id="t-mileage" type="text" inputmode="numeric" value="48,000 mi"></p>
         </div>
@@ -813,7 +841,7 @@
   <section class="sec" aria-labelledby="cta-title">
     <div class="ctapanel">
       <span class="ctapanel__wordmark" aria-hidden="true">AVAVA</span>
-      <img class="ctapanel__car" src="/frontend/assets/img/cta-car.webp" width="1341" height="384" alt="">
+      <img class="ctapanel__car" src="/frontend/assets/img/showroom/lexus-sedan-copper.jpg" width="1200" height="700" alt="Lexus sedan">
       <span class="ctapanel__scrim" aria-hidden="true"></span>
 
       <div class="ctapanel__inner">
