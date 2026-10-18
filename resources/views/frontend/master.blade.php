@@ -47,7 +47,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<link rel="preload" href="/frontend/assets/img/showroom/lexus-rx-white.jpg" as="image">
+<link rel="preload" href="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2400&q=80" as="image">
 <link rel="stylesheet" href="/frontend/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="/frontend/assets/css/style1ef4.css?v=5d78136b">
 <style>
@@ -56,9 +56,14 @@
   .stock__card img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
   .stock__card:hover img { transform: scale(1.04); }
   .stock__name { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 36px 14px 14px; background: linear-gradient(transparent, rgba(10, 12, 16, .78)); font-size: 15px; font-weight: 700; }
-  .hdr__name, .foot__name { display: block; max-width: 280px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
-  .hdr__name { font-size: 13px; }
-  .foot__name { font-size: 18px; color: #fff; }
+  .brandlogo { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+  .brandlogo__mark { display: grid; place-items: center; width: 48px; height: 48px; flex: none; border-radius: 14px; background: #c6a15b; color: #14161a; font-weight: 800; letter-spacing: -.04em; font-size: 16px; }
+  .brandlogo__line { display: block; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; line-height: 1.15; font-size: 12px; }
+  .brandlogo__sub { display: block; margin-top: 3px; font-size: 11px; letter-spacing: .02em; opacity: .78; }
+  .brandlogo--foot .brandlogo__mark { width: 72px; height: 72px; border-radius: 18px; font-size: 24px; }
+  .brandlogo--foot .brandlogo__line { font-size: 18px; color: #fff; }
+  .brandlogo--foot .brandlogo__sub { margin-top: 6px; font-size: 14px; color: rgba(255,255,255,.72); }
+  .hero__photo { object-position: 72% center; }
   .preloader__brand { margin: 0 auto; max-width: 420px; color: #fff; font-size: 22px; font-weight: 800; line-height: 1.3; }
   .preloader__brand span { display: block; margin-top: 8px; font-size: 15px; font-weight: 600; opacity: .72; }
   .wordmark, .ctapanel__wordmark { font-size: clamp(42px, 7vw, 110px) !important; }

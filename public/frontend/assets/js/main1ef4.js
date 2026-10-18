@@ -1987,18 +1987,18 @@
      prices (Pricing, Compare) call formatMoney directly and repaint. */
 
   var CUR_STORE = 'avava-currency';
-  var CUR_RATE = { EUR: 1, USD: 1.08 };   /* demo rate — one place to change it */
-  var CUR_SIGN = { EUR: '€', USD: '$' };
+  var CUR_RATE = { AED: 4, USD: 1.08 };   /* euro base; AED is the showroom currency */
+  var CUR_SIGN = { AED: 'AED ', USD: '$' };
 
-  var currency = 'EUR';
+  var currency = 'AED';
   var moneyPainters = [];
 
   function readCurrency() {
     try {
       var saved = window.localStorage.getItem(CUR_STORE);
-      if (saved === 'EUR' || saved === 'USD') { return saved; }
+      if (saved === 'AED' || saved === 'USD') { return saved; }
     } catch (e) {}
-    return 'EUR';
+    return 'AED';
   }
 
   /* Exposed to the price-building modules so every figure agrees. */
