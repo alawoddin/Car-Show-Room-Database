@@ -925,9 +925,7 @@
     </div>
   </div>
 
-  <div class="wordmarkbox">
-    <span class="wordmark" aria-hidden="true">SHARJAH</span>
-  </div>
+  
 
   <div class="footbottom">
     <div class="footbottom__inner">
