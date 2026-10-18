@@ -47,9 +47,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-<link rel="preload" href="/frontend/assets/img/hero-winter.webp" as="image" type="image/webp">
+<link rel="preload" href="/frontend/assets/img/showroom/lexus-rx-white.jpg" as="image">
 <link rel="stylesheet" href="/frontend/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="/frontend/assets/css/style1ef4.css?v=5d78136b">
+<style>
+  .stock { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .stock__card { position: relative; display: block; height: 220px; border-radius: 20px; overflow: hidden; background: #14161a; color: #fff; }
+  .stock__card img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+  .stock__card:hover img { transform: scale(1.04); }
+  .stock__name { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 36px 14px 14px; background: linear-gradient(transparent, rgba(10, 12, 16, .78)); font-size: 15px; font-weight: 700; }
+  @media (max-width: 980px) { .stock { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .stock { grid-template-columns: 1fr; } .stock__card { height: 240px; } }
+</style>
 <noscript><style>.preloader { display: none; }</style></noscript>
 </head>
 <body>
@@ -259,7 +268,7 @@
 
   <!-- ============================================================ 1. Hero -->
   <section class="hero" id="hero" aria-labelledby="hero-title">
-    <img class="hero__photo" src="/frontend/assets/img/hero-winter.webp" width="1794" height="876" alt="" fetchpriority="high">
+    <img class="hero__photo" src="/frontend/assets/img/showroom/lexus-rx-white.jpg" width="1200" height="800" alt="White Lexus RX" fetchpriority="high">
     <div class="hero__scrim" aria-hidden="true"></div>
 
     <div class="hero__inner">
@@ -267,16 +276,16 @@
 
         <div class="hero__copy">
           <div class="hero__chips">
-            <span class="chip chip--accent">WINTER COLLECTION 2026</span>
-            <span class="chip chip--glass"><span class="dot dot--accent" aria-hidden="true"></span>41 CARS READY THIS WEEK</span>
+            <span class="chip chip--accent">SHOWROOM 2026</span>
+            <span class="chip chip--glass"><span class="dot dot--accent" aria-hidden="true"></span>17 CARS ON THE FLOOR</span>
           </div>
 
-          <h1 class="hero__title" id="hero-title">Snow is not<br>a reason to<br><span class="hero__title-out">stay in.</span></h1>
+          <h1 class="hero__title" id="hero-title">The next drive<br>is already<br><span class="hero__title-out">in the showroom.</span></h1>
 
-          <p class="hero__lead">Every car in the winter collection leaves on winter tyres,<br>with the 200-point report published before you ask for it.</p>
+          <p class="hero__lead">These are the cars on the floor now, photographed<br>and ready to view before you book a drive.</p>
 
           <div class="hero__stats">
-            <div class="hstat"><div class="hstat__num">41</div><div class="hstat__lbl">ALL-WHEEL DRIVE</div></div>
+            <div class="hstat"><div class="hstat__num">17</div><div class="hstat__lbl">CARS ON THE FLOOR</div></div>
             <span class="hstat__sep" aria-hidden="true"></span>
             <div class="hstat"><div class="hstat__num">48h</div><div class="hstat__lbl">TO YOUR DOOR</div></div>
             <span class="hstat__sep" aria-hidden="true"></span>
@@ -284,16 +293,16 @@
           </div>
 
           <div class="hero__cta">
-            <a class="btn btn--white btn--hero" href="#">See the winter collection<span class="btn__arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
-            <a class="btn btn--glass btn--hero" href="#">Book a winter test drive</a>
+            <a class="btn btn--white btn--hero" href="#showroom">See the showroom<span class="btn__arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+            <a class="btn btn--glass btn--hero" href="#showroom">Book a test drive</a>
           </div>
         </div>
 
         <aside class="livecard" aria-label="Live inventory">
           <div class="livecard__head">
-            <span class="livecard__ghost" aria-hidden="true">41</span>
-            <p class="livecard__live"><span class="dot dot--accent dot--8" aria-hidden="true"></span>WINTER COLLECTION &middot; LIVE</p>
-            <p class="livecard__count"><span class="livecard__num">41</span><span class="livecard__sub">all-wheel-drive cars,<br>ready this week</span></p>
+            <span class="livecard__ghost" aria-hidden="true">17</span>
+            <p class="livecard__live"><span class="dot dot--accent dot--8" aria-hidden="true"></span>SHOWROOM &middot; LIVE</p>
+            <p class="livecard__count"><span class="livecard__num">17</span><span class="livecard__sub">cars photographed<br>and on the floor</span></p>
           </div>
 
           <div class="livecard__body">
@@ -311,7 +320,7 @@
                 <div class="livecard__from">FROM</div>
                 <div class="livecard__price">&euro;96,400</div>
               </div>
-              <a class="btn btn--ink btn--browse" href="#">Browse 41<span class="btn__arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+              <a class="btn btn--ink btn--browse" href="#showroom">Browse 17<span class="btn__arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
             </div>
           </div>
         </aside>
@@ -321,7 +330,7 @@
         <form class="search" action="#" method="get">
           <div class="search__quick">
             <span class="search__quicklbl">QUICK PICKS</span>
-            <button class="qp qp--on" type="button" aria-pressed="true">Winter ready</button>
+            <button class="qp qp--on" type="button" aria-pressed="true">In stock</button>
             <button class="qp" type="button" aria-pressed="false">Under &euro;150k</button>
             <button class="qp" type="button" aria-pressed="false">Electric</button>
             <button class="qp" type="button" aria-pressed="false">Delivered in 48h</button>
