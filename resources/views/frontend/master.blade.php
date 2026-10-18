@@ -103,6 +103,7 @@
         <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 5.5h4l1.6 4-2 1.4a12 12 0 0 0 5 5l1.4-2 4 1.6v4a1.5 1.5 0 0 1-1.6 1.5C9.4 20.4 3.6 14.6 3 5.1a1.5 1.5 0 0 1 1.5-1.6z"></path></svg>
         <a class="util__link" href="tel:+971780272673">078&nbsp;027&nbsp;2673</a>
       </li>
+      <li class="util__sep" aria-hidden="true"></li>
       <li class="util__item"><span class="dot dot--accent" aria-hidden="true"></span>MON&ndash;SAT 09:00&ndash;19:00</li>
     </ul>
 
@@ -655,7 +656,7 @@
     <div class="shops" role="group" aria-label="Showroom address">
       <button class="shop shop--ink" type="button" aria-pressed="true" data-showroom="0">
         <span class="shop__top"><span class="shop__city">Sharjah</span><span class="shop__flag">SHOWROOM</span></span>
-        <span class="shop__addr">Al Jubail Street 72<br>Industrial Area-2, Sharjah<br>United Arab Emirates</span>
+        <span class="shop__addr">Al Jubail Street 72<br>Industrial Area-2, Sharjah<br>United Arab Emirates<br><a href="tel:+971780272673">078 027 2673</a></span>
         <span class="shop__foot"><span>AL Jazeera AL Hamra UESD Cars</span><span>Enam Ullah Ahmadi</span></span>
       </button>
     </div>
@@ -731,6 +732,7 @@
   <div class="ticker">
     <span class="ticker__open"><span class="dot dot--ink dot--8 pulse" aria-hidden="true"></span>OPEN NOW</span>
     <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Sharjah</span><span class="ticker__time">AL JUBAIL STREET 72</span></span>
+    <a class="ticker__phone" href="tel:+971780272673">078&nbsp;027&nbsp;2673<span class="ticker__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
   </div>
 
   <div class="footstats">
@@ -744,7 +746,7 @@
     <div class="footgrid">
       <div class="footbrand">
         <a class="brandlogo brandlogo--foot" href="/"><span class="brandlogo__mark" aria-hidden="true">AJ</span><span class="brandlogo__text"><span class="brandlogo__line">AL Jazeera AL Hamra</span><span class="brandlogo__line">UESD Cars</span><span class="brandlogo__sub">Enam Ullah Ahmadi</span></span></a>
-        <p class="footbrand__text">Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.</p>
+        <p class="footbrand__text">Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.<br><a href="tel:+971780272673">078 027 2673</a></p>
         <form class="subscribe" action="#" method="post">
           <label class="visually-hidden" for="sub-email">Your email</label>
           <input class="subscribe__in" id="sub-email" type="email" name="email" placeholder="Your email" required>

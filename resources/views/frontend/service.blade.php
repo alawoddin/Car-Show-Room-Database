@@ -89,6 +89,11 @@
         Al Jubail Street 72, Industrial Area-2, Sharjah, UAE
       </li>
       <li class="util__sep" aria-hidden="true"></li>
+      <li class="util__item">
+        <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 5.5h4l1.6 4-2 1.4a12 12 0 0 0 5 5l1.4-2 4 1.6v4a1.5 1.5 0 0 1-1.6 1.5C9.4 20.4 3.6 14.6 3 5.1a1.5 1.5 0 0 1 1.5-1.6z"></path></svg>
+        <a class="util__link" href="tel:+971780272673">078&nbsp;027&nbsp;2673</a>
+      </li>
+      <li class="util__sep" aria-hidden="true"></li>
       <li class="util__item"><span class="dot dot--accent" aria-hidden="true"></span>MON&ndash;SAT 09:00&ndash;19:00</li>
     </ul>
     <div class="hdr__utility-right">

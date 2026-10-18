@@ -89,6 +89,11 @@
         Al Jubail Street 72, Industrial Area-2, Sharjah, UAE
       </li>
       <li class="util__sep" aria-hidden="true"></li>
+      <li class="util__item">
+        <svg class="ico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.5 5.5h4l1.6 4-2 1.4a12 12 0 0 0 5 5l1.4-2 4 1.6v4a1.5 1.5 0 0 1-1.6 1.5C9.4 20.4 3.6 14.6 3 5.1a1.5 1.5 0 0 1 1.5-1.6z"></path></svg>
+        <a class="util__link" href="tel:+971780272673">078&nbsp;027&nbsp;2673</a>
+      </li>
+      <li class="util__sep" aria-hidden="true"></li>
       <li class="util__item"><span class="dot dot--accent" aria-hidden="true"></span>MON&ndash;SAT 09:00&ndash;19:00</li>
     </ul>
     <div class="hdr__utility-right">
@@ -182,7 +187,7 @@
         </label>
         <label class="tfield">
           <span class="tfield__lbl">PHONE</span>
-          <input class="tfield__in" type="tel" name="phone" id="ct-phone" placeholder="+49" autocomplete="tel">
+          <input class="tfield__in" type="tel" name="phone" id="ct-phone" placeholder="078 027 2673" autocomplete="tel">
         </label>
       </div>
 
@@ -331,7 +336,7 @@
               <span class="shrow__meta"><span>28 CARS</span><span class="shrow__dot" aria-hidden="true"></span><span>241 km</span></span>
             </span>
             <span class="shrow__call">
-              <span class="shrow__tel">+41&nbsp;44&nbsp;421&nbsp;8800</span>
+              <span class="shrow__tel">078&nbsp;027&nbsp;2673</span>
               <span class="shrow__ico" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a12 12 0 006 6L17 13l4 1.5v3a2 2 0 01-2.2 2A16 16 0 014.5 6.2 2 2 0 016.5 4z"></path></svg></span>
             </span>
           </button>
@@ -363,7 +368,7 @@
               <span class="shrow__meta"><span>19 CARS</span><span class="shrow__dot" aria-hidden="true"></span><span>512 km</span></span>
             </span>
             <span class="shrow__call">
-              <span class="shrow__tel">+41&nbsp;22&nbsp;421&nbsp;8800</span>
+              <span class="shrow__tel">078&nbsp;027&nbsp;2673</span>
               <span class="shrow__ico" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a12 12 0 006 6L17 13l4 1.5v3a2 2 0 01-2.2 2A16 16 0 014.5 6.2 2 2 0 016.5 4z"></path></svg></span>
             </span>
           </button>
@@ -395,7 +400,7 @@
               <span class="shrow__meta"><span>8 CARS</span><span class="shrow__dot" aria-hidden="true"></span><span>142 km</span></span>
             </span>
             <span class="shrow__call">
-              <span class="shrow__tel">+43&nbsp;662&nbsp;421&nbsp;880</span>
+              <span class="shrow__tel">078&nbsp;027&nbsp;2673</span>
               <span class="shrow__ico" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a12 12 0 006 6L17 13l4 1.5v3a2 2 0 01-2.2 2A16 16 0 014.5 6.2 2 2 0 016.5 4z"></path></svg></span>
             </span>
           </button>
@@ -411,7 +416,7 @@
               <span class="shrow__meta"><span>6 CARS</span><span class="shrow__dot" aria-hidden="true"></span><span>162 km</span></span>
             </span>
             <span class="shrow__call">
-              <span class="shrow__tel">+43&nbsp;512&nbsp;421&nbsp;880</span>
+              <span class="shrow__tel">078&nbsp;027&nbsp;2673</span>
               <span class="shrow__ico" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.5 4h3l1.5 4-2 1.5a12 12 0 006 6L17 13l4 1.5v3a2 2 0 01-2.2 2A16 16 0 014.5 6.2 2 2 0 016.5 4z"></path></svg></span>
             </span>
           </button>
