@@ -559,7 +559,7 @@
       <div class="minifacts">
         <div class="minifact"><div class="minifact__num minifact__num--30" id="apr-fact">3.9%</div><div class="minifact__lbl">APR, FIXED</div></div>
         <span class="minifact__sep minifact__sep--38" aria-hidden="true"></span>
-        <div class="minifact"><div class="minifact__num minifact__num--30">&euro;0</div><div class="minifact__lbl">ARRANGEMENT FEE</div></div>
+        <div class="minifact"><div class="minifact__num minifact__num--30">AED 0</div><div class="minifact__lbl">ARRANGEMENT FEE</div></div>
         <span class="minifact__sep minifact__sep--38" aria-hidden="true"></span>
         <div class="minifact"><div class="minifact__num minifact__num--30 minifact__num--accent">0%</div><div class="minifact__lbl">EARLY SETTLEMENT</div></div>
       </div>
@@ -569,16 +569,16 @@
       <div class="depbar__row">
         <div class="depbar__value">
           <div class="depbar__lbl">DEPOSIT</div>
-          <div class="depbar__amount" id="dep-out">&euro;30,000</div>
+          <div class="depbar__amount" id="dep-out">AED 120,000</div>
         </div>
         <div class="depbar__slider">
           <label class="visually-hidden" for="dep">Deposit</label>
           <input class="range" id="dep" type="range" min="0" max="80000" step="1000" value="30000">
-          <div class="depbar__scale"><span>&euro;0</span><span>&euro;80,000</span></div>
+          <div class="depbar__scale"><span>AED 0</span><span>AED 320,000</span></div>
         </div>
         <div class="depbar__shortcuts">
           <span class="depbar__or">OR USE</span>
-          <button class="dep-btn dep-btn--trade" id="dep-trade" type="button" aria-pressed="false">My trade-in &middot; &euro;61,400</button>
+          <button class="dep-btn dep-btn--trade" id="dep-trade" type="button" aria-pressed="false">My trade-in &middot; AED 245,600</button>
           <button class="dep-btn" id="dep-zero" type="button" aria-pressed="false">Nothing down</button>
         </div>
       </div>
@@ -605,14 +605,14 @@
       <div class="plan" data-term="36">
         <span class="plan__flag">MOST CHOSEN</span>
         <div class="plan__head"><span class="plan__term">36 MONTHS</span><span class="plan__who">PAY IT OFF FAST</span></div>
-        <p class="plan__price"><span class="plan__monthly">&euro;0</span><span class="plan__per">/ mo</span></p>
+        <p class="plan__price"><span class="plan__monthly">AED 0</span><span class="plan__per">/ mo</span></p>
         <p class="plan__tradeoff">&nbsp;</p>
         <div class="plan__interest">
-          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">&euro;0</span></div>
+          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">AED 0</span></div>
           <div class="plan__bar"><span class="plan__barfill"></span></div>
         </div>
         <div class="plan__foot">
-          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">&euro;0</span></div>
+          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">AED 0</span></div>
           <button class="plan__cta" type="button" aria-pressed="false" data-pick="36">Choose 36 months</button>
         </div>
       </div>
@@ -620,14 +620,14 @@
       <div class="plan plan--popular plan--picked" data-term="60">
         <span class="plan__flag">MOST CHOSEN</span>
         <div class="plan__head"><span class="plan__term">60 MONTHS</span><span class="plan__who">THE BALANCE</span></div>
-        <p class="plan__price"><span class="plan__monthly">&euro;0</span><span class="plan__per">/ mo</span></p>
+        <p class="plan__price"><span class="plan__monthly">AED 0</span><span class="plan__per">/ mo</span></p>
         <p class="plan__tradeoff">&nbsp;</p>
         <div class="plan__interest">
-          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">&euro;0</span></div>
+          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">AED 0</span></div>
           <div class="plan__bar"><span class="plan__barfill"></span></div>
         </div>
         <div class="plan__foot">
-          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">&euro;0</span></div>
+          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">AED 0</span></div>
           <button class="plan__cta" type="button" aria-pressed="true" data-pick="60">Choose 60 months</button>
         </div>
       </div>
@@ -635,14 +635,14 @@
       <div class="plan" data-term="72">
         <span class="plan__flag">MOST CHOSEN</span>
         <div class="plan__head"><span class="plan__term">72 MONTHS</span><span class="plan__who">LOWEST MONTHLY</span></div>
-        <p class="plan__price"><span class="plan__monthly">&euro;0</span><span class="plan__per">/ mo</span></p>
+        <p class="plan__price"><span class="plan__monthly">AED 0</span><span class="plan__per">/ mo</span></p>
         <p class="plan__tradeoff">&nbsp;</p>
         <div class="plan__interest">
-          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">&euro;0</span></div>
+          <div class="plan__interest-head"><span class="plan__interest-lbl">INTEREST YOU PAY</span><span class="plan__interest-val">AED 0</span></div>
           <div class="plan__bar"><span class="plan__barfill"></span></div>
         </div>
         <div class="plan__foot">
-          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">&euro;0</span></div>
+          <div class="plan__total"><span>Total paid</span><span class="plan__total-val">AED 0</span></div>
           <button class="plan__cta" type="button" aria-pressed="false" data-pick="72">Choose 72 months</button>
         </div>
       </div>
@@ -670,7 +670,7 @@
       <div class="trade__panel">
         <div class="trade__quote">
           <p class="trade__lbl">ESTIMATED OFFER RANGE</p>
-          <p class="trade__range"><span id="trade-low">&euro;0</span><span class="trade__dash"> &ndash; </span><span id="trade-high">&euro;0</span></p>
+          <p class="trade__range"><span id="trade-low">AED 0</span><span class="trade__dash"> &ndash; </span><span id="trade-high">AED 0</span></p>
           <p class="trade__desc" id="trade-desc">Kia K5 &middot; on the floor</p>
         </div>
         <img class="trade__car" src="/frontend/assets/img/showroom/kia-k5-white.jpg" width="1200" height="700" alt="Kia K5">
@@ -1119,7 +1119,7 @@
 </dialog>
 
 <script src="/frontend/assets/vendor/leaflet/leaflet.js"></script>
-<script src="/frontend/assets/js/main1ef4.js?v=5d78136b"></script>
+<script src="/frontend/assets/js/main1ef4.js?v=aed1"></script>
 </body>
 
 <!-- Mirrored from https://demo.gridgum.com/avavamotors/car-marketplace/index.html by HTTrack Website Copier/3.x [XR&CO], Tue, 06 Oct 2026 16:45:40 GMT -->
