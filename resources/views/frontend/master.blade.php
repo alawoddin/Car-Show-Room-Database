@@ -121,128 +121,44 @@
         <li class="nav__item">
           <a class="nav__link" href="#">Pages <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
           <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Pages submenu"></button>
-          <ul class="dd">
-            <li><a class="drow" href="about.html">About Us</a></li>
-            <li><a class="drow" href="service.html">Service</a></li>
-            <li><a class="drow" href="pricing.html">Pricing</a></li>
-            <li><a class="drow" href="compare.html">Compare</a></li>
-            <li><a class="drow" href="faq.html">FAQ</a></li>
-            <li><a class="drow" href="contact.html">Contact Us</a></li>
-          </ul>
+        
         </li>
 
-        <li class="nav__item">
-          <a class="nav__link" href="#">Listings <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Listings submenu"></button>
-          <ul class="dd dd--wide">
-            <li class="sub">
-              <a class="drow" href="#">Listing Styles <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
-              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Listing Styles submenu"></button>
-              <ul class="flyout">
-                <li><a class="drow" href="listing-v1.html">Listing v1</a></li>
-                <li><a class="drow" href="listing-v2.html">Listing v2</a></li>
-                <li><a class="drow" href="listing-v3.html">Listing v3</a></li>
-                <li><a class="drow" href="listing-v4.html">Listing v4</a></li>
-                <li><a class="drow" href="listing-v5.html">Listing v5</a></li>
-                <li><a class="drow" href="listing-v6.html">Listing v6</a></li>
-              </ul>
-            </li>
-            <li class="sub">
-              <a class="drow" href="#">Listing Map <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
-              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Listing Map submenu"></button>
-              <ul class="flyout">
-                <li><a class="drow" href="listing-map-v1.html">Listing Map v1</a></li>
-                <li><a class="drow" href="listing-map-v2.html">Listing Map v2</a></li>
-                <li><a class="drow" href="listing-map-v3.html">Listing Map v3</a></li>
-                <li><a class="drow" href="listing-map-v4.html">Listing Map v4</a></li>
-              </ul>
-            </li>
-            <li class="sub">
-              <a class="drow" href="#">Listing Single <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
-              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Listing Single submenu"></button>
-              <ul class="flyout">
-                <li><a class="drow" href="listing-single-v1.html">Listing Single v1</a></li>
-                <li><a class="drow" href="listing-single-v2.html">Listing Single v2</a></li>
-                <li><a class="drow" href="listing-single-v3.html">Listing Single v3</a></li>
-                <li><a class="drow" href="listing-single-v4.html">Listing Single v4</a></li>
-                <li><a class="drow" href="listing-single-v5.html">Listing Single v5</a></li>
-                <li><a class="drow" href="#">Listing Single v6</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
+    
+
+     
 
         <li class="nav__item">
-          <a class="nav__link" href="#">Shop <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Shop submenu"></button>
-          <ul class="dd">
-            <li><a class="drow" href="shop.html">Shop</a></li>
-            <li><a class="drow" href="shop-v2.html">Shop v2</a></li>
-            <li><a class="drow" href="shop-v3.html">Shop v3</a></li>
-            <li><a class="drow" href="shop-single-v1.html">Shop single v1</a></li><li><a class="drow" href="shop-single-v2.html">Shop single v2</a></li><li><a class="drow" href="shop-single-v3.html">Shop single v3</a></li>
-            <li><a class="drow" href="cart.html">Cart</a></li>
-            <li><a class="drow" href="checkout.html">Checkout</a></li>
-          </ul>
-        </li>
-
-        <li class="nav__item">
-          <a class="nav__link" href="#">Blog <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <a class="nav__link" href="#">About Us <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
           <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
-          <ul class="dd">
-            <li><a class="drow" href="blog.html">Blog list</a></li>
-            <li><a class="drow" href="blog-single.html">Blog single</a></li>
-          </ul>
+         
+        </li>
+
+          <li class="nav__item">
+          <a class="nav__link" href="#">Service <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
+         
+        </li>
+
+         </li>
+
+          <li class="nav__item">
+          <a class="nav__link" href="#">Pricing <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
+         
         </li>
 
         <li class="nav__item">
-          <a class="nav__link" href="#">Explore <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
-          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Explore submenu"></button>
-          <ul class="dd dd--wide">
-            <li class="sub">
-              <a class="drow" href="#">User Dashboard <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
-              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show User Dashboard submenu"></button>
-              <ul class="flyout">
-                <li><a class="drow" href="profile.html">Profile</a></li>
-                <li><a class="drow" href="saved-cars.html">Saved cars</a></li>
-                <li><a class="drow" href="bookings.html">Bookings</a></li>
-                <li><a class="drow" href="orders.html">Orders</a></li>
-                <li><a class="drow" href="my-listings.html">My listings</a></li>
-                <li><a class="drow" href="sell-my-car.html">Sell my car</a></li>
-                <li><a class="drow" href="messages.html">Messages</a></li>
-                <li><a class="drow" href="settings.html">Settings</a></li>
-              </ul>
-            </li>
-            <li class="sub">
-              <a class="drow" href="#">Dealer Dashboard <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"></path></svg></a>
-              <button class="nav__toggle nav__toggle--sub" type="button" aria-expanded="false" aria-label="Show Dealer Dashboard submenu"></button>
-              <ul class="flyout">
-                <li><a class="drow" href="dealer-dashboard.html">Dashboard</a></li>
-                <li><a class="drow" href="dealer-listings.html">My Listings</a></li>
-                <li><a class="drow" href="dealer-add-listing.html">Add Listing</a></li>
-                <li><a class="drow" href="dealer-enquiries.html">Enquiries</a></li>
-                <li><a class="drow" href="dealer-bookings.html">Bookings</a></li>
-                <li><a class="drow" href="dealer-orders.html">Orders</a></li>
-                <li><a class="drow" href="dealer-analytics.html">Analytics</a></li>
-                <li><a class="drow" href="dealer-reviews.html">Reviews</a></li>
-                <li><a class="drow" href="dealer-team.html">Team</a></li>
-                <li><a class="drow" href="dealer-payouts.html">Payouts</a></li>
-                <li><a class="drow" href="dealer-invoices.html">Invoices</a></li>
-                <li><a class="drow" href="dealer-profile.html">Dealer Profile</a></li>
-                <li><a class="drow" href="dealer-settings.html">Settings</a></li>
-              </ul>
-            </li>
-          </ul>
+          <a class="nav__link" href="#">Contact Us <svg class="nav__chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></a>
+          <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Show Blog submenu"></button>
+         
         </li>
+
+      
       </ul>
     </nav>
 
-    <div class="hdr__actions">
-      <button class="iconbtn" type="button" aria-label="Search the inventory"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6.5"></circle><path d="m20 20-4.6-4.6"></path></svg></button>
-      <button class="iconbtn" type="button" id="account-btn" aria-label="Sign in to your account"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.6"></circle><path d="M5 20c1.1-3.2 3.8-4.8 7-4.8s5.9 1.6 7 4.8"></path></svg></button>
-      <a class="btn btn--add" href="sell-my-car.html" aria-label="Add Listing"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"></path></svg><span class="btn__label">Add Listing</span></a>
-      <a class="cartbtn" id="cart-btn" href="cart.html" hidden aria-label="Cart"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8h12l-1 12H7z"></path><path d="M9.5 8V6a2.5 2.5 0 015 0v2"></path></svg><span class="cartbtn__n" id="cart-n">0</span></a>
-      <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Open the menu"><span class="burger__bar"></span><span class="burger__bar"></span><span class="burger__bar"></span></button>
-    </div>
+ 
   </div>
 </header>
 
