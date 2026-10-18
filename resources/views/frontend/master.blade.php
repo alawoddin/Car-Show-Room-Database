@@ -109,12 +109,12 @@
         <li><a href="#" aria-label="Showroom on X"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.4-1.3 1.7-2.2-.8.4-1.6.8-2.5 1a4 4 0 0 0-6.8 3.6A11.3 11.3 0 0 1 3.9 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.7-.5v.1a4 4 0 0 0 3.2 3.9c-.6.1-1.1.2-1.7.1a4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18.6a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1z"></path></svg></a></li>
       </ul>
       <span class="util__sep" aria-hidden="true"></span>
-      <span class="cur" role="group" aria-label="Currency"><button class="cur__btn" type="button" data-cur="USD" aria-pressed="false">US$</button><span class="cur__sep" aria-hidden="true">&middot;</span><button class="cur__btn cur__btn--on" type="button" data-cur="EUR" aria-pressed="true">EUR</button></span>
+      <span class="cur" role="group" aria-label="Currency"><button class="cur__btn cur__btn--on" type="button" data-cur="AED" aria-pressed="true">AED</button><span class="cur__sep" aria-hidden="true">&middot;</span><button class="cur__btn" type="button" data-cur="USD" aria-pressed="false">US$</button></span>
     </div>
   </div>
 
   <div class="hdr__bar">
-    <a class="hdr__logo" href="/"><span class="hdr__name">AL Jazeera AL Hamra UESD Cars<br>Enam Ullah Ahmadi</span></a>
+    <a class="hdr__logo brandlogo" href="/"><span class="brandlogo__mark" aria-hidden="true">AJ</span><span class="brandlogo__text"><span class="brandlogo__line">AL Jazeera AL Hamra</span><span class="brandlogo__line">UESD Cars</span><span class="brandlogo__sub">Enam Ullah Ahmadi</span></span></a>
 
     <nav class="nav" id="nav" aria-label="Main">
       <ul class="nav__list">
@@ -263,7 +263,7 @@
 
   <!-- ============================================================ 1. Hero -->
   <section class="hero" id="hero" aria-labelledby="hero-title">
-    <img class="hero__photo" src="/frontend/assets/img/showroom/lexus-rx-white.jpg" width="1200" height="800" alt="White Lexus RX" fetchpriority="high">
+    <img class="hero__photo" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2400&q=80" width="2400" height="1600" alt="Sports car on an open road" fetchpriority="high">
     <div class="hero__scrim" aria-hidden="true"></div>
 
     <div class="hero__inner">
@@ -313,7 +313,7 @@
             <div class="livecard__foot">
               <div>
                 <div class="livecard__from">FROM</div>
-                <div class="livecard__price">&euro;96,400</div>
+                <div class="livecard__price">AED 385,600</div>
               </div>
               <a class="btn btn--ink btn--browse" href="#showroom">Browse 17<span class="btn__arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
             </div>
@@ -326,7 +326,7 @@
           <div class="search__quick">
             <span class="search__quicklbl">QUICK PICKS</span>
             <button class="qp qp--on" type="button" aria-pressed="true">In stock</button>
-            <button class="qp" type="button" aria-pressed="false">Under &euro;150k</button>
+            <button class="qp" type="button" aria-pressed="false">Under AED 600k</button>
             <button class="qp" type="button" aria-pressed="false">Electric</button>
             <button class="qp" type="button" aria-pressed="false">Delivered in 48h</button>
             <span class="search__fresh"><span class="dot dot--accent" aria-hidden="true"></span>UPDATED 12 MIN AGO</span>
@@ -350,7 +350,7 @@
             </p>
             <p class="bsel">
               <label class="bsel__lbl" for="f-price">PRICE UP TO</label>
-              <select class="bsel__sel" id="f-price" name="price"><option>Any price</option><option>&euro;150,000</option><option>&euro;200,000</option><option>&euro;300,000</option></select>
+              <select class="bsel__sel" id="f-price" name="price"><option>Any price</option><option>AED 600,000</option><option>AED 800,000</option><option>AED 1,200,000</option></select>
               <svg class="bsel__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg>
             </p>
             <p class="bsel">
@@ -554,7 +554,7 @@
       <div>
         <p class="eyebrow"><span class="dot dot--accent dot--8" aria-hidden="true"></span>FINANCE</p>
         <h2 class="h2 h2--fin h2--nowrap" id="fin-title">Three ways to pay for it.</h2>
-        <p class="sechead__lead">A &euro;164,900 car. Same rate on all three &mdash; the only thing that changes is how long you carry it, and what that costs you.</p>
+        <p class="sechead__lead">An AED 659,600 car. Same rate on all three &mdash; the only thing that changes is how long you carry it, and what that costs you.</p>
       </div>
       <div class="minifacts">
         <div class="minifact"><div class="minifact__num minifact__num--30" id="apr-fact">3.9%</div><div class="minifact__lbl">APR, FIXED</div></div>
@@ -876,7 +876,7 @@
   <div class="footmain">
     <div class="footgrid">
       <div class="footbrand">
-        <p class="foot__name">AL Jazeera AL Hamra UESD Cars<br>Enam Ullah Ahmadi</p>
+        <a class="brandlogo brandlogo--foot" href="/"><span class="brandlogo__mark" aria-hidden="true">AJ</span><span class="brandlogo__text"><span class="brandlogo__line">AL Jazeera AL Hamra</span><span class="brandlogo__line">UESD Cars</span><span class="brandlogo__sub">Enam Ullah Ahmadi</span></span></a>
         <p class="footbrand__text">Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.</p>
         <form class="subscribe" action="#" method="post">
           <label class="visually-hidden" for="sub-email">Your email</label>
