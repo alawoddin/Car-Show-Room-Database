@@ -391,7 +391,7 @@
 
         <div class="wfields">
           <p class="wfield"><label class="wfield__lbl" for="b-name">FULL NAME</label><input class="wfield__in" id="b-name" name="name" type="text" autocomplete="name" placeholder="Lena Brandt" required></p>
-          <p class="wfield"><label class="wfield__lbl" for="b-phone">PHONE</label><input class="wfield__in" id="b-phone" name="phone" type="tel" autocomplete="tel" placeholder="+49 89 4210 8800" required></p>
+          <p class="wfield"><label class="wfield__lbl" for="b-phone">PHONE</label><input class="wfield__in" id="b-phone" name="phone" type="tel" autocomplete="tel" placeholder="078 027 2673" required></p>
           <p class="wfield"><label class="wfield__lbl" for="b-vehicle">VEHICLE</label><input class="wfield__in" id="b-vehicle" name="vehicle" type="text" placeholder="2021 Porsche Cayenne"></p>
           <p class="wfield"><label class="wfield__lbl" for="b-mileage">MILEAGE</label><input class="wfield__in" id="b-mileage" name="mileage" type="text" inputmode="numeric" placeholder="48,000 mi"></p>
           <p class="wfield"><label class="wfield__lbl" for="b-shop">WORKSHOP</label><select class="wfield__in wfield__sel" id="b-shop" name="workshop"><option>Munich</option><option>Z&uuml;rich</option><option>Vienna</option><option>Geneva</option><option>Milan</option></select><svg class="wfield__chev" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 9l7 7 7-7"></path></svg></p>
@@ -560,7 +560,7 @@
     <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Z&uuml;rich</span><span class="ticker__time">UNTIL 18:30</span></span>
     <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Vienna</span><span class="ticker__time">UNTIL 18:00</span></span>
     <span class="ticker__shop"><span class="dot dot--faint" aria-hidden="true"></span><span class="ticker__city">Milan</span><span class="ticker__time">OPENS 09:00</span></span>
-    <a class="ticker__phone" href="tel:+498942108800">+49&nbsp;89&nbsp;4210&nbsp;8800<span class="ticker__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
+    <a class="ticker__phone" href="tel:+971780272673">078&nbsp;027&nbsp;2673<span class="ticker__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
   </div>
 
   <div class="footstats">
