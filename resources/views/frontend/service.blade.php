@@ -50,7 +50,7 @@
 <link rel="stylesheet" href="/frontend/assets/vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="/frontend/assets/css/style1ef4.css?v=5d78136b">
 <link rel="stylesheet" href="/frontend/assets/css/service1ef4.css?v=5d78136b">
-<style>.brandlogo{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none}.brandlogo__mark{display:grid;place-items:center;width:48px;height:48px;flex:none;border-radius:14px;background:#c6a15b;color:#14161a;font-weight:800;font-size:16px}.brandlogo__line{display:block;font-weight:800;letter-spacing:.04em;text-transform:uppercase;line-height:1.15;font-size:12px}.brandlogo__sub{display:block;margin-top:3px;font-size:11px;opacity:.78}.brandlogo--foot .brandlogo__mark{width:72px;height:72px;border-radius:18px;font-size:24px}.brandlogo--foot .brandlogo__line{font-size:18px;color:#fff}.brandlogo--foot .brandlogo__sub{margin-top:6px;font-size:14px;color:rgba(255,255,255,.72)}.nav__link.is-on{box-shadow:inset 0 -2px 0 #c6a15b}</style>
+<style>.brandlogo{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none}.brandlogo__mark{display:grid;place-items:center;width:48px;height:48px;flex:none;border-radius:14px;background:#c6a15b;color:#14161a;font-weight:800;font-size:16px}.brandlogo__line{display:block;font-weight:800;letter-spacing:.04em;text-transform:uppercase;line-height:1.15;font-size:12px}.brandlogo__sub{display:block;margin-top:3px;font-size:11px;opacity:.78}.brandlogo--foot .brandlogo__mark{width:72px;height:72px;border-radius:18px;font-size:24px}.brandlogo--foot .brandlogo__line{font-size:18px;color:#fff}.brandlogo--foot .brandlogo__sub{margin-top:6px;font-size:14px;color:rgba(255,255,255,.72)}.nav__link.is-on{box-shadow:inset 0 -2px 0 #c6a15b}.footbrand__text a{color:#fff}</style>
 <noscript><style>.preloader { display: none; }</style></noscript>
 </head>
 <body>
@@ -561,10 +561,7 @@
 
   <div class="ticker">
     <span class="ticker__open"><span class="dot dot--ink dot--8 pulse" aria-hidden="true"></span>OPEN NOW</span>
-    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Munich</span><span class="ticker__time">UNTIL 19:00</span></span>
-    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Z&uuml;rich</span><span class="ticker__time">UNTIL 18:30</span></span>
-    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Vienna</span><span class="ticker__time">UNTIL 18:00</span></span>
-    <span class="ticker__shop"><span class="dot dot--faint" aria-hidden="true"></span><span class="ticker__city">Milan</span><span class="ticker__time">OPENS 09:00</span></span>
+    <span class="ticker__shop"><span class="dot dot--ink" aria-hidden="true"></span><span class="ticker__city">Sharjah</span><span class="ticker__time">AL JUBAIL STREET 72</span></span>
     <a class="ticker__phone" href="tel:+971780272673">078&nbsp;027&nbsp;2673<span class="ticker__arrow" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span></a>
   </div>
 
@@ -579,16 +576,16 @@
     <div class="footgrid">
       <div class="footbrand">
         <a class="brandlogo brandlogo--foot" href="/"><span class="brandlogo__mark" aria-hidden="true">AJ</span><span class="brandlogo__text"><span class="brandlogo__line">AL Jazeera AL Hamra</span><span class="brandlogo__line">UESD Cars</span><span class="brandlogo__sub">Enam Ullah Ahmadi</span></span></a>
-        <p class="footbrand__text">Saturday mornings: new arrivals and price drops on the cars you saved. Nothing else, ever.</p>
+        <p class="footbrand__text">Al Jubail Street 72, Industrial Area-2, Sharjah, United Arab Emirates.<br><a href="tel:+971780272673">078 027 2673</a></p>
         <form class="subscribe" action="#" method="post">
           <label class="visually-hidden" for="sub-email">Your email</label>
           <input class="subscribe__in" id="sub-email" type="email" name="email" placeholder="Your email" required>
           <button class="subscribe__btn" type="submit">Subscribe</button>
         </form>
         <ul class="social">
-          <li><a href="#" aria-label="AVAVA on Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
-          <li><a href="#" aria-label="AVAVA on Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v3h2v8h3v-8h3l1-3h-4V7a1 1 0 0 1 1-1h2z"></path></svg></a></li>
-          <li><a href="#" aria-label="AVAVA on X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 4l7.5 9L4.5 20h2l6-6.6 5 6.6H21l-8-10 7-8h-2l-6 6.4L7.5 4z"></path></svg></a></li>
+          <li><a href="#" aria-label="Showroom on Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="3.8"></circle><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"></circle></svg></a></li>
+          <li><a href="#" aria-label="Showroom on Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M15 3h-2a4 4 0 0 0-4 4v3H7v3h2v8h3v-8h3l1-3h-4V7a1 1 0 0 1 1-1h2z"></path></svg></a></li>
+          <li><a href="#" aria-label="Showroom on X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4 4l7.5 9L4.5 20h2l6-6.6 5 6.6H21l-8-10 7-8h-2l-6 6.4L7.5 4z"></path></svg></a></li>
         </ul>
       </div>
 
@@ -627,14 +624,12 @@
     </div>
   </div>
 
-  <div class="wordmarkbox">
-    <span class="wordmark" aria-hidden="true">AVAVA</span>
-  </div>
+  
 
   <div class="footbottom">
     <div class="footbottom__inner">
-      <span>&copy; 2026 MECONATA</span>
-      <span>EVERY CAR INSPECTED BEFORE IT IS LISTED</span>
+      <span>&copy; 2026 AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi</span>
+      <span>Create By Alawoddin Khedmat</span>
     </div>
   </div>
 </footer>

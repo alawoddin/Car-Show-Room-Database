@@ -63,6 +63,7 @@
   .brandlogo--foot .brandlogo__mark { width: 72px; height: 72px; border-radius: 18px; font-size: 24px; }
   .brandlogo--foot .brandlogo__line { font-size: 18px; color: #fff; }
   .brandlogo--foot .brandlogo__sub { margin-top: 6px; font-size: 14px; color: rgba(255,255,255,.72); }
+  .footbrand__text a { color: #fff; }
   .hero__photo { object-position: 72% center; }
   .nav__link.is-on { box-shadow: inset 0 -2px 0 #c6a15b; }
   .preloader__brand { margin: 0 auto; max-width: 420px; color: #fff; font-size: 22px; font-weight: 800; line-height: 1.3; }
