@@ -932,7 +932,7 @@
   <div class="footbottom">
     <div class="footbottom__inner">
       <span>&copy; 2026 AL Jazeera AL Hamra UESD Cars Enam Ullah Ahmadi</span>
-      <span>EVERY CAR INSPECTED BEFORE IT IS LISTED</span>
+      <span>Create By Alawoddin Khedmat</span>
     </div>
   </div>
 </footer>
