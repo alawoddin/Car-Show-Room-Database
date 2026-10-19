@@ -39,7 +39,7 @@ body.showroom-admin {
     --sr-chip-bg: #e8eefb;
     --sr-chip-text: var(--sr-royal);
     --sr-focus: rgba(36, 84, 214, 0.18);
-    font-family: "Manrope", "Segoe UI", sans-serif;
+    font-family: "Segoe UI", sans-serif;
     color: var(--sr-text);
     background:
         radial-gradient(900px 420px at 100% -10%, var(--sr-page-glow), transparent 55%),
@@ -687,7 +687,17 @@ html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu ul {
     background: transparent;
 }
 
-body.showroom-admin .sidebar-wrapper .metismenu .mm-collapse.mm-show {
+body.showroom-admin .sidebar-wrapper {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu ul {
+    display: none;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu .mm-collapse.mm-show,
+body.showroom-admin .sidebar-wrapper .metismenu ul.mm-show {
     display: block;
 }
 
