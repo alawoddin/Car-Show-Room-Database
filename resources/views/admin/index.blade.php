@@ -196,26 +196,17 @@
         </div>
 
 
-        {{-- 4. Remaining Admin Capital --}}
         <div class="col">
-            <div class="card stat-card stat-balance">
+            <div class="card stat-card stat-vehicles">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-
                         <div>
-                            <p class="mb-0 text-secondary">
-                                Remaining Admin Capital
-                            </p>
-
-                            <h4 class="my-1">
-                                ${{ number_format($remainingAdminCapital, 2) }}
-                            </h4>
+                            <p class="mb-0 text-secondary">Admin Vehicles</p>
+                            <h4 class="my-1">{{ number_format($adminVehicles) }}</h4>
                         </div>
-
-                        <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
-                            <i class="bx bx-coin-stack"></i>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
+                            <i class="bx bx-car"></i>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -223,163 +214,155 @@
 
     </div>
 
-
-    {{-- =====================================================
-         SECOND ROW: VEHICLES, PURCHASES, SALES AND PROFIT
-    ====================================================== --}}
-
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
 
-        {{-- 5. Total Vehicles --}}
-        <div class="col">
-            <div class="card stat-card stat-vehicles">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-
-                        <div>
-                            <p class="mb-0 text-secondary">
-                                Total Vehicles
-                            </p>
-
-                            <h4 class="my-1">
-                                {{ number_format($totalVehicles) }}
-                            </h4>
-                        </div>
-
-                        <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
-                            <i class="bx bx-car"></i>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        {{-- 6. Admin amount in cars --}}
-        <div class="col">
-            <div class="card stat-card stat-purchase">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-
-                        <div>
-                            <p class="mb-0 text-secondary">
-                                Admin Cars
-                            </p>
-
-                            <h4 class="my-1">
-                                ${{ number_format($adminCarTotal, 2) }}
-                            </h4>
-                        </div>
-
-                        <div class="widgets-icons-2 rounded-circle bg-light text-dark ms-auto">
-                            <i class="bx bx-cart"></i>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        {{-- 7. Client amount in cars --}}
         <div class="col">
             <div class="card stat-card stat-client">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-
                         <div>
-                            <p class="mb-0 text-secondary">
-                                Client Cars
-                            </p>
-
-                            <h4 class="my-1">
-                                ${{ number_format($clientCarTotal, 2) }}
-                            </h4>
+                            <p class="mb-0 text-secondary">Total Client Capital</p>
+                            <h4 class="my-1">${{ number_format($totalClientCapital, 2) }}</h4>
                         </div>
-
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
-                            <i class="bx bx-car"></i>
+                            <i class="bx bx-group"></i>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
 
-
-        {{-- 8. Total Sales --}}
         <div class="col">
-            <div class="card stat-card stat-sales">
+            <div class="card stat-card stat-purchase">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-
                         <div>
-                            <p class="mb-0 text-secondary">
-                                Total Sales
-                            </p>
-
-                            <h4 class="my-1">
-                                ${{ number_format($totalSales, 2) }}
-                            </h4>
+                            <p class="mb-0 text-secondary">Client Cars</p>
+                            <h4 class="my-1">${{ number_format($clientCarTotal, 2) }}</h4>
                         </div>
-
-                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
-                            <i class="bx bx-trending-up"></i>
+                        <div class="widgets-icons-2 rounded-circle bg-light text-dark ms-auto">
+                            <i class="bx bx-cart"></i>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
 
-
-        {{-- 9. Remaining Client Capital --}}
         <div class="col">
             <div class="card stat-card stat-balance">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-
                         <div>
-                            <p class="mb-0 text-secondary">
-                                Remaining Client Capital
-                            </p>
-
-                            <h4 class="my-1">
-                                ${{ number_format($remainingClientCapital, 2) }}
-                            </h4>
+                            <p class="mb-0 text-secondary">Remaining Client Capital</p>
+                            <h4 class="my-1">${{ number_format($remainingClientCapital, 2) }}</h4>
                         </div>
-
                         <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
-                            <i class="bx bx-wallet"></i>
+                            <i class="bx bx-coin-stack"></i>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="col">
+            <div class="card stat-card stat-vehicles">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Client Vehicles</p>
+                            <h4 class="my-1">{{ number_format($clientVehicles) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                            <i class="bx bx-car"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        {{-- 10. Total Profit --}}
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+
+        <div class="col">
+            <div class="card stat-card stat-sales">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Admin Sales</p>
+                            <h4 class="my-1">${{ number_format($adminSales, 2) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                            <i class="bx bx-trending-up"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card stat-card stat-sales">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Client Sales</p>
+                            <h4 class="my-1">${{ number_format($clientSales, 2) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                            <i class="bx bx-trending-up"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col">
             <div class="card stat-card stat-profit">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-
                         <div>
-                            <p class="mb-0 text-secondary">
-                                Total Profit
-                            </p>
-
-                            <h4 class="my-1">
-                                ${{ number_format($totalProfit, 2) }}
-                            </h4>
+                            <p class="mb-0 text-secondary">Admin Profit</p>
+                            <h4 class="my-1">${{ number_format($adminProfit, 2) }}</h4>
                         </div>
-
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-dollar-circle"></i>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col">
+            <div class="card stat-card stat-profit">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Client Profit</p>
+                            <h4 class="my-1">${{ number_format($clientProfit, 2) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
+                            <i class="bx bx-dollar-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+
+        <div class="col">
+            <div class="card stat-card stat-expense">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Total Expenses</p>
+                            <h4 class="my-1">${{ number_format($totalExpense, 2) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
+                            <i class="bx bx-money"></i>
+                        </div>
                     </div>
                 </div>
             </div>
