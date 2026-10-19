@@ -282,7 +282,9 @@
                             name="buying_fee"
                             id="buying_fee"
                             class="form-control"
-                            value="{{ $purchase->buying_fee ?? '' }}"
+                            value="{{ isset($purchase) && $purchase->buying_fee !== null && $purchase->buying_fee !== '' ? $purchase->buying_fee : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
@@ -299,7 +301,9 @@
                             name="towing_fee"
                             id="towing_fee"
                             class="form-control"
-                            value="{{ $purchase->towing_fee ?? '' }}"
+                            value="{{ isset($purchase) && $purchase->towing_fee !== null && $purchase->towing_fee !== '' ? $purchase->towing_fee : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
@@ -316,7 +320,9 @@
                             name="shipping"
                             id="shipping"
                             class="form-control"
-                            value="{{ $purchase->shipping ?? '' }}"
+                            value="{{ isset($purchase) && $purchase->shipping !== null && $purchase->shipping !== '' ? $purchase->shipping : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
@@ -335,7 +341,9 @@
                             name="commission"
                             id="commission"
                             class="form-control"
-                            value="{{ $purchase->commission ?? '0' }}"
+                            value="{{ isset($purchase) && $purchase->commission !== null && $purchase->commission !== '' ? $purchase->commission : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
@@ -365,7 +373,7 @@
                             name="total_aed"
                             id="total_aed"
                             class="form-control"
-                            value="{{ $purchase->total_aed ?? '' }}"
+                            value="0"
                             readonly>
 
                     </div>
@@ -382,7 +390,9 @@
                             name="clearing"
                             id="clearing"
                             class="form-control"
-                            value="{{ $purchase->clearing ?? '' }}"
+                            value="{{ isset($purchase) && $purchase->clearing !== null && $purchase->clearing !== '' ? $purchase->clearing : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
@@ -399,7 +409,9 @@
                             name="extra_charges"
                             id="extra_charges"
                             class="form-control"
-                            value="{{ $purchase->extra_charges ?? '' }}"
+                            value="{{ isset($purchase) && $purchase->extra_charges !== null && $purchase->extra_charges !== '' ? $purchase->extra_charges : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
@@ -416,8 +428,9 @@
                             name="custom_duty"
                             id="custom_duty"
                             class="form-control"
-                            value="{{ $purchase->custom_duty ?? '' }}"
-                            readonly>
+                            value="{{ isset($purchase) && $purchase->custom_duty !== null && $purchase->custom_duty !== '' ? $purchase->custom_duty : 0 }}"
+                            onchange="calculatePurchase(true)"
+                            onkeyup="calculatePurchase(true)">
 
                     </div>
 
@@ -438,20 +451,21 @@
                             name="grand_total"
                             id="grand_total"
                             class="form-control"
-                            value="{{ $purchase->grand_total ?? '' }}"
+                            value="0"
                             readonly>
 
                     </div>
 
                     <div class="form-group col-md-6 mb-3">
 
-                        <label for="grand_total" class="form-label">
-                            shipping_company
+                        <label for="shipping_company" class="form-label">
+                            Shipping Company
                         </label>
 
                         <input
                             type="text"
                             name="shipping_company"
+                            id="shipping_company"
                             class="form-control"
                             value="{{ $purchase->shipping_company ?? '' }}"
                             >
@@ -577,6 +591,8 @@
                                 id="selling_price"
                                 class="form-control"
                                 value="{{ $purchase->selling_price ?? '' }}"
+                                onchange="calculatePurchase()"
+                                onkeyup="calculatePurchase()"
                                 placeholder="Enter selling price">
 
                         </div>
@@ -794,256 +810,58 @@
 ====================================================== --}}
 
 <script>
+function calculatePurchase(keepDuty) {
+    var buyingFee = document.getElementById('buying_fee');
+    var towingFee = document.getElementById('towing_fee');
+    var shipping = document.getElementById('shipping');
+    var commission = document.getElementById('commission');
+    var totalAed = document.getElementById('total_aed');
+    var clearing = document.getElementById('clearing');
+    var extraCharges = document.getElementById('extra_charges');
+    var customDuty = document.getElementById('custom_duty');
+    var grandTotal = document.getElementById('grand_total');
+    var sellingPrice = document.getElementById('selling_price');
+    var profit = document.getElementById('profit');
+    var exchangeRate = 3.675;
 
-document.addEventListener('DOMContentLoaded', function () {
-
-    const buyingFee = document.getElementById('buying_fee');
-
-    const towingFee = document.getElementById('towing_fee');
-
-    const shipping = document.getElementById('shipping');
-
-    const commission = document.getElementById('commission');
-
-
-    const totalAed = document.getElementById('total_aed');
-
-
-    const clearing = document.getElementById('clearing');
-
-    const extraCharges = document.getElementById('extra_charges');
-
-
-    const customDuty = document.getElementById('custom_duty');
-
-    const grandTotal = document.getElementById('grand_total');
-
-
-    const sellingPrice = document.getElementById('selling_price');
-
-    const profit = document.getElementById('profit');
-
-
-    // USD → AED
-
-    const exchangeRate = 3.675;
-
-
-    function number(value)
-    {
+    function number(value) {
         return parseFloat(value) || 0;
     }
 
-
-    function calculatePurchase()
-    {
-
-        if (!buyingFee || !towingFee || !shipping) {
-            return;
-        }
-
-
-        // ==========================================
-        // 1. Total USD
-        // ==========================================
-
-        const buying = number(buyingFee.value);
-
-        const towing = number(towingFee.value);
-
-        const ship = number(shipping.value);
-
-        const commissionValue = number(
-            commission ? commission.value : 0
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Buying Fee + Towing + Shipping + Commission
-        |--------------------------------------------------------------------------
-        */
-
-        const totalUsd =
-            buying +
-            towing +
-            ship +
-            commissionValue;
-
-
-        // ==========================================
-        // 2. USD → AED
-        // ==========================================
-
-        const aed =
-            totalUsd *
-            exchangeRate;
-
-
-        if (totalAed) {
-
-            totalAed.value =
-                aed.toFixed(2);
-
-        }
-
-
-        // ==========================================
-        // 3. Custom Duty
-        // ==========================================
-
-        const duty =
-            (aed + 1472) *
-            0.055;
-
-
-        if (customDuty) {
-
-            customDuty.value =
-                duty.toFixed(2);
-
-        }
-
-
-        // ==========================================
-        // 4. Grand Total
-        // ==========================================
-
-        const clearingValue =
-            number(clearing?.value);
-
-
-        const extraChargesValue =
-            number(extraCharges?.value);
-
-
-        const grand =
-            aed +
-            clearingValue +
-            extraChargesValue +
-            duty;
-
-
-        if (grandTotal) {
-
-            grandTotal.value =
-                grand.toFixed(2);
-
-        }
-
-
-        // ==========================================
-        // 5. Profit
-        // Only on Sale
-        // ==========================================
-
-        if (sellingPrice && profit) {
-
-            const selling =
-                number(sellingPrice.value);
-
-
-            const calculatedProfit =
-                selling -
-                grand;
-
-
-            profit.value =
-                calculatedProfit.toFixed(2);
-
-        }
-
+    if (!buyingFee || !towingFee || !shipping) {
+        return;
     }
 
+    var totalUsd = number(buyingFee.value) + number(towingFee.value) + number(shipping.value) + number(commission ? commission.value : 0);
+    var aed = totalUsd > 0 ? totalUsd * exchangeRate : 0;
+    var duty = 0;
 
-    // ==========================================
-    // Purchase inputs
-    // ==========================================
-
-    if (buyingFee) {
-
-        buyingFee.addEventListener(
-            'input',
-            calculatePurchase
-        );
-
+    if (keepDuty) {
+        duty = number(customDuty ? customDuty.value : 0);
+    } else if (totalUsd > 0) {
+        duty = (aed + 1472) * 0.055;
     }
 
+    var grand = aed + number(clearing ? clearing.value : 0) + number(extraCharges ? extraCharges.value : 0) + duty;
 
-    if (towingFee) {
-
-        towingFee.addEventListener(
-            'input',
-            calculatePurchase
-        );
-
+    if (totalAed) {
+        totalAed.value = aed.toFixed(2);
     }
 
-
-    if (shipping) {
-
-        shipping.addEventListener(
-            'input',
-            calculatePurchase
-        );
-
+    if (customDuty && !keepDuty) {
+        customDuty.value = duty.toFixed(2);
     }
 
-
-    // ==========================================
-    // COMMISSION
-    // ==========================================
-
-    if (commission) {
-
-        commission.addEventListener(
-            'input',
-            calculatePurchase
-        );
-
+    if (grandTotal) {
+        grandTotal.value = grand.toFixed(2);
     }
 
-
-    if (clearing) {
-
-        clearing.addEventListener(
-            'input',
-            calculatePurchase
-        );
-
+    if (sellingPrice && profit) {
+        profit.value = (number(sellingPrice.value) - grand).toFixed(2);
     }
+}
 
-
-    if (extraCharges) {
-
-        extraCharges.addEventListener(
-            'input',
-            calculatePurchase
-        );
-
-    }
-
-
-    // ==========================================
-    // Sale selling price
-    // ==========================================
-
-    if (sellingPrice) {
-
-        sellingPrice.addEventListener(
-            'input',
-            calculatePurchase
-        );
-
-    }
-
-
-    // Calculate immediately when page loads
-
-    calculatePurchase();
-
-});
-
+calculatePurchase();
 </script>
 
 

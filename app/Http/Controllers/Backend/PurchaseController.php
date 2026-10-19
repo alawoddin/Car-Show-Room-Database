@@ -39,6 +39,8 @@ class PurchaseController extends Controller
                 ->withErrors(['user_ids' => 'Select 1, 2, or 3 users.']);
         }
 
+        $costs = $this->purchaseCosts($request);
+
         $purchase = Purchase::create([
 
             // =========================
@@ -69,11 +71,11 @@ class PurchaseController extends Controller
             // =========================
             // Calculated Costs
             // =========================
-            'total_aed' => $request->total_aed ?? 0,
+            'total_aed' => $costs['total_aed'],
             'clearing' => $request->clearing ?? 0,
             'extra_charges' => $request->extra_charges ?? 0,
-            'custom_duty' => $request->custom_duty ?? 0,
-            'grand_total' => $request->grand_total ?? 0,
+            'custom_duty' => $costs['custom_duty'],
+            'grand_total' => $costs['grand_total'],
 
             // =========================
             // Purchase Information
@@ -234,11 +236,12 @@ class PurchaseController extends Controller
         $purchase->shipping = $request->shipping ?? 0;
 
         // Calculated Costs
-        $purchase->total_aed = $request->total_aed ?? 0;
+        $costs = $this->purchaseCosts($request);
+        $purchase->total_aed = $costs['total_aed'];
         $purchase->clearing = $request->clearing ?? 0;
         $purchase->extra_charges = $request->extra_charges ?? 0;
-        $purchase->custom_duty = $request->custom_duty ?? 0;
-        $purchase->grand_total = $request->grand_total ?? 0;
+        $purchase->custom_duty = $costs['custom_duty'];
+        $purchase->grand_total = $costs['grand_total'];
 
         // Purchase Information
         $purchase->location = $request->location;
@@ -247,7 +250,7 @@ class PurchaseController extends Controller
 
         // Sale Information
         $purchase->selling_price = $request->selling_price ?? 0;
-        $purchase->profit = $request->profit ?? 0;
+        $purchase->profit = round((float) ($request->selling_price ?? 0) - $costs['grand_total'], 2);
         $purchase->bill_no = $request->bill_no;
         $purchase->date_of_arriving = $request->date_of_arriving;
         $purchase->customer_name = $request->customer_name;
@@ -313,6 +316,27 @@ class PurchaseController extends Controller
     /**
      * @return array<int, int>
      */
+    private function purchaseCosts(Request $request): array
+    {
+        $totalUsd = (float) ($request->buying_fee ?? 0)
+            + (float) ($request->towing_fee ?? 0)
+            + (float) ($request->shipping ?? 0)
+            + (float) ($request->commission ?? 0);
+
+        $aed = $totalUsd > 0 ? $totalUsd * 3.675 : 0;
+        $duty = (float) ($request->custom_duty ?? 0);
+        $grand = $aed
+            + (float) ($request->clearing ?? 0)
+            + (float) ($request->extra_charges ?? 0)
+            + $duty;
+
+        return [
+            'total_aed' => round($aed, 2),
+            'custom_duty' => round($duty, 2),
+            'grand_total' => round($grand, 2),
+        ];
+    }
+
     private function selectedUserIds(Request $request): array
     {
         $requested = collect($request->input('user_ids', []))

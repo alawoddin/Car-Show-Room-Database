@@ -870,10 +870,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // ==========================================
         // USD → AED
+        // No car cost yet: keep AED, duty, and grand total at zero.
         // ==========================================
 
-        const aed =
-            totalUsd * exchangeRate;
+        const aed = totalUsd > 0
+            ? totalUsd * exchangeRate
+            : 0;
 
 
         totalAed.value =
@@ -884,8 +886,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // CUSTOM DUTY
         // ==========================================
 
-        const duty =
-            (aed + 1472) * 0.055;
+        const duty = totalUsd > 0
+            ? (aed + 1472) * 0.055
+            : 0;
 
 
         customDuty.value =

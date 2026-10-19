@@ -91,6 +91,8 @@
                                 <th>buying_fee</th>
                                 <th>towing_fee</th>
                                 <th>shipping</th>
+                                <th>Total AED</th>
+                                <th>Grand Total</th>
                                 <th>selling_price</th>
                                 <th>profit</th>
                                 <th>status</th>
@@ -109,6 +111,8 @@
                                     <td>{{ $item->buying_fee }}</td>
                                     <td>{{ $item->towing_fee }}</td>
                                     <td>{{ $item->shipping }}</td>
+                                    <td>{{ number_format((float) $item->total_aed, 2) }}</td>
+                                    <td>{{ number_format((float) $item->grand_total, 2) }}</td>
                                     <td>{{ $item->selling_price }}</td>
                                     <td>{{ $item->profit }}</td>
                                     <td>{{ $item->status }}</td>
