@@ -146,7 +146,7 @@
 
         {{-- 2. Total Client Capital --}}
         <div class="col">
-            <div class="card stat-card stat-client">
+            <div class="card stat-card stat-purchase">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
 
@@ -160,8 +160,8 @@
                             </h4>
                         </div>
 
-                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
-                            <i class="bx bx-group"></i>
+                        <div class="widgets-icons-2 rounded-circle ms-auto">
+                            <i class="bx bx-car"></i>
                         </div>
 
                     </div>
@@ -233,15 +233,15 @@
         </div>
 
         <div class="col">
-            <div class="card stat-card stat-purchase">
+            <div class="card stat-card stat-client">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Cars</p>
                             <h4 class="my-1">${{ number_format($clientCarTotal, 2) }}</h4>
                         </div>
-                        <div class="widgets-icons-2 rounded-circle bg-light text-dark ms-auto">
-                            <i class="bx bx-cart"></i>
+                        <div class="widgets-icons-2 rounded-circle ms-auto">
+                            <i class="bx bx-car"></i>
                         </div>
                     </div>
                 </div>

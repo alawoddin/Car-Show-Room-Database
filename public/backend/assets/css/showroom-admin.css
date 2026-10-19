@@ -293,9 +293,14 @@ body.showroom-admin .wrapper.toggled .page-wrapper {
         width: 78px;
     }
 
-    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .showroom-brand-copy,
-    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .sidebar-header .toggle-icon {
+    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .showroom-brand-copy {
         display: none;
+    }
+
+    body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .sidebar-header .toggle-icon {
+        display: inline-flex;
+        position: absolute;
+        right: 8px;
     }
 
     body.showroom-admin .wrapper.toggled:not(.sidebar-hovered) .sidebar-header {
@@ -679,6 +684,11 @@ html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu a:focus {
 body.showroom-admin .sidebar-wrapper .metismenu ul,
 html.dark-theme body.showroom-admin .sidebar-wrapper .metismenu ul {
     border-left-color: rgba(255, 255, 255, 0.28);
+    background: transparent;
+}
+
+body.showroom-admin .sidebar-wrapper .metismenu .mm-collapse.mm-show {
+    display: block;
 }
 
 body.showroom-admin .metismenu .has-arrow:after {
