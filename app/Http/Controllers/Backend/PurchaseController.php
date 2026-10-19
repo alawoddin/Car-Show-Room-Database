@@ -14,7 +14,7 @@ class PurchaseController extends Controller
 {
     public function AllPurchases()
     {
-        $purchases = Purchase::with('user')->latest()->get();
+        $purchases = Purchase::with(['user', 'users'])->latest()->get();
 
         return view('admin.purchase.all_purchases', compact('purchases'));
     }
@@ -31,12 +31,20 @@ class PurchaseController extends Controller
 
     public function StorePurchase(Request $request)
     {
-        Purchase::create([
+        $userIds = $this->selectedUserIds($request);
+
+        if ($userIds === []) {
+            return back()
+                ->withInput()
+                ->withErrors(['user_ids' => 'Select 1, 2, or 3 users.']);
+        }
+
+        $purchase = Purchase::create([
 
             // =========================
             // User
             // =========================
-            'user_id' => $request->user_id,
+            'user_id' => $userIds[0],
 
             // =========================
             // Vehicle Information
@@ -88,6 +96,8 @@ class PurchaseController extends Controller
             'customer_name' => null,
         ]);
 
+        $purchase->users()->sync($userIds);
+
         // Notification
         $notification = [
             'message' => 'Purchase Added Successfully',
@@ -106,7 +116,7 @@ class PurchaseController extends Controller
     public function SalePurchase(int $id)
     {
         // Find existing purchase
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::with('users')->findOrFail($id);
 
         // Get users
         $users = User::where('role', 'user')->get();
@@ -185,7 +195,7 @@ class PurchaseController extends Controller
 
     public function EditPurchase(int $id)
     {
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::with('users')->findOrFail($id);
 
         $users = User::where('role', 'user')->latest()->get();
 
@@ -196,8 +206,16 @@ class PurchaseController extends Controller
     {
         $purchase = Purchase::findOrFail($request->id);
 
+        $userIds = $this->selectedUserIds($request);
+
+        if ($userIds === []) {
+            return back()
+                ->withInput()
+                ->withErrors(['user_ids' => 'Select 1, 2, or 3 users.']);
+        }
+
         // User
-        $purchase->user_id = $request->user_id;
+        $purchase->user_id = $userIds[0];
 
         // Vehicle Information
         $purchase->buying_date = $request->buying_date;
@@ -236,6 +254,7 @@ class PurchaseController extends Controller
 
         // Save
         $purchase->save();
+        $purchase->users()->sync($userIds);
 
         $notification = [
             'message' => 'Purchase Updated Successfully',
@@ -289,5 +308,35 @@ class PurchaseController extends Controller
                 'message' => 'Purchases Imported Successfully',
                 'alert-type' => 'success',
             ]);
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    private function selectedUserIds(Request $request): array
+    {
+        $requested = collect($request->input('user_ids', []))
+            ->filter(fn ($id) => $id !== null && $id !== '')
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->take(3)
+            ->values();
+
+        if ($requested->isEmpty() && $request->filled('user_id')) {
+            $requested = collect([(int) $request->user_id]);
+        }
+
+        if ($requested->isEmpty()) {
+            return [];
+        }
+
+        return User::where('role', 'user')
+            ->whereIn('id', $requested)
+            ->pluck('id')
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->take(3)
+            ->values()
+            ->all();
     }
 }

@@ -31,6 +31,11 @@ class User extends Authenticatable
         return $this->hasMany(Purchase::class);
     }
 
+    public function sharedPurchases()
+    {
+        return $this->belongsToMany(Purchase::class)->withTimestamps();
+    }
+
     public function invoiceStatuses()
     {
         return $this->hasMany(InvoiceStatus::class);
