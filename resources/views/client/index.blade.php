@@ -27,7 +27,7 @@
     |--------------------------------------------------------------------------
     */
 
-    $vehicles = App\Models\Purchase::where('user_id', $id)->get();
+    $vehicles = App\Models\Purchase::forUser($id)->get();
 
 
     /*

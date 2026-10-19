@@ -102,7 +102,7 @@
                             @foreach ($purchases as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->buyerNames() }}</td>
                                     <td>{{ $item->lot_number }}</td>
                                     <td>{{ $item->vin }}</td>
                                     <td>{{ $item->cylinder }}</td>

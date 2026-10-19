@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class ClientVehicleController extends Controller
 {
     public function MyVehicles() {
-        $vehicles = Purchase::where('user_id', Auth::id())
+        $vehicles = Purchase::forUser(Auth::id())
             ->latest()
             ->get();
 
@@ -18,8 +18,8 @@ class ClientVehicleController extends Controller
     }
 
     public function MyVehiclesView(int $id) {
-         $vehicle = Purchase::where('id', $id)
-            ->where('user_id', Auth::id())
+         $vehicle = Purchase::forUser(Auth::id())
+            ->where('id', $id)
             ->firstOrFail();
 
         return view('client.vehicles.vehicles_details', compact('vehicle'));

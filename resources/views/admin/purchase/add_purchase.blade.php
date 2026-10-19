@@ -78,44 +78,42 @@
 
                     <div class="form-group col-md-6 mb-3">
 
-                        <label for="user_id" class="form-label">
-                            User Name
+                        <label class="form-label">
+                            Users
                         </label>
 
-                        <select
-                            name="user_id"
-                            id="user_id"
-                            class="form-select"
-                            {{ isset($purchase) && $purchase->exists ? 'disabled' : '' }}>
-
-                            <option value="">
-                                Select User
-                            </option>
-
-                            @foreach ($users as $user)
-
-                                <option
-                                    value="{{ $user->id }}"
-                                    {{ isset($purchase) && $purchase->user_id == $user->id
-                                        ? 'selected'
-                                        : '' }}>
-
-                                    {{ $user->name }}
-
-                                </option>
-
-                            @endforeach
-
-                        </select>
-
+                        @php
+                            $selectedUserIds = old('user_ids', isset($purchase) ? $purchase->selectedUserIds() : []);
+                        @endphp
 
                         @if(isset($purchase) && $purchase->exists)
-
-                            <input
-                                type="hidden"
-                                name="user_id"
-                                value="{{ $purchase->user_id }}">
-
+                            <div class="form-control bg-light">
+                                {{ $purchase->buyerNames() }}
+                            </div>
+                            @foreach ($selectedUserIds as $selectedUserId)
+                                <input type="hidden" name="user_ids[]" value="{{ $selectedUserId }}">
+                            @endforeach
+                        @else
+                            <div class="border rounded p-2" style="max-height: 180px; overflow: auto;">
+                                @foreach ($users as $user)
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input purchase-user"
+                                            type="checkbox"
+                                            name="user_ids[]"
+                                            id="purchase-user-{{ $user->id }}"
+                                            value="{{ $user->id }}"
+                                            {{ in_array($user->id, array_map('intval', (array) $selectedUserIds), true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="purchase-user-{{ $user->id }}">
+                                            {{ $user->name }}
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <small class="text-muted">Select 1, 2, or 3 users. This purchase shows for each selected user.</small>
+                            @error('user_ids')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
                         @endif
 
                     </div>
@@ -1050,7 +1048,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
-                    user_id: {
+                    'user_ids[]': {
                         required: true,
                     },
                     lot_number: {
@@ -1080,8 +1078,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 },
                 messages: {
-                    user_id: {
-                        required: 'Please Select User',
+                    'user_ids[]': {
+                        required: 'Select 1, 2, or 3 users',
                     },
                     lot_number: {
                         required: 'Please Enter  lot_number',
@@ -1125,7 +1123,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     </script>
 
-
-
+    <script>
+        document.querySelectorAll('.purchase-user').forEach(function (box) {
+            box.addEventListener('change', function () {
+                if (document.querySelectorAll('.purchase-user:checked').length > 3) {
+                    box.checked = false;
+                    alert('You can select up to 3 users.');
+                }
+            });
+        });
+    </script>
 
 @endsection

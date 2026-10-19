@@ -8,6 +8,15 @@ class Purchase extends Model
 {
     protected $guarded = [];
 
+    protected static function booted(): void
+    {
+        static::created(function (Purchase $purchase) {
+            if ($purchase->user_id && ! $purchase->users()->exists()) {
+                $purchase->users()->syncWithoutDetaching([$purchase->user_id]);
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

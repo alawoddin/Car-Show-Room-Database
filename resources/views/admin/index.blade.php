@@ -66,7 +66,7 @@
 
 
     // Recent Purchases
-    $purchases = Purchase::with('user')
+    $purchases = Purchase::with(['user', 'users'])
         ->latest()
         ->take(10)
         ->get();
@@ -370,7 +370,7 @@
 
                                 {{-- User Name --}}
                                 <td>
-                                    {{ $purchase->user?->name ?? 'Unknown User' }}
+                                    {{ $purchase->buyerNames() }}
                                 </td>
 
 
