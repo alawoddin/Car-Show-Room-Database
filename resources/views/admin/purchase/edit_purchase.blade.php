@@ -104,11 +104,14 @@
                                         {{ in_array($user->id, array_map('intval', (array) $selectedUserIds), true) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="purchase-user-{{ $user->id }}">
                                         {{ $user->name }}
+                                        @if($user->role === 'admin')
+                                            <span class="badge bg-dark ms-1">Admin</span>
+                                        @endif
                                     </label>
                                 </div>
                             @endforeach
                         </div>
-                        <small class="text-muted">Select 1, 2, or 3 users. This purchase shows for each selected user.</small>
+                        <small class="text-muted">Select 1, 2, or 3 accounts, including admin. The car cost is taken from each selected account.</small>
                         @error('user_ids')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror

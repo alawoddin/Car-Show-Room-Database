@@ -50,6 +50,38 @@ class Purchase extends Model
         return $ids->map(fn ($id) => (int) $id)->all();
     }
 
+    public function buyerShares()
+    {
+        $buyers = $this->relationLoaded('users')
+            ? $this->users
+            : $this->users()->get();
+
+        if ($buyers->isEmpty() && $this->user) {
+            $buyers = collect([$this->user]);
+        }
+
+        $buyers = $buyers->values();
+        $count = $buyers->count();
+
+        if ($count === 0) {
+            return collect();
+        }
+
+        $total = round((float) $this->grand_total, 2);
+        $base = round($total / $count, 2);
+
+        return $buyers->map(function ($buyer, $index) use ($count, $total, $base) {
+            $amount = $index === $count - 1
+                ? round($total - ($base * ($count - 1)), 2)
+                : $base;
+
+            return [
+                'user' => $buyer,
+                'amount' => $amount,
+            ];
+        });
+    }
+
     public function buyerNames(): string
     {
         $names = $this->relationLoaded('users')

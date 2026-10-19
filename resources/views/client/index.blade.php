@@ -16,7 +16,7 @@
 
     $userCapital = \Illuminate\Support\Facades\DB::table('user_capitals')
         ->where('user_id', $id)
-        ->value('amount');
+        ->sum('amount');
 
     $userCapital = $userCapital ?? 0;
 
@@ -27,7 +27,17 @@
     |--------------------------------------------------------------------------
     */
 
-    $vehicles = App\Models\Purchase::forUser($id)->get();
+    $vehicles = App\Models\Purchase::forUser($id)->with(['user', 'users'])->get();
+
+    $carSpend = $vehicles->sum(function ($purchase) use ($id) {
+        $share = $purchase->buyerShares()->first(
+            fn ($row) => (int) $row['user']->id === (int) $id
+        );
+
+        return $share['amount'] ?? 0;
+    });
+
+    $userCapital = $userCapital - $carSpend;
 
 
     /*
@@ -97,7 +107,7 @@
                     <div class="pl-4">
 
                         <p class="card-text fs-18">
-                            Total Capital
+                            Remaining Capital
                         </p>
 
                         <h5 class="card-title pt-2 fs-26">

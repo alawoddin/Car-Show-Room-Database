@@ -21,7 +21,7 @@ class PurchaseController extends Controller
 
     public function AddPurchase()
     {
-        $users = User::where('role', 'user')->latest()->get();
+        $users = $this->purchaseAccounts();
 
         return view('admin.purchase.add_purchase', compact('users'));
     }
@@ -119,7 +119,7 @@ class PurchaseController extends Controller
         $purchase = Purchase::with('users')->findOrFail($id);
 
         // Get users
-        $users = User::where('role', 'user')->get();
+        $users = $this->purchaseAccounts();
 
         return view(
             'admin.purchase.add_purchase',
@@ -197,7 +197,7 @@ class PurchaseController extends Controller
     {
         $purchase = Purchase::with('users')->findOrFail($id);
 
-        $users = User::where('role', 'user')->latest()->get();
+        $users = $this->purchaseAccounts();
 
         return view('admin.purchase.edit_purchase', compact('purchase', 'users'));
     }
@@ -330,7 +330,7 @@ class PurchaseController extends Controller
             return [];
         }
 
-        return User::where('role', 'user')
+        return User::whereIn('role', ['admin', 'user'])
             ->whereIn('id', $requested)
             ->pluck('id')
             ->map(fn ($id) => (int) $id)
@@ -338,5 +338,13 @@ class PurchaseController extends Controller
             ->take(3)
             ->values()
             ->all();
+    }
+
+    private function purchaseAccounts()
+    {
+        return User::whereIn('role', ['admin', 'user'])
+            ->orderByRaw("CASE WHEN role = 'admin' THEN 0 ELSE 1 END")
+            ->orderBy('name')
+            ->get();
     }
 }

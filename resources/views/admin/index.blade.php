@@ -38,8 +38,23 @@
     $totalVehicles = Purchase::count();
 
 
-    // 5. Total Purchase Value
-    $totalPurchase = Purchase::sum('grand_total');
+    // 5. Car totals, split by who the car was bought for.
+    // A shared purchase is divided equally across the selected accounts.
+    $purchaseRows = Purchase::with(['user', 'users'])->get();
+    $adminCarTotal = 0;
+    $clientCarTotal = 0;
+
+    foreach ($purchaseRows as $purchaseRow) {
+        foreach ($purchaseRow->buyerShares() as $share) {
+            if ($share['user']->role === 'admin') {
+                $adminCarTotal += $share['amount'];
+            } else {
+                $clientCarTotal += $share['amount'];
+            }
+        }
+    }
+
+    $totalPurchase = $adminCarTotal + $clientCarTotal;
 
 
     // 6. Total Sales
@@ -60,9 +75,9 @@
     }
 
 
-    // 8. Remaining Admin Capital
-    // Subtract purchase value only. Do not subtract expenses here.
-    $remainingAdminCapital = $totalAdminCapital - $totalPurchase;
+    // 8. Remaining capital after the cars bought for that side.
+    $remainingAdminCapital = $totalAdminCapital - $adminCarTotal;
+    $remainingClientCapital = $totalClientCapital - $clientCarTotal;
 
 
     // Recent Purchases
@@ -233,7 +248,7 @@
         </div>
 
 
-        {{-- 6. Total Purchase Value --}}
+        {{-- 6. Admin amount in cars --}}
         <div class="col">
             <div class="card stat-card stat-purchase">
                 <div class="card-body">
@@ -241,11 +256,11 @@
 
                         <div>
                             <p class="mb-0 text-secondary">
-                                Total Purchase Value
+                                Admin Cars
                             </p>
 
                             <h4 class="my-1">
-                                ${{ number_format($totalPurchase, 2) }}
+                                ${{ number_format($adminCarTotal, 2) }}
                             </h4>
                         </div>
 
@@ -259,7 +274,33 @@
         </div>
 
 
-        {{-- 7. Total Sales --}}
+        {{-- 7. Client amount in cars --}}
+        <div class="col">
+            <div class="card stat-card stat-client">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+
+                        <div>
+                            <p class="mb-0 text-secondary">
+                                Client Cars
+                            </p>
+
+                            <h4 class="my-1">
+                                ${{ number_format($clientCarTotal, 2) }}
+                            </h4>
+                        </div>
+
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                            <i class="bx bx-car"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {{-- 8. Total Sales --}}
         <div class="col">
             <div class="card stat-card stat-sales">
                 <div class="card-body">
@@ -285,7 +326,33 @@
         </div>
 
 
-        {{-- 8. Total Profit --}}
+        {{-- 9. Remaining Client Capital --}}
+        <div class="col">
+            <div class="card stat-card stat-balance">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+
+                        <div>
+                            <p class="mb-0 text-secondary">
+                                Remaining Client Capital
+                            </p>
+
+                            <h4 class="my-1">
+                                ${{ number_format($remainingClientCapital, 2) }}
+                            </h4>
+                        </div>
+
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
+                            <i class="bx bx-wallet"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {{-- 10. Total Profit --}}
         <div class="col">
             <div class="card stat-card stat-profit">
                 <div class="card-body">
