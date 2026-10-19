@@ -50,7 +50,7 @@ class Purchase extends Model
         return $ids->map(fn ($id) => (int) $id)->all();
     }
 
-    public function buyerShares()
+    public function buyerShares(?float $amount = null)
     {
         $buyers = $this->relationLoaded('users')
             ? $this->users
@@ -67,7 +67,7 @@ class Purchase extends Model
             return collect();
         }
 
-        $total = round((float) $this->grand_total, 2);
+        $total = round($amount ?? (float) $this->grand_total, 2);
         $base = round($total / $count, 2);
 
         return $buyers->map(function ($buyer, $index) use ($count, $total, $base) {

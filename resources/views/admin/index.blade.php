@@ -34,48 +34,61 @@
     }
 
 
-    // 4. Total Vehicles
-    $totalVehicles = Purchase::count();
-
-
-    // 5. Car totals, split by who the car was bought for.
-    // A shared purchase is divided equally across the selected accounts.
+    // Cars, sales, and profit are kept on the account the car was bought for.
+    // One account pays the full car price. A shared car is split evenly.
     $purchaseRows = Purchase::with(['user', 'users'])->get();
     $adminCarTotal = 0;
     $clientCarTotal = 0;
+    $adminVehicles = 0;
+    $clientVehicles = 0;
+    $adminSales = 0;
+    $clientSales = 0;
+    $adminProfit = 0;
+    $clientProfit = 0;
 
     foreach ($purchaseRows as $purchaseRow) {
-        foreach ($purchaseRow->buyerShares() as $share) {
+        $shares = $purchaseRow->buyerShares();
+        $hasAdmin = $shares->contains(fn ($share) => $share['user']->role === 'admin');
+        $hasClient = $shares->contains(fn ($share) => $share['user']->role !== 'admin');
+
+        if ($hasAdmin) {
+            $adminVehicles++;
+        }
+
+        if ($hasClient) {
+            $clientVehicles++;
+        }
+
+        foreach ($shares as $share) {
             if ($share['user']->role === 'admin') {
                 $adminCarTotal += $share['amount'];
             } else {
                 $clientCarTotal += $share['amount'];
             }
         }
+
+        if (strcasecmp((string) $purchaseRow->status, 'Sold') !== 0) {
+            continue;
+        }
+
+        foreach ($purchaseRow->buyerShares((float) $purchaseRow->selling_price) as $share) {
+            if ($share['user']->role === 'admin') {
+                $adminSales += $share['amount'];
+            } else {
+                $clientSales += $share['amount'];
+            }
+        }
+
+        foreach ($purchaseRow->buyerShares((float) $purchaseRow->profit) as $share) {
+            if ($share['user']->role === 'admin') {
+                $adminProfit += $share['amount'];
+            } else {
+                $clientProfit += $share['amount'];
+            }
+        }
     }
 
-    $totalPurchase = $adminCarTotal + $clientCarTotal;
-
-
-    // 6. Total Sales
-    $totalSales = 0;
-
-    if (Schema::hasColumn('purchases', 'selling_price')) {
-        $totalSales = Purchase::where('status', 'Sold')
-            ->sum('selling_price');
-    }
-
-
-    // 7. Total Profit
-    $totalProfit = 0;
-
-    if (Schema::hasColumn('purchases', 'profit')) {
-        $totalProfit = Purchase::where('status', 'Sold')
-            ->sum('profit');
-    }
-
-
-    // 8. Remaining capital after the cars bought for that side.
+    $totalVehicles = $purchaseRows->count();
     $remainingAdminCapital = $totalAdminCapital - $adminCarTotal;
     $remainingClientCapital = $totalClientCapital - $clientCarTotal;
 
@@ -104,13 +117,8 @@
     </div>
 
 
-    {{-- =====================================================
-         FIRST ROW: CAPITAL AND EXPENSES
-    ====================================================== --}}
-
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
 
-        {{-- 1. Total Admin Capital --}}
         <div class="col">
             <div class="card stat-card stat-admin">
                 <div class="card-body">
@@ -144,11 +152,11 @@
 
                         <div>
                             <p class="mb-0 text-secondary">
-                                Total Client Capital
+                                Admin Cars
                             </p>
 
                             <h4 class="my-1">
-                                ${{ number_format($totalClientCapital, 2) }}
+                                ${{ number_format($adminCarTotal, 2) }}
                             </h4>
                         </div>
 
@@ -170,11 +178,11 @@
 
                         <div>
                             <p class="mb-0 text-secondary">
-                                Total Expenses
+                                Remaining Admin Capital
                             </p>
 
                             <h4 class="my-1">
-                                ${{ number_format($totalExpense, 2) }}
+                                ${{ number_format($remainingAdminCapital, 2) }}
                             </h4>
                         </div>
 
