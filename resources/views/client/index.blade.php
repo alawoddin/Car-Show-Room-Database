@@ -30,6 +30,10 @@
     $vehicles = App\Models\Purchase::forUser($id)->with(['user', 'users'])->get();
 
     $carSpend = $vehicles->sum(function ($purchase) use ($id) {
+        if (strcasecmp((string) $purchase->status, 'Sold') === 0) {
+            return 0;
+        }
+
         $share = $purchase->buyerShares()->first(
             fn ($row) => (int) $row['user']->id === (int) $id
         );

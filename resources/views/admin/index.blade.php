@@ -19,7 +19,7 @@
         ->sum('amount');
 
 
-    // 2. Total Client Capital
+    // 2. Total Client Capital (user_capitals is the client capital table)
     $totalClientCapital = User_Capitals::sum('amount');
 
 
@@ -48,26 +48,30 @@
 
     foreach ($purchaseRows as $purchaseRow) {
         $shares = $purchaseRow->buyerShares();
+        $isSold = strcasecmp((string) $purchaseRow->status, 'Sold') === 0;
         $hasAdmin = $shares->contains(fn ($share) => $share['user']->role === 'admin');
         $hasClient = $shares->contains(fn ($share) => $share['user']->role !== 'admin');
 
-        if ($hasAdmin) {
+        // A sold car is a sale, not a car still held by that account.
+        if (! $isSold && $hasAdmin) {
             $adminVehicles++;
         }
 
-        if ($hasClient) {
+        if (! $isSold && $hasClient) {
             $clientVehicles++;
         }
 
-        foreach ($shares as $share) {
-            if ($share['user']->role === 'admin') {
-                $adminCarTotal += $share['amount'];
-            } else {
-                $clientCarTotal += $share['amount'];
+        if (! $isSold) {
+            foreach ($shares as $share) {
+                if ($share['user']->role === 'admin') {
+                    $adminCarTotal += $share['amount'];
+                } else {
+                    $clientCarTotal += $share['amount'];
+                }
             }
         }
 
-        if (strcasecmp((string) $purchaseRow->status, 'Sold') !== 0) {
+        if (! $isSold) {
             continue;
         }
 
