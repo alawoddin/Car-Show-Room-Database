@@ -32,6 +32,8 @@
                     <th>VIN</th>
                     <th>Make</th>
                     <th>Model</th>
+                    <th>Shared With</th>
+                    <th>My Share</th>
                     <th>Color</th>
                     <th>Location</th>
                     <th>Status</th>
@@ -43,6 +45,10 @@
             <tbody>
 
                 @forelse($vehicles as $key => $vehicle)
+                    @php
+                        $myShare = $vehicle->buyerShares()
+                            ->first(fn ($share) => (int) $share['user']->id === (int) Auth::id());
+                    @endphp
 
                     <tr>
 
@@ -60,6 +66,14 @@
 
                         <td>
                             {{ $vehicle->model }}
+                        </td>
+
+                        <td>
+                            {{ $vehicle->buyerNames() }}
+                        </td>
+
+                        <td>
+                            ${{ number_format((float) ($myShare['amount'] ?? $vehicle->grand_total), 2) }}
                         </td>
 
                         <td>
@@ -92,7 +106,7 @@
 
                     <tr>
 
-                        <td colspan="8" class="text-center py-4">
+                        <td colspan="10" class="text-center py-4">
 
                             No purchased vehicles found.
 

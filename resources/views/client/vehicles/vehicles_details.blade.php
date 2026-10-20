@@ -78,6 +78,19 @@
 
                         </p>
 
+                        <p class="text-muted mb-0 mt-1">
+                            Shared with:
+                            <strong>{{ $vehicle->buyerNames() }}</strong>
+                        </p>
+
+                        <p class="text-muted mb-0 mt-1">
+                            My share:
+                            <strong>
+                                ${{ number_format((float) ($myShare['amount'] ?? $vehicle->grand_total), 2) }}
+                            </strong>
+                            of ${{ number_format((float) $vehicle->grand_total, 2) }}
+                        </p>
+
                     </div>
 
 

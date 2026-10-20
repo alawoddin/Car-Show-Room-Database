@@ -31,16 +31,30 @@
             ->sum('amount');
     }
 
-    $remainingCapital = $userCapital - $userExpense;
-
-
     /*
     |--------------------------------------------------------------------------
-    | USER VEHICLES
+    | USER VEHICLES (includes shared purchases)
     |--------------------------------------------------------------------------
     */
 
-    $vehicles = App\Models\Purchase::where('user_id', $id)->get();
+    $vehicles = App\Models\Purchase::forUser((int) $id)
+        ->with('users')
+        ->get();
+
+    $carSpend = 0;
+
+    foreach ($vehicles as $vehicle) {
+        if (strcasecmp((string) $vehicle->status, 'Sold') === 0) {
+            continue;
+        }
+
+        $share = $vehicle->buyerShares()
+            ->first(fn ($item) => (int) $item['user']->id === (int) $id);
+
+        $carSpend += (float) ($share['amount'] ?? 0);
+    }
+
+    $remainingCapital = $userCapital - $userExpense - $carSpend;
 
 
     /*
@@ -120,7 +134,7 @@
                         </h5>
 
                         <small class="text-muted">
-                            Remaining after expenses: ${{ number_format($remainingCapital, 2) }}
+                            Remaining after cars &amp; expenses: ${{ number_format($remainingCapital, 2) }}
                         </small>
 
                     </div>
