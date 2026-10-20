@@ -32,10 +32,67 @@
                 <a href="{{ route('purchases.export') }}"
                    class="btn btn-success">
 
+<<<<<<< HEAD
                     <i class="bx bx-download"></i>
                     Export Excel
 
                 </a>
+=======
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Sl</th>
+                                <th>User Name</th>
+                                <th>lot_number</th>
+                                <th>vin</th>
+                                <th>cylinder</th>
+                                <th>buying_fee</th>
+                                <th>towing_fee</th>
+                                <th>shipping</th>
+                                <th>Total AED</th>
+                                <th>Grand Total</th>
+                                <th>selling_price</th>
+                                <th>profit</th>
+                                <th>status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach ($purchases as $key => $item)
+                                <tr>
+                                    <td>{{ $key + 1 }}</td>
+                                    <td>{{ $item->buyerNames() }}</td>
+                                    <td>{{ $item->lot_number }}</td>
+                                    <td>{{ $item->vin }}</td>
+                                    <td>{{ $item->cylinder }}</td>
+                                    <td>{{ $item->buying_fee }}</td>
+                                    <td>{{ $item->towing_fee }}</td>
+                                    <td>{{ $item->shipping }}</td>
+                                    <td>{{ number_format((float) $item->total_aed, 2) }}</td>
+                                    <td>{{ number_format((float) $item->grand_total, 2) }}</td>
+                                    <td>{{ $item->selling_price }}</td>
+                                    <td>{{ $item->profit }}</td>
+                                    <td>{{ $item->status }}</td>
+                                    <td>
+                                        <a href="{{ route('edit.purchase', $item->id) }}"
+                                            class="btn btn-primary px-4">Edit</a>
+                                        <a href="{{ route('delete.purchase', $item->id) }}" id="delete"
+                                            class="btn btn-danger px-4">Delete</a>
+                                        @if ($item->status != 'Sold')
+                                            <a href="{{ route('sale.purchase', $item->id) }}" class="btn btn-success px-4">
+                                                Sale
+                                            </a>
+                                        @else
+                                            <span class="badge bg-success">
+                                                Sold
+                                            </span>
+                                        @endif
+                                    </td>
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
                 {{-- Import Excel --}}
                 <button

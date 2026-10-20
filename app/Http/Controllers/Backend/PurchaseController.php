@@ -19,9 +19,120 @@ class PurchaseController extends Controller
      */
     public function AllPurchases()
     {
+<<<<<<< HEAD
         $purchases = Purchase::with('user')
             ->latest()
             ->get();
+=======
+        $purchases = Purchase::with(['user', 'users'])->latest()->get();
+
+        return view('admin.purchase.all_purchases', compact('purchases'));
+    }
+
+    public function AddPurchase()
+    {
+        $users = $this->purchaseAccounts();
+
+        return view('admin.purchase.add_purchase', compact('users'));
+    }
+    // =========================================================
+    // Store Purchase
+    // =========================================================
+
+    public function StorePurchase(Request $request)
+    {
+        $userIds = $this->selectedUserIds($request);
+
+        if ($userIds === []) {
+            return back()
+                ->withInput()
+                ->withErrors(['user_ids' => 'Select 1, 2, or 3 users.']);
+        }
+
+        $costs = $this->purchaseCosts($request);
+
+        $purchase = Purchase::create([
+
+            // =========================
+            // User
+            // =========================
+            'user_id' => $userIds[0],
+
+            // =========================
+            // Vehicle Information
+            // =========================
+            'buying_date' => $request->buying_date,
+            'lot_number' => $request->lot_number,
+            'vin' => $request->vin,
+            'cylinder' => $request->cylinder,
+            'color' => $request->color,
+            'make' => $request->make,
+            'model' => $request->model,
+            'shipping_company' => $request->shipping_company,
+            'commission' => $request->commission,
+
+            // =========================
+            // Purchase Costs
+            // =========================
+            'buying_fee' => $request->buying_fee ?? 0,
+            'towing_fee' => $request->towing_fee ?? 0,
+            'shipping' => $request->shipping ?? 0,
+
+            // =========================
+            // Calculated Costs
+            // =========================
+            'total_aed' => $costs['total_aed'],
+            'clearing' => $request->clearing ?? 0,
+            'extra_charges' => $request->extra_charges ?? 0,
+            'custom_duty' => $costs['custom_duty'],
+            'grand_total' => $costs['grand_total'],
+
+            // =========================
+            // Purchase Information
+            // =========================
+            'location' => $request->location,
+
+            // Admin selects the status
+            'status' => $request->status ?? 'Purchased',
+
+            'description' => $request->description,
+
+            // =========================
+            // Sale Information
+            // Empty until vehicle is sold
+            // =========================
+            'selling_price' => 0,
+            'profit' => 0,
+            'bill_no' => null,
+            'date_of_arriving' => null,
+            'customer_name' => null,
+        ]);
+
+        $purchase->users()->sync($userIds);
+
+        // Notification
+        $notification = [
+            'message' => 'Purchase Added Successfully',
+            'alert-type' => 'success',
+        ];
+
+        return redirect()
+            ->route('all.purchases')
+            ->with($notification);
+    }
+
+    // =========================================================
+    // Open Sale Page
+    // =========================================================
+
+    public function SalePurchase(int $id)
+    {
+        // Find existing purchase
+        $purchase = Purchase::with('users')->findOrFail($id);
+
+        // Get users
+        $users = $this->purchaseAccounts();
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
         return view(
             'admin.purchase.all_purchases',
@@ -379,9 +490,13 @@ class PurchaseController extends Controller
      */
     public function EditPurchase(int $id)
     {
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::with('users')->findOrFail($id);
 
+<<<<<<< HEAD
         $users = User::orderBy('name')->get();
+=======
+        $users = $this->purchaseAccounts();
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
         return view(
             'admin.purchase.edit_purchase',
@@ -401,11 +516,24 @@ class PurchaseController extends Controller
                 'exists:purchases,id',
             ],
 
+<<<<<<< HEAD
             'user_id' => [
                 'required',
                 'integer',
                 'exists:users,id',
             ],
+=======
+        $userIds = $this->selectedUserIds($request);
+
+        if ($userIds === []) {
+            return back()
+                ->withInput()
+                ->withErrors(['user_ids' => 'Select 1, 2, or 3 users.']);
+        }
+
+        // User
+        $purchase->user_id = $userIds[0];
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
             'buying_date' => [
                 'required',
@@ -418,11 +546,21 @@ class PurchaseController extends Controller
                 'max:255',
             ],
 
+<<<<<<< HEAD
             'vin' => [
                 'required',
                 'string',
                 'max:255',
             ],
+=======
+        // Calculated Costs
+        $costs = $this->purchaseCosts($request);
+        $purchase->total_aed = $costs['total_aed'];
+        $purchase->clearing = $request->clearing ?? 0;
+        $purchase->extra_charges = $request->extra_charges ?? 0;
+        $purchase->custom_duty = $costs['custom_duty'];
+        $purchase->grand_total = $costs['grand_total'];
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
             'vin_link' => [
                 'nullable',
@@ -430,6 +568,7 @@ class PurchaseController extends Controller
                 'max:2048',
             ],
 
+<<<<<<< HEAD
             'cylinder' => [
                 'nullable',
                 'string',
@@ -592,8 +731,17 @@ class PurchaseController extends Controller
          * Do not overwrite existing sale information here.
          * Sale information should be updated through StoreSale().
          */
+=======
+        // Sale Information
+        $purchase->selling_price = $request->selling_price ?? 0;
+        $purchase->profit = round((float) ($request->selling_price ?? 0) - $costs['grand_total'], 2);
+        $purchase->bill_no = $request->bill_no;
+        $purchase->date_of_arriving = $request->date_of_arriving;
+        $purchase->customer_name = $request->customer_name;
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
         $purchase->save();
+        $purchase->users()->sync($userIds);
 
         return redirect()
             ->route('all.purchases')
@@ -656,4 +804,67 @@ class PurchaseController extends Controller
                 'alert-type' => 'success',
             ]);
     }
+<<<<<<< HEAD
 }
+=======
+
+    /**
+     * @return array<int, int>
+     */
+    private function purchaseCosts(Request $request): array
+    {
+        $totalUsd = (float) ($request->buying_fee ?? 0)
+            + (float) ($request->towing_fee ?? 0)
+            + (float) ($request->shipping ?? 0)
+            + (float) ($request->commission ?? 0);
+
+        $aed = $totalUsd > 0 ? $totalUsd * 3.675 : 0;
+        $duty = (float) ($request->custom_duty ?? 0);
+        $grand = $aed
+            + (float) ($request->clearing ?? 0)
+            + (float) ($request->extra_charges ?? 0)
+            + $duty;
+
+        return [
+            'total_aed' => round($aed, 2),
+            'custom_duty' => round($duty, 2),
+            'grand_total' => round($grand, 2),
+        ];
+    }
+
+    private function selectedUserIds(Request $request): array
+    {
+        $requested = collect($request->input('user_ids', []))
+            ->filter(fn ($id) => $id !== null && $id !== '')
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->take(3)
+            ->values();
+
+        if ($requested->isEmpty() && $request->filled('user_id')) {
+            $requested = collect([(int) $request->user_id]);
+        }
+
+        if ($requested->isEmpty()) {
+            return [];
+        }
+
+        return User::whereIn('role', ['admin', 'user'])
+            ->whereIn('id', $requested)
+            ->pluck('id')
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->take(3)
+            ->values()
+            ->all();
+    }
+
+    private function purchaseAccounts()
+    {
+        return User::whereIn('role', ['admin', 'user'])
+            ->orderByRaw("CASE WHEN role = 'admin' THEN 0 ELSE 1 END")
+            ->orderBy('name')
+            ->get();
+    }
+}
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717

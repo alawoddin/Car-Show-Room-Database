@@ -19,7 +19,6 @@
     <!-- Bootstrap CSS -->
     <link href="{{ asset('backend/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/bootstrap-extended.css') }}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('backend/assets/css/icons.css') }}" rel="stylesheet">
     <!-- Theme Style CSS -->
@@ -28,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/css/header-colors.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/showroom-admin.css') }}" />
 
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/vendor/toastr.min.css') }}" >
 
     <!-- Datatable -->
 	<link href="{{ asset('backend/assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
@@ -66,7 +65,7 @@
     <!-- Bootstrap JS -->
     <script src="{{asset('backend/assets/js/bootstrap.bundle.min.js')}}"></script>
     <!--plugins-->
-    <script src="{{asset('backend/assets/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('backend/assets/js/jquery.min.js') }}"></script>
     <script src="{{asset('backend/assets/plugins/simplebar/js/simplebar.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/metismenu/js/metisMenu.min.js')}}"></script>
     <script src="{{asset('backend/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js')}}"></script>
@@ -77,7 +76,7 @@
     <!--app JS-->
     <script src="{{asset('backend/assets/js/app.js')}}"></script>
     <script src="{{asset('backend/assets/js/validate.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="{{ asset('backend/assets/js/vendor/sweetalert2.all.min.js') }}"></script>
 
  <script src="{{ asset('backend/assets/js/code.js') }}"></script>
 
@@ -98,10 +97,37 @@
         if (document.querySelector(".app-container")) {
             new PerfectScrollbar(".app-container");
         }
+
+        if (!(window.jQuery && jQuery.fn.metisMenu)) {
+            document.querySelectorAll("#menu a.has-arrow").forEach(function (link) {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+
+                    var item = link.parentElement;
+                    var submenu = item.querySelector("ul");
+
+                    if (!submenu) {
+                        return;
+                    }
+
+                    var willOpen = !submenu.classList.contains("mm-show");
+
+                    document.querySelectorAll("#menu ul.mm-show").forEach(function (openMenu) {
+                        openMenu.classList.remove("mm-show");
+                        openMenu.parentElement.classList.remove("mm-active");
+                    });
+
+                    if (willOpen) {
+                        submenu.classList.add("mm-show", "mm-collapse");
+                        item.classList.add("mm-active");
+                    }
+                });
+            });
+        }
     </script>
 
         
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+ <script type="text/javascript" src="{{ asset('backend/assets/js/vendor/toastr.min.js') }}"></script>
 
 <script>
  @if(Session::has('message'))

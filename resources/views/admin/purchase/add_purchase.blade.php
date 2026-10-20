@@ -2,7 +2,11 @@
 
 @section('admin')
 
+<<<<<<< HEAD
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+=======
+    
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
 <div class="page-content">
 
@@ -67,6 +71,7 @@
                 <div class="row">
 
                     <div class="form-group col-md-6 mb-3">
+<<<<<<< HEAD
                         <label for="user_id" class="form-label">
                             User Name
                         </label>
@@ -96,6 +101,48 @@
                                 type="hidden"
                                 name="user_id"
                                 value="{{ $purchase->user_id }}">
+=======
+
+                        <label class="form-label">
+                            Users
+                        </label>
+
+                        @php
+                            $selectedUserIds = old('user_ids', isset($purchase) ? $purchase->selectedUserIds() : []);
+                        @endphp
+
+                        @if(isset($purchase) && $purchase->exists)
+                            <div class="form-control bg-light">
+                                {{ $purchase->buyerNames() }}
+                            </div>
+                            @foreach ($selectedUserIds as $selectedUserId)
+                                <input type="hidden" name="user_ids[]" value="{{ $selectedUserId }}">
+                            @endforeach
+                        @else
+                            <div class="border rounded p-2" style="max-height: 180px; overflow: auto;">
+                                @foreach ($users as $user)
+                                    <div class="form-check">
+                                        <input
+                                            class="form-check-input purchase-user"
+                                            type="checkbox"
+                                            name="user_ids[]"
+                                            id="purchase-user-{{ $user->id }}"
+                                            value="{{ $user->id }}"
+                                            {{ in_array($user->id, array_map('intval', (array) $selectedUserIds), true) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="purchase-user-{{ $user->id }}">
+                                            {{ $user->name }}
+                                            @if($user->role === 'admin')
+                                                <span class="badge bg-dark ms-1">Admin</span>
+                                            @endif
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <small class="text-muted">Select 1, 2, or 3 accounts, including admin. The car cost is taken from each selected account.</small>
+                            @error('user_ids')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                         @endif
                     </div>
 
@@ -243,7 +290,13 @@
                             name="buying_fee"
                             id="buying_fee"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('buying_fee', $purchase->buying_fee ?? '') }}"
+=======
+                            value="{{ isset($purchase) && $purchase->buying_fee !== null && $purchase->buying_fee !== '' ? $purchase->buying_fee : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
                     </div>
 
@@ -259,7 +312,13 @@
                             name="towing_fee"
                             id="towing_fee"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('towing_fee', $purchase->towing_fee ?? '') }}"
+=======
+                            value="{{ isset($purchase) && $purchase->towing_fee !== null && $purchase->towing_fee !== '' ? $purchase->towing_fee : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
                     </div>
 
@@ -275,7 +334,13 @@
                             name="shipping"
                             id="shipping"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('shipping', $purchase->shipping ?? '') }}"
+=======
+                            value="{{ isset($purchase) && $purchase->shipping !== null && $purchase->shipping !== '' ? $purchase->shipping : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
                     </div>
 
@@ -291,7 +356,13 @@
                             name="commission"
                             id="commission"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('commission', $purchase->commission ?? '0') }}"
+=======
+                            value="{{ isset($purchase) && $purchase->commission !== null && $purchase->commission !== '' ? $purchase->commission : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
                     </div>
 
@@ -316,7 +387,11 @@
                             name="total_aed"
                             id="total_aed"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('total_aed', $purchase->total_aed ?? '') }}"
+=======
+                            value="0"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             readonly>
                     </div>
 
@@ -332,7 +407,13 @@
                             name="clearing"
                             id="clearing"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('clearing', $purchase->clearing ?? '0') }}"
+=======
+                            value="{{ isset($purchase) && $purchase->clearing !== null && $purchase->clearing !== '' ? $purchase->clearing : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
                     </div>
 
@@ -348,7 +429,13 @@
                             name="extra_charges"
                             id="extra_charges"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('extra_charges', $purchase->extra_charges ?? '0') }}"
+=======
+                            value="{{ isset($purchase) && $purchase->extra_charges !== null && $purchase->extra_charges !== '' ? $purchase->extra_charges : 0 }}"
+                            onchange="calculatePurchase()"
+                            onkeyup="calculatePurchase()"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
                     </div>
 
@@ -363,8 +450,15 @@
                             name="custom_duty"
                             id="custom_duty"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('custom_duty', $purchase->custom_duty ?? '') }}"
                             readonly>
+=======
+                            value="{{ isset($purchase) && $purchase->custom_duty !== null && $purchase->custom_duty !== '' ? $purchase->custom_duty : 0 }}"
+                            onchange="calculatePurchase(true)"
+                            onkeyup="calculatePurchase(true)">
+
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                     </div>
 
                 </div>
@@ -382,11 +476,19 @@
                             name="grand_total"
                             id="grand_total"
                             class="form-control"
+<<<<<<< HEAD
                             value="{{ old('grand_total', $purchase->grand_total ?? '') }}"
+=======
+                            value="0"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                             readonly>
                     </div>
 
                     <div class="form-group col-md-6 mb-3">
+<<<<<<< HEAD
+=======
+
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                         <label for="shipping_company" class="form-label">
                             Shipping Company
                         </label>
@@ -522,7 +624,13 @@
                                 name="selling_price"
                                 id="selling_price"
                                 class="form-control"
+<<<<<<< HEAD
                                 value="{{ old('selling_price', $purchase->selling_price ?? '') }}"
+=======
+                                value="{{ $purchase->selling_price ?? '' }}"
+                                onchange="calculatePurchase()"
+                                onkeyup="calculatePurchase()"
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                                 placeholder="Enter selling price">
                         </div>
 
@@ -678,6 +786,7 @@
 ====================================================== --}}
 
 <script>
+<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', function () {
 
     const buyingFee = document.getElementById('buying_fee');
@@ -762,12 +871,67 @@ document.addEventListener('DOMContentLoaded', function () {
 
     calculatePurchase();
 });
+=======
+function calculatePurchase(keepDuty) {
+    var buyingFee = document.getElementById('buying_fee');
+    var towingFee = document.getElementById('towing_fee');
+    var shipping = document.getElementById('shipping');
+    var commission = document.getElementById('commission');
+    var totalAed = document.getElementById('total_aed');
+    var clearing = document.getElementById('clearing');
+    var extraCharges = document.getElementById('extra_charges');
+    var customDuty = document.getElementById('custom_duty');
+    var grandTotal = document.getElementById('grand_total');
+    var sellingPrice = document.getElementById('selling_price');
+    var profit = document.getElementById('profit');
+    var exchangeRate = 3.675;
+
+    function number(value) {
+        return parseFloat(value) || 0;
+    }
+
+    if (!buyingFee || !towingFee || !shipping) {
+        return;
+    }
+
+    var totalUsd = number(buyingFee.value) + number(towingFee.value) + number(shipping.value) + number(commission ? commission.value : 0);
+    var aed = totalUsd > 0 ? totalUsd * exchangeRate : 0;
+    var duty = 0;
+
+    if (keepDuty) {
+        duty = number(customDuty ? customDuty.value : 0);
+    } else if (totalUsd > 0) {
+        duty = (aed + 1472) * 0.055;
+    }
+
+    var grand = aed + number(clearing ? clearing.value : 0) + number(extraCharges ? extraCharges.value : 0) + duty;
+
+    if (totalAed) {
+        totalAed.value = aed.toFixed(2);
+    }
+
+    if (customDuty && !keepDuty) {
+        customDuty.value = duty.toFixed(2);
+    }
+
+    if (grandTotal) {
+        grandTotal.value = grand.toFixed(2);
+    }
+
+    if (sellingPrice && profit) {
+        profit.value = (number(sellingPrice.value) - grand).toFixed(2);
+    }
+}
+
+calculatePurchase();
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 </script>
 
 {{-- =====================================================
     JQUERY VALIDATION
 ====================================================== --}}
 
+<<<<<<< HEAD
 <script>
 $(document).ready(function () {
 
@@ -903,5 +1067,96 @@ $(document).ready(function () {
 
 });
 </script>
+=======
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myForm').validate({
+                rules: {
+                    'user_ids[]': {
+                        required: true,
+                    },
+                    lot_number: {
+                        required: true,
+                    },
+                    vin: {
+                        required: true,
+                    },
+                    Cylinder: {
+                        required: true,
+                    },
+                    buying_fee: {
+                        required: true,
+                    },
+                    towing_fee: {
+                        required: true,
+                    },
+                    shipping: {
+                        required: true,
+                    },
+                    commission: {
+                        required: true,
+                    },
+                    Clearing: {
+                        required: true,
+                    },
+
+                },
+                messages: {
+                    'user_ids[]': {
+                        required: 'Select 1, 2, or 3 users',
+                    },
+                    lot_number: {
+                        required: 'Please Enter  lot_number',
+                    },
+                    vin: {
+                        required: 'Please Enter vin',
+                    },
+                    Cylinder: {
+                        required: 'Please Enter Cylinder Description',
+                    },
+                    buying_fee: {
+                        required: 'Please Enter buying_fee ',
+                    },
+                    towing_fee: {
+                        required: 'Please Enter towing_fee',
+                    },
+                    shipping: {
+                        required: 'Please Enter shipping',
+                    },
+                    commission: {
+                        required: 'Please Enter commission',
+                    },
+                    Clearing: {
+                        required: 'Please Enter Clearing',
+                    },
+                    
+                },
+               
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
+            });
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.purchase-user').forEach(function (box) {
+            box.addEventListener('change', function () {
+                if (document.querySelectorAll('.purchase-user:checked').length > 3) {
+                    box.checked = false;
+                    alert('You can select up to 3 users.');
+                }
+            });
+        });
+    </script>
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
 @endsection

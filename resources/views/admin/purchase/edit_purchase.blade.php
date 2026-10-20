@@ -2,7 +2,12 @@
 
 @section('admin')
 
+<<<<<<< HEAD
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+=======
+
+    
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
 <div class="page-content">
 
@@ -60,6 +65,7 @@
                 <div class="row">
 
                     <div class="form-group col-md-6 mb-3">
+<<<<<<< HEAD
                         <label for="user_id" class="form-label">
                             User Name
                         </label>
@@ -84,6 +90,41 @@
                             @endforeach
 
                         </select>
+=======
+
+                        <label class="form-label">
+                            Users
+                        </label>
+
+                        @php
+                            $selectedUserIds = old('user_ids', $purchase->selectedUserIds());
+                        @endphp
+
+                        <div class="border rounded p-2" style="max-height: 180px; overflow: auto;">
+                            @foreach($users as $user)
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input purchase-user"
+                                        type="checkbox"
+                                        name="user_ids[]"
+                                        id="purchase-user-{{ $user->id }}"
+                                        value="{{ $user->id }}"
+                                        {{ in_array($user->id, array_map('intval', (array) $selectedUserIds), true) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="purchase-user-{{ $user->id }}">
+                                        {{ $user->name }}
+                                        @if($user->role === 'admin')
+                                            <span class="badge bg-dark ms-1">Admin</span>
+                                        @endif
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                        <small class="text-muted">Select 1, 2, or 3 accounts, including admin. The car cost is taken from each selected account.</small>
+                        @error('user_ids')
+                            <div class="text-danger small">{{ $message }}</div>
+                        @enderror
+
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
                     </div>
 
                     <div class="form-group col-md-6 mb-3">
@@ -623,6 +664,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const aed = totalUsd * exchangeRate;
 
+<<<<<<< HEAD
         // Update total AED.
         totalAed.value = aed.toFixed(2);
 
@@ -630,6 +672,38 @@ document.addEventListener('DOMContentLoaded', function () {
         const duty = (aed + 1472) * 0.055;
 
         customDuty.value = duty.toFixed(2);
+=======
+        // ==========================================
+        // USD → AED
+        // No car cost yet: keep AED, duty, and grand total at zero.
+        // ==========================================
+
+        const aed = totalUsd > 0
+            ? totalUsd * exchangeRate
+            : 0;
+
+
+        totalAed.value =
+            aed.toFixed(2);
+
+
+        // ==========================================
+        // CUSTOM DUTY
+        // ==========================================
+
+        const duty = totalUsd > 0
+            ? (aed + 1472) * 0.055
+            : 0;
+
+
+        customDuty.value =
+            duty.toFixed(2);
+
+
+        // ==========================================
+        // GRAND TOTAL
+        // ==========================================
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
         const grand =
             aed +
@@ -667,6 +741,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
+<<<<<<< HEAD
 {{-- =====================================================
     FORM VALIDATION
 ====================================================== --}}
@@ -809,5 +884,96 @@ $(document).ready(function () {
 
 });
 </script>
+=======
+ <script type="text/javascript">
+        $(document).ready(function() {
+            $('#myForm').validate({
+                rules: {
+                    'user_ids[]': {
+                        required: true,
+                    },
+                    lot_number: {
+                        required: true,
+                    },
+                    vin: {
+                        required: true,
+                    },
+                    Cylinder: {
+                        required: true,
+                    },
+                    buying_fee: {
+                        required: true,
+                    },
+                    towing_fee: {
+                        required: true,
+                    },
+                    shipping: {
+                        required: true,
+                    },
+                    commission: {
+                        required: true,
+                    },
+                    Clearing: {
+                        required: true,
+                    },
+
+                },
+                messages: {
+                    'user_ids[]': {
+                        required: 'Select 1, 2, or 3 users',
+                    },
+                    lot_number: {
+                        required: 'Please Enter  lot_number',
+                    },
+                    vin: {
+                        required: 'Please Enter vin',
+                    },
+                    Cylinder: {
+                        required: 'Please Enter Cylinder Description',
+                    },
+                    buying_fee: {
+                        required: 'Please Enter buying_fee ',
+                    },
+                    towing_fee: {
+                        required: 'Please Enter towing_fee',
+                    },
+                    shipping: {
+                        required: 'Please Enter shipping',
+                    },
+                    commission: {
+                        required: 'Please Enter commission',
+                    },
+                    Clearing: {
+                        required: 'Please Enter Clearing',
+                    },
+                    
+                },
+               
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                },
+            });
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.purchase-user').forEach(function (box) {
+            box.addEventListener('change', function () {
+                if (document.querySelectorAll('.purchase-user:checked').length > 3) {
+                    box.checked = false;
+                    alert('You can select up to 3 users.');
+                }
+            });
+        });
+    </script>
+>>>>>>> e57198ffc78de35f7e5f96cb936cd6f8660e3717
 
 @endsection

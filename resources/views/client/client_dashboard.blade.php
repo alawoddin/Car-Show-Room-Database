@@ -35,7 +35,7 @@
         })();
     </script>
 
-     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+     <link rel="stylesheet" type="text/css" href="{{ asset('backend/assets/css/vendor/toastr.min.css') }}" >
 
 
     <!-- end inject -->
@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="{{ asset('client/js/main.js') }}"></script>
 
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript" src="{{ asset('backend/assets/js/vendor/toastr.min.js') }}"></script>
 
 <script>
  @if(Session::has('message'))
