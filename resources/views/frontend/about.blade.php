@@ -691,7 +691,7 @@
 
       <div class="auth__row">
         <label class="check"><input class="check__box" type="checkbox" name="remember" checked><span class="check__mark" aria-hidden="true"></span>Keep me signed in</label>
-        <a class="auth__link" href="#">Forgot password?</a>
+        <a class="auth__link" href="{{ route('password.request') }}">Forgot password?</a>
       </div>
 
       <p class="auth__error" id="login-error" role="alert" hidden>Check the address and the password, then try again.</p>

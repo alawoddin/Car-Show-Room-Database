@@ -25,8 +25,15 @@ Route::middleware('guest')->group(function () {
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');
 
+    // Alias used by older admin links
+    Route::get('admin/forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('admin.forgot_password');
+
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
         ->name('password.email');
+
+    Route::post('admin/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('admin.password.submit');
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
         ->name('password.reset');
