@@ -50,6 +50,9 @@ return new class extends Migration
         $table->date('date_of_arriving')->nullable();
         $table->string('location')->nullable();
         $table->string('customer_name')->nullable();
+        $table->string('container_number')->nullable();
+        $table->date('arrival_date')->nullable();
+        $table->text('vin_link')->nullable();
 
         // Vehicle Status
         $table->enum('status', [

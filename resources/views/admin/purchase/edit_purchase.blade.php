@@ -2,60 +2,45 @@
 
 @section('admin')
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <div class="page-content">
 
-    {{-- =====================================================
-        BREADCRUMB
-    ====================================================== --}}
-
+    {{-- Breadcrumb --}}
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-
         <div class="ps-3">
-
             <nav aria-label="breadcrumb">
-
                 <ol class="breadcrumb mb-0 p-0">
-
                     <li class="breadcrumb-item">
-
                         <a href="javascript:;">
                             <i class="bx bx-home-alt"></i>
                         </a>
-
                     </li>
 
-                    <li class="breadcrumb-item active" aria-current="page">
+                    <li class="breadcrumb-item active">
                         Edit Purchase
                     </li>
-
                 </ol>
-
             </nav>
-
         </div>
-
     </div>
 
-
-    {{-- =====================================================
-        MAIN CARD
-    ====================================================== --}}
+    {{-- Display validation errors --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Please correct the following errors:</strong>
+            <ul class="mb-0 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="card">
-
         <div class="card-body p-4">
 
-            <h5 class="mb-4">
-                Edit Purchase
-            </h5>
-
-
-            {{-- =====================================================
-                FORM
-            ====================================================== --}}
+            <h5 class="mb-4">Edit Purchase</h5>
 
             <form
                 id="myForm"
@@ -64,26 +49,17 @@
 
                 @csrf
 
-                <input
-                    type="hidden"
-                    name="id"
-                    value="{{ $purchase->id }}">
-
+                <input type="hidden" name="id" value="{{ $purchase->id }}">
 
                 {{-- =====================================================
                     USER INFORMATION
                 ====================================================== --}}
 
-                <h6 class="mb-3">
-                    User Information
-                </h6>
+                <h6 class="mb-3">User Information</h6>
 
                 <div class="row">
 
-                    {{-- USER --}}
-
                     <div class="form-group col-md-6 mb-3">
-
                         <label for="user_id" class="form-label">
                             User Name
                         </label>
@@ -93,31 +69,24 @@
                             id="user_id"
                             class="form-select">
 
-                            <option value="">
-                                Select User
-                            </option>
+                            <option value="">Select User</option>
 
-                            @foreach($users as $user)
-
+                            @foreach ($users as $user)
                                 <option
                                     value="{{ $user->id }}"
-                                    {{ $purchase->user_id == $user->id ? 'selected' : '' }}>
+                                    {{ (string) old('user_id', $purchase->user_id) === (string) $user->id
+                                        ? 'selected'
+                                        : '' }}>
 
                                     {{ $user->name }}
 
                                 </option>
-
                             @endforeach
 
                         </select>
-
                     </div>
 
-
-                    {{-- BUYING DATE --}}
-
                     <div class="form-group col-md-6 mb-3">
-
                         <label for="buying_date" class="form-label">
                             Buying Date
                         </label>
@@ -127,27 +96,20 @@
                             name="buying_date"
                             id="buying_date"
                             class="form-control"
-                            value="{{ $purchase->buying_date }}">
-
+                            value="{{ old('buying_date', $purchase->buying_date ? \Carbon\Carbon::parse($purchase->buying_date)->format('Y-m-d') : '') }}">
                     </div>
 
                 </div>
-
 
                 {{-- =====================================================
                     VEHICLE INFORMATION
                 ====================================================== --}}
 
-                <h6 class="mt-4 mb-3">
-                    Vehicle Information
-                </h6>
+                <h6 class="mt-4 mb-3">Vehicle Information</h6>
 
                 <div class="row">
 
-                    {{-- LOT NUMBER --}}
-
                     <div class="form-group col-md-6 mb-3">
-
                         <label for="lot_number" class="form-label">
                             Lot Number
                         </label>
@@ -157,37 +119,43 @@
                             name="lot_number"
                             id="lot_number"
                             class="form-control"
-                            value="{{ $purchase->lot_number }}">
-
+                            value="{{ old('lot_number', $purchase->lot_number) }}">
                     </div>
 
-
-                    {{-- VIN --}}
-
                     <div class="form-group col-md-6 mb-3">
-
-                        <label for="vin" class="form-label">
-                            VIN
-                        </label>
+                        <label for="vin" class="form-label">VIN</label>
 
                         <input
                             type="text"
                             name="vin"
                             id="vin"
                             class="form-control"
-                            value="{{ $purchase->vin }}">
+                            value="{{ old('vin', $purchase->vin) }}">
+                    </div>
 
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="vin_link" class="form-label">
+                            VIN Link (Optional)
+                        </label>
+
+                        <input
+                            type="url"
+                            name="vin_link"
+                            id="vin_link"
+                            class="form-control"
+                            value="{{ old('vin_link', $purchase->vin_link ?? '') }}"
+                            placeholder="https://example.com/vehicle">
+
+                        <small class="text-muted">
+                            External vehicle or auction listing URL.
+                        </small>
                     </div>
 
                 </div>
 
-
                 <div class="row">
 
-                    {{-- CYLINDER --}}
-
                     <div class="form-group col-md-3 mb-3">
-
                         <label for="cylinder" class="form-label">
                             Cylinder
                         </label>
@@ -197,166 +165,123 @@
                             name="cylinder"
                             id="cylinder"
                             class="form-control"
-                            value="{{ $purchase->cylinder }}">
-
+                            value="{{ old('cylinder', $purchase->cylinder) }}">
                     </div>
 
-
-                    {{-- COLOR --}}
-
                     <div class="form-group col-md-3 mb-3">
-
-                        <label for="color" class="form-label">
-                            Color
-                        </label>
+                        <label for="color" class="form-label">Color</label>
 
                         <input
                             type="text"
                             name="color"
                             id="color"
                             class="form-control"
-                            value="{{ $purchase->color }}">
-
+                            value="{{ old('color', $purchase->color) }}">
                     </div>
 
-
-                    {{-- MAKE --}}
-
                     <div class="form-group col-md-3 mb-3">
-
-                        <label for="make" class="form-label">
-                            Make
-                        </label>
+                        <label for="make" class="form-label">Make</label>
 
                         <input
                             type="text"
                             name="make"
                             id="make"
                             class="form-control"
-                            value="{{ $purchase->make }}">
-
+                            value="{{ old('make', $purchase->make) }}">
                     </div>
 
-
-                    {{-- MODEL --}}
-
                     <div class="form-group col-md-3 mb-3">
-
-                        <label for="model" class="form-label">
-                            Model
-                        </label>
+                        <label for="model" class="form-label">Model</label>
 
                         <input
                             type="text"
                             name="model"
                             id="model"
                             class="form-control"
-                            value="{{ $purchase->model }}">
-
+                            value="{{ old('model', $purchase->model) }}">
                     </div>
 
                 </div>
 
-
                 {{-- =====================================================
-                    PURCHASE COST
+                    PURCHASE COSTS
                 ====================================================== --}}
 
-                <h6 class="mt-4 mb-3">
-                    Purchase Cost
-                </h6>
+                <h6 class="mt-4 mb-3">Purchase Cost</h6>
 
                 <div class="row">
 
-                    {{-- BUYING FEE --}}
-
                     <div class="form-group col-md-3 mb-3">
-
                         <label for="buying_fee" class="form-label">
-                            Buying Fee
+                            Buying Fee (USD)
                         </label>
 
                         <input
                             type="number"
+                            min="0"
                             step="0.01"
                             name="buying_fee"
                             id="buying_fee"
                             class="form-control"
-                            value="{{ $purchase->buying_fee }}">
-
+                            value="{{ old('buying_fee', $purchase->buying_fee ?? 0) }}">
                     </div>
 
-
-                    {{-- TOWING FEE --}}
-
                     <div class="form-group col-md-3 mb-3">
-
                         <label for="towing_fee" class="form-label">
-                            Towing Fee
+                            Towing Fee (USD)
                         </label>
 
                         <input
                             type="number"
+                            min="0"
                             step="0.01"
                             name="towing_fee"
                             id="towing_fee"
                             class="form-control"
-                            value="{{ $purchase->towing_fee }}">
-
+                            value="{{ old('towing_fee', $purchase->towing_fee ?? 0) }}">
                     </div>
 
-
-                    {{-- SHIPPING --}}
-
                     <div class="form-group col-md-3 mb-3">
-
                         <label for="shipping" class="form-label">
-                            Shipping
+                            Shipping Fee (USD)
                         </label>
 
                         <input
                             type="number"
+                            min="0"
                             step="0.01"
                             name="shipping"
                             id="shipping"
                             class="form-control"
-                            value="{{ $purchase->shipping }}">
-
+                            value="{{ old('shipping', $purchase->shipping ?? 0) }}">
                     </div>
 
-
-                    {{-- COMMISSION --}}
-
                     <div class="form-group col-md-3 mb-3">
-
                         <label for="commission" class="form-label">
-                            Commission
+                            Commission (USD)
                         </label>
 
                         <input
                             type="number"
+                            min="0"
                             step="0.01"
                             name="commission"
                             id="commission"
                             class="form-control"
-                            value="{{ $purchase->commission ?? 0 }}"
-                            placeholder="Enter commission">
-
+                            value="{{ old('commission', $purchase->commission ?? 0) }}">
                     </div>
 
                 </div>
 
-
                 {{-- =====================================================
-                    TOTAL AED / SHIPPING COMPANY
+                    UAE COSTS
                 ====================================================== --}}
+
+                <h6 class="mt-4 mb-3">UAE Costs</h6>
 
                 <div class="row">
 
-                    {{-- TOTAL AED --}}
-
-                    <div class="form-group col-md-6 mb-3">
-
+                    <div class="form-group col-md-3 mb-3">
                         <label for="total_aed" class="form-label">
                             Total AED
                         </label>
@@ -367,16 +292,75 @@
                             name="total_aed"
                             id="total_aed"
                             class="form-control"
-                            value="{{ $purchase->total_aed }}"
+                            value="{{ old('total_aed', $purchase->total_aed ?? 0) }}"
                             readonly>
-
                     </div>
 
+                    <div class="form-group col-md-3 mb-3">
+                        <label for="clearing" class="form-label">
+                            Clearing (AED)
+                        </label>
 
-                    {{-- SHIPPING COMPANY --}}
+                        <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            name="clearing"
+                            id="clearing"
+                            class="form-control"
+                            value="{{ old('clearing', $purchase->clearing ?? 0) }}">
+                    </div>
+
+                    <div class="form-group col-md-3 mb-3">
+                        <label for="extra_charges" class="form-label">
+                            Extra Charges (AED)
+                        </label>
+
+                        <input
+                            type="number"
+                            min="0"
+                            step="0.01"
+                            name="extra_charges"
+                            id="extra_charges"
+                            class="form-control"
+                            value="{{ old('extra_charges', $purchase->extra_charges ?? 0) }}">
+                    </div>
+
+                    <div class="form-group col-md-3 mb-3">
+                        <label for="custom_duty" class="form-label">
+                            Custom Duty (AED)
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="custom_duty"
+                            id="custom_duty"
+                            class="form-control"
+                            value="{{ old('custom_duty', $purchase->custom_duty ?? 0) }}"
+                            readonly>
+                    </div>
+
+                </div>
+
+                <div class="row">
 
                     <div class="form-group col-md-6 mb-3">
+                        <label for="grand_total" class="form-label">
+                            Grand Total (AED)
+                        </label>
 
+                        <input
+                            type="number"
+                            step="0.01"
+                            name="grand_total"
+                            id="grand_total"
+                            class="form-control"
+                            value="{{ old('grand_total', $purchase->grand_total ?? 0) }}"
+                            readonly>
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
                         <label for="shipping_company" class="form-label">
                             Shipping Company
                         </label>
@@ -386,127 +370,23 @@
                             name="shipping_company"
                             id="shipping_company"
                             class="form-control"
-                            value="{{ $purchase->shipping_company ?? '' }}"
+                            value="{{ old('shipping_company', $purchase->shipping_company ?? '') }}"
                             placeholder="Enter shipping company">
-
                     </div>
 
                 </div>
 
-
                 {{-- =====================================================
-                    UAE COSTS
+                    PURCHASE AND CONTAINER INFORMATION
                 ====================================================== --}}
 
                 <h6 class="mt-4 mb-3">
-                    UAE Costs
+                    Purchase and Container Information
                 </h6>
 
                 <div class="row">
 
-                    {{-- CLEARING --}}
-
-                    <div class="form-group col-md-4 mb-3">
-
-                        <label for="clearing" class="form-label">
-                            Clearing
-                        </label>
-
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="clearing"
-                            id="clearing"
-                            class="form-control"
-                            value="{{ $purchase->clearing }}">
-
-                    </div>
-
-
-                    {{-- EXTRA CHARGES --}}
-
-                    <div class="form-group col-md-4 mb-3">
-
-                        <label for="extra_charges" class="form-label">
-                            Extra Charges
-                        </label>
-
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="extra_charges"
-                            id="extra_charges"
-                            class="form-control"
-                            value="{{ $purchase->extra_charges }}">
-
-                    </div>
-
-
-                    {{-- CUSTOM DUTY --}}
-
-                    <div class="form-group col-md-4 mb-3">
-
-                        <label for="custom_duty" class="form-label">
-                            Custom Duty
-                        </label>
-
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="custom_duty"
-                            id="custom_duty"
-                            class="form-control"
-                            value="{{ $purchase->custom_duty }}"
-                            readonly>
-
-                    </div>
-
-                </div>
-
-
-                {{-- =====================================================
-                    GRAND TOTAL
-                ====================================================== --}}
-
-                <div class="row">
-
                     <div class="form-group col-md-6 mb-3">
-
-                        <label for="grand_total" class="form-label">
-                            Grand Total
-                        </label>
-
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="grand_total"
-                            id="grand_total"
-                            class="form-control"
-                            value="{{ $purchase->grand_total }}"
-                            readonly>
-
-                    </div>
-
-              
-
-
-                </div>
-
-
-                {{-- =====================================================
-                    PURCHASE INFORMATION
-                ====================================================== --}}
-
-                <h6 class="mt-4 mb-3">
-                    Purchase Information
-                </h6>
-
-                <div class="row">
-
-                    {{-- LOCATION --}}
-
-                    <div class="form-group col-md-6 mb-3">
-
                         <label for="location" class="form-label">
                             Location
                         </label>
@@ -516,17 +396,39 @@
                             name="location"
                             id="location"
                             class="form-control"
-                            value="{{ $purchase->location }}">
-
+                            value="{{ old('location', $purchase->location ?? '') }}">
                     </div>
 
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="container_number" class="form-label">
+                            Container Number
+                        </label>
 
-                    {{-- STATUS --}}
+                        <input
+                            type="text"
+                            name="container_number"
+                            id="container_number"
+                            class="form-control"
+                            value="{{ old('container_number', $purchase->container_number ?? '') }}"
+                            placeholder="Enter container number">
+                    </div>
 
                     <div class="form-group col-md-6 mb-3">
+                        <label for="arrival_date" class="form-label">
+                            Container Arrival Date
+                        </label>
 
+                        <input
+                            type="date"
+                            name="arrival_date"
+                            id="arrival_date"
+                            class="form-control"
+                            value="{{ old('arrival_date', $purchase->arrival_date ? \Carbon\Carbon::parse($purchase->arrival_date)->format('Y-m-d') : '') }}">
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
                         <label for="status" class="form-label">
-                            Status
+                            Vehicle Status
                         </label>
 
                         <select
@@ -534,58 +436,30 @@
                             id="status"
                             class="form-select">
 
-                            <option value="">
-                                Select Status
-                            </option>
+                            @foreach ([
+                                'Purchased',
+                                'Loaded',
+                                'Shipped',
+                                'Delivered',
+                                'On Hand',
+                                'At UAE',
+                                'Sold'
+                            ] as $status)
 
-                            <option
-                                value="Purchased"
-                                {{ $purchase->status == 'Purchased' ? 'selected' : '' }}>
-                                Purchased
-                            </option>
+                                <option
+                                    value="{{ $status }}"
+                                    {{ old('status', $purchase->status) === $status ? 'selected' : '' }}>
 
-                            <option
-                                value="Loaded"
-                                {{ $purchase->status == 'Loaded' ? 'selected' : '' }}>
-                                Loaded
-                            </option>
+                                    {{ $status }}
 
-                            <option
-                                value="Shipped"
-                                {{ $purchase->status == 'Shipped' ? 'selected' : '' }}>
-                                Shipped
-                            </option>
+                                </option>
 
-                            <option
-                                value="Delivered"
-                                {{ $purchase->status == 'Delivered' ? 'selected' : '' }}>
-                                Delivered
-                            </option>
-
-                            <option
-                                value="On Hand"
-                                {{ $purchase->status == 'On Hand' ? 'selected' : '' }}>
-                                On Hand
-                            </option>
-
-                            <option
-                                value="At UAE"
-                                {{ $purchase->status == 'At UAE' ? 'selected' : '' }}>
-                                At UAE
-                            </option>
-
-                            <option
-                                value="Sold"
-                                {{ $purchase->status == 'Sold' ? 'selected' : '' }}>
-                                Sold
-                            </option>
+                            @endforeach
 
                         </select>
-
                     </div>
 
                 </div>
-
 
                 {{-- =====================================================
                     SALE INFORMATION
@@ -593,38 +467,29 @@
 
                 <hr class="my-4">
 
-                <h5 class="mb-4">
-                    Sale Information
-                </h5>
+                <h5 class="mb-4">Sale Information</h5>
 
                 <div class="row">
 
-                    {{-- SELLING PRICE --}}
-
                     <div class="form-group col-md-6 mb-3">
-
                         <label for="selling_price" class="form-label">
-                            Selling Price
+                            Selling Price (AED)
                         </label>
 
                         <input
                             type="number"
+                            min="0"
                             step="0.01"
                             name="selling_price"
                             id="selling_price"
                             class="form-control"
-                            value="{{ $purchase->selling_price }}"
+                            value="{{ old('selling_price', $purchase->selling_price ?? 0) }}"
                             placeholder="Enter selling price">
-
                     </div>
 
-
-                    {{-- PROFIT --}}
-
                     <div class="form-group col-md-6 mb-3">
-
                         <label for="profit" class="form-label">
-                            Profit
+                            Profit (AED)
                         </label>
 
                         <input
@@ -633,18 +498,13 @@
                             name="profit"
                             id="profit"
                             class="form-control"
-                            value="{{ $purchase->profit }}"
+                            value="{{ old('profit', $purchase->profit ?? 0) }}"
                             readonly>
-
                     </div>
 
-
-                    {{-- BILL NO --}}
-
                     <div class="form-group col-md-4 mb-3">
-
                         <label for="bill_no" class="form-label">
-                            Bill No
+                            Bill Number
                         </label>
 
                         <input
@@ -652,16 +512,11 @@
                             name="bill_no"
                             id="bill_no"
                             class="form-control"
-                            value="{{ $purchase->bill_no }}"
+                            value="{{ old('bill_no', $purchase->bill_no ?? '') }}"
                             placeholder="Enter bill number">
-
                     </div>
 
-
-                    {{-- DATE OF ARRIVING --}}
-
                     <div class="form-group col-md-4 mb-3">
-
                         <label for="date_of_arriving" class="form-label">
                             Date of Arriving
                         </label>
@@ -671,15 +526,10 @@
                             name="date_of_arriving"
                             id="date_of_arriving"
                             class="form-control"
-                            value="{{ $purchase->date_of_arriving }}">
-
+                            value="{{ old('date_of_arriving', $purchase->date_of_arriving ? \Carbon\Carbon::parse($purchase->date_of_arriving)->format('Y-m-d') : '') }}">
                     </div>
 
-
-                    {{-- CUSTOMER NAME --}}
-
                     <div class="form-group col-md-4 mb-3">
-
                         <label for="customer_name" class="form-label">
                             Customer Name
                         </label>
@@ -689,22 +539,16 @@
                             name="customer_name"
                             id="customer_name"
                             class="form-control"
-                            value="{{ $purchase->customer_name }}"
+                            value="{{ old('customer_name', $purchase->customer_name ?? '') }}"
                             placeholder="Enter customer name">
-
                     </div>
 
                 </div>
 
-
-                {{-- =====================================================
-                    DESCRIPTION
-                ====================================================== --}}
-
+                {{-- Description --}}
                 <div class="row">
 
                     <div class="form-group col-md-12 mb-3">
-
                         <label for="description" class="form-label">
                             Description
                         </label>
@@ -714,346 +558,256 @@
                             id="description"
                             class="form-control"
                             rows="4"
-                            placeholder="Description">{{ $purchase->description }}</textarea>
-
+                            placeholder="Enter description">{{ old('description', $purchase->description ?? '') }}</textarea>
                     </div>
 
                 </div>
 
+                {{-- Buttons --}}
+                <div class="mt-4 d-flex flex-wrap gap-3">
 
-                {{-- =====================================================
-                    BUTTONS
-                ====================================================== --}}
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="bx bx-save"></i>
+                        Update Purchase
+                    </button>
 
-                <div class="col-md-12 mt-4">
-
-                    <div class="d-md-flex d-grid align-items-center gap-3">
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary px-4">
-
-                            Update Purchase
-
-                        </button>
-
-                        <a
-                            href="{{ route('all.purchases') }}"
-                            class="btn btn-light px-4">
-
-                            Back
-
-                        </a>
-
-                    </div>
+                    <a href="{{ route('all.purchases') }}"
+                       class="btn btn-light px-4">
+                        Back
+                    </a>
 
                 </div>
 
             </form>
 
         </div>
-
     </div>
 
 </div>
 
-
 {{-- =====================================================
-     JAVASCRIPT
+    PURCHASE CALCULATIONS
 ====================================================== --}}
 
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
 
-    const buyingFee =
-        document.getElementById('buying_fee');
+    const buyingFee = document.getElementById('buying_fee');
+    const towingFee = document.getElementById('towing_fee');
+    const shipping = document.getElementById('shipping');
+    const commission = document.getElementById('commission');
 
-    const towingFee =
-        document.getElementById('towing_fee');
+    const totalAed = document.getElementById('total_aed');
+    const clearing = document.getElementById('clearing');
+    const extraCharges = document.getElementById('extra_charges');
+    const customDuty = document.getElementById('custom_duty');
+    const grandTotal = document.getElementById('grand_total');
 
-    const shipping =
-        document.getElementById('shipping');
-
-    const commission =
-        document.getElementById('commission');
-
-    const totalAed =
-        document.getElementById('total_aed');
-
-    const clearing =
-        document.getElementById('clearing');
-
-    const extraCharges =
-        document.getElementById('extra_charges');
-
-    const customDuty =
-        document.getElementById('custom_duty');
-
-    const grandTotal =
-        document.getElementById('grand_total');
-
-    const sellingPrice =
-        document.getElementById('selling_price');
-
-    const profit =
-        document.getElementById('profit');
-
-
-    // ==========================================
-    // USD TO AED EXCHANGE RATE
-    // ==========================================
+    const sellingPrice = document.getElementById('selling_price');
+    const profit = document.getElementById('profit');
 
     const exchangeRate = 3.675;
 
-
-    // ==========================================
-    // CONVERT VALUE TO NUMBER
-    // ==========================================
-
-    function number(value)
-    {
-        return parseFloat(value) || 0;
+    function number(value) {
+        const parsed = parseFloat(value);
+        return Number.isFinite(parsed) ? parsed : 0;
     }
 
-
-    // ==========================================
-    // CALCULATE PURCHASE
-    // ==========================================
-
-    function calculatePurchase()
-    {
-
-        // -------------------------------
-        // Purchase costs
-        // -------------------------------
-
-        const buying =
-            number(buyingFee.value);
-
-        const towing =
-            number(towingFee.value);
-
-        const ship =
-            number(shipping.value);
-
-        const commissionValue =
-            number(commission.value);
-
-
-        // -------------------------------
-        // Other UAE costs
-        // -------------------------------
-
-        const clearingValue =
-            number(clearing.value);
-
-        const extraChargesValue =
-            number(extraCharges.value);
-
-
-        // ==========================================
-        // TOTAL USD
-        // ==========================================
+    function calculatePurchase() {
 
         const totalUsd =
-            buying +
-            towing +
-            ship +
-            commissionValue;
+            number(buyingFee.value) +
+            number(towingFee.value) +
+            number(shipping.value) +
+            number(commission.value);
 
+        const aed = totalUsd * exchangeRate;
 
-        // ==========================================
-        // USD → AED
-        // ==========================================
+        // Update total AED.
+        totalAed.value = aed.toFixed(2);
 
-        const aed =
-            totalUsd * exchangeRate;
+        // Confirm this duty formula matches your business rules.
+        const duty = (aed + 1472) * 0.055;
 
-
-        totalAed.value =
-            aed.toFixed(2);
-
-
-        // ==========================================
-        // CUSTOM DUTY
-        // ==========================================
-
-        const duty =
-            (aed + 1472) * 0.055;
-
-
-        customDuty.value =
-            duty.toFixed(2);
-
-
-        // ==========================================
-        // GRAND TOTAL
-        // ==========================================
+        customDuty.value = duty.toFixed(2);
 
         const grand =
             aed +
-            clearingValue +
-            extraChargesValue +
+            number(clearing.value) +
+            number(extraCharges.value) +
             duty;
 
+        grandTotal.value = grand.toFixed(2);
 
-        grandTotal.value =
-            grand.toFixed(2);
+        // Calculate profit only when a selling price is entered.
+        const selling = number(sellingPrice.value);
 
-
-        // ==========================================
-        // PROFIT
-        // ==========================================
-
-        const selling =
-            number(sellingPrice.value);
-
-
-        const calculatedProfit =
-            selling - grand;
-
-
-        profit.value =
-            calculatedProfit.toFixed(2);
-
+        if (sellingPrice.value !== '') {
+            profit.value = (selling - grand).toFixed(2);
+        } else {
+            profit.value = '0.00';
+        }
     }
 
-
-    // ==========================================
-    // INPUT EVENTS
-    // ==========================================
-
-    buyingFee.addEventListener(
-        'input',
-        calculatePurchase
-    );
-
-
-    towingFee.addEventListener(
-        'input',
-        calculatePurchase
-    );
-
-
-    shipping.addEventListener(
-        'input',
-        calculatePurchase
-    );
-
-
-    commission.addEventListener(
-        'input',
-        calculatePurchase
-    );
-
-
-    clearing.addEventListener(
-        'input',
-        calculatePurchase
-    );
-
-
-    extraCharges.addEventListener(
-        'input',
-        calculatePurchase
-    );
-
-
-    sellingPrice.addEventListener(
-        'input',
-        calculatePurchase
-    );
-
-
-    // ==========================================
-    // CALCULATE WHEN PAGE LOADS
-    // ==========================================
+    [
+        buyingFee,
+        towingFee,
+        shipping,
+        commission,
+        clearing,
+        extraCharges,
+        sellingPrice
+    ].forEach(function (element) {
+        if (element) {
+            element.addEventListener('input', calculatePurchase);
+        }
+    });
 
     calculatePurchase();
-
 });
-
 </script>
 
- <script type="text/javascript">
-        $(document).ready(function() {
-            $('#myForm').validate({
-                rules: {
-                    user_id: {
-                        required: true,
-                    },
-                    lot_number: {
-                        required: true,
-                    },
-                    vin: {
-                        required: true,
-                    },
-                    Cylinder: {
-                        required: true,
-                    },
-                    buying_fee: {
-                        required: true,
-                    },
-                    towing_fee: {
-                        required: true,
-                    },
-                    shipping: {
-                        required: true,
-                    },
-                    commission: {
-                        required: true,
-                    },
-                    Clearing: {
-                        required: true,
-                    },
+{{-- =====================================================
+    FORM VALIDATION
+====================================================== --}}
 
-                },
-                messages: {
-                    user_id: {
-                        required: 'Please Select User',
-                    },
-                    lot_number: {
-                        required: 'Please Enter  lot_number',
-                    },
-                    vin: {
-                        required: 'Please Enter vin',
-                    },
-                    Cylinder: {
-                        required: 'Please Enter Cylinder Description',
-                    },
-                    buying_fee: {
-                        required: 'Please Enter buying_fee ',
-                    },
-                    towing_fee: {
-                        required: 'Please Enter towing_fee',
-                    },
-                    shipping: {
-                        required: 'Please Enter shipping',
-                    },
-                    commission: {
-                        required: 'Please Enter commission',
-                    },
-                    Clearing: {
-                        required: 'Please Enter Clearing',
-                    },
-                    
-                },
-               
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                },
-            });
-        });
-    </script>
+<script>
+$(document).ready(function () {
 
+    $('#myForm').validate({
+
+        rules: {
+            user_id: {
+                required: true
+            },
+
+            buying_date: {
+                required: true
+            },
+
+            lot_number: {
+                required: true
+            },
+
+            vin: {
+                required: true
+            },
+
+            buying_fee: {
+                required: true,
+                number: true,
+                min: 0
+            },
+
+            towing_fee: {
+                required: true,
+                number: true,
+                min: 0
+            },
+
+            shipping: {
+                required: true,
+                number: true,
+                min: 0
+            },
+
+            commission: {
+                required: true,
+                number: true,
+                min: 0
+            },
+
+            clearing: {
+                required: true,
+                number: true,
+                min: 0
+            },
+
+            vin_link: {
+                url: true
+            },
+
+            selling_price: {
+                number: true,
+                min: 0
+            }
+        },
+
+        messages: {
+            user_id: {
+                required: 'Please select a user.'
+            },
+
+            buying_date: {
+                required: 'Please select the buying date.'
+            },
+
+            lot_number: {
+                required: 'Please enter the lot number.'
+            },
+
+            vin: {
+                required: 'Please enter the VIN.'
+            },
+
+            buying_fee: {
+                required: 'Please enter the buying fee.',
+                number: 'Enter a valid amount.',
+                min: 'The amount cannot be negative.'
+            },
+
+            towing_fee: {
+                required: 'Please enter the towing fee.',
+                number: 'Enter a valid amount.',
+                min: 'The amount cannot be negative.'
+            },
+
+            shipping: {
+                required: 'Please enter the shipping fee.',
+                number: 'Enter a valid amount.',
+                min: 'The amount cannot be negative.'
+            },
+
+            commission: {
+                required: 'Please enter the commission.',
+                number: 'Enter a valid amount.',
+                min: 'The amount cannot be negative.'
+            },
+
+            clearing: {
+                required: 'Please enter the clearing fee.',
+                number: 'Enter a valid amount.',
+                min: 'The amount cannot be negative.'
+            },
+
+            vin_link: {
+                url: 'Please enter a valid URL.'
+            },
+
+            selling_price: {
+                number: 'Enter a valid selling price.',
+                min: 'The selling price cannot be negative.'
+            }
+        },
+
+        errorElement: 'span',
+
+        errorPlacement: function (error, element) {
+            error.addClass('invalid-feedback');
+            element.closest('.form-group').append(error);
+        },
+
+        highlight: function (element) {
+            $(element).addClass('is-invalid');
+        },
+
+        unhighlight: function (element) {
+            $(element).removeClass('is-invalid');
+        }
+
+    });
+
+});
+</script>
 
 @endsection
