@@ -16,9 +16,22 @@
 
     $userCapital = \Illuminate\Support\Facades\DB::table('user_capitals')
         ->where('user_id', $id)
-        ->value('amount');
+        ->sum('amount');
 
     $userCapital = $userCapital ?? 0;
+
+    $userExpense = 0;
+
+    if (
+        \Illuminate\Support\Facades\Schema::hasTable('expenses') &&
+        \Illuminate\Support\Facades\Schema::hasColumn('expenses', 'user_id')
+    ) {
+        $userExpense = \Illuminate\Support\Facades\DB::table('expenses')
+            ->where('user_id', $id)
+            ->sum('amount');
+    }
+
+    $remainingCapital = $userCapital - $userExpense;
 
 
     /*
@@ -107,7 +120,7 @@
                         </h5>
 
                         <small class="text-muted">
-                            USD
+                            Remaining after expenses: ${{ number_format($remainingCapital, 2) }}
                         </small>
 
                     </div>

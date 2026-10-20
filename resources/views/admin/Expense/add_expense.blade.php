@@ -25,18 +25,33 @@
                 @csrf
 
                 <div class="row">
+                    <div class="form-group col-md-6 mb-3">
+                        <label for="user_id" class="form-label">User Name</label>
+                        <select name="user_id" id="user_id" class="form-select">
+                            <option value="">Select User</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }}
+                                    @if ($user->role === 'admin') (Admin) @endif
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('user_id')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
                     <div class="form-group col-md-6">
-                        <label for="input1" class="form-label">expense_name</label>
-                        <input type="text" name="expense_name" class="form-control" id="expense_name">
+                        <label for="expense_name" class="form-label">expense_name</label>
+                        <input type="text" name="expense_name" class="form-control" id="expense_name" value="{{ old('expense_name') }}">
                     </div>
+                </div>
 
+                <div class="row">
                      <div class="form-group col-md-6">
-                        <label for="input1" class="form-label">expense amount</label>
-                        <input type="text" name="amount" class="form-control" id="amount">
+                        <label for="amount" class="form-label">expense amount</label>
+                        <input type="text" name="amount" class="form-control" id="amount" value="{{ old('amount') }}">
                     </div>
-
-
-                    
                 </div>
 
                 <div class="row">
@@ -80,6 +95,9 @@
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
+                    user_id: {
+                        required: true,
+                    },
                     expense_name: {
                         required: true,
                     },
@@ -96,6 +114,9 @@
 
                 },
                 messages: {
+                    user_id: {
+                        required: 'Please Select User',
+                    },
                     amount: {
                         required: 'Please Enter Expense Amount',
                         number: 'Please Enter a valid number'
@@ -109,7 +130,6 @@
                     },
                     expense_name: {
                         required: 'Please Enter expense_name',
-                        date: 'Please Enter a valid date'
                     }
                    
 

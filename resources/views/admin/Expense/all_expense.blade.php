@@ -33,6 +33,7 @@
                         <thead>
                             <tr>
                                 <th>Sl</th>
+                                <th>User Name</th>
                                 <th>expense_name</th>
                                 <th>amount</th>
                                 <th>description</th>
@@ -45,6 +46,7 @@
                             @foreach ($expenses as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
+                                    <td>{{ $item->user?->name ?? 'N/A' }}</td>
                                     <td>{{ $item->expense_name }}$</td>
                                     <td>{{ $item->amount }}$</td>
                                     <td>{{ Str::limit($item->description, 80) }}</td>

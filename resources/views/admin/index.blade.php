@@ -25,12 +25,26 @@
 
     // 3. Total Expenses
     $totalExpense = 0;
+    $adminExpense = 0;
+    $clientExpense = 0;
 
     if (
         Schema::hasTable('expenses') &&
         Schema::hasColumn('expenses', 'amount')
     ) {
         $totalExpense = DB::table('expenses')->sum('amount');
+
+        if (Schema::hasColumn('expenses', 'user_id')) {
+            $adminExpense = DB::table('expenses')
+                ->join('users', 'expenses.user_id', '=', 'users.id')
+                ->where('users.role', 'admin')
+                ->sum('expenses.amount');
+
+            $clientExpense = DB::table('expenses')
+                ->join('users', 'expenses.user_id', '=', 'users.id')
+                ->where('users.role', 'user')
+                ->sum('expenses.amount');
+        }
     }
 
 
@@ -61,8 +75,13 @@
 
 
     // 8. Remaining Admin Capital
-    // Subtract purchase value only. Do not subtract expenses here.
-    $remainingAdminCapital = $totalAdminCapital - $totalPurchase;
+    // Admin expenses reduce admin remaining.
+    $remainingAdminCapital = $totalAdminCapital - $totalPurchase - $adminExpense;
+
+
+    // 9. Remaining Client Capital
+    // Client expenses reduce client remaining.
+    $remainingClientCapital = $totalClientCapital - $clientExpense;
 
 
     // Recent Purchases
@@ -191,6 +210,85 @@
 
                         <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
                             <i class="bx bx-coin-stack"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+
+        {{-- Remaining Client Capital --}}
+        <div class="col">
+            <div class="card stat-card stat-client">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+
+                        <div>
+                            <p class="mb-0 text-secondary">
+                                Remaining Client Capital
+                            </p>
+
+                            <h4 class="my-1">
+                                ${{ number_format($remainingClientCapital, 2) }}
+                            </h4>
+                        </div>
+
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
+                            <i class="bx bx-coin-stack"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Admin Expenses --}}
+        <div class="col">
+            <div class="card stat-card stat-expense">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+
+                        <div>
+                            <p class="mb-0 text-secondary">
+                                Admin Expenses
+                            </p>
+
+                            <h4 class="my-1">
+                                ${{ number_format($adminExpense, 2) }}
+                            </h4>
+                        </div>
+
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
+                            <i class="bx bx-money"></i>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Client Expenses --}}
+        <div class="col">
+            <div class="card stat-card stat-expense">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+
+                        <div>
+                            <p class="mb-0 text-secondary">
+                                Client Expenses
+                            </p>
+
+                            <h4 class="my-1">
+                                ${{ number_format($clientExpense, 2) }}
+                            </h4>
+                        </div>
+
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
+                            <i class="bx bx-money"></i>
                         </div>
 
                     </div>
