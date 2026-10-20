@@ -80,36 +80,41 @@
 
                 <div class="row">
 
-                    {{-- USER --}}
+                    {{-- USERS (multi select, admin allowed) --}}
 
                     <div class="form-group col-md-6 mb-3">
 
-                        <label for="user_id" class="form-label">
-                            User Name
+                        <label class="form-label">
+                            Users (select 1 to 3, admin allowed)
                         </label>
 
-                        <select
-                            name="user_id"
-                            id="user_id"
-                            class="form-select">
+                        @php
+                            $selectedUserIds = old('user_ids', $purchase->selectedUserIds());
+                        @endphp
 
-                            <option value="">
-                                Select User
-                            </option>
-
+                        <div class="border rounded p-3">
                             @foreach($users as $user)
-
-                                <option
-                                    value="{{ $user->id }}"
-                                    {{ $purchase->user_id == $user->id ? 'selected' : '' }}>
-
-                                    {{ $user->name }}
-
-                                </option>
-
+                                <div class="form-check mb-2">
+                                    <input
+                                        class="form-check-input purchase-user-check"
+                                        type="checkbox"
+                                        name="user_ids[]"
+                                        id="edit_user_{{ $user->id }}"
+                                        value="{{ $user->id }}"
+                                        {{ in_array($user->id, array_map('intval', (array) $selectedUserIds), true) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="edit_user_{{ $user->id }}">
+                                        {{ $user->name }}
+                                        @if ($user->role === 'admin')
+                                            <span class="badge bg-danger">Admin</span>
+                                        @endif
+                                    </label>
+                                </div>
                             @endforeach
+                        </div>
 
-                        </select>
+                        @error('user_ids')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
 
                     </div>
 
@@ -517,6 +522,52 @@
                             id="location"
                             class="form-control"
                             value="{{ $purchase->location }}">
+
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="container_number" class="form-label">
+                            Container Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="container_number"
+                            id="container_number"
+                            class="form-control"
+                            value="{{ old('container_number', $purchase->container_number) }}">
+
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="arrival_date" class="form-label">
+                            Arrival Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="arrival_date"
+                            id="arrival_date"
+                            class="form-control"
+                            value="{{ old('arrival_date', $purchase->arrival_date) }}">
+
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="vin_link" class="form-label">
+                            VIN Link (optional)
+                        </label>
+
+                        <input
+                            type="url"
+                            name="vin_link"
+                            id="vin_link"
+                            class="form-control"
+                            placeholder="https://..."
+                            value="{{ old('vin_link', $purchase->vin_link) }}">
 
                     </div>
 
@@ -980,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
-                    user_id: {
+                    'user_ids[]': {
                         required: true,
                     },
                     lot_number: {
@@ -1010,8 +1061,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 },
                 messages: {
-                    user_id: {
-                        required: 'Please Select User',
+                    'user_ids[]': {
+                        required: 'Please select at least 1 user',
                     },
                     lot_number: {
                         required: 'Please Enter  lot_number',
@@ -1051,6 +1102,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 unhighlight: function(element, errorClass, validClass) {
                     $(element).removeClass('is-invalid');
                 },
+            });
+
+            $(document).on('change', '.purchase-user-check', function () {
+                if ($('.purchase-user-check:checked').length > 3) {
+                    this.checked = false;
+                    alert('You can select up to 3 users.');
+                }
             });
         });
     </script>

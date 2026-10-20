@@ -14,33 +14,30 @@ class PurchaseController extends Controller
 {
     public function AllPurchases()
     {
-        $purchases = Purchase::with('user')->latest()->get();
+        $purchases = Purchase::with(['user', 'users'])->latest()->get();
 
         return view('admin.purchase.all_purchases', compact('purchases'));
     }
 
     public function AddPurchase()
     {
-        $users = User::where('role', 'user')->latest()->get();
+        $users = User::whereIn('role', ['admin', 'user'])->orderBy('role')->latest()->get();
 
         return view('admin.purchase.add_purchase', compact('users'));
     }
-    // =========================================================
-    // Store Purchase
-    // =========================================================
 
     public function StorePurchase(Request $request)
     {
-        Purchase::create([
+        $userIds = $this->selectedUserIds($request);
 
-            // =========================
-            // User
-            // =========================
-            'user_id' => $request->user_id,
+        if ($userIds === []) {
+            return back()
+                ->withInput()
+                ->withErrors(['user_ids' => 'Select 1, 2, or 3 users (admin can be included).']);
+        }
 
-            // =========================
-            // Vehicle Information
-            // =========================
+        $purchase = Purchase::create([
+            'user_id' => $userIds[0],
             'buying_date' => $request->buying_date,
             'lot_number' => $request->lot_number,
             'vin' => $request->vin,
@@ -50,37 +47,20 @@ class PurchaseController extends Controller
             'model' => $request->model,
             'shipping_company' => $request->shipping_company,
             'commission' => $request->commission,
-
-            // =========================
-            // Purchase Costs
-            // =========================
             'buying_fee' => $request->buying_fee ?? 0,
             'towing_fee' => $request->towing_fee ?? 0,
             'shipping' => $request->shipping ?? 0,
-
-            // =========================
-            // Calculated Costs
-            // =========================
             'total_aed' => $request->total_aed ?? 0,
             'clearing' => $request->clearing ?? 0,
             'extra_charges' => $request->extra_charges ?? 0,
             'custom_duty' => $request->custom_duty ?? 0,
             'grand_total' => $request->grand_total ?? 0,
-
-            // =========================
-            // Purchase Information
-            // =========================
             'location' => $request->location,
-
-            // Admin selects the status
+            'container_number' => $request->container_number,
+            'arrival_date' => $request->arrival_date,
+            'vin_link' => $request->vin_link,
             'status' => $request->status ?? 'Purchased',
-
             'description' => $request->description,
-
-            // =========================
-            // Sale Information
-            // Empty until vehicle is sold
-            // =========================
             'selling_price' => 0,
             'profit' => 0,
             'bill_no' => null,
@@ -88,106 +68,49 @@ class PurchaseController extends Controller
             'customer_name' => null,
         ]);
 
-        // Notification
-        $notification = [
-            'message' => 'Purchase Added Successfully',
-            'alert-type' => 'success',
-        ];
+        $purchase->users()->sync($userIds);
 
         return redirect()
             ->route('all.purchases')
-            ->with($notification);
+            ->with([
+                'message' => 'Purchase Added Successfully',
+                'alert-type' => 'success',
+            ]);
     }
-
-    // =========================================================
-    // Open Sale Page
-    // =========================================================
 
     public function SalePurchase(int $id)
     {
-        // Find existing purchase
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::with('users')->findOrFail($id);
+        $users = User::whereIn('role', ['admin', 'user'])->orderBy('role')->get();
 
-        // Get users
-        $users = User::where('role', 'user')->get();
-
-        return view(
-            'admin.purchase.add_purchase',
-            compact(
-                'purchase',
-                'users'
-            )
-        );
+        return view('admin.purchase.add_purchase', compact('purchase', 'users'));
     }
-
-    // =========================================================
-    // Store Sale Information
-    // =========================================================
 
     public function StoreSale(Request $request, int $id)
     {
-        // Find the existing purchase
         $purchase = Purchase::findOrFail($id);
 
-        // =========================
-        // Sale Information
-        // =========================
-
         $purchase->selling_price = $request->selling_price ?? 0;
-
         $purchase->profit = $request->profit ?? 0;
-
         $purchase->bill_no = $request->bill_no;
-
         $purchase->date_of_arriving = $request->date_of_arriving;
-
         $purchase->customer_name = $request->customer_name;
-
-        // =========================
-        // Status
-        // =========================
-
-        // IMPORTANT:
-        // Do NOT use:
-        //
-        // $purchase->status = 'Sold';
-        //
-        // Instead, save the status selected
-        // by the admin from the Sale form.
-
         $purchase->status = $request->status;
-
-        // =========================
-        // Description
-        // =========================
-
         $purchase->description = $request->description;
-
-        // =========================
-        // Save
-        // =========================
-
         $purchase->save();
-
-        // =========================
-        // Notification
-        // =========================
-
-        $notification = [
-            'message' => 'Sale Information Updated Successfully',
-            'alert-type' => 'success',
-        ];
 
         return redirect()
             ->route('all.purchases')
-            ->with($notification);
+            ->with([
+                'message' => 'Sale Information Updated Successfully',
+                'alert-type' => 'success',
+            ]);
     }
 
     public function EditPurchase(int $id)
     {
-        $purchase = Purchase::findOrFail($id);
-
-        $users = User::where('role', 'user')->latest()->get();
+        $purchase = Purchase::with('users')->findOrFail($id);
+        $users = User::whereIn('role', ['admin', 'user'])->orderBy('role')->latest()->get();
 
         return view('admin.purchase.edit_purchase', compact('purchase', 'users'));
     }
@@ -195,11 +118,15 @@ class PurchaseController extends Controller
     public function UpdatePurchase(Request $request)
     {
         $purchase = Purchase::findOrFail($request->id);
+        $userIds = $this->selectedUserIds($request);
 
-        // User
-        $purchase->user_id = $request->user_id;
+        if ($userIds === []) {
+            return back()
+                ->withInput()
+                ->withErrors(['user_ids' => 'Select 1, 2, or 3 users (admin can be included).']);
+        }
 
-        // Vehicle Information
+        $purchase->user_id = $userIds[0];
         $purchase->buying_date = $request->buying_date;
         $purchase->lot_number = $request->lot_number;
         $purchase->vin = $request->vin;
@@ -209,61 +136,51 @@ class PurchaseController extends Controller
         $purchase->model = $request->model;
         $purchase->shipping_company = $request->shipping_company;
         $purchase->commission = $request->commission;
-
-        // Purchase Costs
         $purchase->buying_fee = $request->buying_fee ?? 0;
         $purchase->towing_fee = $request->towing_fee ?? 0;
         $purchase->shipping = $request->shipping ?? 0;
-
-        // Calculated Costs
         $purchase->total_aed = $request->total_aed ?? 0;
         $purchase->clearing = $request->clearing ?? 0;
         $purchase->extra_charges = $request->extra_charges ?? 0;
         $purchase->custom_duty = $request->custom_duty ?? 0;
         $purchase->grand_total = $request->grand_total ?? 0;
-
-        // Purchase Information
         $purchase->location = $request->location;
+        $purchase->container_number = $request->container_number;
+        $purchase->arrival_date = $request->arrival_date;
+        $purchase->vin_link = $request->vin_link;
         $purchase->status = $request->status;
         $purchase->description = $request->description;
-
-        // Sale Information
         $purchase->selling_price = $request->selling_price ?? 0;
         $purchase->profit = $request->profit ?? 0;
         $purchase->bill_no = $request->bill_no;
         $purchase->date_of_arriving = $request->date_of_arriving;
         $purchase->customer_name = $request->customer_name;
-
-        // Save
         $purchase->save();
 
-        $notification = [
-            'message' => 'Purchase Updated Successfully',
-            'alert-type' => 'success',
-        ];
+        $purchase->users()->sync($userIds);
 
         return redirect()
             ->route('all.purchases')
-            ->with($notification);
+            ->with([
+                'message' => 'Purchase Updated Successfully',
+                'alert-type' => 'success',
+            ]);
     }
 
     public function DeletePurchase(int $id)
     {
         $purchase = Purchase::findOrFail($id);
-
+        $purchase->users()->detach();
         $purchase->delete();
-
-        $notification = [
-            'message' => 'Purchase Deleted Successfully',
-            'alert-type' => 'success',
-        ];
 
         return redirect()
             ->route('all.purchases')
-            ->with($notification);
+            ->with([
+                'message' => 'Purchase Deleted Successfully',
+                'alert-type' => 'success',
+            ]);
     }
 
-    // /the export function
     public function ExportPurchases()
     {
         return Excel::download(
@@ -289,5 +206,25 @@ class PurchaseController extends Controller
                 'message' => 'Purchases Imported Successfully',
                 'alert-type' => 'success',
             ]);
+    }
+
+    /**
+     * @return array<int, int>
+     */
+    private function selectedUserIds(Request $request): array
+    {
+        $ids = collect($request->input('user_ids', []))
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->values()
+            ->take(3)
+            ->all();
+
+        if ($ids === [] && $request->filled('user_id')) {
+            $ids = [(int) $request->user_id];
+        }
+
+        return $ids;
     }
 }

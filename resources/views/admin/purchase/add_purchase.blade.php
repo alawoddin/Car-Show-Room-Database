@@ -78,44 +78,48 @@
 
                     <div class="form-group col-md-6 mb-3">
 
-                        <label for="user_id" class="form-label">
-                            User Name
+                        <label class="form-label">
+                            Users (select 1 to 3, admin allowed)
                         </label>
 
-                        <select
-                            name="user_id"
-                            id="user_id"
-                            class="form-select"
-                            {{ isset($purchase) && $purchase->exists ? 'disabled' : '' }}>
+                        @php
+                            $selectedUserIds = old(
+                                'user_ids',
+                                isset($purchase) && $purchase->exists
+                                    ? $purchase->selectedUserIds()
+                                    : []
+                            );
+                        @endphp
 
-                            <option value="">
-                                Select User
-                            </option>
-
+                        <div class="border rounded p-3">
                             @foreach ($users as $user)
-
-                                <option
-                                    value="{{ $user->id }}"
-                                    {{ isset($purchase) && $purchase->user_id == $user->id
-                                        ? 'selected'
-                                        : '' }}>
-
-                                    {{ $user->name }}
-
-                                </option>
-
+                                <div class="form-check mb-2">
+                                    <input
+                                        class="form-check-input purchase-user-check"
+                                        type="checkbox"
+                                        name="user_ids[]"
+                                        id="user_{{ $user->id }}"
+                                        value="{{ $user->id }}"
+                                        {{ in_array($user->id, array_map('intval', (array) $selectedUserIds), true) ? 'checked' : '' }}
+                                        {{ isset($purchase) && $purchase->exists ? 'disabled' : '' }}>
+                                    <label class="form-check-label" for="user_{{ $user->id }}">
+                                        {{ $user->name }}
+                                        @if ($user->role === 'admin')
+                                            <span class="badge bg-danger">Admin</span>
+                                        @endif
+                                    </label>
+                                </div>
                             @endforeach
+                        </div>
 
-                        </select>
-
+                        @error('user_ids')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
 
                         @if(isset($purchase) && $purchase->exists)
-
-                            <input
-                                type="hidden"
-                                name="user_id"
-                                value="{{ $purchase->user_id }}">
-
+                            @foreach ($purchase->selectedUserIds() as $uid)
+                                <input type="hidden" name="user_ids[]" value="{{ $uid }}">
+                            @endforeach
                         @endif
 
                     </div>
@@ -444,16 +448,17 @@
 
                     <div class="form-group col-md-6 mb-3">
 
-                        <label for="grand_total" class="form-label">
-                            shipping_company
+                        <label for="shipping_company" class="form-label">
+                            Shipping Company
                         </label>
 
                         <input
                             type="text"
                             name="shipping_company"
+                            id="shipping_company"
                             class="form-control"
                             value="{{ $purchase->shipping_company ?? '' }}"
-                            >
+                            {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
 
@@ -484,6 +489,55 @@
                             id="location"
                             class="form-control"
                             value="{{ $purchase->location ?? '' }}"
+                            {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
+
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="container_number" class="form-label">
+                            Container Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="container_number"
+                            id="container_number"
+                            class="form-control"
+                            value="{{ old('container_number', $purchase->container_number ?? '') }}"
+                            {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
+
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="arrival_date" class="form-label">
+                            Arrival Date
+                        </label>
+
+                        <input
+                            type="date"
+                            name="arrival_date"
+                            id="arrival_date"
+                            class="form-control"
+                            value="{{ old('arrival_date', $purchase->arrival_date ?? '') }}"
+                            {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
+
+                    </div>
+
+                    <div class="form-group col-md-6 mb-3">
+
+                        <label for="vin_link" class="form-label">
+                            VIN Link (optional)
+                        </label>
+
+                        <input
+                            type="url"
+                            name="vin_link"
+                            id="vin_link"
+                            class="form-control"
+                            placeholder="https://..."
+                            value="{{ old('vin_link', $purchase->vin_link ?? '') }}"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
                     </div>
@@ -1050,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', function () {
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
-                    user_id: {
+                    'user_ids[]': {
                         required: true,
                     },
                     lot_number: {
@@ -1080,8 +1134,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 },
                 messages: {
-                    user_id: {
-                        required: 'Please Select User',
+                    'user_ids[]': {
+                        required: 'Please select at least 1 user',
                     },
                     lot_number: {
                         required: 'Please Enter  lot_number',
@@ -1121,6 +1175,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 unhighlight: function(element, errorClass, validClass) {
                     $(element).removeClass('is-invalid');
                 },
+            });
+
+            $(document).on('change', '.purchase-user-check', function () {
+                if ($('.purchase-user-check:checked').length > 3) {
+                    this.checked = false;
+                    alert('You can select up to 3 users.');
+                }
             });
         });
     </script>

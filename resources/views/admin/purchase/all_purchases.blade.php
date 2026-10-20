@@ -87,6 +87,8 @@
                                 <th>User Name</th>
                                 <th>lot_number</th>
                                 <th>vin</th>
+                                <th>container</th>
+                                <th>arrival_date</th>
                                 <th>cylinder</th>
                                 <th>buying_fee</th>
                                 <th>towing_fee</th>
@@ -102,9 +104,19 @@
                             @foreach ($purchases as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->buyerNames() }}</td>
                                     <td>{{ $item->lot_number }}</td>
-                                    <td>{{ $item->vin }}</td>
+                                    <td>
+                                        @if ($item->vin_link)
+                                            <a href="{{ $item->vin_link }}" target="_blank" rel="noopener noreferrer">
+                                                {{ $item->vin }}
+                                            </a>
+                                        @else
+                                            {{ $item->vin }}
+                                        @endif
+                                    </td>
+                                    <td>{{ $item->container_number }}</td>
+                                    <td>{{ $item->arrival_date }}</td>
                                     <td>{{ $item->cylinder }}</td>
                                     <td>{{ $item->buying_fee }}</td>
                                     <td>{{ $item->towing_fee }}</td>
