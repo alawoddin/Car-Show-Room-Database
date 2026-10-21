@@ -42,6 +42,8 @@
     $clientSales = 0.0;
     $adminProfit = 0.0;
     $clientProfit = 0.0;
+    $adminLoss = 0.0;
+    $clientLoss = 0.0;
 
     $allPurchases = Purchase::with(['user', 'users'])->get();
 
@@ -95,14 +97,23 @@
             }
         }
 
+        // Profit cards only count gains; loss cards count sold cars with no profit.
         foreach ($profitShares as $share) {
             $role = $share['user']->role ?? 'user';
             $amount = (float) $share['amount'];
 
             if ($role === 'admin') {
-                $adminProfit += $amount;
+                if ($amount > 0) {
+                    $adminProfit += $amount;
+                } elseif ($amount < 0) {
+                    $adminLoss += abs($amount);
+                }
             } else {
-                $clientProfit += $amount;
+                if ($amount > 0) {
+                    $clientProfit += $amount;
+                } elseif ($amount < 0) {
+                    $clientLoss += abs($amount);
+                }
             }
         }
     }
@@ -111,6 +122,7 @@
     $totalPurchase = (float) $allPurchases->sum('grand_total');
     $totalSales = $adminSales + $clientSales;
     $totalProfit = $adminProfit + $clientProfit;
+    $totalLoss = $adminLoss + $clientLoss;
 
     // Remaining = capital - unsold cars - expenses
     $remainingAdminCapital = $totalAdminCapital - $adminCarTotal - $adminExpense;
@@ -354,6 +366,60 @@
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-dollar-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    {{-- Loss (sold cars with no profit / negative profit) --}}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+
+        <div class="col">
+            <div class="card stat-card stat-expense">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Admin Total Loss</p>
+                            <h4 class="my-1">${{ number_format($adminLoss, 2) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
+                            <i class="bx bx-trending-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card stat-card stat-expense">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Client Total Loss</p>
+                            <h4 class="my-1">${{ number_format($clientLoss, 2) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
+                            <i class="bx bx-trending-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card stat-card stat-expense">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0 text-secondary">Total Loss</p>
+                            <h4 class="my-1">${{ number_format($totalLoss, 2) }}</h4>
+                        </div>
+                        <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
+                            <i class="bx bx-error-circle"></i>
                         </div>
                     </div>
                 </div>
