@@ -346,7 +346,9 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Admin Profit</p>
-                            <h4 class="my-1">${{ number_format($adminProfit, 2) }}</h4>
+                            <h4 class="my-1 money-value" data-value="${{ number_format($adminProfit, 2) }}">
+                                ${{ number_format($adminProfit, 2) }}
+                            </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-dollar-circle"></i>
@@ -362,7 +364,9 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Profit</p>
-                            <h4 class="my-1">${{ number_format($clientProfit, 2) }}</h4>
+                            <h4 class="my-1 money-value" data-value="${{ number_format($clientProfit, 2) }}">
+                                ${{ number_format($clientProfit, 2) }}
+                            </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-dollar-circle"></i>
