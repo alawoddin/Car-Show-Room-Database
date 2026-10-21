@@ -9,15 +9,15 @@
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\Facades\Schema;
 
-    // Capital is entered in USD → convert to AED for dashboard
-    $totalAdminCapital = Currency::usdToAed(
-        (float) DB::table('capital_transactions')->sum('amount')
-    );
-    $totalClientCapital = Currency::usdToAed(
-        (float) User_Capitals::sum('amount')
-    );
+    // Capital cards: keep USD as entered (e.g. $10000)
+    $totalAdminCapitalUsd = (float) DB::table('capital_transactions')->sum('amount');
+    $totalClientCapitalUsd = (float) User_Capitals::sum('amount');
 
-    // Expenses are entered in USD → convert to AED, then deduct from capital
+    // Same capital in AED (for remaining calc only)
+    $totalAdminCapitalAed = Currency::usdToAed($totalAdminCapitalUsd);
+    $totalClientCapitalAed = Currency::usdToAed($totalClientCapitalUsd);
+
+    // Expenses entered in USD → convert to AED, then deduct from capital AED
     $totalExpense = 0.0;
     $adminExpense = 0.0;
     $clientExpense = 0.0;
@@ -135,9 +135,10 @@
     $totalProfit = $adminProfit + $clientProfit;
     $totalLoss = $adminLoss + $clientLoss;
 
-    // Remaining AED = capital AED − unsold cars AED − expense AED
-    $remainingAdminCapital = $totalAdminCapital - $adminCarTotal - $adminExpense;
-    $remainingClientCapital = $totalClientCapital - $clientCarTotal - $clientExpense;
+    // Remaining AED = capital(USD→AED) − cars(AED) − expense(USD→AED)
+    // Do not mix raw USD capital with AED cars (that caused wrong -$10000 style numbers)
+    $remainingAdminAed = $totalAdminCapitalAed - $adminCarTotal - $adminExpense;
+    $remainingClientAed = $totalClientCapitalAed - $clientCarTotal - $clientExpense;
 
     $purchases = Purchase::with(['user', 'users'])
         ->latest()
@@ -172,9 +173,9 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Total Admin Capital</p>
-                            <h4 class="my-1 money-value" data-value="AED {{ number_format($totalAdminCapital, 2) }}">
-                                AED {{ number_format($totalAdminCapital, 2) }}
+                            <p class="mb-0 text-secondary">Total Admin Capital (USD)</p>
+                            <h4 class="my-1 money-value" data-value="${{ number_format($totalAdminCapitalUsd, 2) }}">
+                                ${{ number_format($totalAdminCapitalUsd, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
@@ -190,9 +191,9 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Remaining Admin Capital</p>
-                            <h4 class="my-1 money-value" data-value="AED {{ number_format($remainingAdminCapital, 2) }}">
-                                AED {{ number_format($remainingAdminCapital, 2) }}
+                            <p class="mb-0 text-secondary">Remaining Admin (AED)</p>
+                            <h4 class="my-1 money-value" data-value="{{ number_format(abs($remainingAdminAed), 2) }}">
+                                {{ number_format(abs($remainingAdminAed), 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
@@ -208,9 +209,9 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Total Client Capital</p>
-                            <h4 class="my-1 money-value" data-value="AED {{ number_format($totalClientCapital, 2) }}">
-                                AED {{ number_format($totalClientCapital, 2) }}
+                            <p class="mb-0 text-secondary">Total Client Capital (USD)</p>
+                            <h4 class="my-1 money-value" data-value="${{ number_format($totalClientCapitalUsd, 2) }}">
+                                ${{ number_format($totalClientCapitalUsd, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
@@ -226,9 +227,9 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Remaining Client Capital</p>
-                            <h4 class="my-1 money-value" data-value="AED {{ number_format($remainingClientCapital, 2) }}">
-                                AED {{ number_format($remainingClientCapital, 2) }}
+                            <p class="mb-0 text-secondary">Remaining Client (AED)</p>
+                            <h4 class="my-1 money-value" data-value="{{ number_format(abs($remainingClientAed), 2) }}">
+                                {{ number_format(abs($remainingClientAed), 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
