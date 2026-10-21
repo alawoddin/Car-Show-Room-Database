@@ -136,9 +136,9 @@
     $totalLoss = $adminLoss + $clientLoss;
 
     // Remaining AED = capital(USD→AED) − cars(AED) − expense(USD→AED)
-    // Do not mix raw USD capital with AED cars (that caused wrong -$10000 style numbers)
-    $remainingAdminAed = $totalAdminCapitalAed - $adminCarTotal - $adminExpense;
-    $remainingClientAed = $totalClientCapitalAed - $clientCarTotal - $clientExpense;
+    // Never show negative leftover; if cars/expenses exceed capital, remaining is 0
+    $remainingAdminAed = max(0, $totalAdminCapitalAed - $adminCarTotal - $adminExpense);
+    $remainingClientAed = max(0, $totalClientCapitalAed - $clientCarTotal - $clientExpense);
 
     $purchases = Purchase::with(['user', 'users'])
         ->latest()
@@ -192,8 +192,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Remaining Admin (AED)</p>
-                            <h4 class="my-1 money-value" data-value="{{ number_format(abs($remainingAdminAed), 2) }}">
-                                {{ number_format(abs($remainingAdminAed), 2) }}
+                            <h4 class="my-1 money-value" data-value="{{ number_format($remainingAdminAed, 2) }}">
+                                {{ number_format($remainingAdminAed, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
@@ -228,8 +228,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Remaining Client (AED)</p>
-                            <h4 class="my-1 money-value" data-value="{{ number_format(abs($remainingClientAed), 2) }}">
-                                {{ number_format(abs($remainingClientAed), 2) }}
+                            <h4 class="my-1 money-value" data-value="{{ number_format($remainingClientAed, 2) }}">
+                                {{ number_format($remainingClientAed, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">

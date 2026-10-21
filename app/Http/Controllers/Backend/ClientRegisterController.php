@@ -29,8 +29,14 @@ class ClientRegisterController extends Controller
             $image = $request->file('photo');
             $manager = new ImageManager(new Driver());
             $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+
+            $uploadPath = public_path('upload/user_images');
+            if (! is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+
             $img = $manager->read($image);
-            $img->resize(100, 100)->save(public_path('upload/user_images/' . $name_gen));
+            $img->resize(100, 100)->save($uploadPath . DIRECTORY_SEPARATOR . $name_gen);
             $save_url = 'upload/user_images/' . $name_gen;
 
             // Create User

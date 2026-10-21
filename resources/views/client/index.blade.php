@@ -57,8 +57,8 @@
         $carSpend += (float) ($share['amount'] ?? 0);
     }
 
-    // Remaining AED = capital AED − expense AED − cars AED
-    $remainingCapital = $userCapital - $userExpense - $carSpend;
+    // Remaining AED = capital AED − expense AED − cars AED (never below 0)
+    $remainingCapital = max(0, $userCapital - $userExpense - $carSpend);
 
 
     /*
