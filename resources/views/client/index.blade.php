@@ -14,26 +14,29 @@
     |--------------------------------------------------------------------------
     */
 
-    $userCapital = \Illuminate\Support\Facades\DB::table('user_capitals')
+    // Capital & expenses stored in USD → convert to AED
+    $userCapitalUsd = (float) (\Illuminate\Support\Facades\DB::table('user_capitals')
         ->where('user_id', $id)
-        ->sum('amount');
+        ->sum('amount') ?? 0);
 
-    $userCapital = $userCapital ?? 0;
+    $userCapital = \App\Support\Currency::usdToAed($userCapitalUsd);
 
-    $userExpense = 0;
+    $userExpenseUsd = 0;
 
     if (
         \Illuminate\Support\Facades\Schema::hasTable('expenses') &&
         \Illuminate\Support\Facades\Schema::hasColumn('expenses', 'user_id')
     ) {
-        $userExpense = \Illuminate\Support\Facades\DB::table('expenses')
+        $userExpenseUsd = (float) \Illuminate\Support\Facades\DB::table('expenses')
             ->where('user_id', $id)
             ->sum('amount');
     }
 
+    $userExpense = \App\Support\Currency::usdToAed($userExpenseUsd);
+
     /*
     |--------------------------------------------------------------------------
-    | USER VEHICLES (includes shared purchases)
+    | USER VEHICLES (includes shared purchases) — grand_total already AED
     |--------------------------------------------------------------------------
     */
 
@@ -54,6 +57,7 @@
         $carSpend += (float) ($share['amount'] ?? 0);
     }
 
+    // Remaining AED = capital AED − expense AED − cars AED
     $remainingCapital = $userCapital - $userExpense - $carSpend;
 
 
@@ -129,12 +133,12 @@
 
                         <h5 class="card-title pt-2 fs-26">
 
-                            ${{ number_format($userCapital, 2) }}
+                            AED {{ number_format($userCapital, 2) }}
 
                         </h5>
 
                         <small class="text-muted">
-                            Remaining after cars &amp; expenses: ${{ number_format($remainingCapital, 2) }}
+                            Remaining after cars &amp; expenses: AED {{ number_format($remainingCapital, 2) }}
                         </small>
 
                     </div>

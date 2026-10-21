@@ -5,31 +5,42 @@
 @php
     use App\Models\Purchase;
     use App\Models\User_Capitals;
+    use App\Support\Currency;
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\Facades\Schema;
 
-    // Capital totals
-    $totalAdminCapital = (float) DB::table('capital_transactions')->sum('amount');
-    $totalClientCapital = (float) User_Capitals::sum('amount');
+    // Capital is entered in USD → convert to AED for dashboard
+    $totalAdminCapital = Currency::usdToAed(
+        (float) DB::table('capital_transactions')->sum('amount')
+    );
+    $totalClientCapital = Currency::usdToAed(
+        (float) User_Capitals::sum('amount')
+    );
 
-    // Expenses
+    // Expenses are entered in USD → convert to AED, then deduct from capital
     $totalExpense = 0.0;
     $adminExpense = 0.0;
     $clientExpense = 0.0;
 
     if (Schema::hasTable('expenses') && Schema::hasColumn('expenses', 'amount')) {
-        $totalExpense = (float) DB::table('expenses')->sum('amount');
+        $totalExpense = Currency::usdToAed(
+            (float) DB::table('expenses')->sum('amount')
+        );
 
         if (Schema::hasColumn('expenses', 'user_id')) {
-            $adminExpense = (float) DB::table('expenses')
-                ->join('users', 'expenses.user_id', '=', 'users.id')
-                ->where('users.role', 'admin')
-                ->sum('expenses.amount');
+            $adminExpense = Currency::usdToAed(
+                (float) DB::table('expenses')
+                    ->join('users', 'expenses.user_id', '=', 'users.id')
+                    ->where('users.role', 'admin')
+                    ->sum('expenses.amount')
+            );
 
-            $clientExpense = (float) DB::table('expenses')
-                ->join('users', 'expenses.user_id', '=', 'users.id')
-                ->where('users.role', 'user')
-                ->sum('expenses.amount');
+            $clientExpense = Currency::usdToAed(
+                (float) DB::table('expenses')
+                    ->join('users', 'expenses.user_id', '=', 'users.id')
+                    ->where('users.role', 'user')
+                    ->sum('expenses.amount')
+            );
         }
     }
 
@@ -124,7 +135,7 @@
     $totalProfit = $adminProfit + $clientProfit;
     $totalLoss = $adminLoss + $clientLoss;
 
-    // Remaining = capital - unsold cars - expenses
+    // Remaining AED = capital AED − unsold cars AED − expense AED
     $remainingAdminCapital = $totalAdminCapital - $adminCarTotal - $adminExpense;
     $remainingClientCapital = $totalClientCapital - $clientCarTotal - $clientExpense;
 
@@ -162,8 +173,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Admin Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($totalAdminCapital, 2) }}">
-                                ${{ number_format($totalAdminCapital, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($totalAdminCapital, 2) }}">
+                                AED {{ number_format($totalAdminCapital, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
@@ -180,8 +191,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Remaining Admin Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($remainingAdminCapital, 2) }}">
-                                ${{ number_format($remainingAdminCapital, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($remainingAdminCapital, 2) }}">
+                                AED {{ number_format($remainingAdminCapital, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
@@ -198,8 +209,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Client Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($totalClientCapital, 2) }}">
-                                ${{ number_format($totalClientCapital, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($totalClientCapital, 2) }}">
+                                AED {{ number_format($totalClientCapital, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
@@ -216,8 +227,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Remaining Client Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($remainingClientCapital, 2) }}">
-                                ${{ number_format($remainingClientCapital, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($remainingClientCapital, 2) }}">
+                                AED {{ number_format($remainingClientCapital, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
@@ -240,8 +251,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Admin Cars</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($adminCarTotal, 2) }}">
-                                ${{ number_format($adminCarTotal, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($adminCarTotal, 2) }}">
+                                AED {{ number_format($adminCarTotal, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-light text-dark ms-auto">
@@ -258,8 +269,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Cars</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($clientCarTotal, 2) }}">
-                                ${{ number_format($clientCarTotal, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($clientCarTotal, 2) }}">
+                                AED {{ number_format($clientCarTotal, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-light text-dark ms-auto">
@@ -314,7 +325,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Admin Sales</p>
-                            <h4 class="my-1">${{ number_format($adminSales, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($adminSales, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
                             <i class="bx bx-trending-up"></i>
@@ -330,7 +341,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Sales</p>
-                            <h4 class="my-1">${{ number_format($clientSales, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($clientSales, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
                             <i class="bx bx-trending-up"></i>
@@ -346,8 +357,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Admin Profit</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($adminProfit, 2) }}">
-                                ${{ number_format($adminProfit, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($adminProfit, 2) }}">
+                                AED {{ number_format($adminProfit, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
@@ -364,8 +375,8 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Profit</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($clientProfit, 2) }}">
-                                ${{ number_format($clientProfit, 2) }}
+                            <h4 class="my-1 money-value" data-value="AED {{ number_format($clientProfit, 2) }}">
+                                AED {{ number_format($clientProfit, 2) }}
                             </h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
@@ -388,7 +399,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Admin Total Loss</p>
-                            <h4 class="my-1">${{ number_format($adminLoss, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($adminLoss, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
                             <i class="bx bx-trending-down"></i>
@@ -404,7 +415,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Total Loss</p>
-                            <h4 class="my-1">${{ number_format($clientLoss, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($clientLoss, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
                             <i class="bx bx-trending-down"></i>
@@ -420,7 +431,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Loss</p>
-                            <h4 class="my-1">${{ number_format($totalLoss, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($totalLoss, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-bloody text-white ms-auto">
                             <i class="bx bx-error-circle"></i>
@@ -442,7 +453,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Expenses</p>
-                            <h4 class="my-1">${{ number_format($totalExpense, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($totalExpense, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-money"></i>
@@ -458,7 +469,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Admin Expenses</p>
-                            <h4 class="my-1">${{ number_format($adminExpense, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($adminExpense, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-money"></i>
@@ -474,7 +485,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Expenses</p>
-                            <h4 class="my-1">${{ number_format($clientExpense, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($clientExpense, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-money"></i>
@@ -490,7 +501,7 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Purchase Value</p>
-                            <h4 class="my-1">${{ number_format($totalPurchase, 2) }}</h4>
+                            <h4 class="my-1">AED {{ number_format($totalPurchase, 2) }}</h4>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-light text-dark ms-auto">
                             <i class="bx bx-cart"></i>
@@ -557,7 +568,7 @@
                                 <td>{{ $purchase->model ?? 'N/A' }}</td>
                                 <td>{{ $purchase->shipping_company ?? 'N/A' }}</td>
                                 <td>
-                                    <strong>${{ number_format((float) ($purchase->grand_total ?? 0), 2) }}</strong>
+                                    <strong>AED {{ number_format((float) ($purchase->grand_total ?? 0), 2) }}</strong>
                                 </td>
                             </tr>
                         @empty

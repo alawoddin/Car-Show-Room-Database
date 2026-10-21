@@ -33,7 +33,8 @@
                         <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>amount</th>
+                                <th>Amount (USD)</th>
+                                <th>Amount (AED)</th>
                                 <th>description</th>
                                 <th>data</th>
                                 <th>Action</th>
@@ -44,7 +45,8 @@
                             @foreach ($capitalTransactions as $key => $item)
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
-                                    <td>{{ $item->amount }}$</td>
+                                    <td>${{ number_format((float) $item->amount, 2) }}</td>
+                                    <td>AED {{ number_format(\App\Support\Currency::usdToAed($item->amount), 2) }}</td>
                                     <td>{{ Str::limit($item->description, 80) }}</td>
                                     <td>{{ $item->date }}</td>
                                     <td>

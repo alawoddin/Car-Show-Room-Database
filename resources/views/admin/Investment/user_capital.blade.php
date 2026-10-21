@@ -28,7 +28,7 @@
                             <tr>
                                 <th>Sl</th>
                                 <th>User Name</th>
-                                <th>User Amount</th>
+                                <th>Amount (USD / AED)</th>
                                 <th>User Date</th>
                                 <th>User Description</th>
                                 <th>Action</th>
@@ -40,7 +40,7 @@
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
                                     <td>{{ $item->user->name }}</td>
-                                    <td>{{ $item->amount }}$</td>
+                                    <td>${{ number_format((float) $item->amount, 2) }} / AED {{ number_format(\App\Support\Currency::usdToAed($item->amount), 2) }}</td>
                                     <td>{{ $item->date }}</td>
                                     <td>{{ $item->description }}</td>
                                     <td>

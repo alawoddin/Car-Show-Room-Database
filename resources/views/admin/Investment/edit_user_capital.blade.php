@@ -45,7 +45,7 @@
 
 
                         <div class="form-group col-md-6">
-                            <label for="input1" class="form-label">Capital amount</label>
+                            <label for="input1" class="form-label">Capital amount (USD $)</label>
                             <input type="text" name="amount" value="{{ $userCapital->amount }}" class="form-control" id="input1">
                         </div>
                     </div>
