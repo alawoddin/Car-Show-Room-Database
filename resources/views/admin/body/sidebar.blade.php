@@ -58,6 +58,20 @@
             </ul>
         </li>
 
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-wallet'></i>
+                </div>
+                <div class="menu-title">Customer Loan</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('customer.loan') }}"><i class='bx bx-radio-circle'></i>All Loans</a>
+                </li>
+                <li> <a href="{{ route('customer.loan.add') }}"><i class='bx bx-radio-circle'></i>Add Loan</a>
+                </li>
+            </ul>
+        </li>
+
          
 
       

@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class CustomerLoan extends Model
+{
+    protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(CustomerLoanPayment::class)
+            ->latest('payment_date')
+            ->latest('id');
+    }
+
+    public function loanTotal(): float
+    {
+        $purchase = $this->purchase;
+
+        if (! $purchase) {
+            return 0.0;
+        }
+
+        $selling = (float) ($purchase->selling_price ?? 0);
+
+        return $selling > 0
+            ? $selling
+            : (float) ($purchase->grand_total ?? 0);
+    }
+
+    public function totalPaid(): float
+    {
+        if ($this->relationLoaded('payments')) {
+            return round((float) $this->payments->sum('amount'), 2);
+        }
+
+        return round((float) $this->payments()->sum('amount'), 2);
+    }
+
+    public function remainingAmount(): float
+    {
+        return max(0, round($this->loanTotal() - $this->totalPaid(), 2));
+    }
+
+    public function syncPaidAmount(): void
+    {
+        $paid = $this->totalPaid();
+        $total = $this->loanTotal();
+
+        $this->forceFill([
+            'paid_amount' => $paid,
+            'status' => ($paid >= $total && $total > 0) ? 'Paid' : 'Open',
+        ])->save();
+    }
+
+    public function customerLabel(): string
+    {
+        return $this->purchase?->customer_name
+            ?: $this->user?->name
+            ?: 'Unknown Customer';
+    }
+}
