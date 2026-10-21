@@ -529,6 +529,90 @@
 
 
                 {{-- =================================================
+                     INSTALLMENT PAYMENTS (like cash book first/second/last pay)
+                ================================================== --}}
+
+                <div class="mt-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="mb-0">Payment History</h5>
+                        @if ($remaining > 0)
+                            <span class="badge bg-warning text-dark">Loan open — remaining AED {{ number_format($remaining, 2) }}</span>
+                        @else
+                            <span class="badge bg-success">Fully paid</span>
+                        @endif
+                    </div>
+
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Note</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($invoiceStatus->payments as $key => $payment)
+                                    <tr>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ optional($payment->payment_date)->format('Y-m-d') ?? '-' }}</td>
+                                        <td class="text-success">AED {{ number_format((float) $payment->amount, 2) }}</td>
+                                        <td>{{ $payment->note ?? '-' }}</td>
+                                        <td>
+                                            <a href="{{ route('invoice.status.payment.delete', [$invoiceStatus->id, $payment->id]) }}"
+                                               class="btn btn-sm btn-danger"
+                                               id="delete">
+                                                Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center">No payments yet.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if ($remaining > 0)
+                        <div class="card border">
+                            <div class="card-body">
+                                <h6 class="mb-3">Add Next Payment</h6>
+                                <form method="POST" action="{{ route('invoice.status.payment.store', $invoiceStatus->id) }}" class="row g-3">
+                                    @csrf
+                                    <div class="col-md-3">
+                                        <label class="form-label">Amount (AED)</label>
+                                        <input type="number" step="0.01" min="0.01" max="{{ $remaining }}" name="amount"
+                                               class="form-control @error('amount') is-invalid @enderror"
+                                               value="{{ old('amount') }}" required>
+                                        @error('amount')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Payment Date</label>
+                                        <input type="date" name="payment_date" class="form-control"
+                                               value="{{ old('payment_date', now()->toDateString()) }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label">Note</label>
+                                        <input type="text" name="note" class="form-control"
+                                               placeholder="e.g. second pay, cash, transfer"
+                                               value="{{ old('note') }}">
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-end">
+                                        <button type="submit" class="btn btn-primary w-100">Add Payment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                {{-- =================================================
                      FOOTER
                 ================================================== --}}
 

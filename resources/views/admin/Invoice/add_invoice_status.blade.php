@@ -26,7 +26,7 @@
 
                         <li class="breadcrumb-item active" aria-current="page">
 
-                            Add Invoice Status
+                            Add Customer Loan
 
                         </li>
 
@@ -45,8 +45,11 @@
             <div class="card-body p-4">
 
                 <h5 class="mb-4">
-                    Add Invoice Status
+                    Add Customer Loan
                 </h5>
+                <p class="text-muted">
+                    Create a loan for a sold car. Customer can pay in parts (first pay, second pay, last pay). Remaining balance updates automatically.
+                </p>
 
 
                 <form id="myForm" action="{{ route('invoice.status.store') }}" method="post" class="row g-3">
@@ -110,13 +113,19 @@
                                 </option>
 
                                 @foreach ($purchases as $purchase)
+                                    @php
+                                        $invoiceTotal = (float) (($purchase->selling_price > 0)
+                                            ? $purchase->selling_price
+                                            : $purchase->grand_total);
+                                    @endphp
                                     <option value="{{ $purchase->id }}" data-user="{{ $purchase->user_id }}"
-                                        data-grand-total="{{ $purchase->grand_total ?? 0 }}"
+                                        data-grand-total="{{ $invoiceTotal }}"
                                         {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>
 
                                         #{{ $purchase->id }}
 
                                         -
+                                        {{ $purchase->customer_name ? $purchase->customer_name.' - ' : '' }}
                                         {{ $purchase->make ?? '' }}
                                         {{ $purchase->model ?? '' }}
 
@@ -158,7 +167,7 @@
 
                             <label for="grand_total" class="form-label">
 
-                                Grand Total
+                                Total Invoice (Sale Price)
 
                             </label>
 
@@ -175,6 +184,9 @@
                         <div class="form-group col-md-6">
 
                             <label for="paid_amount" class="form-label">
+                                First Payment (optional)
+                            </label>
+                            <label for="paid_amount_hidden_label" class="d-none form-label">
 
                                 Paid Amount
 
