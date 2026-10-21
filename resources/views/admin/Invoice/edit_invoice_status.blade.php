@@ -29,7 +29,7 @@
 
                             <a href="{{ route('invoice.status') }}">
 
-                                Invoice Status
+                                Customer Loan
 
                             </a>
 
@@ -37,7 +37,7 @@
 
                         <li class="breadcrumb-item active">
 
-                            Edit Invoice Status
+                            Edit Customer Loan
 
                         </li>
 
@@ -57,9 +57,12 @@
 
                 <h5 class="mb-4">
 
-                    Edit Invoice Status
+                    Edit Customer Loan
 
                 </h5>
+                <p class="text-muted">
+                    Change due date or linked car here. To record installment payments (2000, 5000, …), open the loan and use Add Next Payment.
+                </p>
 
 
                 <form id="myForm"

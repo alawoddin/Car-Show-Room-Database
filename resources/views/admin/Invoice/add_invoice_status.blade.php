@@ -186,15 +186,9 @@
                             <label for="paid_amount" class="form-label">
                                 First Payment (optional)
                             </label>
-                            <label for="paid_amount_hidden_label" class="d-none form-label">
-
-                                Paid Amount
-
-                            </label>
-
 
                             <input type="number" name="paid_amount" class="form-control" id="paid_amount" step="0.01"
-                                min="0" placeholder="Enter Paid Amount">
+                                min="0" placeholder="e.g. 2000">
 
                         </div>
 
