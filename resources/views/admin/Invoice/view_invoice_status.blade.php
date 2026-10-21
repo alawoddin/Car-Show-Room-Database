@@ -5,18 +5,10 @@
     <div class="page-content">
 
         @php
-
             $purchase = $invoiceStatus->purchase;
-
-            $grandTotal = $purchase->grand_total ?? 0;
-
-            $paidAmount = $invoiceStatus->paid_amount ?? 0;
-
-            $remaining = max(
-                0,
-                $grandTotal - $paidAmount
-            );
-
+            $grandTotal = $invoiceStatus->invoiceTotal();
+            $paidAmount = $invoiceStatus->totalPaid();
+            $remaining = $invoiceStatus->remainingAmount();
         @endphp
 
 
@@ -45,7 +37,7 @@
 
                             <a href="{{ route('invoice.status') }}">
 
-                                Invoice Status
+                                Customer Loan
 
                             </a>
 
@@ -54,7 +46,7 @@
 
                         <li class="breadcrumb-item active">
 
-                            View Invoice
+                            Loan Details
 
                         </li>
 
@@ -118,7 +110,7 @@
 
                         <h2 class="fw-bold">
 
-                            INVOICE
+                            CUSTOMER LOAN
 
                         </h2>
 
@@ -208,7 +200,7 @@
 
                             </strong>
 
-                            {{ $invoiceStatus->user->name ?? 'Demo' }}
+                            {{ $invoiceStatus->customerLabel() }}
 
                         </p>
 
@@ -219,11 +211,13 @@
 
                                 <strong>
 
-                                    Email:
+                                    Account:
 
                                 </strong>
 
-                                {{ $invoiceStatus->user->email ?? '-' }}
+                                {{ $invoiceStatus->user->name ?? '-' }}
+
+                                ({{ $invoiceStatus->user->email ?? '-' }})
 
                             </p>
 

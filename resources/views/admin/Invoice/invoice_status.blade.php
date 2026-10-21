@@ -24,7 +24,7 @@
 
                         <li class="breadcrumb-item active" aria-current="page">
 
-                            Invoice Status
+                            Customer Loan
 
                         </li>
 
@@ -41,7 +41,7 @@
 
                     <a href="{{ route('invoice.status.add') }}" class="btn btn-primary px-5">
 
-                        Add Invoice Status
+                        Add Customer Loan
 
                     </a>
 
@@ -99,11 +99,7 @@
             */
 
             $openAmount = $invoiceStatuses->where('status', 'Open')->sum(function ($item) {
-                $grandTotal = $item->purchase->grand_total ?? 0;
-
-                $paidAmount = $item->paid_amount ?? 0;
-
-                return max(0, $grandTotal - $paidAmount);
+                return $item->remainingAmount();
             });
 
             /*
@@ -113,31 +109,27 @@
             */
 
             $overdueAmount = $invoiceStatuses->where('status', 'Overdue')->sum(function ($item) {
-                $grandTotal = $item->purchase->grand_total ?? 0;
-
-                $paidAmount = $item->paid_amount ?? 0;
-
-                return max(0, $grandTotal - $paidAmount);
+                return $item->remainingAmount();
             });
 
             /*
             |--------------------------------------------------------------------------
-            | TOTAL GRAND TOTAL
+            | TOTAL INVOICE / SALE AMOUNT
             |--------------------------------------------------------------------------
             */
 
             $totalAmount = $invoiceStatuses->sum(function ($item) {
-                return $item->purchase->grand_total ?? 0;
+                return $item->invoiceTotal();
             });
 
             /*
             |--------------------------------------------------------------------------
-            | TOTAL PAID
+            | TOTAL PAID (all installment payments)
             |--------------------------------------------------------------------------
             */
 
             $totalPaid = $invoiceStatuses->sum(function ($item) {
-                return $item->paid_amount ?? 0;
+                return $item->totalPaid();
             });
 
             /*
@@ -147,11 +139,7 @@
             */
 
             $totalRemaining = $invoiceStatuses->sum(function ($item) {
-                $grandTotal = $item->purchase->grand_total ?? 0;
-
-                $paidAmount = $item->paid_amount ?? 0;
-
-                return max(0, $grandTotal - $paidAmount);
+                return $item->remainingAmount();
             });
 
         @endphp
@@ -515,15 +503,17 @@
 
                                 <th>Sl</th>
 
-                                <th>User Name</th>
+                                <th>Customer</th>
 
                                 <th>Vehicle</th>
 
                                 <th>VIN</th>
 
-                                <th>Grand Total</th>
+                                <th>Total Invoice</th>
 
                                 <th>Paid</th>
+
+                                <th>Payments</th>
 
                                 <th>Remaining</th>
 
@@ -542,13 +532,10 @@
 
                             @forelse ($invoiceStatuses as $key => $item)
                                 @php
-
-                                    $grandTotal = $item->purchase->grand_total ?? 0;
-
-                                    $paidAmount = $item->paid_amount ?? 0;
-
-                                    $remaining = max(0, $grandTotal - $paidAmount);
-
+                                    $grandTotal = $item->invoiceTotal();
+                                    $paidAmount = $item->totalPaid();
+                                    $remaining = $item->remainingAmount();
+                                    $paymentCount = $item->payments->count();
                                 @endphp
 
 
@@ -565,11 +552,11 @@
 
 
 
-                                    {{-- USER --}}
+                                    {{-- CUSTOMER --}}
 
                                     <td>
 
-                                        {{ $item->user->name ?? 'Demo' }}
+                                        {{ $item->customerLabel() }}
 
                                     </td>
 
@@ -618,6 +605,16 @@
 
                                         AED
                                         {{ number_format($paidAmount, 2) }}
+
+                                    </td>
+
+
+
+                                    {{-- PAYMENTS COUNT --}}
+
+                                    <td>
+
+                                        {{ $paymentCount }}
 
                                     </td>
 
