@@ -26,7 +26,7 @@
 
                         <li class="breadcrumb-item active" aria-current="page">
 
-                            Add Customer Loan
+                            Add Invoice Status
 
                         </li>
 
@@ -45,10 +45,10 @@
             <div class="card-body p-4">
 
                 <h5 class="mb-4">
-                    Add Customer Loan
+                    Add Invoice Status
                 </h5>
                 <p class="text-muted">
-                    Create a loan for a sold car. Customer can pay in parts (first pay, second pay, last pay). Remaining balance updates automatically.
+                    Track admin payment for a purchased car (against Grand Total / car cost).
                 </p>
 
 
@@ -113,19 +113,13 @@
                                 </option>
 
                                 @foreach ($purchases as $purchase)
-                                    @php
-                                        $invoiceTotal = (float) (($purchase->selling_price > 0)
-                                            ? $purchase->selling_price
-                                            : $purchase->grand_total);
-                                    @endphp
                                     <option value="{{ $purchase->id }}" data-user="{{ $purchase->user_id }}"
-                                        data-grand-total="{{ $invoiceTotal }}"
+                                        data-grand-total="{{ $purchase->grand_total ?? 0 }}"
                                         {{ old('purchase_id') == $purchase->id ? 'selected' : '' }}>
 
                                         #{{ $purchase->id }}
 
                                         -
-                                        {{ $purchase->customer_name ? $purchase->customer_name.' - ' : '' }}
                                         {{ $purchase->make ?? '' }}
                                         {{ $purchase->model ?? '' }}
 
@@ -167,7 +161,7 @@
 
                             <label for="grand_total" class="form-label">
 
-                                Total Invoice (Sale Price)
+                                Grand Total
 
                             </label>
 
@@ -184,11 +178,11 @@
                         <div class="form-group col-md-6">
 
                             <label for="paid_amount" class="form-label">
-                                First Payment (optional)
+                                Paid Amount
                             </label>
 
                             <input type="number" name="paid_amount" class="form-control" id="paid_amount" step="0.01"
-                                min="0" placeholder="e.g. 2000">
+                                min="0" placeholder="Enter Paid Amount" required>
 
                         </div>
 

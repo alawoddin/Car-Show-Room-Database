@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
 use App\Http\Controllers\Backend\ChatController;
 use App\Http\Controllers\Backend\ExpenseController;
+use App\Http\Controllers\Backend\CustomerLoanController;
 use App\Http\Controllers\Backend\InvoiceStatusController;
 use App\Http\Controllers\Backend\UserCapitalController;
 use App\Http\Controllers\Backend\PurchaseController;
@@ -129,9 +130,17 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/invoice/status/view/{id}', 'ViewInvoiceStatus')->name('invoice.status.view');
             Route::get('/invoice/status/edit/{id}', 'EditInvoiceStatus')->name('invoice.status.edit');
             Route::post('/invoice/status/update', 'UpdateInvoiceStatus')->name('invoice.status.update');
-            Route::post('/invoice/status/{id}/payment', 'StoreInvoicePayment')->name('invoice.status.payment.store');
-            Route::get('/invoice/status/{id}/payment/{paymentId}/delete', 'DeleteInvoicePayment')->name('invoice.status.payment.delete');
             Route::get('/invoice/status/delete/{id}', 'DeleteInvoiceStatus')->name('invoice.status.delete');
+        });
+
+        Route::controller(CustomerLoanController::class)->group(function () {
+            Route::get('/customer/loan', 'index')->name('customer.loan');
+            Route::get('/customer/loan/add', 'create')->name('customer.loan.add');
+            Route::post('/customer/loan/store', 'store')->name('customer.loan.store');
+            Route::get('/customer/loan/view/{id}', 'show')->name('customer.loan.view');
+            Route::post('/customer/loan/{id}/payment', 'storePayment')->name('customer.loan.payment.store');
+            Route::get('/customer/loan/{id}/payment/{paymentId}/delete', 'deletePayment')->name('customer.loan.payment.delete');
+            Route::get('/customer/loan/delete/{id}', 'destroy')->name('customer.loan.delete');
         });
 
 

@@ -99,4 +99,9 @@ class Purchase extends Model
     {
         return $this->hasMany(InvoiceStatus::class);
     }
+
+    public function customerLoans()
+    {
+        return $this->hasMany(CustomerLoan::class);
+    }
 }

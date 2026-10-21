@@ -52,9 +52,35 @@
                 </li>
                 <li> <a href="{{ route('vehicle.status') }}"><i class='bx bx-radio-circle'></i>Vehicle Status</a>
                 </li>
-                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Customer Loan</a>
-                </li>
                
+            </ul>
+        </li>
+
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-file'></i>
+                </div>
+                <div class="menu-title">Invoice</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('invoice.status') }}"><i class='bx bx-radio-circle'></i>Invoice Status</a>
+                </li>
+                <li> <a href="{{ route('invoice.status.add') }}"><i class='bx bx-radio-circle'></i>Add Invoice</a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a class="has-arrow" href="javascript:;">
+                <div class="parent-icon"><i class='bx bx-wallet'></i>
+                </div>
+                <div class="menu-title">Customer Loan</div>
+            </a>
+            <ul>
+                <li> <a href="{{ route('customer.loan') }}"><i class='bx bx-radio-circle'></i>All Loans</a>
+                </li>
+                <li> <a href="{{ route('customer.loan.add') }}"><i class='bx bx-radio-circle'></i>Add Loan</a>
+                </li>
             </ul>
         </li>
 

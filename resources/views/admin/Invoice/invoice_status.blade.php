@@ -24,7 +24,7 @@
 
                         <li class="breadcrumb-item active" aria-current="page">
 
-                            Customer Loan
+                            Invoice Status
 
                         </li>
 
@@ -41,7 +41,7 @@
 
                     <a href="{{ route('invoice.status.add') }}" class="btn btn-primary px-5">
 
-                        Add Customer Loan
+                        Add Invoice
 
                     </a>
 
@@ -124,7 +124,7 @@
 
             /*
             |--------------------------------------------------------------------------
-            | TOTAL PAID (all installment payments)
+            | TOTAL PAID
             |--------------------------------------------------------------------------
             */
 
@@ -503,17 +503,15 @@
 
                                 <th>Sl</th>
 
-                                <th>Customer</th>
+                                <th>User Name</th>
 
                                 <th>Vehicle</th>
 
                                 <th>VIN</th>
 
-                                <th>Total Invoice</th>
+                                <th>Grand Total</th>
 
                                 <th>Paid</th>
-
-                                <th>Payments</th>
 
                                 <th>Remaining</th>
 
@@ -535,7 +533,6 @@
                                     $grandTotal = $item->invoiceTotal();
                                     $paidAmount = $item->totalPaid();
                                     $remaining = $item->remainingAmount();
-                                    $paymentCount = $item->payments->count();
                                 @endphp
 
 
@@ -552,11 +549,11 @@
 
 
 
-                                    {{-- CUSTOMER --}}
+                                    {{-- USER --}}
 
                                     <td>
 
-                                        {{ $item->customerLabel() }}
+                                        {{ $item->user->name ?? '-' }}
 
                                     </td>
 
@@ -605,16 +602,6 @@
 
                                         AED
                                         {{ number_format($paidAmount, 2) }}
-
-                                    </td>
-
-
-
-                                    {{-- PAYMENTS COUNT --}}
-
-                                    <td>
-
-                                        {{ $paymentCount }}
 
                                     </td>
 
