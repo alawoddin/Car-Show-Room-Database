@@ -270,6 +270,11 @@
                 <h6 class="mt-4 mb-3">
                     Purchase Cost
                 </h6>
+                <p class="text-muted small mb-3">
+                    Only <strong>Buying / Towing / Shipping</strong> are in <strong>USD $</strong>
+                    (1 USD = {{ rtrim(rtrim(number_format((float) config('purchase.usd_to_aed'), 4, '.', ''), '0'), '.') }} AED).
+                    Clearing / Surcharge / Sale are in <strong>AED</strong> (same as Excel).
+                </p>
 
 
                 <div class="row">
@@ -277,14 +282,17 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="buying_fee" class="form-label">
-                            Buying Fee
+                            Buying Fee (USD)
                         </label>
 
                         <input
-                            type="text"
+                            type="number"
+                            step="0.01"
+                            min="0"
                             name="buying_fee"
                             id="buying_fee"
                             class="form-control"
+                            placeholder="0.00"
                             value="{{ $purchase->buying_fee ?? '' }}"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
@@ -294,14 +302,17 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="towing_fee" class="form-label">
-                            Towing Fee
+                            Towing Fee (USD)
                         </label>
 
                         <input
-                            type="text"
+                            type="number"
+                            step="0.01"
+                            min="0"
                             name="towing_fee"
                             id="towing_fee"
                             class="form-control"
+                            placeholder="0.00"
                             value="{{ $purchase->towing_fee ?? '' }}"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
@@ -311,14 +322,17 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="shipping" class="form-label">
-                            Shipping Fee
+                            Shipping Fee (USD)
                         </label>
 
                         <input
-                            type="text"
+                            type="number"
+                            step="0.01"
+                            min="0"
                             name="shipping"
                             id="shipping"
                             class="form-control"
+                            placeholder="0.00"
                             value="{{ $purchase->shipping ?? '' }}"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
@@ -330,14 +344,17 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="commission" class="form-label">
-                            Commission
+                            Commission (AED)
                         </label>
 
                         <input
-                            type="text"
+                            type="number"
+                            step="0.01"
+                            min="0"
                             name="commission"
                             id="commission"
                             class="form-control"
+                            placeholder="0.00"
                             value="{{ $purchase->commission ?? '0' }}"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
@@ -351,7 +368,7 @@
                 ====================================================== --}}
 
                 <h6 class="mt-4 mb-3">
-                    UAE Costs
+                    UAE Costs (AED)
                 </h6>
 
 
@@ -377,14 +394,17 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="clearing" class="form-label">
-                            Clearing
+                            Clearing (AED)
                         </label>
 
                         <input
-                            type="text"
+                            type="number"
+                            step="0.01"
+                            min="0"
                             name="clearing"
                             id="clearing"
                             class="form-control"
+                            placeholder="0.00"
                             value="{{ $purchase->clearing ?? '' }}"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
@@ -394,14 +414,17 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="extra_charges" class="form-label">
-                            Extra Charges
+                            Surcharge (AED)
                         </label>
 
                         <input
-                            type="text"
+                            type="number"
+                            step="0.01"
+                            min="0"
                             name="extra_charges"
                             id="extra_charges"
                             class="form-control"
+                            placeholder="0.00"
                             value="{{ $purchase->extra_charges ?? '' }}"
                             {{ isset($purchase) && $purchase->exists ? 'readonly' : '' }}>
 
@@ -411,7 +434,7 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="custom_duty" class="form-label">
-                            Custom Duty
+                            Custom Duty (AED)
                         </label>
 
                         <input
@@ -432,7 +455,7 @@
                     <div class="form-group col-md-6 mb-3">
 
                         <label for="grand_total" class="form-label">
-                            Grand Total
+                            Grand Total (AED)
                         </label>
 
                         <input
@@ -621,7 +644,7 @@
                         <div class="form-group col-md-6 mb-3">
 
                             <label for="selling_price" class="form-label">
-                                Selling Price
+                                Selling Price (AED)
                             </label>
 
                             <input
@@ -877,9 +900,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const profit = document.getElementById('profit');
 
 
-    // USD → AED
-
-    const exchangeRate = 3.675;
+    // Same rates as config/purchase.php (server recalculates on save)
+    const exchangeRate = {{ (float) config('purchase.usd_to_aed') }};
+    const dutyBase = {{ (float) config('purchase.duty_base') }};
+    const dutyRate = {{ (float) config('purchase.duty_rate') }};
 
 
     function number(value)
@@ -896,114 +920,45 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
 
-        // ==========================================
-        // 1. Total USD
-        // ==========================================
-
+        // 1. Only buying + towing + shipping are USD
         const buying = number(buyingFee.value);
-
         const towing = number(towingFee.value);
-
         const ship = number(shipping.value);
+        const clearingValue = number(clearing?.value);
+        const extraChargesValue = number(extraCharges?.value);
 
-        const commissionValue = number(
-            commission ? commission.value : 0
-        );
+        // Excel: buying + towing + shipping (USD only)
+        const totalUsd = buying + towing + ship;
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | Buying Fee + Towing + Shipping + Commission
-        |--------------------------------------------------------------------------
-        */
-
-        const totalUsd =
-            buying +
-            towing +
-            ship +
-            commissionValue;
-
-
-        // ==========================================
-        // 2. USD → AED
-        // ==========================================
-
-        const aed =
-            totalUsd *
-            exchangeRate;
-
+        // USD → AED
+        const aed = totalUsd * exchangeRate;
 
         if (totalAed) {
-
-            totalAed.value =
-                aed.toFixed(2);
-
+            totalAed.value = aed > 0 ? aed.toFixed(2) : '';
         }
 
-
-        // ==========================================
-        // 3. Custom Duty
-        // ==========================================
-
-        const duty =
-            (aed + 1472) *
-            0.055;
-
+        // Custom duty only when USD fees exist
+        const duty = aed > 0 ? (aed + dutyBase) * dutyRate : 0;
 
         if (customDuty) {
-
-            customDuty.value =
-                duty.toFixed(2);
-
+            customDuty.value = duty > 0 ? duty.toFixed(2) : '';
         }
 
-
-        // ==========================================
-        // 4. Grand Total
-        // ==========================================
-
-        const clearingValue =
-            number(clearing?.value);
-
-
-        const extraChargesValue =
-            number(extraCharges?.value);
-
-
-        const grand =
-            aed +
-            clearingValue +
-            extraChargesValue +
-            duty;
-
+        // Excel grand = Total AED + Clearing + Surcharge + Custom Duty
+        const grand = aed + clearingValue + extraChargesValue + duty;
 
         if (grandTotal) {
-
-            grandTotal.value =
-                grand.toFixed(2);
-
+            grandTotal.value = grand > 0 ? grand.toFixed(2) : '';
         }
 
-
-        // ==========================================
-        // 5. Profit
-        // Only on Sale
-        // ==========================================
-
+        // 5. Profit (sale in AED)
         if (sellingPrice && profit) {
-
-            const selling =
-                number(sellingPrice.value);
-
-
-            const calculatedProfit =
-                selling -
-                grand;
-
-
-            profit.value =
-                calculatedProfit.toFixed(2);
-
+            const selling = number(sellingPrice.value);
+            if (selling > 0 || grand > 0) {
+                profit.value = (selling - grand).toFixed(2);
+            } else {
+                profit.value = '';
+            }
         }
 
     }

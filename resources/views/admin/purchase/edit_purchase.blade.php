@@ -270,6 +270,11 @@
                 <h6 class="mt-4 mb-3">
                     Purchase Cost
                 </h6>
+                <p class="text-muted small mb-3">
+                    Only <strong>Buying / Towing / Shipping</strong> are in <strong>USD $</strong>
+                    (1 USD = {{ rtrim(rtrim(number_format((float) config('purchase.usd_to_aed'), 4, '.', ''), '0'), '.') }} AED).
+                    Clearing / Surcharge / Sale are in <strong>AED</strong> (same as Excel).
+                </p>
 
                 <div class="row">
 
@@ -278,12 +283,13 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="buying_fee" class="form-label">
-                            Buying Fee
+                            Buying Fee (USD)
                         </label>
 
                         <input
                             type="number"
                             step="0.01"
+                            min="0"
                             name="buying_fee"
                             id="buying_fee"
                             class="form-control"
@@ -297,12 +303,13 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="towing_fee" class="form-label">
-                            Towing Fee
+                            Towing Fee (USD)
                         </label>
 
                         <input
                             type="number"
                             step="0.01"
+                            min="0"
                             name="towing_fee"
                             id="towing_fee"
                             class="form-control"
@@ -316,12 +323,13 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="shipping" class="form-label">
-                            Shipping
+                            Shipping (USD)
                         </label>
 
                         <input
                             type="number"
                             step="0.01"
+                            min="0"
                             name="shipping"
                             id="shipping"
                             class="form-control"
@@ -335,12 +343,13 @@
                     <div class="form-group col-md-3 mb-3">
 
                         <label for="commission" class="form-label">
-                            Commission
+                            Commission (AED)
                         </label>
 
                         <input
                             type="number"
                             step="0.01"
+                            min="0"
                             name="commission"
                             id="commission"
                             class="form-control"
@@ -356,11 +365,15 @@
                     TOTAL AED / SHIPPING COMPANY
                 ====================================================== --}}
 
+                <h6 class="mt-4 mb-3">
+                    UAE Costs (AED)
+                </h6>
+
                 <div class="row">
 
                     {{-- TOTAL AED --}}
 
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="form-group col-md-3 mb-3">
 
                         <label for="total_aed" class="form-label">
                             Total AED
@@ -399,14 +412,6 @@
                 </div>
 
 
-                {{-- =====================================================
-                    UAE COSTS
-                ====================================================== --}}
-
-                <h6 class="mt-4 mb-3">
-                    UAE Costs
-                </h6>
-
                 <div class="row">
 
                     {{-- CLEARING --}}
@@ -414,12 +419,13 @@
                     <div class="form-group col-md-4 mb-3">
 
                         <label for="clearing" class="form-label">
-                            Clearing
+                            Clearing (AED)
                         </label>
 
                         <input
                             type="number"
                             step="0.01"
+                            min="0"
                             name="clearing"
                             id="clearing"
                             class="form-control"
@@ -433,12 +439,13 @@
                     <div class="form-group col-md-4 mb-3">
 
                         <label for="extra_charges" class="form-label">
-                            Extra Charges
+                            Surcharge (AED)
                         </label>
 
                         <input
                             type="number"
                             step="0.01"
+                            min="0"
                             name="extra_charges"
                             id="extra_charges"
                             class="form-control"
@@ -452,7 +459,7 @@
                     <div class="form-group col-md-4 mb-3">
 
                         <label for="custom_duty" class="form-label">
-                            Custom Duty
+                            Custom Duty (AED)
                         </label>
 
                         <input
@@ -478,7 +485,7 @@
                     <div class="form-group col-md-6 mb-3">
 
                         <label for="grand_total" class="form-label">
-                            Grand Total
+                            Grand Total (AED)
                         </label>
 
                         <input
@@ -655,7 +662,7 @@
                     <div class="form-group col-md-6 mb-3">
 
                         <label for="selling_price" class="form-label">
-                            Selling Price
+                            Selling Price (AED)
                         </label>
 
                         <input
@@ -850,124 +857,44 @@ document.addEventListener('DOMContentLoaded', function () {
     const profit =
         document.getElementById('profit');
 
-
-    // ==========================================
-    // USD TO AED EXCHANGE RATE
-    // ==========================================
-
-    const exchangeRate = 3.675;
-
-
-    // ==========================================
-    // CONVERT VALUE TO NUMBER
-    // ==========================================
+    // Same rates as config/purchase.php (server recalculates on save)
+    const exchangeRate = {{ (float) config('purchase.usd_to_aed') }};
+    const dutyBase = {{ (float) config('purchase.duty_base') }};
+    const dutyRate = {{ (float) config('purchase.duty_rate') }};
 
     function number(value)
     {
         return parseFloat(value) || 0;
     }
 
-
-    // ==========================================
-    // CALCULATE PURCHASE
-    // ==========================================
-
     function calculatePurchase()
     {
+        const buying = number(buyingFee.value);
+        const towing = number(towingFee.value);
+        const ship = number(shipping.value);
+        const clearingValue = number(clearing.value);
+        const extraChargesValue = number(extraCharges.value);
 
-        // -------------------------------
-        // Purchase costs
-        // -------------------------------
+        // Excel: buying + towing + shipping (USD) → AED
+        const totalUsd = buying + towing + ship;
+        const aed = totalUsd * exchangeRate;
+        totalAed.value = aed > 0 ? aed.toFixed(2) : '';
 
-        const buying =
-            number(buyingFee.value);
+        const duty = aed > 0 ? (aed + dutyBase) * dutyRate : 0;
+        customDuty.value = duty > 0 ? duty.toFixed(2) : '';
 
-        const towing =
-            number(towingFee.value);
+        // Excel grand = Total AED + Clearing + Surcharge + Custom Duty
+        const grand = aed + clearingValue + extraChargesValue + duty;
+        grandTotal.value = grand > 0 ? grand.toFixed(2) : '';
 
-        const ship =
-            number(shipping.value);
-
-        const commissionValue =
-            number(commission.value);
-
-
-        // -------------------------------
-        // Other UAE costs
-        // -------------------------------
-
-        const clearingValue =
-            number(clearing.value);
-
-        const extraChargesValue =
-            number(extraCharges.value);
-
-
-        // ==========================================
-        // TOTAL USD
-        // ==========================================
-
-        const totalUsd =
-            buying +
-            towing +
-            ship +
-            commissionValue;
-
-
-        // ==========================================
-        // USD → AED
-        // ==========================================
-
-        const aed =
-            totalUsd * exchangeRate;
-
-
-        totalAed.value =
-            aed.toFixed(2);
-
-
-        // ==========================================
-        // CUSTOM DUTY
-        // ==========================================
-
-        const duty =
-            (aed + 1472) * 0.055;
-
-
-        customDuty.value =
-            duty.toFixed(2);
-
-
-        // ==========================================
-        // GRAND TOTAL
-        // ==========================================
-
-        const grand =
-            aed +
-            clearingValue +
-            extraChargesValue +
-            duty;
-
-
-        grandTotal.value =
-            grand.toFixed(2);
-
-
-        // ==========================================
-        // PROFIT
-        // ==========================================
-
-        const selling =
-            number(sellingPrice.value);
-
-
-        const calculatedProfit =
-            selling - grand;
-
-
-        profit.value =
-            calculatedProfit.toFixed(2);
-
+        if (sellingPrice && profit) {
+            const selling = number(sellingPrice.value);
+            if (selling > 0 || grand > 0) {
+                profit.value = (selling - grand).toFixed(2);
+            } else {
+                profit.value = '';
+            }
+        }
     }
 
 

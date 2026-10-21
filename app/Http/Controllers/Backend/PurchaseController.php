@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\PurchasesImport;
 use App\Models\Purchase;
 use App\Models\User;
+use App\Support\PurchaseCostCalculator;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -36,6 +37,15 @@ class PurchaseController extends Controller
                 ->withErrors(['user_ids' => 'Select 1, 2, or 3 users (admin can be included).']);
         }
 
+        $costs = PurchaseCostCalculator::calculate([
+            'buying_fee' => $request->buying_fee,
+            'towing_fee' => $request->towing_fee,
+            'shipping' => $request->shipping,
+            'commission' => $request->commission,
+            'clearing' => $request->clearing,
+            'extra_charges' => $request->extra_charges,
+        ]);
+
         $purchase = Purchase::create([
             'user_id' => $userIds[0],
             'buying_date' => $request->buying_date,
@@ -46,15 +56,15 @@ class PurchaseController extends Controller
             'make' => $request->make,
             'model' => $request->model,
             'shipping_company' => $request->shipping_company,
-            'commission' => $request->commission,
+            'commission' => $request->commission ?? 0,
             'buying_fee' => $request->buying_fee ?? 0,
             'towing_fee' => $request->towing_fee ?? 0,
             'shipping' => $request->shipping ?? 0,
-            'total_aed' => $request->total_aed ?? 0,
+            'total_aed' => $costs['total_aed'],
             'clearing' => $request->clearing ?? 0,
             'extra_charges' => $request->extra_charges ?? 0,
-            'custom_duty' => $request->custom_duty ?? 0,
-            'grand_total' => $request->grand_total ?? 0,
+            'custom_duty' => $costs['custom_duty'],
+            'grand_total' => $costs['grand_total'],
             'location' => $request->location,
             'container_number' => $request->container_number,
             'arrival_date' => $request->arrival_date,
@@ -90,8 +100,18 @@ class PurchaseController extends Controller
     {
         $purchase = Purchase::findOrFail($id);
 
+        $costs = PurchaseCostCalculator::calculate([
+            'buying_fee' => $purchase->buying_fee,
+            'towing_fee' => $purchase->towing_fee,
+            'shipping' => $purchase->shipping,
+            'commission' => $purchase->commission,
+            'clearing' => $purchase->clearing,
+            'extra_charges' => $purchase->extra_charges,
+            'selling_price' => $request->selling_price,
+        ]);
+
         $purchase->selling_price = $request->selling_price ?? 0;
-        $purchase->profit = $request->profit ?? 0;
+        $purchase->profit = $costs['profit'];
         $purchase->bill_no = $request->bill_no;
         $purchase->date_of_arriving = $request->date_of_arriving;
         $purchase->customer_name = $request->customer_name;
@@ -126,6 +146,16 @@ class PurchaseController extends Controller
                 ->withErrors(['user_ids' => 'Select 1, 2, or 3 users (admin can be included).']);
         }
 
+        $costs = PurchaseCostCalculator::calculate([
+            'buying_fee' => $request->buying_fee,
+            'towing_fee' => $request->towing_fee,
+            'shipping' => $request->shipping,
+            'commission' => $request->commission,
+            'clearing' => $request->clearing,
+            'extra_charges' => $request->extra_charges,
+            'selling_price' => $request->selling_price,
+        ]);
+
         $purchase->user_id = $userIds[0];
         $purchase->buying_date = $request->buying_date;
         $purchase->lot_number = $request->lot_number;
@@ -135,15 +165,15 @@ class PurchaseController extends Controller
         $purchase->make = $request->make;
         $purchase->model = $request->model;
         $purchase->shipping_company = $request->shipping_company;
-        $purchase->commission = $request->commission;
+        $purchase->commission = $request->commission ?? 0;
         $purchase->buying_fee = $request->buying_fee ?? 0;
         $purchase->towing_fee = $request->towing_fee ?? 0;
         $purchase->shipping = $request->shipping ?? 0;
-        $purchase->total_aed = $request->total_aed ?? 0;
+        $purchase->total_aed = $costs['total_aed'];
         $purchase->clearing = $request->clearing ?? 0;
         $purchase->extra_charges = $request->extra_charges ?? 0;
-        $purchase->custom_duty = $request->custom_duty ?? 0;
-        $purchase->grand_total = $request->grand_total ?? 0;
+        $purchase->custom_duty = $costs['custom_duty'];
+        $purchase->grand_total = $costs['grand_total'];
         $purchase->location = $request->location;
         $purchase->container_number = $request->container_number;
         $purchase->arrival_date = $request->arrival_date;
@@ -151,7 +181,7 @@ class PurchaseController extends Controller
         $purchase->status = $request->status;
         $purchase->description = $request->description;
         $purchase->selling_price = $request->selling_price ?? 0;
-        $purchase->profit = $request->profit ?? 0;
+        $purchase->profit = $costs['profit'];
         $purchase->bill_no = $request->bill_no;
         $purchase->date_of_arriving = $request->date_of_arriving;
         $purchase->customer_name = $request->customer_name;

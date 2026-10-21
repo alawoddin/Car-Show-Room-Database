@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Purchase;
 use App\Models\User;
+use App\Support\PurchaseCostCalculator;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -270,6 +271,24 @@ class PurchasesImport implements ToCollection
             |--------------------------------------------------------------------------
             */
 
+            $buyingFee = $this->number($data['buying_fee'] ?? 0);
+            $towingFee = $this->number($data['towing_fee'] ?? 0);
+            $shippingFee = $this->number($data['shipping'] ?? 0);
+            $clearing = $this->number($data['clearing'] ?? 0);
+            $extraCharges = $this->number($data['extra_charges'] ?? 0);
+            $sellingPrice = $this->number($data['selling_price'] ?? 0);
+            $commission = $this->number($data['commission'] ?? 0);
+
+            $costs = PurchaseCostCalculator::calculate([
+                'buying_fee' => $buyingFee,
+                'towing_fee' => $towingFee,
+                'shipping' => $shippingFee,
+                'commission' => $commission,
+                'clearing' => $clearing,
+                'extra_charges' => $extraCharges,
+                'selling_price' => $sellingPrice,
+            ]);
+
             Purchase::create([
 
                 /*
@@ -315,74 +334,31 @@ class PurchasesImport implements ToCollection
                 'shipping_company' => $this->value(
                     $data['shipping_company'] ?? null
                 ),
-                'commission' => $this->value(
-                    $data['commission'] ?? null
-                ),
-             
-             
-             
-
+                'commission' => $commission,
 
                 /*
                 |--------------------------------------------------------------------------
-                | PURCHASE COSTS
+                | PURCHASE COSTS (USD)
                 |--------------------------------------------------------------------------
                 */
 
-                'buying_fee' => $this->number(
-                    $data['buying_fee'] ?? 0
-                ),
-
-                'towing_fee' => $this->number(
-                    $data['towing_fee'] ?? 0
-                ),
-
-                'shipping' => $this->number(
-                    $data['shipping'] ?? 0
-                ),
-
+                'buying_fee' => $buyingFee,
+                'towing_fee' => $towingFee,
+                'shipping' => $shippingFee,
 
                 /*
                 |--------------------------------------------------------------------------
-                | CALCULATED COSTS
+                | CALCULATED COSTS (AED)
                 |--------------------------------------------------------------------------
                 */
 
-                'total_aed' => $this->number(
-                    $data['total_aed'] ?? 0
-                ),
-
-                'clearing' => $this->number(
-                    $data['clearing'] ?? 0
-                ),
-
-                'extra_charges' => $this->number(
-                    $data['extra_charges'] ?? 0
-                ),
-
-                'custom_duty' => $this->number(
-                    $data['custom_duty'] ?? 0
-                ),
-
-                'grand_total' => $this->number(
-                    $data['grand_total'] ?? 0
-                ),
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | SALE INFORMATION
-                |--------------------------------------------------------------------------
-                */
-
-                'selling_price' => $this->number(
-                    $data['selling_price'] ?? 0
-                ),
-
-                'profit' => $this->number(
-                    $data['profit'] ?? 0
-                ),
-
+                'total_aed' => $costs['total_aed'],
+                'clearing' => $clearing,
+                'extra_charges' => $extraCharges,
+                'custom_duty' => $costs['custom_duty'],
+                'grand_total' => $costs['grand_total'],
+                'selling_price' => $sellingPrice,
+                'profit' => $costs['profit'],
 
                 /*
                 |--------------------------------------------------------------------------
