@@ -60,7 +60,10 @@
 
     foreach ($allPurchases as $purchase) {
         $isSold = strcasecmp((string) $purchase->status, 'Sold') === 0;
-        $costShares = $purchase->buyerShares((float) $purchase->grand_total);
+
+        // Capital deduct = buying fee only (USD → AED), not grand total
+        $buyingFeeAed = Currency::usdToAed($purchase->buying_fee ?? 0);
+        $costShares = $purchase->buyerShares($buyingFeeAed);
         $saleShares = $isSold
             ? $purchase->buyerShares((float) $purchase->selling_price)
             : collect();
@@ -135,8 +138,7 @@
     $totalProfit = $adminProfit + $clientProfit;
     $totalLoss = $adminLoss + $clientLoss;
 
-    // Remaining AED = capital(USD→AED) − cars(AED) − expense(USD→AED)
-    // Never show negative leftover; if cars/expenses exceed capital, remaining is 0
+    // Remaining AED = capital AED − buying fee AED − expense AED (not grand total)
     $remainingAdminAed = max(0, $totalAdminCapitalAed - $adminCarTotal - $adminExpense);
     $remainingClientAed = max(0, $totalClientCapitalAed - $clientCarTotal - $clientExpense);
 
@@ -251,7 +253,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Admin Cars</p>
+                            <p class="mb-0 text-secondary">Admin Buying Fee (AED)</p>
                             <h4 class="my-1 money-value" data-value="AED {{ number_format($adminCarTotal, 2) }}">
                                 AED {{ number_format($adminCarTotal, 2) }}
                             </h4>
@@ -269,7 +271,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center">
                         <div>
-                            <p class="mb-0 text-secondary">Client Cars</p>
+                            <p class="mb-0 text-secondary">Client Buying Fee (AED)</p>
                             <h4 class="my-1 money-value" data-value="AED {{ number_format($clientCarTotal, 2) }}">
                                 AED {{ number_format($clientCarTotal, 2) }}
                             </h4>

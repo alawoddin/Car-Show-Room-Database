@@ -36,7 +36,7 @@
 
     /*
     |--------------------------------------------------------------------------
-    | USER VEHICLES (includes shared purchases) — grand_total already AED
+    | USER VEHICLES — deduct buying fee (USD→AED) only, not grand total
     |--------------------------------------------------------------------------
     */
 
@@ -51,7 +51,9 @@
             continue;
         }
 
-        $share = $vehicle->buyerShares()
+        $buyingFeeAed = \App\Support\Currency::usdToAed($vehicle->buying_fee ?? 0);
+
+        $share = $vehicle->buyerShares($buyingFeeAed)
             ->first(fn ($item) => (int) $item['user']->id === (int) $id);
 
         $carSpend += (float) ($share['amount'] ?? 0);
