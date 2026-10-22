@@ -31,7 +31,7 @@
 
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
-                            <label for="cs_number" class="form-label">CS Number</label>
+                            <label for="cs_number" class="form-label">chassis  Number</label>
                             <input type="text" name="cs_number" id="cs_number" class="form-control"
                                 value="{{ old('cs_number') }}" placeholder="e.g. 12e34r45">
                             @error('cs_number')
