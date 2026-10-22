@@ -103,6 +103,15 @@
             </a>
         </li>
 
+        <li class="menu-label">System</li>
+        <li>
+            <a href="{{ route('admin.backup') }}">
+                <div class="parent-icon"><i class='bx bx-cloud-download'></i>
+                </div>
+                <div class="menu-title">Backup</div>
+            </a>
+        </li>
+
     </ul>
     <!--end navigation-->
 </div>

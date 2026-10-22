@@ -6,6 +6,7 @@ use App\Http\Controllers\Client\ChatController as ClientChatController;
 use App\Http\Controllers\Backend\ClientRegisterController;
 use App\Http\Controllers\Backend\CapitalTransactionController;
 use App\Http\Controllers\Backend\ChatController;
+use App\Http\Controllers\Backend\BackupController;
 use App\Http\Controllers\Backend\ExpenseController;
 use App\Http\Controllers\Backend\CustomerLoanController;
 use App\Http\Controllers\Backend\InvoiceStatusController;
@@ -168,6 +169,13 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::post('/chat/{id}/send', 'AdminChatSend')->name('chat.send');
             
 
+        });
+
+        Route::controller(BackupController::class)->group(function () {
+            Route::get('/backup', 'index')->name('admin.backup');
+            Route::post('/backup/create', 'create')->name('admin.backup.create');
+            Route::get('/backup/download/{file}', 'download')->name('admin.backup.download');
+            Route::get('/backup/delete/{file}', 'delete')->name('admin.backup.delete');
         });
     });
 });
