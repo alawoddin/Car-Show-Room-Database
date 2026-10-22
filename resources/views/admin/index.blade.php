@@ -148,12 +148,18 @@
     $totalProfit = $adminProfit + $clientProfit;
     $totalLoss = $adminLoss + $clientLoss;
 
-    // Remaining USD & AED: capital − buying fee (unsold) − expense
-    // When car is Sold, buying fee is not held anymore (= added back to capital)
-    $remainingAdminUsd = max(0, $totalAdminCapitalUsd - $adminBuyingFeeUsd - $adminExpenseUsd);
-    $remainingClientUsd = max(0, $totalClientCapitalUsd - $clientBuyingFeeUsd - $clientExpenseUsd);
-    $remainingAdminAed = max(0, $totalAdminCapitalAed - $adminCarTotal - $adminExpense);
-    $remainingClientAed = max(0, $totalClientCapitalAed - $clientCarTotal - $clientExpense);
+    // Live total capital = deposited − buying fee held in unsold cars
+    // Purchase: − buying fee from total. Sale (Sold): buying fee + back to total.
+    $liveAdminCapitalUsd = $totalAdminCapitalUsd - $adminBuyingFeeUsd;
+    $liveClientCapitalUsd = $totalClientCapitalUsd - $clientBuyingFeeUsd;
+    $liveAdminCapitalAed = $totalAdminCapitalAed - $adminCarTotal;
+    $liveClientCapitalAed = $totalClientCapitalAed - $clientCarTotal;
+
+    // Remaining = live total − expenses
+    $remainingAdminUsd = max(0, $liveAdminCapitalUsd - $adminExpenseUsd);
+    $remainingClientUsd = max(0, $liveClientCapitalUsd - $clientExpenseUsd);
+    $remainingAdminAed = max(0, $liveAdminCapitalAed - $adminExpense);
+    $remainingClientAed = max(0, $liveClientCapitalAed - $clientExpense);
 
     $purchases = Purchase::with(['user', 'users'])
         ->latest()
@@ -189,12 +195,13 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Admin Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($totalAdminCapitalUsd, 2) }} / AED {{ number_format($totalAdminCapitalAed, 2) }}">
-                                ${{ number_format($totalAdminCapitalUsd, 2) }}
+                            <h4 class="my-1 money-value" data-value="${{ number_format($liveAdminCapitalUsd, 2) }} / AED {{ number_format($liveAdminCapitalAed, 2) }}">
+                                ${{ number_format($liveAdminCapitalUsd, 2) }}
                             </h4>
-                            <small class="text-muted money-value" data-value="AED {{ number_format($totalAdminCapitalAed, 2) }}">
-                                AED {{ number_format($totalAdminCapitalAed, 2) }}
+                            <small class="text-muted money-value" data-value="AED {{ number_format($liveAdminCapitalAed, 2) }}">
+                                AED {{ number_format($liveAdminCapitalAed, 2) }}
                             </small>
+                            <small class="text-muted d-block">Deposited ${{ number_format($totalAdminCapitalUsd, 2) }} / AED {{ number_format($totalAdminCapitalAed, 2) }}</small>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto">
                             <i class="bx bx-wallet"></i>
@@ -231,12 +238,13 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Client Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($totalClientCapitalUsd, 2) }} / AED {{ number_format($totalClientCapitalAed, 2) }}">
-                                ${{ number_format($totalClientCapitalUsd, 2) }}
+                            <h4 class="my-1 money-value" data-value="${{ number_format($liveClientCapitalUsd, 2) }} / AED {{ number_format($liveClientCapitalAed, 2) }}">
+                                ${{ number_format($liveClientCapitalUsd, 2) }}
                             </h4>
-                            <small class="text-muted money-value" data-value="AED {{ number_format($totalClientCapitalAed, 2) }}">
-                                AED {{ number_format($totalClientCapitalAed, 2) }}
+                            <small class="text-muted money-value" data-value="AED {{ number_format($liveClientCapitalAed, 2) }}">
+                                AED {{ number_format($liveClientCapitalAed, 2) }}
                             </small>
+                            <small class="text-muted d-block">Deposited ${{ number_format($totalClientCapitalUsd, 2) }} / AED {{ number_format($totalClientCapitalAed, 2) }}</small>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
                             <i class="bx bx-group"></i>

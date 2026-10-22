@@ -64,9 +64,13 @@
         $carSpend += (float) ($aedShare['amount'] ?? 0);
     }
 
-    // Remaining: capital − buying fee − expense (USD and AED)
-    $remainingCapitalUsd = max(0, $userCapitalUsd - $userExpenseUsd - $carSpendUsd);
-    $remainingCapital = max(0, $userCapital - $userExpense - $carSpend);
+    // Live total = deposited − buying fee (unsold). Sale returns buying fee to total.
+    $liveCapitalUsd = $userCapitalUsd - $carSpendUsd;
+    $liveCapitalAed = $userCapital - $carSpend;
+
+    // Remaining = live total − expense
+    $remainingCapitalUsd = max(0, $liveCapitalUsd - $userExpenseUsd);
+    $remainingCapital = max(0, $liveCapitalAed - $userExpense);
 
 
     /*
@@ -140,14 +144,19 @@
                         </p>
 
                         <h5 class="card-title pt-2 fs-26">
-                            ${{ number_format($userCapitalUsd, 2) }}
+                            ${{ number_format($liveCapitalUsd, 2) }}
                         </h5>
 
                         <small class="text-muted d-block">
-                            AED {{ number_format($userCapital, 2) }}
+                            AED {{ number_format($liveCapitalAed, 2) }}
                         </small>
 
                         <small class="text-muted d-block mt-1">
+                            Deposited: ${{ number_format($userCapitalUsd, 2) }}
+                            / AED {{ number_format($userCapital, 2) }}
+                        </small>
+
+                        <small class="text-muted d-block">
                             Remaining: ${{ number_format($remainingCapitalUsd, 2) }}
                             / AED {{ number_format($remainingCapital, 2) }}
                         </small>
