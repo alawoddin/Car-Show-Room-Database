@@ -155,12 +155,6 @@
     $liveAdminCapitalAed = $totalAdminCapitalAed - $adminCarTotal;
     $liveClientCapitalAed = $totalClientCapitalAed - $clientCarTotal;
 
-    // Remaining = live total − expenses
-    $remainingAdminUsd = max(0, $liveAdminCapitalUsd - $adminExpenseUsd);
-    $remainingClientUsd = max(0, $liveClientCapitalUsd - $clientExpenseUsd);
-    $remainingAdminAed = max(0, $liveAdminCapitalAed - $adminExpense);
-    $remainingClientAed = max(0, $liveClientCapitalAed - $clientExpense);
-
     $purchases = Purchase::with(['user', 'users'])
         ->latest()
         ->take(10)
@@ -186,8 +180,8 @@
     </div>
 
 
-    {{-- Capital: deposited + remaining (USD & AED). Purchase holds buying fee; sale returns it. --}}
-    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+    {{-- Capital (USD & AED). Purchase − buying fee; sale returns it to total. --}}
+    <div class="row row-cols-1 row-cols-md-2">
 
         <div class="col">
             <div class="card stat-card stat-admin">
@@ -212,27 +206,6 @@
         </div>
 
         <div class="col">
-            <div class="card stat-card stat-balance">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-0 text-secondary">Remaining Admin Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($remainingAdminUsd, 2) }} / AED {{ number_format($remainingAdminAed, 2) }}">
-                                ${{ number_format($remainingAdminUsd, 2) }}
-                            </h4>
-                            <small class="text-muted money-value" data-value="AED {{ number_format($remainingAdminAed, 2) }}">
-                                AED {{ number_format($remainingAdminAed, 2) }}
-                            </small>
-                        </div>
-                        <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto">
-                            <i class="bx bx-coin-stack"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
             <div class="card stat-card stat-client">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
@@ -248,27 +221,6 @@
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
                             <i class="bx bx-group"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card stat-card stat-client">
-                <div class="card-body">
-                    <div class="d-flex align-items-center">
-                        <div>
-                            <p class="mb-0 text-secondary">Remaining Client Capital</p>
-                            <h4 class="my-1 money-value" data-value="${{ number_format($remainingClientUsd, 2) }} / AED {{ number_format($remainingClientAed, 2) }}">
-                                ${{ number_format($remainingClientUsd, 2) }}
-                            </h4>
-                            <small class="text-muted money-value" data-value="AED {{ number_format($remainingClientAed, 2) }}">
-                                AED {{ number_format($remainingClientAed, 2) }}
-                            </small>
-                        </div>
-                        <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto">
-                            <i class="bx bx-coin-stack"></i>
                         </div>
                     </div>
                 </div>
