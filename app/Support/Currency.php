@@ -14,6 +14,17 @@ class Currency
         return round(self::num($usd) * self::rate(), 2);
     }
 
+    public static function aedToUsd(float|int|string|null $aed): float
+    {
+        $rate = self::rate();
+
+        if ($rate <= 0) {
+            return 0.0;
+        }
+
+        return round(self::num($aed) / $rate, 2);
+    }
+
     public static function formatAed(float|int|string|null $amount): string
     {
         return 'AED '.number_format(self::num($amount), 2);

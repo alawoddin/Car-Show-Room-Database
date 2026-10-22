@@ -4,304 +4,150 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\InvoiceStatus;
-use App\Models\Purchase;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class InvoiceStatusController extends Controller
 {
     public function InvoiceStatus()
     {
-        $invoiceStatuses = InvoiceStatus::with([
-            'user',
-            'purchase',
-        ])
+        $invoiceStatuses = InvoiceStatus::with(['user', 'purchase'])
             ->latest()
             ->get();
 
-        return view(
-            'admin.Invoice.invoice_status',
-            compact('invoiceStatuses')
-        );
-    }
+        foreach ($invoiceStatuses as $invoice) {
+            $invoice->syncStatus();
+        }
 
-    /*
-|--------------------------------------------------------------------------
-| Add Invoice Status Page
-|--------------------------------------------------------------------------
-*/
+        return view('admin.Invoice.invoice_status', compact('invoiceStatuses'));
+    }
 
     public function AddInvoiceStatus()
     {
-        $users = User::whereIn('role', ['admin', 'user'])
-            ->orderBy('role')
-            ->latest()
-            ->get();
-
-        $purchases = Purchase::with('user')
-            ->latest()
-            ->get();
-
-        return view(
-            'admin.Invoice.add_invoice_status',
-            compact('users', 'purchases')
-        );
+        return view('admin.Invoice.add_invoice_status');
     }
-
-    /*
-|--------------------------------------------------------------------------
-| Store Invoice Status
-|--------------------------------------------------------------------------
-*/
 
     public function StoreInvoiceStatus(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'purchase_id' => 'required|exists:purchases,id',
-            'paid_amount' => 'required|numeric|min:0',
-            'due_date' => 'nullable|date',
+            'cs_number' => 'required|string|max:255',
+            'lot_number' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0.01',
+            'due_date' => 'required|date',
         ]);
 
-        // Check duplicate invoice
-        $existingInvoice = InvoiceStatus::where(
-            'purchase_id',
-            $request->purchase_id
-        )->first();
+        $amount = (float) $request->amount;
 
-        if ($existingInvoice) {
-
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'purchase_id' => 'This vehicle already has an invoice status.',
-                ]);
-        }
-
-        // Get purchase
-        $purchase = Purchase::findOrFail($request->purchase_id);
-
-        $grandTotal = (float) $purchase->grand_total;
-
-        $paidAmount = (float) $request->paid_amount;
-
-        // Paid cannot be greater than Grand Total
-        if ($paidAmount > $grandTotal) {
-
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'paid_amount' => 'Paid amount cannot be greater than Grand Total.',
-                ]);
-        }
-
-        // Determine status
-        $status = $paidAmount >= $grandTotal
-            ? 'Paid'
-            : 'Open';
-
-        InvoiceStatus::create([
-            'user_id' => $request->user_id,
-            'purchase_id' => $request->purchase_id,
-            'paid_amount' => $paidAmount,
+        $invoice = InvoiceStatus::create([
+            'user_id' => null,
+            'purchase_id' => null,
+            'cs_number' => $request->cs_number,
+            'lot_number' => $request->lot_number,
+            'amount' => $amount,
+            'paid_amount' => 0,
             'due_date' => $request->due_date,
-            'status' => $status,
+            'status' => 'Open',
         ]);
+
+        $invoice->syncStatus();
 
         return redirect()
             ->route('invoice.status')
             ->with([
-                'message' => 'Invoice Status Added Successfully',
+                'message' => 'Invoice created. Use Paid button when payment is received.',
                 'alert-type' => 'success',
             ]);
     }
 
     public function ViewInvoiceStatus(int $id)
     {
-        $invoiceStatus = InvoiceStatus::with([
-            'user',
-            'purchase',
-        ])->findOrFail($id);
+        $invoiceStatus = InvoiceStatus::with(['user', 'purchase'])->findOrFail($id);
+        $invoiceStatus->syncStatus();
 
-        return view(
-            'admin.Invoice.view_invoice_status',
-            compact('invoiceStatus')
-        );
+        return view('admin.Invoice.view_invoice_status', compact('invoiceStatus'));
     }
-
-    /*
-|--------------------------------------------------------------------------
-| Edit Invoice Status
-|--------------------------------------------------------------------------
-*/
 
     public function EditInvoiceStatus(int $id)
     {
-        $invoiceStatus = InvoiceStatus::with([
-            'user',
-            'purchase',
-        ])->findOrFail($id);
+        $invoiceStatus = InvoiceStatus::findOrFail($id);
 
-        $users = User::whereIn('role', ['admin', 'user'])
-            ->orderBy('role')
-            ->latest()
-            ->get();
-
-        $purchases = Purchase::with('user')
-            ->latest()
-            ->get();
-
-        return view(
-            'admin.Invoice.edit_invoice_status',
-            compact(
-                'invoiceStatus',
-                'users',
-                'purchases'
-            )
-        );
+        return view('admin.Invoice.edit_invoice_status', compact('invoiceStatus'));
     }
-
-    /*
-|--------------------------------------------------------------------------
-| Update Invoice Status
-|--------------------------------------------------------------------------
-*/
 
     public function UpdateInvoiceStatus(Request $request)
     {
         $request->validate([
-
             'id' => 'required|exists:invoice_statuses,id',
-
-            'user_id' => 'required|exists:users,id',
-
-            'purchase_id' => 'required|exists:purchases,id',
-
-            'paid_amount' => 'required|numeric|min:0',
-
-            'due_date' => 'nullable|date',
-
+            'cs_number' => 'required|string|max:255',
+            'lot_number' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0.01',
+            'due_date' => 'required|date',
         ]);
 
-        /*
-    |--------------------------------------------------------------------------
-    | Find Invoice
-    |--------------------------------------------------------------------------
-    */
+        $invoiceStatus = InvoiceStatus::findOrFail($request->id);
+        $amount = (float) $request->amount;
+        $paidAmount = (float) ($invoiceStatus->paid_amount ?? 0);
 
-        $invoiceStatus = InvoiceStatus::findOrFail(
-            $request->id
-        );
+        // Keep paid in sync if already paid
+        if ($invoiceStatus->status === 'Paid') {
+            $paidAmount = $amount;
+        }
 
-        /*
-    |--------------------------------------------------------------------------
-    | Get Purchase
-    |--------------------------------------------------------------------------
-    */
+        $invoiceStatus->update([
+            'cs_number' => $request->cs_number,
+            'lot_number' => $request->lot_number,
+            'amount' => $amount,
+            'paid_amount' => $paidAmount,
+            'due_date' => $request->due_date,
+        ]);
 
-        $purchase = Purchase::findOrFail(
-            $request->purchase_id
-        );
+        $invoiceStatus->forceFill([
+            'status' => $invoiceStatus->resolveStatus($paidAmount),
+        ])->save();
 
-        /*
-    |--------------------------------------------------------------------------
-    | Grand Total
-    |--------------------------------------------------------------------------
-    */
+        return redirect()
+            ->route('invoice.status')
+            ->with([
+                'message' => 'Invoice updated successfully',
+                'alert-type' => 'success',
+            ]);
+    }
 
-        $grandTotal = (float) $purchase->grand_total;
+    public function MarkPaid(int $id)
+    {
+        $invoice = InvoiceStatus::findOrFail($id);
+        $amount = $invoice->invoiceTotal();
 
-        /*
-    |--------------------------------------------------------------------------
-    | Paid Amount
-    |--------------------------------------------------------------------------
-    */
-
-        $paidAmount = (float) $request->paid_amount;
-
-        /*
-    |--------------------------------------------------------------------------
-    | Prevent Paid > Grand Total
-    |--------------------------------------------------------------------------
-    */
-
-        if ($paidAmount > $grandTotal) {
-
-            return back()
-                ->withInput()
+        if ($amount <= 0) {
+            return redirect()
+                ->route('invoice.status')
                 ->with([
-                    'message' => 'Paid amount cannot be greater than Grand Total.',
+                    'message' => 'Invoice amount is missing.',
                     'alert-type' => 'error',
                 ]);
         }
 
-        /*
-    |--------------------------------------------------------------------------
-    | Determine Status
-    |--------------------------------------------------------------------------
-    */
-
-        if ($paidAmount >= $grandTotal) {
-
-            $status = 'Paid';
-        } else {
-
-            $status = 'Open';
-        }
-
-        /*
-    |--------------------------------------------------------------------------
-    | Update
-    |--------------------------------------------------------------------------
-    */
-
-        $invoiceStatus->update([
-
-            'user_id' => $request->user_id,
-
-            'purchase_id' => $request->purchase_id,
-
-            'paid_amount' => $paidAmount,
-
-            'due_date' => $request->due_date,
-
-            'status' => $status,
-
+        $invoice->update([
+            'paid_amount' => $amount,
+            'status' => 'Paid',
         ]);
-
-        $notification = [
-
-            'message' => 'Invoice Status Updated Successfully',
-
-            'alert-type' => 'success',
-
-        ];
 
         return redirect()
             ->route('invoice.status')
-            ->with($notification);
+            ->with([
+                'message' => 'Invoice marked as Paid',
+                'alert-type' => 'success',
+            ]);
     }
-
-    /*
-|--------------------------------------------------------------------------
-| Delete Invoice Status
-|--------------------------------------------------------------------------
-*/
 
     public function DeleteInvoiceStatus(int $id)
     {
-        $invoiceStatus = InvoiceStatus::findOrFail($id);
+        InvoiceStatus::findOrFail($id)->delete();
 
-        $invoiceStatus->delete();
-        $notification = [
-
-            'message' => 'Invoice Status Deleted Successfully',
-
-            'alert-type' => 'success',
-
-        ];
         return redirect()
             ->route('invoice.status')
-            ->with($notification);
+            ->with([
+                'message' => 'Invoice Deleted Successfully',
+                'alert-type' => 'success',
+            ]);
     }
 }

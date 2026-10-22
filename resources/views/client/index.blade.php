@@ -64,13 +64,12 @@
         $carSpend += (float) ($aedShare['amount'] ?? 0);
     }
 
-    // Live total = deposited − buying fee (unsold). Sale returns buying fee to total.
-    $liveCapitalUsd = $userCapitalUsd - $carSpendUsd;
-    $liveCapitalAed = $userCapital - $carSpend;
+    // Live total = deposited − buying fee (unsold) − expense. Sale returns buying fee.
+    $liveCapitalUsd = $userCapitalUsd - $carSpendUsd - $userExpenseUsd;
+    $liveCapitalAed = $userCapital - $carSpend - $userExpense;
 
-    // Remaining = live total − expense
-    $remainingCapitalUsd = max(0, $liveCapitalUsd - $userExpenseUsd);
-    $remainingCapital = max(0, $liveCapitalAed - $userExpense);
+    $remainingCapitalUsd = max(0, $liveCapitalUsd);
+    $remainingCapital = max(0, $liveCapitalAed);
 
 
     /*

@@ -7,15 +7,9 @@
         @php
 
             $purchase = $invoiceStatus->purchase;
-
-            $grandTotal = $purchase->grand_total ?? 0;
-
+            $grandTotal = $invoiceStatus->invoiceTotal();
             $paidAmount = $invoiceStatus->paid_amount ?? 0;
-
-            $remaining = max(
-                0,
-                $grandTotal - $paidAmount
-            );
+            $remaining = $invoiceStatus->remainingAmount();
 
         @endphp
 
@@ -280,28 +274,26 @@
 
                                 <th width="25%">
 
-                                    Vehicle
+                                    CS Number
 
                                 </th>
 
                                 <td>
 
-                                    {{ $purchase->make ?? '-' }}
-
-                                    {{ $purchase->model ?? '' }}
+                                    {{ $invoiceStatus->displayCsNumber() }}
 
                                 </td>
 
 
                                 <th width="25%">
 
-                                    VIN
+                                    Lot Number
 
                                 </th>
 
                                 <td>
 
-                                    {{ $purchase->vin ?? '-' }}
+                                    {{ $invoiceStatus->displayLotNumber() }}
 
                                 </td>
 
@@ -312,13 +304,15 @@
 
                                 <th>
 
-                                    Lot Number
+                                    Vehicle
 
                                 </th>
 
                                 <td>
 
-                                    {{ $purchase->lot_number ?? '-' }}
+                                    {{ $purchase->make ?? '-' }}
+
+                                    {{ $purchase->model ?? '' }}
 
                                 </td>
 
@@ -396,7 +390,7 @@
 
                                 <th>
 
-                                    Grand Total
+                                    Amount
 
                                 </th>
 

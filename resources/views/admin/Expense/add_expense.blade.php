@@ -22,9 +22,9 @@
             <div class="card-body p-4">
                 <h5 class="mb-2">Add Expense</h5>
                 <p class="text-muted small mb-4">
-                    Enter amount in <strong>USD $</strong>. System converts to
-                    <strong>AED</strong> (1 USD = {{ number_format(\App\Support\Currency::rate(), 3) }} AED)
-                    and deducts from that admin/client capital.
+                    Enter amount in <strong>AED</strong>. System converts to
+                    <strong>USD $</strong> (1 USD = {{ number_format(\App\Support\Currency::rate(), 3) }} AED)
+                    and deducts from the selected admin or client capital.
                 </p>
                 <form id="myForm" action="{{ route('store.expense') }}" method="post" class="row g-3" enctype="multipart/form-data">
                 @csrf
@@ -37,7 +37,7 @@
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                     {{ $user->name }}
-                                    @if ($user->role === 'admin') (Admin) @endif
+                                    @if ($user->role === 'admin') (Admin) @else (Client) @endif
                                 </option>
                             @endforeach
                         </select>
@@ -54,49 +54,37 @@
 
                 <div class="row">
                      <div class="form-group col-md-6">
-                        <label for="amount" class="form-label">Amount (USD $)</label>
-                        <input type="number" step="0.01" min="0" name="amount" class="form-control" id="amount" value="{{ old('amount') }}" placeholder="e.g. 100">
+                        <label for="amount" class="form-label">Amount (AED)</label>
+                        <input type="number" step="0.01" min="0" name="amount" class="form-control" id="amount" value="{{ old('amount') }}" placeholder="e.g. 3675">
                     </div>
                      <div class="form-group col-md-6">
-                        <label for="amount_aed" class="form-label">Amount (AED)</label>
-                        <input type="text" class="form-control" id="amount_aed" readonly placeholder="0.00">
+                        <label for="amount_usd" class="form-label">Amount (USD $)</label>
+                        <input type="text" class="form-control" id="amount_usd" readonly placeholder="0.00">
                     </div>
                 </div>
 
                 <div class="row">
 
                     <div class="form-group col-md-6">
-                        <label for="input1" class="form-label">expense Description</label>
-                        <textarea type="text" name="description" class="form-control" id="description"></textarea>
+                        <label for="description" class="form-label">expense Description</label>
+                        <textarea name="description" class="form-control" id="description">{{ old('description') }}</textarea>
                     </div>
-
-
 
                     <div class="form-group col-md-6 mb-3">
-                        <label for="input1" class="form-label">expense Date</label>
-                        <input type="date" name="date" class="form-control" id="date">
+                        <label for="date" class="form-label">expense Date</label>
+                        <input type="date" name="date" class="form-control" id="date" value="{{ old('date') }}">
                     </div>
 
-                   
-
                 </div>
-
-
-
-
 
                 <div class="col-md-12">
                     <div class="d-md-flex d-grid align-items-center gap-3">
                         <button type="submit" class="btn btn-primary px-4">Save Changes</button>
-
                     </div>
                 </div>
                 </form>
             </div>
         </div>
-
-
-
 
     </div>
 
@@ -104,13 +92,14 @@
         $(document).ready(function() {
             var rate = {{ \App\Support\Currency::rate() }};
 
-            function updateAed() {
-                var usd = parseFloat($('#amount').val()) || 0;
-                $('#amount_aed').val(usd > 0 ? 'AED ' + (usd * rate).toFixed(2) : '');
+            function updateUsd() {
+                var aed = parseFloat($('#amount').val()) || 0;
+                var usd = rate > 0 ? (aed / rate) : 0;
+                $('#amount_usd').val(aed > 0 ? '$' + usd.toFixed(2) : '');
             }
 
-            $('#amount').on('input', updateAed);
-            updateAed();
+            $('#amount').on('input', updateUsd);
+            updateUsd();
 
             $('#myForm').validate({
                 rules: {
@@ -129,15 +118,13 @@
                     date: {
                         required: true,
                     }
-                  
-
                 },
                 messages: {
                     user_id: {
                         required: 'Please Select User',
                     },
                     amount: {
-                        required: 'Please Enter Expense Amount',
+                        required: 'Please Enter Expense Amount (AED)',
                         number: 'Please Enter a valid number'
                     },
                     description: {
@@ -150,9 +137,6 @@
                     expense_name: {
                         required: 'Please Enter expense_name',
                     }
-                   
-
-
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {

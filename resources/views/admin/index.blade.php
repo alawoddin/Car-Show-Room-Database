@@ -148,12 +148,12 @@
     $totalProfit = $adminProfit + $clientProfit;
     $totalLoss = $adminLoss + $clientLoss;
 
-    // Live total capital = deposited − buying fee held in unsold cars
-    // Purchase: − buying fee from total. Sale (Sold): buying fee + back to total.
-    $liveAdminCapitalUsd = $totalAdminCapitalUsd - $adminBuyingFeeUsd;
-    $liveClientCapitalUsd = $totalClientCapitalUsd - $clientBuyingFeeUsd;
-    $liveAdminCapitalAed = $totalAdminCapitalAed - $adminCarTotal;
-    $liveClientCapitalAed = $totalClientCapitalAed - $clientCarTotal;
+    // Live total = deposited − buying fee (unsold) − expense (by admin/client user)
+    // Purchase: − fee. Sale: fee returns. Expense: − from selected user's capital.
+    $liveAdminCapitalUsd = $totalAdminCapitalUsd - $adminBuyingFeeUsd - $adminExpenseUsd;
+    $liveClientCapitalUsd = $totalClientCapitalUsd - $clientBuyingFeeUsd - $clientExpenseUsd;
+    $liveAdminCapitalAed = $totalAdminCapitalAed - $adminCarTotal - $adminExpense;
+    $liveClientCapitalAed = $totalClientCapitalAed - $clientCarTotal - $clientExpense;
 
     $purchases = Purchase::with(['user', 'users'])
         ->latest()
@@ -447,7 +447,10 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Total Expenses</p>
-                            <h4 class="my-1">AED {{ number_format($totalExpense, 2) }}</h4>
+                            <h4 class="my-1 money-value" data-value="${{ number_format($totalExpenseUsd, 2) }}">
+                                ${{ number_format($totalExpenseUsd, 2) }}
+                            </h4>
+                            <small class="text-muted">AED {{ number_format($totalExpense, 2) }}</small>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-money"></i>
@@ -463,7 +466,10 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Admin Expenses</p>
-                            <h4 class="my-1">AED {{ number_format($adminExpense, 2) }}</h4>
+                            <h4 class="my-1 money-value" data-value="${{ number_format($adminExpenseUsd, 2) }}">
+                                ${{ number_format($adminExpenseUsd, 2) }}
+                            </h4>
+                            <small class="text-muted">AED {{ number_format($adminExpense, 2) }}</small>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-money"></i>
@@ -479,7 +485,10 @@
                     <div class="d-flex align-items-center">
                         <div>
                             <p class="mb-0 text-secondary">Client Expenses</p>
-                            <h4 class="my-1">AED {{ number_format($clientExpense, 2) }}</h4>
+                            <h4 class="my-1 money-value" data-value="${{ number_format($clientExpenseUsd, 2) }}">
+                                ${{ number_format($clientExpenseUsd, 2) }}
+                            </h4>
+                            <small class="text-muted">AED {{ number_format($clientExpense, 2) }}</small>
                         </div>
                         <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto">
                             <i class="bx bx-money"></i>

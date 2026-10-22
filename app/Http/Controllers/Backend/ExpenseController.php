@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Expense;
 use App\Models\User;
+use App\Support\Currency;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -33,10 +34,13 @@ class ExpenseController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        // Form amount is AED → store as USD for capital deduction
+        $amountUsd = Currency::aedToUsd($request->amount);
+
         Expense::create([
             'user_id' => $request->user_id,
             'expense_name' => $request->expense_name,
-            'amount' => $request->amount,
+            'amount' => $amountUsd,
             'date' => $request->date,
             'description' => $request->description,
         ]);
@@ -70,10 +74,13 @@ class ExpenseController extends Controller
 
         $expense = Expense::findOrFail($request->id);
 
+        // Form amount is AED → store as USD for capital deduction
+        $amountUsd = Currency::aedToUsd($request->amount);
+
         $expense->update([
             'user_id' => $request->user_id,
             'expense_name' => $request->expense_name,
-            'amount' => $request->amount,
+            'amount' => $amountUsd,
             'date' => $request->date,
             'description' => $request->description,
         ]);
