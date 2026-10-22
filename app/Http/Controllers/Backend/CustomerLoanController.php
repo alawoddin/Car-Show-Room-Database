@@ -27,7 +27,7 @@ class CustomerLoanController extends Controller
             ->latest()
             ->get();
 
-        $purchases = Purchase::with('user')
+        $purchases = Purchase::with(['user', 'users'])
             ->where('status', 'Sold')
             ->whereDoesntHave('customerLoans')
             ->latest()
@@ -54,7 +54,17 @@ class CustomerLoanController extends Controller
                 ]);
         }
 
-        $purchase = Purchase::findOrFail($request->purchase_id);
+        $purchase = Purchase::with('users')->findOrFail($request->purchase_id);
+
+        $buyerIds = $purchase->selectedUserIds();
+        if (! in_array((int) $request->user_id, $buyerIds, true)) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'purchase_id' => 'This sold car does not belong to the selected admin/client.',
+                ]);
+        }
+
         $loanTotal = (float) ($purchase->selling_price > 0
             ? $purchase->selling_price
             : $purchase->grand_total);
