@@ -33,7 +33,8 @@ class InvoiceStatusController extends Controller
 
     public function AddInvoiceStatus()
     {
-        $users = User::where('role', 'user')
+        $users = User::whereIn('role', ['admin', 'user'])
+            ->orderBy('role')
             ->latest()
             ->get();
 
@@ -141,7 +142,8 @@ class InvoiceStatusController extends Controller
             'purchase',
         ])->findOrFail($id);
 
-        $users = User::where('role', 'user')
+        $users = User::whereIn('role', ['admin', 'user'])
+            ->orderBy('role')
             ->latest()
             ->get();
 

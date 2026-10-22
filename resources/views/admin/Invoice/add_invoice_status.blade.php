@@ -82,9 +82,8 @@
 
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">
-
                                         {{ $user->name }}
-
+                                        @if ($user->role === 'admin') (Admin) @endif
                                     </option>
                                 @endforeach
 

@@ -112,9 +112,8 @@
 
                                     <option value="{{ $user->id }}"
                                         {{ $invoiceStatus->user_id == $user->id ? 'selected' : '' }}>
-
                                         {{ $user->name }}
-
+                                        @if ($user->role === 'admin') (Admin) @endif
                                     </option>
 
                                 @endforeach
