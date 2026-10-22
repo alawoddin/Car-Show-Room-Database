@@ -14,7 +14,7 @@
     |--------------------------------------------------------------------------
     */
 
-    // Capital & expenses stored in USD → convert to AED
+    // Capital & expenses stored in USD → also show AED
     $userCapitalUsd = (float) (\Illuminate\Support\Facades\DB::table('user_capitals')
         ->where('user_id', $id)
         ->sum('amount') ?? 0);
@@ -36,7 +36,7 @@
 
     /*
     |--------------------------------------------------------------------------
-    | USER VEHICLES — deduct buying fee (USD→AED) only, not grand total
+    | USER VEHICLES — deduct buying fee from USD and AED (not grand total)
     |--------------------------------------------------------------------------
     */
 
@@ -44,22 +44,28 @@
         ->with('users')
         ->get();
 
-    $carSpend = 0;
+    $carSpendUsd = 0.0;
+    $carSpend = 0.0;
 
     foreach ($vehicles as $vehicle) {
         if (strcasecmp((string) $vehicle->status, 'Sold') === 0) {
             continue;
         }
 
-        $buyingFeeAed = \App\Support\Currency::usdToAed($vehicle->buying_fee ?? 0);
+        $buyingFeeUsd = (float) ($vehicle->buying_fee ?? 0);
+        $buyingFeeAed = \App\Support\Currency::usdToAed($buyingFeeUsd);
 
-        $share = $vehicle->buyerShares($buyingFeeAed)
+        $usdShare = $vehicle->buyerShares($buyingFeeUsd)
+            ->first(fn ($item) => (int) $item['user']->id === (int) $id);
+        $aedShare = $vehicle->buyerShares($buyingFeeAed)
             ->first(fn ($item) => (int) $item['user']->id === (int) $id);
 
-        $carSpend += (float) ($share['amount'] ?? 0);
+        $carSpendUsd += (float) ($usdShare['amount'] ?? 0);
+        $carSpend += (float) ($aedShare['amount'] ?? 0);
     }
 
-    // Remaining AED = capital AED − expense AED − cars AED (never below 0)
+    // Remaining: capital − buying fee − expense (USD and AED)
+    $remainingCapitalUsd = max(0, $userCapitalUsd - $userExpenseUsd - $carSpendUsd);
     $remainingCapital = max(0, $userCapital - $userExpense - $carSpend);
 
 
@@ -134,13 +140,16 @@
                         </p>
 
                         <h5 class="card-title pt-2 fs-26">
-
-                            AED {{ number_format($userCapital, 2) }}
-
+                            ${{ number_format($userCapitalUsd, 2) }}
                         </h5>
 
-                        <small class="text-muted">
-                            Remaining after cars &amp; expenses: AED {{ number_format($remainingCapital, 2) }}
+                        <small class="text-muted d-block">
+                            AED {{ number_format($userCapital, 2) }}
+                        </small>
+
+                        <small class="text-muted d-block mt-1">
+                            Remaining: ${{ number_format($remainingCapitalUsd, 2) }}
+                            / AED {{ number_format($remainingCapital, 2) }}
                         </small>
 
                     </div>
