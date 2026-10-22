@@ -469,18 +469,22 @@
             <td class="customer-cell">
 
                 <div class="customer-label">
-                    Customer
+                    Buyer / Owner
                 </div>
 
                 <div class="customer-name">
 
-                    {{ $vehicle->user->name ?? 'Demo' }}
+                    {{ $vehicle->buyerNames() }}
 
                 </div>
 
                 <div class="customer-description">
 
-                    Vehicle Purchase Customer
+                    @if (! empty($vehicle->customer_name))
+                        Sale customer: {{ $vehicle->customer_name }}
+                    @else
+                        Vehicle purchase owner
+                    @endif
 
                 </div>
 
@@ -593,11 +597,51 @@
             <tr>
 
                 <td class="label">
+                    Buying Date
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->buying_date ?? '-' }}
+                </td>
+
+                <td class="label">
                     Location
                 </td>
 
                 <td class="value">
                     {{ $vehicle->location ?? '-' }}
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="label">
+                    Container No.
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->container_number ?? '-' }}
+                </td>
+
+                <td class="label">
+                    Arrival Date
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->arrival_date ?? '-' }}
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <td class="label">
+                    VIN Link
+                </td>
+
+                <td class="value">
+                    {{ $vehicle->vin_link ?? '-' }}
                 </td>
 
                 <td class="label">
@@ -652,12 +696,12 @@
             <tbody>
 
 
-                {{-- BUYING FEE --}}
+                {{-- BUYING FEE (USD) --}}
 
                 <tr>
 
                     <td>
-                        Buying Fee
+                        Buying Fee (USD)
                     </td>
 
                     <td>
@@ -666,19 +710,19 @@
 
                     <td class="purchase-amount">
 
-                        ${{ number_format($vehicle->buying_fee ?? 0, 2) }}
+                        ${{ number_format((float) ($vehicle->buying_fee ?? 0), 2) }}
 
                     </td>
 
                 </tr>
 
 
-                {{-- TOWING --}}
+                {{-- TOWING (USD) --}}
 
                 <tr>
 
                     <td>
-                        Towing Fee
+                        Towing Fee (USD)
                     </td>
 
                     <td>
@@ -687,44 +731,40 @@
 
                     <td class="purchase-amount">
 
-                        ${{ number_format($vehicle->towing_fee ?? 0, 2) }}
+                        ${{ number_format((float) ($vehicle->towing_fee ?? 0), 2) }}
 
                     </td>
 
                 </tr>
 
 
-                {{-- SHIPPING --}}
+                {{-- SHIPPING (USD) --}}
 
                 <tr>
 
                     <td>
-                        Shipping
+                        Shipping (USD)
                     </td>
 
                     <td>
-
-                        {{ $vehicle->shipping ?? 'Shipping' }}
-
+                        Vehicle Shipping
                     </td>
 
                     <td class="purchase-amount">
 
-                        ${{ number_format($vehicle->shipping ?? 0, 2) }}
+                        ${{ number_format((float) ($vehicle->shipping ?? 0), 2) }}
 
                     </td>
 
                 </tr>
 
 
-                {{-- COMMISSION --}}
+                {{-- COMMISSION (AED) --}}
 
                 <tr>
 
                     <td>
-                        <strong>
-                            Commission
-                        </strong>
+                        Commission (AED)
                     </td>
 
                     <td>
@@ -733,11 +773,7 @@
 
                     <td class="purchase-amount">
 
-                        <strong>
-
-                            ${{ number_format($vehicle->commission ?? 0, 2) }}
-
-                        </strong>
+                        AED {{ number_format((float) ($vehicle->commission ?? 0), 2) }}
 
                     </td>
 
@@ -767,14 +803,14 @@
 
                     <td colspan="2">
 
-                        TOTAL AED
+                        TOTAL AED (from USD fees)
 
                     </td>
 
                     <td class="purchase-amount">
 
                         AED
-                        {{ number_format($vehicle->total_aed ?? 0, 2) }}
+                        {{ number_format((float) ($vehicle->total_aed ?? 0), 2) }}
 
                     </td>
 
@@ -789,17 +825,33 @@
 
 
     {{-- =====================================================
-         ADDITIONAL COSTS
+         ADDITIONAL COSTS (AED)
     ====================================================== --}}
 
     <div class="section">
 
         <div class="section-heading">
-            Additional Costs
+            Additional Costs (AED)
         </div>
 
+        <table class="additional-table">
 
-       
+            <tr>
+                <th>Clearing</th>
+                <td class="money">AED {{ number_format((float) ($vehicle->clearing ?? 0), 2) }}</td>
+            </tr>
+
+            <tr>
+                <th>Surcharge</th>
+                <td class="money">AED {{ number_format((float) ($vehicle->extra_charges ?? 0), 2) }}</td>
+            </tr>
+
+            <tr>
+                <th>Custom Duty</th>
+                <td class="money">AED {{ number_format((float) ($vehicle->custom_duty ?? 0), 2) }}</td>
+            </tr>
+
+        </table>
 
         {{-- GRAND TOTAL --}}
 
@@ -816,7 +868,7 @@
                 <td class="grand-total-amount">
 
                     AED
-                    {{ number_format($vehicle->grand_total ?? 0, 2) }}
+                    {{ number_format((float) ($vehicle->grand_total ?? 0), 2) }}
 
                 </td>
 
@@ -825,6 +877,29 @@
         </table>
 
     </div>
+
+
+    @if (strcasecmp((string) $vehicle->status, 'Sold') === 0)
+        <div class="section">
+            <div class="section-heading">
+                Sale Information
+            </div>
+            <table class="table">
+                <tr>
+                    <td class="label">Customer</td>
+                    <td class="value">{{ $vehicle->customer_name ?? '-' }}</td>
+                    <td class="label">Bill No</td>
+                    <td class="value">{{ $vehicle->bill_no ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <td class="label">Selling Price (AED)</td>
+                    <td class="value">AED {{ number_format((float) ($vehicle->selling_price ?? 0), 2) }}</td>
+                    <td class="label">Profit (AED)</td>
+                    <td class="value">AED {{ number_format((float) ($vehicle->profit ?? 0), 2) }}</td>
+                </tr>
+            </table>
+        </div>
+    @endif
 
 
 
@@ -872,6 +947,8 @@
             Industrial Area-2,
             Sharjah,
             United Arab Emirates
+            <br>
+            Phone: 078 027 2673
 
         </div>
 

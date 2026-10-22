@@ -48,7 +48,7 @@
                                     </td>
 
                                     <td>
-                                        {{ $vehicle->user->name ?? 'Demo' }}
+                                        {{ $vehicle->buyerNames() }}
                                     </td>
 
                                     <td>

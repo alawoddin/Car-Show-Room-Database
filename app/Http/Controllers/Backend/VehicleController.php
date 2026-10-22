@@ -11,7 +11,7 @@ class VehicleController extends Controller
 {
     public function VehicleStatus()
     {
-        $vehicles = Purchase::latest()->get();
+        $vehicles = Purchase::with(['user', 'users'])->latest()->get();
 
         return view('admin.vehicle.vehicle_status', compact('vehicles'));
     }
@@ -40,22 +40,22 @@ class VehicleController extends Controller
 
     public function VehicleStatusView(int $id)
     {
-        $vehicle = Purchase::with('user')->findOrFail($id);
+        $vehicle = Purchase::with(['user', 'users'])->findOrFail($id);
 
         return view('admin.vehicle.vehicle_details', compact('vehicle'));
     }
 
-   public function DownloadInvoice(int $id)
-{
-    $vehicle = Purchase::with('user')->findOrFail($id);
+    public function DownloadInvoice(int $id)
+    {
+        $vehicle = Purchase::with(['user', 'users'])->findOrFail($id);
 
-    $pdf = Pdf::loadView(
-        'admin.vehicle.vehicle_details',
-        compact('vehicle')
-    )->setPaper('a4', 'portrait');
+        $pdf = Pdf::loadView(
+            'admin.vehicle.vehicle_details',
+            compact('vehicle')
+        )->setPaper('a4', 'portrait');
 
-    return $pdf->download(
-        'vehicle-invoice-' . $vehicle->id . '.pdf'
-    );
-}
+        return $pdf->download(
+            'vehicle-invoice-'.$vehicle->id.'.pdf'
+        );
+    }
 }
