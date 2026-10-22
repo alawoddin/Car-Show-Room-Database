@@ -22,8 +22,8 @@
             <div class="card-body p-4">
                 <h5 class="mb-2">Add Invoice</h5>
                 <p class="text-muted small mb-4">
-                    Enter <strong>CS Number</strong>, <strong>Lot Number</strong>, <strong>Amount</strong>, and <strong>Date</strong> first.
-                    When the customer pays later (e.g. after 10–12 days), click the <strong>Paid</strong> button on the invoice list.
+                    Select <strong>User</strong> (Admin / Client), then enter chassis number, lot number, amount, and date.
+                    When paid later, click the <strong>Paid</strong> button on the invoice list.
                 </p>
 
                 <form id="myForm" action="{{ route('invoice.status.store') }}" method="post" class="row g-3">
@@ -31,7 +31,23 @@
 
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
-                            <label for="cs_number" class="form-label">chassis  Number</label>
+                            <label for="user_id" class="form-label">User Name (Admin / Client)</label>
+                            <select name="user_id" id="user_id" class="form-select">
+                                <option value="">Select User</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                        @if ($user->role === 'admin') (Admin) @else (Client) @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="cs_number" class="form-label">Chassis Number</label>
                             <input type="text" name="cs_number" id="cs_number" class="form-control"
                                 value="{{ old('cs_number') }}" placeholder="e.g. 12e34r45">
                             @error('cs_number')
@@ -81,13 +97,15 @@
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
+                    user_id: { required: true },
                     cs_number: { required: true },
                     lot_number: { required: true },
                     amount: { required: true, number: true, min: 0.01 },
                     due_date: { required: true }
                 },
                 messages: {
-                    cs_number: { required: 'Please enter CS Number' },
+                    user_id: { required: 'Please select user' },
+                    cs_number: { required: 'Please enter Chassis Number' },
                     lot_number: { required: 'Please enter Lot Number' },
                     amount: { required: 'Please enter amount' },
                     due_date: { required: 'Please enter date' }

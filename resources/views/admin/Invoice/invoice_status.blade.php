@@ -216,7 +216,8 @@
                         <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>chassis Number</th>
+                                <th>User Name</th>
+                                <th>Chassis Number</th>
                                 <th>Lot Number</th>
                                 <th>Amount</th>
                                 <th>Paid</th>
@@ -235,6 +236,14 @@
                                 @endphp
                                 <tr>
                                     <td>{{ $key + 1 }}</td>
+                                    <td>
+                                        {{ $item->user->name ?? '-' }}
+                                        @if (($item->user->role ?? '') === 'admin')
+                                            <small class="text-muted">(Admin)</small>
+                                        @elseif ($item->user)
+                                            <small class="text-muted">(Client)</small>
+                                        @endif
+                                    </td>
                                     <td>{{ $item->displayCsNumber() }}</td>
                                     <td>{{ $item->displayLotNumber() }}</td>
                                     <td>AED {{ number_format($grandTotal, 2) }}</td>
@@ -273,7 +282,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center">No Invoice Status Found.</td>
+                                    <td colspan="10" class="text-center">No Invoice Status Found.</td>
                                 </tr>
                             @endforelse
                         </tbody>

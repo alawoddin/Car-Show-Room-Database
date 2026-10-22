@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\InvoiceStatus;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class InvoiceStatusController extends Controller
@@ -23,12 +24,18 @@ class InvoiceStatusController extends Controller
 
     public function AddInvoiceStatus()
     {
-        return view('admin.Invoice.add_invoice_status');
+        $users = User::whereIn('role', ['admin', 'user'])
+            ->orderBy('role')
+            ->latest()
+            ->get();
+
+        return view('admin.Invoice.add_invoice_status', compact('users'));
     }
 
     public function StoreInvoiceStatus(Request $request)
     {
         $request->validate([
+            'user_id' => 'required|exists:users,id',
             'cs_number' => 'required|string|max:255',
             'lot_number' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0.01',
@@ -38,7 +45,7 @@ class InvoiceStatusController extends Controller
         $amount = (float) $request->amount;
 
         $invoice = InvoiceStatus::create([
-            'user_id' => null,
+            'user_id' => $request->user_id,
             'purchase_id' => null,
             'cs_number' => $request->cs_number,
             'lot_number' => $request->lot_number,
@@ -69,14 +76,19 @@ class InvoiceStatusController extends Controller
     public function EditInvoiceStatus(int $id)
     {
         $invoiceStatus = InvoiceStatus::findOrFail($id);
+        $users = User::whereIn('role', ['admin', 'user'])
+            ->orderBy('role')
+            ->latest()
+            ->get();
 
-        return view('admin.Invoice.edit_invoice_status', compact('invoiceStatus'));
+        return view('admin.Invoice.edit_invoice_status', compact('invoiceStatus', 'users'));
     }
 
     public function UpdateInvoiceStatus(Request $request)
     {
         $request->validate([
             'id' => 'required|exists:invoice_statuses,id',
+            'user_id' => 'required|exists:users,id',
             'cs_number' => 'required|string|max:255',
             'lot_number' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0.01',
@@ -87,12 +99,12 @@ class InvoiceStatusController extends Controller
         $amount = (float) $request->amount;
         $paidAmount = (float) ($invoiceStatus->paid_amount ?? 0);
 
-        // Keep paid in sync if already paid
         if ($invoiceStatus->status === 'Paid') {
             $paidAmount = $amount;
         }
 
         $invoiceStatus->update([
+            'user_id' => $request->user_id,
             'cs_number' => $request->cs_number,
             'lot_number' => $request->lot_number,
             'amount' => $amount,

@@ -25,8 +25,8 @@
             <div class="card-body p-4">
                 <h5 class="mb-2">Edit Invoice</h5>
                 <p class="text-muted small mb-4">
-                    Update CS Number, Lot Number, Amount, or Date.
-                    To mark payment received, use the <strong>Paid</strong> button on the list.
+                    Update user, chassis number, lot number, amount, or date.
+                    To mark payment received, use the <strong>Paid</strong> button.
                 </p>
 
                 <form id="myForm" action="{{ route('invoice.status.update') }}" method="POST" class="row g-3">
@@ -35,14 +35,33 @@
 
                     <div class="row">
                         <div class="form-group col-md-6 mb-3">
-                            <label for="cs_number" class="form-label">chassis  Number</label>
+                            <label for="user_id" class="form-label">User Name (Admin / Client)</label>
+                            <select name="user_id" id="user_id" class="form-select">
+                                <option value="">Select User</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}"
+                                        {{ (int) old('user_id', $invoiceStatus->user_id) === (int) $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                        @if ($user->role === 'admin') (Admin) @else (Client) @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('user_id')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group col-md-6 mb-3">
+                            <label for="cs_number" class="form-label">Chassis Number</label>
                             <input type="text" name="cs_number" id="cs_number" class="form-control"
                                 value="{{ old('cs_number', $invoiceStatus->cs_number) }}">
                             @error('cs_number')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label for="lot_number" class="form-label">Lot Number</label>
                             <input type="text" name="lot_number" id="lot_number" class="form-control"
@@ -51,9 +70,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
 
-                    <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label for="amount" class="form-label">Amount (AED)</label>
                             <input type="number" step="0.01" min="0.01" name="amount" id="amount"
@@ -63,23 +80,18 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
+                    </div>
 
+                    <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label for="due_date" class="form-label">Date</label>
                             <input type="date" name="due_date" id="due_date" class="form-control"
                                 value="{{ old('due_date', $invoiceStatus->due_date) }}">
                         </div>
-                    </div>
 
-                    <div class="row">
                         <div class="form-group col-md-6 mb-3">
                             <label class="form-label">Status</label>
                             <input type="text" class="form-control" value="{{ $invoiceStatus->status }}" readonly>
-                        </div>
-                        <div class="form-group col-md-6 mb-3">
-                            <label class="form-label">Paid Amount</label>
-                            <input type="text" class="form-control"
-                                value="AED {{ number_format((float) $invoiceStatus->paid_amount, 2) }}" readonly>
                         </div>
                     </div>
 
@@ -102,6 +114,7 @@
         $(document).ready(function() {
             $('#myForm').validate({
                 rules: {
+                    user_id: { required: true },
                     cs_number: { required: true },
                     lot_number: { required: true },
                     amount: { required: true, number: true, min: 0.01 },
