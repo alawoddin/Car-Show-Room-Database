@@ -114,17 +114,22 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="d-flex order-actions">
-                                            <a href="{{ route('customer.loan.view', $item->id) }}"
-                                               class="text-primary bg-light-primary border-0">
-                                                <i class="bx bx-show"></i>
-                                            </a>
-                                            <a href="{{ route('customer.loan.delete', $item->id) }}"
-                                               class="ms-3 text-danger bg-light-danger border-0"
-                                               id="delete">
-                                                <i class="bx bxs-trash"></i>
-                                            </a>
-                                        </div>
+                                        <a href="{{ route('customer.loan.invoice', $item->id) }}"
+                                           class="btn btn-info btn-sm" title="Show Invoice">
+                                            <i class="bx bx-show"></i> Invoice
+                                        </a>
+                                        <a href="{{ route('customer.loan.download', $item->id) }}"
+                                           class="btn btn-dark btn-sm" title="Download Invoice">
+                                            <i class="bx bx-download"></i> Download
+                                        </a>
+                                        <a href="{{ route('customer.loan.view', $item->id) }}"
+                                           class="btn btn-primary btn-sm" title="Payments">
+                                            <i class="bx bx-money"></i> Payments
+                                        </a>
+                                        <a href="{{ route('customer.loan.delete', $item->id) }}"
+                                           class="btn btn-danger btn-sm" id="delete">
+                                            <i class="bx bx-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @empty

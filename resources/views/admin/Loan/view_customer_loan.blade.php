@@ -20,6 +20,14 @@
                     </ol>
                 </nav>
             </div>
+            <div class="ms-auto d-flex gap-2">
+                <a href="{{ route('customer.loan.invoice', $loan->id) }}" class="btn btn-info px-4">
+                    <i class="bx bx-show"></i> Show Invoice
+                </a>
+                <a href="{{ route('customer.loan.download', $loan->id) }}" class="btn btn-dark px-4">
+                    <i class="bx bx-download"></i> Download
+                </a>
+            </div>
         </div>
 
         <div class="card">

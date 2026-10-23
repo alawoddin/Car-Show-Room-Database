@@ -141,6 +141,8 @@ Route::prefix('admin')->middleware(['auth', IsAdmin::class])->group(function () 
             Route::get('/customer/loan/add', 'create')->name('customer.loan.add');
             Route::post('/customer/loan/store', 'store')->name('customer.loan.store');
             Route::get('/customer/loan/view/{id}', 'show')->name('customer.loan.view');
+            Route::get('/customer/loan/invoice/{id}', 'showInvoice')->name('customer.loan.invoice');
+            Route::get('/customer/loan/download/{id}', 'downloadInvoice')->name('customer.loan.download');
             Route::post('/customer/loan/{id}/payment', 'storePayment')->name('customer.loan.payment.store');
             Route::get('/customer/loan/{id}/payment/{paymentId}/delete', 'deletePayment')->name('customer.loan.payment.delete');
             Route::get('/customer/loan/delete/{id}', 'destroy')->name('customer.loan.delete');

@@ -7,6 +7,7 @@ use App\Models\CustomerLoan;
 use App\Models\CustomerLoanPayment;
 use App\Models\Purchase;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class CustomerLoanController extends Controller
@@ -111,6 +112,29 @@ class CustomerLoanController extends Controller
             ->findOrFail($id);
 
         return view('admin.Loan.view_customer_loan', compact('loan'));
+    }
+
+    public function showInvoice(int $id)
+    {
+        $loan = CustomerLoan::with(['user', 'purchase', 'payments'])
+            ->findOrFail($id);
+
+        return view('admin.Loan.view_customer_loan_invoice', compact('loan'));
+    }
+
+    public function downloadInvoice(int $id)
+    {
+        $loan = CustomerLoan::with(['user', 'purchase', 'payments'])
+            ->findOrFail($id);
+
+        $pdf = Pdf::loadView(
+            'admin.Loan.customer_loan_invoice_pdf',
+            compact('loan')
+        )->setPaper('a4', 'portrait');
+
+        $vin = preg_replace('/[^A-Za-z0-9_-]/', '', (string) ($loan->purchase->vin ?? '')) ?: $loan->id;
+
+        return $pdf->download('loan-invoice-'.$vin.'.pdf');
     }
 
     public function storePayment(Request $request, int $id)
