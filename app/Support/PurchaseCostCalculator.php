@@ -5,22 +5,16 @@ namespace App\Support;
 class PurchaseCostCalculator
 {
     /**
-     * Match Excel cash book:
+     * Cost formula:
      * - USD: buying_fee + towing_fee + shipping
-     * - AED: clearing, surcharge (extra_charges), custom duty, grand total, sale
-     *
-     * Example (Excel):
-     *   5255 + 195 + 2300 = 7750 USD
-     *   7750 × 3.675 = 28481.25 AED
-     *   duty = (28481.25 + 1472) × 0.055 = 1647.43
-     *   grand = 28481.25 + 1400 + 0 + 1647.43 = 31528.68
+     * - AED: Total AED + Clearing + Commission + Custom Duty = Grand Total
      *
      * @param  array{
      *     buying_fee?: float|int|string|null,
      *     towing_fee?: float|int|string|null,
      *     shipping?: float|int|string|null,
      *     clearing?: float|int|string|null,
-     *     extra_charges?: float|int|string|null,
+     *     commission?: float|int|string|null,
      *     selling_price?: float|int|string|null
      * }  $input
      * @return array{
@@ -38,7 +32,7 @@ class PurchaseCostCalculator
         $towing = self::num($input['towing_fee'] ?? 0);
         $shipping = self::num($input['shipping'] ?? 0);
         $clearing = self::num($input['clearing'] ?? 0);
-        $extra = self::num($input['extra_charges'] ?? 0);
+        $commission = self::num($input['commission'] ?? 0);
         $selling = self::num($input['selling_price'] ?? 0);
 
         $rate = (float) config('purchase.usd_to_aed', 3.675);
@@ -48,13 +42,13 @@ class PurchaseCostCalculator
         $totalUsd = round($buying + $towing + $shipping, 2);
         $totalAed = round($totalUsd * $rate, 2);
 
-        // Empty purchase → no duty (do not show 80.96)
+        // Empty purchase → no duty
         $customDuty = $totalAed > 0
             ? round(($totalAed + $dutyBase) * $dutyRate, 2)
             : 0.0;
 
-        // Same as Excel: Total AED + Clearing + Surcharge + Custom Duty
-        $grandTotal = round($totalAed + $clearing + $extra + $customDuty, 2);
+        // Grand Total = Total AED + Clearing + Commission + Custom Duty
+        $grandTotal = round($totalAed + $clearing + $commission + $customDuty, 2);
         $profit = round($selling - $grandTotal, 2);
 
         return [

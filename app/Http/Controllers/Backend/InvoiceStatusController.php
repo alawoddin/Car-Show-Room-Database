@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\InvoiceStatus;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class InvoiceStatusController extends Controller
@@ -149,6 +150,20 @@ class InvoiceStatusController extends Controller
                 'message' => 'Invoice marked as Paid',
                 'alert-type' => 'success',
             ]);
+    }
+
+    public function DownloadInvoice(int $id)
+    {
+        $invoiceStatus = InvoiceStatus::with(['user', 'purchase'])->findOrFail($id);
+
+        $pdf = Pdf::loadView(
+            'admin.Invoice.invoice_status_pdf',
+            compact('invoiceStatus')
+        )->setPaper('a4', 'portrait');
+
+        $cs = preg_replace('/[^A-Za-z0-9_-]/', '', (string) $invoiceStatus->displayCsNumber()) ?: $invoiceStatus->id;
+
+        return $pdf->download('invoice-'.$cs.'.pdf');
     }
 
     public function DeleteInvoiceStatus(int $id)

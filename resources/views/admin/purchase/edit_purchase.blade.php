@@ -273,7 +273,8 @@
                 <p class="text-muted small mb-3">
                     Only <strong>Buying / Towing / Shipping</strong> are in <strong>USD $</strong>
                     (1 USD = {{ rtrim(rtrim(number_format((float) config('purchase.usd_to_aed'), 4, '.', ''), '0'), '.') }} AED).
-                    Clearing / Surcharge / Sale are in <strong>AED</strong> (same as Excel).
+                    Clearing / Commission / Sale are in <strong>AED</strong>.
+                    Grand Total = Total AED + Clearing + Commission + Custom Duty.
                 </p>
 
                 <div class="row">
@@ -873,7 +874,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const towing = number(towingFee.value);
         const ship = number(shipping.value);
         const clearingValue = number(clearing.value);
-        const extraChargesValue = number(extraCharges.value);
+        const commissionValue = number(commission.value);
 
         // Excel: buying + towing + shipping (USD) → AED
         const totalUsd = buying + towing + ship;
@@ -883,8 +884,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const duty = aed > 0 ? (aed + dutyBase) * dutyRate : 0;
         customDuty.value = duty > 0 ? duty.toFixed(2) : '';
 
-        // Excel grand = Total AED + Clearing + Surcharge + Custom Duty
-        const grand = aed + clearingValue + extraChargesValue + duty;
+        // Grand Total = Total AED + Clearing + Commission + Custom Duty
+        const grand = aed + clearingValue + commissionValue + duty;
         grandTotal.value = grand > 0 ? grand.toFixed(2) : '';
 
         if (sellingPrice && profit) {

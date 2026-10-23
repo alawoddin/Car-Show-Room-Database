@@ -58,8 +58,11 @@
 
             </div>
 
-
-          
+            <div class="ms-auto">
+                <a href="{{ route('invoice.status.download', $invoiceStatus->id) }}" class="btn btn-dark px-4">
+                    <i class="bx bx-download"></i> Download
+                </a>
+            </div>
 
         </div>
 

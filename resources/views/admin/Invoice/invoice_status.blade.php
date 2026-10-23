@@ -269,6 +269,9 @@
                                                 <i class="bx bx-check"></i> Paid
                                             </a>
                                         @endif
+                                        <a href="{{ route('invoice.status.download', $item->id) }}" class="btn btn-dark btn-sm">
+                                            <i class="bx bx-download"></i> Download
+                                        </a>
                                         <a href="{{ route('invoice.status.view', $item->id) }}" class="btn btn-info btn-sm">
                                             <i class="bx bx-show"></i> View
                                         </a>
