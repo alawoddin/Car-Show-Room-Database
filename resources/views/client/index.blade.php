@@ -14,63 +14,16 @@
     |--------------------------------------------------------------------------
     */
 
-    // Capital & expenses stored in USD → also show AED
+    // Client dashboard: show deposited capital only (USD + AED). Do not deduct purchases.
     $userCapitalUsd = (float) (\Illuminate\Support\Facades\DB::table('user_capitals')
         ->where('user_id', $id)
         ->sum('amount') ?? 0);
 
     $userCapital = \App\Support\Currency::usdToAed($userCapitalUsd);
 
-    $userExpenseUsd = 0;
-
-    if (
-        \Illuminate\Support\Facades\Schema::hasTable('expenses') &&
-        \Illuminate\Support\Facades\Schema::hasColumn('expenses', 'user_id')
-    ) {
-        $userExpenseUsd = (float) \Illuminate\Support\Facades\DB::table('expenses')
-            ->where('user_id', $id)
-            ->sum('amount');
-    }
-
-    $userExpense = \App\Support\Currency::usdToAed($userExpenseUsd);
-
-    /*
-    |--------------------------------------------------------------------------
-    | USER VEHICLES — deduct buying fee from USD and AED (not grand total)
-    |--------------------------------------------------------------------------
-    */
-
     $vehicles = App\Models\Purchase::forUser((int) $id)
         ->with('users')
         ->get();
-
-    $carSpendUsd = 0.0;
-    $carSpend = 0.0;
-
-    foreach ($vehicles as $vehicle) {
-        if (strcasecmp((string) $vehicle->status, 'Sold') === 0) {
-            continue;
-        }
-
-        $buyingFeeUsd = (float) ($vehicle->buying_fee ?? 0);
-        $buyingFeeAed = \App\Support\Currency::usdToAed($buyingFeeUsd);
-
-        $usdShare = $vehicle->buyerShares($buyingFeeUsd)
-            ->first(fn ($item) => (int) $item['user']->id === (int) $id);
-        $aedShare = $vehicle->buyerShares($buyingFeeAed)
-            ->first(fn ($item) => (int) $item['user']->id === (int) $id);
-
-        $carSpendUsd += (float) ($usdShare['amount'] ?? 0);
-        $carSpend += (float) ($aedShare['amount'] ?? 0);
-    }
-
-    // Live total = deposited − buying fee (unsold) − expense. Sale returns buying fee.
-    $liveCapitalUsd = $userCapitalUsd - $carSpendUsd - $userExpenseUsd;
-    $liveCapitalAed = $userCapital - $carSpend - $userExpense;
-
-    $remainingCapitalUsd = max(0, $liveCapitalUsd);
-    $remainingCapital = max(0, $liveCapitalAed);
-
 
     /*
     |--------------------------------------------------------------------------
@@ -143,21 +96,11 @@
                         </p>
 
                         <h5 class="card-title pt-2 fs-26">
-                            ${{ number_format($liveCapitalUsd, 2) }}
+                            ${{ number_format($userCapitalUsd, 2) }}
                         </h5>
 
                         <small class="text-muted d-block">
-                            AED {{ number_format($liveCapitalAed, 2) }}
-                        </small>
-
-                        <small class="text-muted d-block mt-1">
-                            Deposited: ${{ number_format($userCapitalUsd, 2) }}
-                            / AED {{ number_format($userCapital, 2) }}
-                        </small>
-
-                        <small class="text-muted d-block">
-                            Remaining: ${{ number_format($remainingCapitalUsd, 2) }}
-                            / AED {{ number_format($remainingCapital, 2) }}
+                            AED {{ number_format($userCapital, 2) }}
                         </small>
 
                     </div>
