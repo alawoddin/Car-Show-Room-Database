@@ -262,6 +262,21 @@
 
                 </div>
 
+                <div class="row">
+                    <div class="form-group col-md-3 mb-3">
+                        <label for="year" class="form-label">Year</label>
+                        <input
+                            type="number"
+                            name="year"
+                            id="year"
+                            class="form-control"
+                            min="1900"
+                            max="2100"
+                            placeholder="e.g. 2020"
+                            value="{{ old('year', $purchase->year) }}">
+                    </div>
+                </div>
+
 
                 {{-- =====================================================
                     PURCHASE COST
@@ -722,7 +737,7 @@
                     <div class="form-group col-md-4 mb-3">
 
                         <label for="date_of_arriving" class="form-label">
-                            Date of Arriving
+                            Sale Date
                         </label>
 
                         <input

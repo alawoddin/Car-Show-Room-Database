@@ -87,6 +87,7 @@
                                 <th>User Name</th>
                                 <th>lot_number</th>
                                 <th>vin</th>
+                                <th>year</th>
                                 <th>container</th>
                                 <th>arrival_date</th>
                                 <th>cylinder</th>
@@ -115,6 +116,7 @@
                                             {{ $item->vin }}
                                         @endif
                                     </td>
+                                    <td>{{ $item->year ?? '-' }}</td>
                                     <td>{{ $item->container_number }}</td>
                                     <td>{{ $item->arrival_date }}</td>
                                     <td>{{ $item->cylinder }}</td>
